@@ -1,5 +1,65 @@
-<HTML><head><title>My Page</title></head><body>
-    <h1>Welcome to My Page</h1>
-    <p>This is a simple HTML page.</p>
-    <h1>Hello, World!</h1>
-</body></HTML>
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plant Simulation Tutorial</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="site-header">
+    <div class="header-inner">
+        <a href="index.html" class="brand">🏭 Plant Simulation Tutorial <span class="badge">TH</span></a>
+        <nav class="main-nav">
+            <a href="index.html" class="active">หน้าแรก</a>
+            <a href="basic.html">Basic</a>
+            <a href="advanced.html">Advanced</a>
+            <a href="examples.html">Example File</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <section class="hero">
+        <h1>เรียนรู้ Siemens Tecnomatix Plant Simulation</h1>
+        <p>เว็บไซต์สอนการใช้งานโปรแกรมจำลองการผลิตและโลจิสติกส์ (Discrete Event Simulation) ตั้งแต่พื้นฐานจนถึงขั้นสูง พร้อมตัวอย่างไฟล์ให้ลองทำตาม</p>
+    </section>
+
+    <div class="card-grid">
+        <a href="basic.html" class="card">
+            <div class="icon">🧩</div>
+            <h3>Basic</h3>
+            <p>รู้จักหน้าตาโปรแกรม, Object พื้นฐาน (Source, Line, SingleProc, Drain), การสร้างโมเดลแรกและรันซิมูเลชัน</p>
+        </a>
+        <a href="advanced.html" class="card">
+            <div class="icon">⚙️</div>
+            <h3>Advanced</h3>
+            <p>เขียนสคริปต์ด้วย SimTalk, ใช้ Method/Table/EventController, ตั้งค่า Experiment Manager และ Optimizer</p>
+        </a>
+        <a href="examples.html" class="card">
+            <div class="icon">📂</div>
+            <h3>Example File</h3>
+            <p>ตัวอย่างโมเดลจริงพร้อมคำอธิบายทีละขั้นตอน และโค้ด SimTalk ที่ใช้งานได้จริง</p>
+        </a>
+    </div>
+
+    <h2>Plant Simulation คืออะไร?</h2>
+    <p class="lead">
+        Plant Simulation (Tecnomatix Plant Simulation) เป็นซอฟต์แวร์จำลองสถานการณ์แบบ Discrete Event Simulation (DES)
+        ของ Siemens ใช้สำหรับจำลองกระบวนการผลิต สายการประกอบ คลังสินค้า และระบบโลจิสติกส์ ก่อนลงทุนจริง
+        ช่วยให้วิศวกรวิเคราะห์คอขวด (Bottleneck), อัตราการใช้งานเครื่องจักร (Utilization), และ Throughput ได้โดยไม่ต้องหยุดสายการผลิตจริง
+    </p>
+
+    <h2>ใช้เว็บนี้ยังไง</h2>
+    <ol>
+        <li>เริ่มที่เมนู <strong>Basic</strong> ถ้ายังไม่เคยเปิดโปรแกรมมาก่อน</li>
+        <li>ไปที่ <strong>Advanced</strong> เมื่อเข้าใจ Object พื้นฐานแล้ว และอยากเขียนสคริปต์ควบคุมโมเดล</li>
+        <li>ดู <strong>Example File</strong> เพื่อฝึกทำตามโมเดลจริงทีละขั้นตอน</li>
+    </ol>
+</main>
+
+<footer class="site-footer">
+    Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม
+</footer>
+</body>
+</html>

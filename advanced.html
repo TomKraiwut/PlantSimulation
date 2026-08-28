@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advanced - Plant Simulation Tutorial</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="site-header">
+    <div class="header-inner">
+        <a href="index.html" class="brand">🏭 Plant Simulation Tutorial <span class="badge">TH</span></a>
+        <nav class="main-nav">
+            <a href="index.html">หน้าแรก</a>
+            <a href="basic.html">Basic</a>
+            <a href="advanced.html" class="active">Advanced</a>
+            <a href="examples.html">Example File</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <h1>Advanced: SimTalk และการควบคุมโมเดลด้วยสคริปต์</h1>
+    <p class="lead">เมื่อสร้างโมเดลพื้นฐานได้แล้ว ขั้นต่อไปคือการใช้ SimTalk เพื่อควบคุมพฤติกรรมของโมเดลแบบละเอียด</p>
+
+    <h2>1. SimTalk คืออะไร</h2>
+    <p>
+        SimTalk คือภาษาสคริปต์ของ Plant Simulation ใช้เขียนใน Object ประเภท <strong>Method</strong>
+        เพื่อสั่งงาน กำหนดเงื่อนไข หรือดึง/เปลี่ยนค่าตัวแปรของ Object อื่นในโมเดล ไวยากรณ์คล้าย Pascal
+    </p>
+
+    <div class="note">
+        <strong>ก่อนเริ่ม:</strong> สร้าง Method ได้จาก Class Library หมวด <code>Basic Objects → Method</code>
+        ลากมาวางบน Frame แล้วดับเบิลคลิกเพื่อเปิด Editor เขียนโค้ด
+    </div>
+
+    <h2>2. ตัวอย่างโค้ด SimTalk เบื้องต้น</h2>
+    <p>Method ง่ายๆ ที่พิมพ์ข้อความลง Console เมื่อถูกเรียก:</p>
+    <pre><code>is
+  ;
+do
+  print "Simulation started at: ", EventController.SimTime;
+</code></pre>
+
+    <p>ตัวอย่างการอ่าน/เขียนค่าตัวแปรของ Object อื่น เช่น เปลี่ยน Processing Time ของ SingleProc ระหว่างรัน:</p>
+    <pre><code>is
+  var t: real;
+do
+  t := 8.5;
+  SingleProc.procTime := t;
+  print "New processing time set to ", t;
+</code></pre>
+
+    <h2>3. Event-based Method: onEntrance / onExit</h2>
+    <p>
+        ผูก Method เข้ากับ Object เช่น SingleProc ในช่อง <code>ExecuteAt.Entrance</code> หรือ
+        <code>ExecuteAt.Exit</code> เพื่อสั่งให้ทำงานทุกครั้งที่มีชิ้นงานเข้า/ออกสถานีนั้น
+    </p>
+    <pre><code>is
+  var mu: object;
+do
+  mu := @;  -- @ หมายถึง MU (ชิ้นงาน) ที่กำลังผ่านสถานีนี้
+  print "MU ", mu.name, " entered station";
+</code></pre>
+
+    <h2>4. Table &amp; List</h2>
+    <p>
+        ใช้ <strong>Table</strong> เก็บข้อมูลแบบ 2 มิติ เช่น ตารางเวลาการมาถึงของวัตถุดิบ หรือผลลัพธ์การทดลอง
+        เข้าถึงค่าด้วย <code>Table[column, row]</code>
+    </p>
+    <pre><code>is
+do
+  Table[1,1] := "Order A";
+  Table[2,1] := 120;   -- จำนวนชิ้น
+  print Table[1,1], " qty=", Table[2,1];
+</code></pre>
+
+    <h2>5. Experiment Manager และ Optimizer</h2>
+    <p>ใช้สำหรับรันโมเดลหลายๆ รอบด้วยค่าพารามิเตอร์ต่างกัน (เช่น เปรียบเทียบจำนวนเครื่องจักร 2 vs 3 เครื่อง)</p>
+    <ol class="steps">
+        <li>เปิด <strong>Experiment Manager</strong> จาก Class Library หมวด <code>Tools</code></li>
+        <li>เพิ่ม Scenario แล้วกำหนดค่าตัวแปร (Input) ที่จะเปลี่ยนในแต่ละรอบ</li>
+        <li>กำหนดค่าที่ต้องการดูผลลัพธ์ (Output) เช่น Throughput, Utilization</li>
+        <li>กด Run All เพื่อรันทุก Scenario อัตโนมัติแล้วเปรียบเทียบผล</li>
+    </ol>
+    <p><strong>Optimizer</strong> ต่อยอดจาก Experiment Manager โดยใช้ Genetic Algorithm ค้นหาค่าพารามิเตอร์ที่ดีที่สุดอัตโนมัติ แทนที่จะลองทีละ Scenario เอง</p>
+
+    <h2>6. แนวคิด Object-Oriented ใน Plant Simulation</h2>
+    <p>
+        Plant Simulation รองรับการสร้าง Object แบบ Custom โดยการ "ห่อ" (encapsulate) Object พื้นฐานไว้ใน Frame เดียว
+        แล้วลากไปไว้ใน Class Library ของตัวเอง เพื่อนำกลับมาใช้ซ้ำ (Reusable Module) เช่น สร้าง "สถานีมาตรฐาน"
+        ที่มี Buffer + SingleProc + สถิติในตัว แล้วใช้ซ้ำได้หลายจุดในโมเดลใหญ่
+    </p>
+
+    <div class="tip">
+        <strong>Tip:</strong> ตั้งชื่อตัวแปรและ Method เป็นภาษาอังกฤษและสื่อความหมายเสมอ เพราะเมื่อโมเดลใหญ่ขึ้น
+        การดีบักผ่าน Console จะง่ายกว่ามาก
+    </div>
+
+    <div class="page-nav">
+        <a href="basic.html">← ก่อนหน้า: Basic</a>
+        <a href="examples.html">ถัดไป: Example File →</a>
+    </div>
+</main>
+
+<footer class="site-footer">
+    Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม
+</footer>
+</body>
+</html>

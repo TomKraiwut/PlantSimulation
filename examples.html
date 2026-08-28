@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Example File - Plant Simulation Tutorial</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="site-header">
+    <div class="header-inner">
+        <a href="index.html" class="brand">🏭 Plant Simulation Tutorial <span class="badge">TH</span></a>
+        <nav class="main-nav">
+            <a href="index.html">หน้าแรก</a>
+            <a href="basic.html">Basic</a>
+            <a href="advanced.html">Advanced</a>
+            <a href="examples.html" class="active">Example File</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <h1>Example File: ตัวอย่างโมเดลจริง</h1>
+    <p class="lead">ฝึกทำตามตัวอย่างเหล่านี้เพื่อความเข้าใจที่ลึกขึ้น ไฟล์ <code>.spp</code> จริงสามารถอัปโหลดเพิ่มในโฟลเดอร์ <code>/examples</code> ของ repo นี้ได้</p>
+
+    <div class="note">
+        <strong>วิธีเพิ่มไฟล์ตัวอย่างจริง:</strong> สร้างโฟลเดอร์ <code>examples/</code> แล้ววางไฟล์ <code>.spp</code> ของคุณลงไป
+        จากนั้นใส่ลิงก์ดาวน์โหลดในหน้านี้ เช่น <code>&lt;a href="examples/line-01.spp"&gt;ดาวน์โหลด&lt;/a&gt;</code>
+    </div>
+
+    <h2>ตัวอย่างที่ 1: สายการผลิตเดี่ยว (Single Line)</h2>
+    <p><strong>โครงสร้าง:</strong> <code>Source → Buffer → SingleProc → Drain</code></p>
+    <ul>
+        <li>Source: สร้างชิ้นงานทุก 6 วินาที (Interval = 6s)</li>
+        <li>Buffer: ความจุ 10 ชิ้น</li>
+        <li>SingleProc: เวลาแปรรูป 8 วินาที/ชิ้น</li>
+    </ul>
+    <p><strong>คำถามฝึกคิด:</strong> เพราะ SingleProc ใช้เวลานานกว่า Source ผลิต (8s &gt; 6s) จะเกิดอะไรขึ้นกับ Buffer เมื่อรันไปนานๆ?</p>
+    <div class="tip"><strong>เฉลย:</strong> Buffer จะเต็มเรื่อยๆ เพราะ SingleProc ระบายชิ้นงานออกช้ากว่าที่ Source ป้อนเข้ามา สุดท้าย Source จะถูก Block — นี่คือตัวอย่างคอขวด (Bottleneck) แบบง่ายที่สุด</div>
+
+    <h2>ตัวอย่างที่ 2: สายการผลิตคู่ขนาน (Parallel Stations)</h2>
+    <p><strong>โครงสร้าง:</strong> <code>Source → (SingleProc1 / SingleProc2) → Drain</code> โดยใช้ Object <strong>Assembly Buffer/Diverter</strong> ในการแยกชิ้นงานไปสองเส้นทาง</p>
+    <p>ใช้แก้ปัญหาจากตัวอย่างที่ 1 — เมื่อเพิ่มสถานีขนาน 2 ตัวที่ทำงานพร้อมกัน ความสามารถในการรองรับ (Throughput) จะเพิ่มขึ้นเกือบเท่าตัว</p>
+    <pre><code>-- Method ผูกกับ Diverter เพื่อเลือกเส้นทางแบบสลับกัน (round robin)
+is
+  var target: object;
+do
+  if Diverter.NumMUsProcessed mod 2 = 0 then
+    target := SingleProc1;
+  else
+    target := SingleProc2;
+  end;
+  @.MU:=target;
+</code></pre>
+
+    <h2>ตัวอย่างที่ 3: เก็บสถิติ Throughput ด้วย Method</h2>
+    <p>ผูก Method นี้ไว้ที่ <code>Drain.ExecuteAt.Entrance</code> เพื่อนับจำนวนชิ้นงานที่ผลิตสำเร็จต่อชั่วโมง</p>
+    <pre><code>is
+do
+  GlobalCounter := GlobalCounter + 1;
+  if EventController.SimTime > 0 then
+    print "Throughput: ", GlobalCounter / (EventController.SimTime / 3600), " pcs/hour";
+  end;
+</code></pre>
+    <p>ต้องสร้างตัวแปร <code>GlobalCounter</code> เป็น Object ประเภท <strong>Variable</strong> (ตั้งค่าเริ่มต้น = 0) ไว้ก่อนใช้งาน</p>
+
+    <div class="page-nav">
+        <a href="advanced.html">← ก่อนหน้า: Advanced</a>
+        <a href="index.html">กลับหน้าแรก</a>
+    </div>
+</main>
+
+<footer class="site-footer">
+    Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม
+</footer>
+</body>
+</html>
