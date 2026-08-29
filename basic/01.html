@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1. Plant Simulation คืออะไร — Plant Simulation Tutorial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div id="wrapper">
+  <div id="main">
+    <div class="inner">
+      <header id="header">
+        <a href="../index.html" class="logo"><span>Plant Simulation Tutorial</span></a>
+        <button class="menu-toggle" aria-label="เปิดเมนู">☰</button>
+      </header>
+
+      <main>
+        <h1>1. Plant Simulation คืออะไร</h1>
+
+        <div class="objectives">
+          <p>วัตถุประสงค์การเรียนรู้</p>
+          <ol>
+          <li>เข้าใจว่า Discrete Event Simulation (DES) คืออะไร และต่างจากการคำนวณด้วยมือแบบธรรมดาอย่างไร</li>
+          <li>รู้ว่า Plant Simulation ใช้แก้ปัญหาแบบไหนได้บ้างในงานจริง</li>
+          <li>เห็นภาพรวมว่าตลอดคอร์สนี้จะได้เรียนอะไรบ้าง</li>
+          </ol>
+        </div>
+
+<h2>Discrete Event Simulation คืออะไร</h2>
+<p>Plant Simulation จำลองระบบแบบ <strong>Discrete Event Simulation (DES)</strong> — คือการจำลอง
+"เหตุการณ์" ที่เกิดขึ้นเป็นจุดๆ ตามเวลา (เช่น ชิ้นงานมาถึง, เครื่องเริ่มทำงาน, เครื่องทำงานเสร็จ)
+แทนที่จะคำนวณทุกวินาทีต่อเนื่อง ทำให้จำลองกระบวนการผลิตหลายวัน/หลายเดือนได้ในเวลาไม่กี่วินาทีบนคอมพิวเตอร์</p>
+
+<div class="side-by-side">
+  <div><figure class="screenshot">
+  <img src="../assets/images/basic/01-01.png" alt="ตัวอย่างโมเดล 3D ของสายการผลิตใน Plant Simulation" loading="lazy">
+</figure></div>
+  <div><ol class="step-list">
+    <li><span class="num">1</span><span class="text">ผังพื้นโรงงาน (เส้นสีเทาจางด้านหลัง) — แบบ Layout จริงที่ใช้เป็นพื้นหลังอ้างอิงตำแหน่งวาง Object</span></li>
+    <li><span class="num">2</span><span class="text">กลุ่มเครื่องจักรสีเขียว-ฟ้า — แต่ละกลุ่มแทนสถานีเครื่องจักร/ประมวลผลในสายการผลิตจริง</span></li>
+    <li><span class="num">3</span><span class="text">เส้นทางสีส้ม — เส้นทางลำเลียงชิ้นงานที่เชื่อมแต่ละสถานีเข้าด้วยกัน</span></li>
+    <li><span class="num">4</span><span class="text">พาเลทสีเขียวด้านล่าง — จุดพักสินค้าสำเร็จรูปก่อนส่งออกจากไลน์</span></li>
+  </ol></div>
+</div>
+
+<h2>ใช้ทำอะไรได้บ้าง</h2>
+<table>
+<tr><th>โจทย์</th><th>Plant Simulation ช่วยอะไร</th></tr>
+<tr><td>ออกแบบสายการผลิตใหม่</td><td>ทดสอบผัง Layout ก่อนลงทุนจริง ลดความเสี่ยงสร้างแล้วใช้ไม่ได้</td></tr>
+<tr><td>หาคอขวด (Bottleneck)</td><td>ดูว่าเครื่องไหนเป็นตัวถ่วง Throughput ของทั้งสาย</td></tr>
+<tr><td>วางแผนกำลังการผลิต</td><td>ทดลองเพิ่ม/ลดจำนวนเครื่องจักรหรือคนงานแบบ what-if</td></tr>
+<tr><td>บริหารสินค้าคงคลัง/โลจิสติกส์</td><td>จำลองคลังสินค้า, AGV, ระบบขนส่งภายในโรงงาน</td></tr>
+</table>
+
+<div class="tip">
+<strong>ทำไมไม่คำนวณมือ:</strong> เมื่อมีความสุ่ม (เช่น เครื่องเสียแบบสุ่ม, เวลาแปรรูปไม่คงที่) และ Object
+หลายสิบ-หลายร้อยตัวโต้ตอบกัน การคำนวณมือแทบเป็นไปไม่ได้ — DES จำลองความซับซ้อนนี้ให้อัตโนมัติ
+</div>
+
+<h2>ภาพรวมคอร์สนี้</h2>
+<p>คอร์สแบ่งเป็น 3 ระดับ: <strong>Basic</strong> รู้จักโปรแกรมและสร้างโมเดลแรก, <strong>Intermediate</strong>
+ทำให้โมเดลสมจริงขึ้นด้วย Object เพิ่มเติมและค่าสุ่ม, <strong>Advanced</strong> เขียนสคริปต์ SimTalk
+ควบคุมโมเดลและทำ Optimization อัตโนมัติ</p>
+
+<div class="note">
+<strong>คำถามฝึกคิด:</strong> ถ้าคุณมีสายการผลิต 5 สถานี แต่ละสถานีมีเวลาทำงานสุ่มไม่เท่ากันทุกครั้ง
+จะรู้ได้อย่างไรว่าสถานีไหนเป็นคอขวดโดยไม่ต้องรันสายการผลิตจริง?
+</div>
+<div class="tip"><strong>เฉลย:</strong> สร้างโมเดลจำลองทั้ง 5 สถานีด้วย Distribution ที่สะท้อนความสุ่มจริง (ดูบท Intermediate 3)
+แล้วใช้ Bottleneck Analyzer (บท Intermediate 5) วิเคราะห์ผลจากการรันจำลอง — ไม่ต้องหยุดสายจริงเลย</div>
+
+        <div class="page-nav">
+          <a href="index.html">← กลับหน้ารวมบท Basic</a>
+          <a href="02.html">ถัดไป: 2. หน้าตาโปรแกรม →</a>
+        </div>
+      </main>
+
+      <footer class="site-footer">
+        Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม
+      </footer>
+    </div>
+  </div>
+
+  <div id="sidebar">
+    <div class="inner">
+      <nav id="menu">
+        <header class="major"><h2>เมนู</h2></header>
+        <ul>
+          <li><a href="../index.html">หน้าแรก</a></li>
+          <li class="has-children expanded">
+            <a href="index.html">Basic — พื้นฐาน</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู basic">▾</button>
+            <ul class="submenu">
+              <li class="active"><a href="01.html">1. Plant Simulation คืออะไร</a></li>
+              <li><a href="02.html">2. หน้าตาโปรแกรม</a></li>
+              <li><a href="03.html">3. Object พื้นฐาน 6 ตัว</a></li>
+              <li><a href="04.html">4. สร้างโมเดลแรก</a></li>
+              <li><a href="05.html">5. รันและอ่านผล Statistics</a></li>
+              <li><a href="06.html">6. บันทึกและเปิดไฟล์โมเดล</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../intermediate/index.html">Intermediate — ขั้นกลาง</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู intermediate">▾</button>
+            <ul class="submenu">
+              <li><a href="../intermediate/01.html">1. Object ขั้นกลาง</a></li>
+              <li><a href="../intermediate/02.html">2. MU และ MU Class</a></li>
+              <li><a href="../intermediate/03.html">3. ค่าที่ไม่คงที่ (Distribution)</a></li>
+              <li><a href="../intermediate/04.html">4. ความเสียหายของเครื่องจักร</a></li>
+              <li><a href="../intermediate/05.html">5. Chart และ Bottleneck Analyzer</a></li>
+              <li><a href="../intermediate/06.html">6. จัดกลุ่มโมเดลเป็น Sub-frame</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../advanced/index.html">Advanced — ขั้นสูง</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู advanced">▾</button>
+            <ul class="submenu">
+              <li><a href="../advanced/01.html">1. SimTalk 2.0 พื้นฐาน</a></li>
+              <li><a href="../advanced/02.html">2. Method ผูกกับ Event</a></li>
+              <li><a href="../advanced/03.html">3. DataTable และ Variable</a></li>
+              <li><a href="../advanced/04.html">4. สร้าง Object ด้วยโค้ด</a></li>
+              <li><a href="../advanced/05.html">5. Experiment Manager</a></li>
+              <li><a href="../advanced/06.html">6. Optimization ด้วย GAWizard</a></li>
+              <li><a href="../advanced/07.html">7. ควบคุมจากภายนอกผ่าน COM/Python</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../object-reference/index.html">Object Reference — สาธิต Object</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู object-reference">▾</button>
+            <ul class="submenu">
+              <li><a href="../object-reference/01.html">1. Material Flow Objects</a></li>
+              <li><a href="../object-reference/02.html">2. Information Flow Objects</a></li>
+              <li><a href="../object-reference/03.html">3. Resources &amp; Tools</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../case-study/index.html">Case Study — ตัวอย่างอุตสาหกรรม</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู case-study">▾</button>
+            <ul class="submenu">
+              <li><a href="../case-study/01.html">1. อุตสาหกรรมยานยนต์ (Automotive)</a></li>
+              <li><a href="../case-study/02.html">2. คลังสินค้าและโลจิสติกส์ (Warehouse &amp; Logistics)</a></li>
+              <li><a href="../case-study/03.html">3. อิเล็กทรอนิกส์ (Electronics / SMT)</a></li>
+              <li><a href="../case-study/04.html">4. อาหารและเครื่องดื่ม (Food &amp; Beverage)</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../tips-tricks/index.html">Tips and Tricks — เทคนิคการทำงาน</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู tips-tricks">▾</button>
+            <ul class="submenu">
+              <li><a href="../tips-tricks/01.html">1. UI และ Workflow</a></li>
+              <li><a href="../tips-tricks/02.html">2. การสร้างโมเดลและดีบัก</a></li>
+              <li><a href="../tips-tricks/03.html">3. ประสิทธิภาพการรัน (Performance)</a></li>
+              <li><a href="../tips-tricks/04.html">4. SimTalk และ Scripting</a></li>
+            </ul>
+          </li>
+          <li><a href="../examples.html">Example File</a></li>
+        </ul>
+      </nav>
+      <footer id="footer"><p class="copyright">Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม</p></footer>
+    </div>
+  </div>
+  <div id="sidebar-overlay"></div>
+</div>
+<script src="../assets/main.js"></script>
+</body>
+</html>

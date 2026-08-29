@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3. DataTable และ Variable — Plant Simulation Tutorial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div id="wrapper">
+  <div id="main">
+    <div class="inner">
+      <header id="header">
+        <a href="../index.html" class="logo"><span>Plant Simulation Tutorial</span></a>
+        <button class="menu-toggle" aria-label="เปิดเมนู">☰</button>
+      </header>
+
+      <main>
+        <h1>3. DataTable และ Variable</h1>
+
+        <div class="objectives">
+          <p>วัตถุประสงค์การเรียนรู้</p>
+          <ol>
+          <li>สร้างและเข้าถึง DataTable/Variable จากโค้ดได้ โดยไม่ติดกับดัก auto-deref</li>
+          <li>อ่าน-เขียนค่าในตารางด้วย bracket indexing ได้ถูกต้อง</li>
+          </ol>
+        </div>
+
+<h2>DataTable และ Variable อยู่ใต้ .InformationFlow</h2>
+<p>ต่างจาก Object การไหลของวัสดุ (<code>.MaterialFlow</code>) — DataTable และ Variable อยู่ในหมวด <code>.InformationFlow</code>
+สร้างด้วย <code>createObject</code> แบบเดียวกับ Object ทั่วไป:</p>
+<pre><code>var t := .InformationFlow.DataTable.createObject(f, 0, 0)
+t.Name := "Items"</code></pre>
+
+<div class="note">
+<strong>กับดัก auto-deref:</strong> การอ้าง <code>.InformationFlow.Variable</code> เฉยๆ (ไม่ผ่าน <code>.Node()</code>) จะได้
+<em>ค่าที่ตัวแปรถืออยู่</em> (ค่าเริ่มต้นเป็น <code>0</code>) ไม่ใช่ตัว Object เอง ทำให้ <code>createObject</code> พัง —
+ต้องใช้ <code>.Node("ClassName")</code> เพื่อขอ object reference ตรงๆ แทน:
+</div>
+<pre><code>var v := .InformationFlow.Node("Variable").createObject(f, 0, 50)
+v.Name := "Constraint"</code></pre>
+<p>กติกาเดียวกันนี้ใช้กับ <code>Method</code> ด้วย (บทที่ 2) — เป็นกฎทั่วไปของ Object ในหมวด <code>.InformationFlow</code>
+ที่ "มีค่า" หรือ "เรียกใช้ได้" ไม่ใช่เฉพาะ Variable</p>
+
+<h2>อ่าน/เขียนค่าใน DataTable</h2>
+<p>ใช้ bracket indexing <code>[column, row]</code> โดยทั้งคู่เริ่มนับที่ 1:</p>
+<pre><code>return to_str(.Models.Model.DataTable[1, 1])   // อ่านค่า
+.Models.Model.DataTable[1, 1] := "hello"       // เขียนค่า</code></pre>
+<table>
+<tr><th>กติกา</th><th>รายละเอียด</th></tr>
+<tr><td>ไม่มี getValue/setValue</td><td>เข้าถึงด้วย bracket indexing เท่านั้น</td></tr>
+<tr><td>แถว/คอลัมน์ 0 = หัวตาราง</td><td><code>table[c, 0]</code> อ่านชื่อคอลัมน์, <code>table[0, r]</code> อ่านชื่อแถว</td></tr>
+<tr><td><code>XDim</code>/<code>YDim</code> อ่านได้อย่างเดียว</td><td>แต่การเขียนค่าเกินขอบเขตปัจจุบันจะขยายตารางอัตโนมัติ</td></tr>
+<tr><td>คอลัมน์ใหม่เป็น string โดยดีฟอลต์</td><td>เขียนตัวเลขตรงๆ (เช่น <code>table[1,1] := 99</code>) จะ error ต้องเขียนเป็น string เช่น <code>"99"</code> จนกว่าจะตั้งชนิดคอลัมน์ผ่าน GUI</td></tr>
+</table>
+
+<div class="tip">
+<strong>คำถามฝึกคิด:</strong> ทำไม <code>.InformationFlow.Variable.createObject(...)</code> ถึง error ว่า
+"A 'integer' cannot accept the method 'createObject'"?
+</div>
+<div class="tip"><strong>เฉลย:</strong> เพราะ path เปล่าๆ ไปที่ <code>Variable</code> auto-deref กลายเป็นค่า integer (ค่าเริ่มต้น 0) ของตัวแปรนั้นไปแล้ว
+ไม่ใช่ตัว Object — ต้องใช้ <code>.Node("Variable")</code> เพื่อขอ Object reference ก่อนเรียก <code>createObject</code></div>
+
+        <div class="page-nav">
+          <a href="02.html">← ก่อนหน้า: 2. Method ผูกกับ Event</a>
+          <a href="04.html">ถัดไป: 4. สร้าง Object ด้วยโค้ด →</a>
+        </div>
+      </main>
+
+      <footer class="site-footer">
+        Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม
+      </footer>
+    </div>
+  </div>
+
+  <div id="sidebar">
+    <div class="inner">
+      <nav id="menu">
+        <header class="major"><h2>เมนู</h2></header>
+        <ul>
+          <li><a href="../index.html">หน้าแรก</a></li>
+          <li class="has-children">
+            <a href="../basic/index.html">Basic — พื้นฐาน</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู basic">▾</button>
+            <ul class="submenu">
+              <li><a href="../basic/01.html">1. Plant Simulation คืออะไร</a></li>
+              <li><a href="../basic/02.html">2. หน้าตาโปรแกรม</a></li>
+              <li><a href="../basic/03.html">3. Object พื้นฐาน 6 ตัว</a></li>
+              <li><a href="../basic/04.html">4. สร้างโมเดลแรก</a></li>
+              <li><a href="../basic/05.html">5. รันและอ่านผล Statistics</a></li>
+              <li><a href="../basic/06.html">6. บันทึกและเปิดไฟล์โมเดล</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../intermediate/index.html">Intermediate — ขั้นกลาง</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู intermediate">▾</button>
+            <ul class="submenu">
+              <li><a href="../intermediate/01.html">1. Object ขั้นกลาง</a></li>
+              <li><a href="../intermediate/02.html">2. MU และ MU Class</a></li>
+              <li><a href="../intermediate/03.html">3. ค่าที่ไม่คงที่ (Distribution)</a></li>
+              <li><a href="../intermediate/04.html">4. ความเสียหายของเครื่องจักร</a></li>
+              <li><a href="../intermediate/05.html">5. Chart และ Bottleneck Analyzer</a></li>
+              <li><a href="../intermediate/06.html">6. จัดกลุ่มโมเดลเป็น Sub-frame</a></li>
+            </ul>
+          </li>
+          <li class="has-children expanded">
+            <a href="index.html">Advanced — ขั้นสูง</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู advanced">▾</button>
+            <ul class="submenu">
+              <li><a href="01.html">1. SimTalk 2.0 พื้นฐาน</a></li>
+              <li><a href="02.html">2. Method ผูกกับ Event</a></li>
+              <li class="active"><a href="03.html">3. DataTable และ Variable</a></li>
+              <li><a href="04.html">4. สร้าง Object ด้วยโค้ด</a></li>
+              <li><a href="05.html">5. Experiment Manager</a></li>
+              <li><a href="06.html">6. Optimization ด้วย GAWizard</a></li>
+              <li><a href="07.html">7. ควบคุมจากภายนอกผ่าน COM/Python</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../object-reference/index.html">Object Reference — สาธิต Object</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู object-reference">▾</button>
+            <ul class="submenu">
+              <li><a href="../object-reference/01.html">1. Material Flow Objects</a></li>
+              <li><a href="../object-reference/02.html">2. Information Flow Objects</a></li>
+              <li><a href="../object-reference/03.html">3. Resources &amp; Tools</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../case-study/index.html">Case Study — ตัวอย่างอุตสาหกรรม</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู case-study">▾</button>
+            <ul class="submenu">
+              <li><a href="../case-study/01.html">1. อุตสาหกรรมยานยนต์ (Automotive)</a></li>
+              <li><a href="../case-study/02.html">2. คลังสินค้าและโลจิสติกส์ (Warehouse &amp; Logistics)</a></li>
+              <li><a href="../case-study/03.html">3. อิเล็กทรอนิกส์ (Electronics / SMT)</a></li>
+              <li><a href="../case-study/04.html">4. อาหารและเครื่องดื่ม (Food &amp; Beverage)</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../tips-tricks/index.html">Tips and Tricks — เทคนิคการทำงาน</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู tips-tricks">▾</button>
+            <ul class="submenu">
+              <li><a href="../tips-tricks/01.html">1. UI และ Workflow</a></li>
+              <li><a href="../tips-tricks/02.html">2. การสร้างโมเดลและดีบัก</a></li>
+              <li><a href="../tips-tricks/03.html">3. ประสิทธิภาพการรัน (Performance)</a></li>
+              <li><a href="../tips-tricks/04.html">4. SimTalk และ Scripting</a></li>
+            </ul>
+          </li>
+          <li><a href="../examples.html">Example File</a></li>
+        </ul>
+      </nav>
+      <footer id="footer"><p class="copyright">Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม</p></footer>
+    </div>
+  </div>
+  <div id="sidebar-overlay"></div>
+</div>
+<script src="../assets/main.js"></script>
+</body>
+</html>

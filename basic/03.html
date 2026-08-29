@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3. Object พื้นฐาน 6 ตัว — Plant Simulation Tutorial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div id="wrapper">
+  <div id="main">
+    <div class="inner">
+      <header id="header">
+        <a href="../index.html" class="logo"><span>Plant Simulation Tutorial</span></a>
+        <button class="menu-toggle" aria-label="เปิดเมนู">☰</button>
+      </header>
+
+      <main>
+        <h1>3. Object พื้นฐาน 6 ตัว</h1>
+
+        <div class="objectives">
+          <p>วัตถุประสงค์การเรียนรู้</p>
+          <ol>
+          <li>จำ Object พื้นฐาน 6 ตัวที่ใช้บ่อยที่สุด และหน้าที่ของแต่ละตัวได้</li>
+          <li>รู้ว่า Object แต่ละตัวมีค่า (Attribute) สำคัญอะไรที่ต้องตั้ง</li>
+          </ol>
+        </div>
+
+<h2>Object พื้นฐาน 6 ตัว</h2>
+<p>Object เหล่านี้อยู่ใน Class Library หมวด <code>MaterialFlow</code> เป็นชุดที่ใช้บ่อยที่สุดในการสร้างสายการผลิตแบบง่าย</p>
+<table>
+<tr><th>Object</th><th>ใช้ทำอะไร</th><th>ค่าสำคัญที่ต้องตั้ง</th></tr>
+<tr><td><strong>Source</strong></td><td>จุดกำเนิดชิ้นงาน (MU) เข้าสู่ระบบ</td><td><code>Interval</code> — ความถี่การผลิตชิ้นงานใหม่</td></tr>
+<tr><td><strong>Line</strong></td><td>เส้นทางลำเลียงชิ้นงานระหว่างสถานีแบบมีความเร็ว/ความยาว</td><td><code>Length</code>, <code>Speed</code></td></tr>
+<tr><td><strong>SingleProc</strong></td><td>สถานีประมวลผล/แปรรูปชิ้นงาน (จำลองเครื่องจักร 1 หัว)</td><td><code>ProcTime</code> — เวลาแปรรูปต่อชิ้น</td></tr>
+<tr><td><strong>Buffer</strong></td><td>จุดพักชิ้นงานเมื่อสถานีถัดไปไม่ว่าง</td><td><code>Capacity</code> — ความจุสูงสุด</td></tr>
+<tr><td><strong>Drain</strong></td><td>จุดสิ้นสุด ชิ้นงานออกจากระบบ (สินค้าสำเร็จรูป)</td><td>ไม่ต้องตั้งค่าอะไรพิเศษ</td></tr>
+<tr><td><strong>EventController</strong></td><td>ตัวควบคุมเวลาจำลอง (นาฬิกาของโมเดล) ต้องมีเสมอในทุกโมเดล</td><td><code>SimTime</code> อ่านค่าเวลาจำลองปัจจุบัน</td></tr>
+</table>
+
+<div class="note">
+<strong>ข้อควรรู้:</strong> ทุก Object มีแอตทริบิวต์ <code>Name</code> (ชื่อ) และ <code>InternalClassType</code>
+(ชื่อประเภทจริงในภาษาอังกฤษ เช่น "Source", "Drain") ที่ใช้อ้างอิงได้ทั้งจาก GUI และจากสคริปต์ (ดูบท Advanced)
+</div>
+
+<h2>ลำดับการไหลของชิ้นงานทั่วไป</h2>
+<p><code>Source → (Line) → SingleProc → (Buffer) → SingleProc → (Line) → Drain</code></p>
+<p>ไม่จำเป็นต้องมี Line/Buffer ทุกจุด — เชื่อม Object ติดกันตรงๆ ก็ทำงานได้ แค่ไม่มีระยะทาง/เวลาขนส่งจำลองอยู่ในนั้น</p>
+
+<div class="tip">
+<strong>คำถามฝึกคิด:</strong> ถ้าไม่ใส่ EventController ลงในโมเดลเลย จะเกิดอะไรขึ้นเมื่อกด Start?
+</div>
+<div class="tip"><strong>เฉลย:</strong> โมเดลจะรันไม่ได้เลย — EventController คือนาฬิกาของทั้งระบบ ไม่มี EventController = ไม่มีเวลาให้เดินหน้า</div>
+
+        <div class="page-nav">
+          <a href="02.html">← ก่อนหน้า: 2. หน้าตาโปรแกรม</a>
+          <a href="04.html">ถัดไป: 4. สร้างโมเดลแรก →</a>
+        </div>
+      </main>
+
+      <footer class="site-footer">
+        Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม
+      </footer>
+    </div>
+  </div>
+
+  <div id="sidebar">
+    <div class="inner">
+      <nav id="menu">
+        <header class="major"><h2>เมนู</h2></header>
+        <ul>
+          <li><a href="../index.html">หน้าแรก</a></li>
+          <li class="has-children expanded">
+            <a href="index.html">Basic — พื้นฐาน</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู basic">▾</button>
+            <ul class="submenu">
+              <li><a href="01.html">1. Plant Simulation คืออะไร</a></li>
+              <li><a href="02.html">2. หน้าตาโปรแกรม</a></li>
+              <li class="active"><a href="03.html">3. Object พื้นฐาน 6 ตัว</a></li>
+              <li><a href="04.html">4. สร้างโมเดลแรก</a></li>
+              <li><a href="05.html">5. รันและอ่านผล Statistics</a></li>
+              <li><a href="06.html">6. บันทึกและเปิดไฟล์โมเดล</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../intermediate/index.html">Intermediate — ขั้นกลาง</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู intermediate">▾</button>
+            <ul class="submenu">
+              <li><a href="../intermediate/01.html">1. Object ขั้นกลาง</a></li>
+              <li><a href="../intermediate/02.html">2. MU และ MU Class</a></li>
+              <li><a href="../intermediate/03.html">3. ค่าที่ไม่คงที่ (Distribution)</a></li>
+              <li><a href="../intermediate/04.html">4. ความเสียหายของเครื่องจักร</a></li>
+              <li><a href="../intermediate/05.html">5. Chart และ Bottleneck Analyzer</a></li>
+              <li><a href="../intermediate/06.html">6. จัดกลุ่มโมเดลเป็น Sub-frame</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../advanced/index.html">Advanced — ขั้นสูง</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู advanced">▾</button>
+            <ul class="submenu">
+              <li><a href="../advanced/01.html">1. SimTalk 2.0 พื้นฐาน</a></li>
+              <li><a href="../advanced/02.html">2. Method ผูกกับ Event</a></li>
+              <li><a href="../advanced/03.html">3. DataTable และ Variable</a></li>
+              <li><a href="../advanced/04.html">4. สร้าง Object ด้วยโค้ด</a></li>
+              <li><a href="../advanced/05.html">5. Experiment Manager</a></li>
+              <li><a href="../advanced/06.html">6. Optimization ด้วย GAWizard</a></li>
+              <li><a href="../advanced/07.html">7. ควบคุมจากภายนอกผ่าน COM/Python</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../object-reference/index.html">Object Reference — สาธิต Object</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู object-reference">▾</button>
+            <ul class="submenu">
+              <li><a href="../object-reference/01.html">1. Material Flow Objects</a></li>
+              <li><a href="../object-reference/02.html">2. Information Flow Objects</a></li>
+              <li><a href="../object-reference/03.html">3. Resources &amp; Tools</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../case-study/index.html">Case Study — ตัวอย่างอุตสาหกรรม</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู case-study">▾</button>
+            <ul class="submenu">
+              <li><a href="../case-study/01.html">1. อุตสาหกรรมยานยนต์ (Automotive)</a></li>
+              <li><a href="../case-study/02.html">2. คลังสินค้าและโลจิสติกส์ (Warehouse &amp; Logistics)</a></li>
+              <li><a href="../case-study/03.html">3. อิเล็กทรอนิกส์ (Electronics / SMT)</a></li>
+              <li><a href="../case-study/04.html">4. อาหารและเครื่องดื่ม (Food &amp; Beverage)</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../tips-tricks/index.html">Tips and Tricks — เทคนิคการทำงาน</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู tips-tricks">▾</button>
+            <ul class="submenu">
+              <li><a href="../tips-tricks/01.html">1. UI และ Workflow</a></li>
+              <li><a href="../tips-tricks/02.html">2. การสร้างโมเดลและดีบัก</a></li>
+              <li><a href="../tips-tricks/03.html">3. ประสิทธิภาพการรัน (Performance)</a></li>
+              <li><a href="../tips-tricks/04.html">4. SimTalk และ Scripting</a></li>
+            </ul>
+          </li>
+          <li><a href="../examples.html">Example File</a></li>
+        </ul>
+      </nav>
+      <footer id="footer"><p class="copyright">Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม</p></footer>
+    </div>
+  </div>
+  <div id="sidebar-overlay"></div>
+</div>
+<script src="../assets/main.js"></script>
+</body>
+</html>

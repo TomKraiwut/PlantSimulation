@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2. MU และ MU Class — Plant Simulation Tutorial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div id="wrapper">
+  <div id="main">
+    <div class="inner">
+      <header id="header">
+        <a href="../index.html" class="logo"><span>Plant Simulation Tutorial</span></a>
+        <button class="menu-toggle" aria-label="เปิดเมนู">☰</button>
+      </header>
+
+      <main>
+        <h1>2. MU และ MU Class</h1>
+
+        <div class="objectives">
+          <p>วัตถุประสงค์การเรียนรู้</p>
+          <ol>
+          <li>เข้าใจว่า MU (Movable Unit) คืออะไร และทำไมต้องสร้าง MU class ของตัวเอง</li>
+          <li>สร้างและกำหนดให้ Source ผลิต MU class ที่กำหนดเองได้</li>
+          </ol>
+        </div>
+
+<h2>MU (Movable Unit) คืออะไร</h2>
+<p>MU คือ "ชิ้นงาน" ที่เคลื่อนที่ผ่านระบบ — เก็บอยู่ในหมวด Class Library <code>MUs</code> แบ่งเป็นประเภทหลักคือ
+<strong>Part</strong> (ชิ้นงานทั่วไป), <strong>Container</strong> (ภาชนะบรรจุหลายชิ้น), <strong>Transporter</strong> (พาหนะที่ขับเคลื่อนเอง)</p>
+
+<div class="note">
+<strong>ข้อควรรู้:</strong> Object ใต้ <code>.MUs</code> เป็น "แม่แบบ" ที่ Source จะ<em>ผลิตสำเนาออกมา</em>ตอนรัน ไม่ใช่ Object
+ที่ลากไปวางบน Frame ได้โดยตรงแบบ Source/SingleProc — ถ้าอยากปรับแต่งคุณสมบัติของ MU (เช่น ตั้งชื่อ, สี, น้ำหนักเริ่มต้น)
+ต้อง <strong>Duplicate/Derive</strong> ก๊อปปี้ MU ไปไว้ในหมวด <code>UserObjects</code> ของตัวเองก่อน
+</div>
+
+<h2>สร้าง MU class ของตัวเอง</h2>
+<ol class="steps">
+<li>ไปที่ Class Library → <code>MUs → Part</code> (หรือ Container/Transporter ตามต้องการ)</li>
+<li>คลิกขวา → <code>Duplicate</code> หรือ <code>Derive</code> แล้วลากไปวางใน <code>UserObjects</code></li>
+<li>ตั้งชื่อให้สื่อความหมาย เช่น <code>PartA</code></li>
+<li>เปิด Attribute ของ MU ที่สร้างใหม่ ปรับค่าเริ่มต้น (ไอคอน, สี, น้ำหนัก ฯลฯ) ตามต้องการ</li>
+<li>ไปที่ <strong>Source</strong> ที่จะผลิต MU นี้ → ตั้งค่าช่อง <code>MU</code> (แอตทริบิวต์ที่กำหนดคลาส MU ที่จะผลิต) ให้ชี้ไปที่ MU ที่สร้างไว้</li>
+</ol>
+
+<div class="tip">
+<strong>Tip:</strong> ถ้ามี MU หลายแบบให้ Source ผลิตแบบสุ่มหรือเรียงลำดับ ให้ดูช่อง <code>MUSelection</code>
+ของ Source — เลือกโหมด Constant (คลาสเดียวคงที่), Sequence (เรียงลำดับ), หรือ Random (สุ่มตามสัดส่วน)
+</div>
+
+<div class="note">
+<strong>คำถามฝึกคิด:</strong> ทำไมลาก <code>.MUs.Part</code> ไปวางบน Frame ตรงๆ ไม่ได้เหมือน Source/SingleProc?
+</div>
+<div class="tip"><strong>เฉลย:</strong> เพราะ Object ใต้ <code>.MUs</code> เป็นแม่แบบสำหรับให้ Source สร้างสำเนาขึ้นมาตอนรันจำลอง ไม่ใช่ Object
+ที่มีตำแหน่งตายตัวในผังโรงงาน — ต้อง Duplicate/Derive ไปเป็นของตัวเองก่อนถึงจะปรับแต่งและใช้อ้างอิงได้</div>
+
+        <div class="page-nav">
+          <a href="01.html">← ก่อนหน้า: 1. Object ขั้นกลาง</a>
+          <a href="03.html">ถัดไป: 3. ค่าที่ไม่คงที่ (Distribution) →</a>
+        </div>
+      </main>
+
+      <footer class="site-footer">
+        Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม
+      </footer>
+    </div>
+  </div>
+
+  <div id="sidebar">
+    <div class="inner">
+      <nav id="menu">
+        <header class="major"><h2>เมนู</h2></header>
+        <ul>
+          <li><a href="../index.html">หน้าแรก</a></li>
+          <li class="has-children">
+            <a href="../basic/index.html">Basic — พื้นฐาน</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู basic">▾</button>
+            <ul class="submenu">
+              <li><a href="../basic/01.html">1. Plant Simulation คืออะไร</a></li>
+              <li><a href="../basic/02.html">2. หน้าตาโปรแกรม</a></li>
+              <li><a href="../basic/03.html">3. Object พื้นฐาน 6 ตัว</a></li>
+              <li><a href="../basic/04.html">4. สร้างโมเดลแรก</a></li>
+              <li><a href="../basic/05.html">5. รันและอ่านผล Statistics</a></li>
+              <li><a href="../basic/06.html">6. บันทึกและเปิดไฟล์โมเดล</a></li>
+            </ul>
+          </li>
+          <li class="has-children expanded">
+            <a href="index.html">Intermediate — ขั้นกลาง</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู intermediate">▾</button>
+            <ul class="submenu">
+              <li><a href="01.html">1. Object ขั้นกลาง</a></li>
+              <li class="active"><a href="02.html">2. MU และ MU Class</a></li>
+              <li><a href="03.html">3. ค่าที่ไม่คงที่ (Distribution)</a></li>
+              <li><a href="04.html">4. ความเสียหายของเครื่องจักร</a></li>
+              <li><a href="05.html">5. Chart และ Bottleneck Analyzer</a></li>
+              <li><a href="06.html">6. จัดกลุ่มโมเดลเป็น Sub-frame</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../advanced/index.html">Advanced — ขั้นสูง</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู advanced">▾</button>
+            <ul class="submenu">
+              <li><a href="../advanced/01.html">1. SimTalk 2.0 พื้นฐาน</a></li>
+              <li><a href="../advanced/02.html">2. Method ผูกกับ Event</a></li>
+              <li><a href="../advanced/03.html">3. DataTable และ Variable</a></li>
+              <li><a href="../advanced/04.html">4. สร้าง Object ด้วยโค้ด</a></li>
+              <li><a href="../advanced/05.html">5. Experiment Manager</a></li>
+              <li><a href="../advanced/06.html">6. Optimization ด้วย GAWizard</a></li>
+              <li><a href="../advanced/07.html">7. ควบคุมจากภายนอกผ่าน COM/Python</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../object-reference/index.html">Object Reference — สาธิต Object</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู object-reference">▾</button>
+            <ul class="submenu">
+              <li><a href="../object-reference/01.html">1. Material Flow Objects</a></li>
+              <li><a href="../object-reference/02.html">2. Information Flow Objects</a></li>
+              <li><a href="../object-reference/03.html">3. Resources &amp; Tools</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../case-study/index.html">Case Study — ตัวอย่างอุตสาหกรรม</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู case-study">▾</button>
+            <ul class="submenu">
+              <li><a href="../case-study/01.html">1. อุตสาหกรรมยานยนต์ (Automotive)</a></li>
+              <li><a href="../case-study/02.html">2. คลังสินค้าและโลจิสติกส์ (Warehouse &amp; Logistics)</a></li>
+              <li><a href="../case-study/03.html">3. อิเล็กทรอนิกส์ (Electronics / SMT)</a></li>
+              <li><a href="../case-study/04.html">4. อาหารและเครื่องดื่ม (Food &amp; Beverage)</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../tips-tricks/index.html">Tips and Tricks — เทคนิคการทำงาน</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู tips-tricks">▾</button>
+            <ul class="submenu">
+              <li><a href="../tips-tricks/01.html">1. UI และ Workflow</a></li>
+              <li><a href="../tips-tricks/02.html">2. การสร้างโมเดลและดีบัก</a></li>
+              <li><a href="../tips-tricks/03.html">3. ประสิทธิภาพการรัน (Performance)</a></li>
+              <li><a href="../tips-tricks/04.html">4. SimTalk และ Scripting</a></li>
+            </ul>
+          </li>
+          <li><a href="../examples.html">Example File</a></li>
+        </ul>
+      </nav>
+      <footer id="footer"><p class="copyright">Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม</p></footer>
+    </div>
+  </div>
+  <div id="sidebar-overlay"></div>
+</div>
+<script src="../assets/main.js"></script>
+</body>
+</html>

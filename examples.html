@@ -3,75 +3,158 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Example File - Plant Simulation Tutorial</title>
+<title>Example File — Plant Simulation Tutorial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap">
 <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-<header class="site-header">
-    <div class="header-inner">
-        <a href="index.html" class="brand">🏭 Plant Simulation Tutorial <span class="badge">TH</span></a>
-        <nav class="main-nav">
-            <a href="index.html">หน้าแรก</a>
-            <a href="basic.html">Basic</a>
-            <a href="advanced.html">Advanced</a>
-            <a href="examples.html" class="active">Example File</a>
-        </nav>
+<div id="wrapper">
+  <div id="main">
+    <div class="inner">
+      <header id="header">
+        <a href="index.html" class="logo"><span>Plant Simulation Tutorial</span></a>
+        <button class="menu-toggle" aria-label="เปิดเมนู">☰</button>
+      </header>
+
+      <main>
+        <h1>Example File: ตัวอย่างโมเดลจริง</h1>
+        <p class="lead" style="max-width:46em;">
+          ไฟล์ตัวอย่างประกอบเนื้อหาแต่ละระดับ ฝึกทำตามเพื่อความเข้าใจที่ลึกขึ้น ไฟล์ <code>.spp</code> จริงวางเพิ่มได้ในโฟลเดอร์
+          <code>examples/</code> ของ repo นี้
+        </p>
+
+        <div class="note">
+          <strong>วิธีเพิ่มไฟล์ตัวอย่างจริง:</strong> วางไฟล์ <code>.spp</code> ลงในโฟลเดอร์ <code>examples/</code>
+          แล้วใส่ลิงก์ดาวน์โหลดในหน้านี้ เช่น <code>&lt;a href="examples/line-01.spp"&gt;ดาวน์โหลด&lt;/a&gt;</code>
+        </div>
+
+        <h2>ตัวอย่างที่ 1: สายการผลิตเดี่ยว (Single Line)</h2>
+        <p>เกี่ยวข้องกับ <a href="basic/04.html">Basic บทที่ 4</a></p>
+        <p><strong>โครงสร้าง:</strong> <code>Source → Buffer → SingleProc → Drain</code></p>
+        <ul>
+          <li>Source: สร้างชิ้นงานทุก 6 วินาที (Interval = 6s)</li>
+          <li>Buffer: ความจุ 10 ชิ้น</li>
+          <li>SingleProc: เวลาแปรรูป 8 วินาที/ชิ้น</li>
+        </ul>
+        <p><strong>คำถามฝึกคิด:</strong> เพราะ SingleProc ใช้เวลานานกว่า Source ผลิต (8s &gt; 6s) จะเกิดอะไรขึ้นกับ Buffer เมื่อรันไปนานๆ?</p>
+        <div class="tip"><strong>เฉลย:</strong> Buffer จะเต็มเรื่อยๆ เพราะ SingleProc ระบายชิ้นงานออกช้ากว่าที่ Source ป้อนเข้ามา สุดท้าย Source จะถูก Block — นี่คือตัวอย่างคอขวด (Bottleneck) แบบง่ายที่สุด</div>
+
+        <h2>ตัวอย่างที่ 2: สายการผลิตคู่ขนาน (Parallel Stations)</h2>
+        <p>เกี่ยวข้องกับ <a href="intermediate/01.html">Intermediate บทที่ 1</a> และ <a href="advanced/02.html">Advanced บทที่ 2</a></p>
+        <p><strong>โครงสร้าง:</strong> <code>Source → (SingleProc1 / SingleProc2) → Drain</code> โดยใช้ Object ประเภท Diverter แยกชิ้นงานไปสองเส้นทาง</p>
+        <p>Method ผูกกับ Diverter เพื่อเลือกเส้นทางแบบสลับกัน (round robin) — เขียนด้วย SimTalk 2.0 syntax ที่ยืนยันแล้ว:</p>
+        <pre><code>->void;
+var target
+if Diverter.NumMUsProcessed mod 2 = 0
+    target := SingleProc1
+else
+    target := SingleProc2
+end
+@.MU := target</code></pre>
+
+        <h2>ตัวอย่างที่ 3: เก็บสถิติ Throughput ด้วย Method</h2>
+        <p>เกี่ยวข้องกับ <a href="advanced/02.html">Advanced บทที่ 2</a> และ <a href="advanced/03.html">บทที่ 3</a></p>
+        <p>ผูก Method นี้ไว้ที่ <code>Drain.ExecuteAt.Entrance</code> เพื่อนับจำนวนชิ้นงานที่ผลิตสำเร็จต่อชั่วโมง
+        (ต้องสร้างตัวแปร <code>GlobalCounter</code> เป็น Object ประเภท <strong>Variable</strong> ผ่าน <code>.Node("Variable")</code> ไว้ก่อนใช้งาน — ดู Advanced บทที่ 3)</p>
+        <pre><code>->void;
+GlobalCounter := GlobalCounter + 1
+if EventController.SimTime > 0
+    print "Throughput: " + to_str(GlobalCounter / (EventController.SimTime / 3600)) + " pcs/hour"
+end</code></pre>
+
+        <div class="page-nav">
+          <a href="advanced/07.html">← ก่อนหน้า: Advanced บทที่ 7</a>
+          <a href="index.html">กลับหน้าแรก</a>
+        </div>
+      </main>
+
+      <footer class="site-footer">
+        Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม
+      </footer>
     </div>
-</header>
+  </div>
 
-<main>
-    <h1>Example File: ตัวอย่างโมเดลจริง</h1>
-    <p class="lead">ฝึกทำตามตัวอย่างเหล่านี้เพื่อความเข้าใจที่ลึกขึ้น ไฟล์ <code>.spp</code> จริงสามารถอัปโหลดเพิ่มในโฟลเดอร์ <code>/examples</code> ของ repo นี้ได้</p>
-
-    <div class="note">
-        <strong>วิธีเพิ่มไฟล์ตัวอย่างจริง:</strong> สร้างโฟลเดอร์ <code>examples/</code> แล้ววางไฟล์ <code>.spp</code> ของคุณลงไป
-        จากนั้นใส่ลิงก์ดาวน์โหลดในหน้านี้ เช่น <code>&lt;a href="examples/line-01.spp"&gt;ดาวน์โหลด&lt;/a&gt;</code>
+  <div id="sidebar">
+    <div class="inner">
+      <nav id="menu">
+        <header class="major"><h2>เมนู</h2></header>
+        <ul>
+          <li><a href="index.html">หน้าแรก</a></li>
+          <li class="has-children">
+            <a href="basic/index.html">Basic — พื้นฐาน</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู basic">▾</button>
+            <ul class="submenu">
+              <li><a href="basic/01.html">1. Plant Simulation คืออะไร</a></li>
+              <li><a href="basic/02.html">2. หน้าตาโปรแกรม</a></li>
+              <li><a href="basic/03.html">3. Object พื้นฐาน 6 ตัว</a></li>
+              <li><a href="basic/04.html">4. สร้างโมเดลแรก</a></li>
+              <li><a href="basic/05.html">5. รันและอ่านผล Statistics</a></li>
+              <li><a href="basic/06.html">6. บันทึกและเปิดไฟล์โมเดล</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="intermediate/index.html">Intermediate — ขั้นกลาง</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู intermediate">▾</button>
+            <ul class="submenu">
+              <li><a href="intermediate/01.html">1. Object ขั้นกลาง</a></li>
+              <li><a href="intermediate/02.html">2. MU และ MU Class</a></li>
+              <li><a href="intermediate/03.html">3. ค่าที่ไม่คงที่ (Distribution)</a></li>
+              <li><a href="intermediate/04.html">4. ความเสียหายของเครื่องจักร</a></li>
+              <li><a href="intermediate/05.html">5. Chart และ Bottleneck Analyzer</a></li>
+              <li><a href="intermediate/06.html">6. จัดกลุ่มโมเดลเป็น Sub-frame</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="advanced/index.html">Advanced — ขั้นสูง</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู advanced">▾</button>
+            <ul class="submenu">
+              <li><a href="advanced/01.html">1. SimTalk 2.0 พื้นฐาน</a></li>
+              <li><a href="advanced/02.html">2. Method ผูกกับ Event</a></li>
+              <li><a href="advanced/03.html">3. DataTable และ Variable</a></li>
+              <li><a href="advanced/04.html">4. สร้าง Object ด้วยโค้ด</a></li>
+              <li><a href="advanced/05.html">5. Experiment Manager</a></li>
+              <li><a href="advanced/06.html">6. Optimization ด้วย GAWizard</a></li>
+              <li><a href="advanced/07.html">7. ควบคุมจากภายนอกผ่าน COM/Python</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="object-reference/index.html">Object Reference — สาธิต Object</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู object-reference">▾</button>
+            <ul class="submenu">
+              <li><a href="object-reference/01.html">1. Material Flow Objects</a></li>
+              <li><a href="object-reference/02.html">2. Information Flow Objects</a></li>
+              <li><a href="object-reference/03.html">3. Resources &amp; Tools</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="case-study/index.html">Case Study — ตัวอย่างอุตสาหกรรม</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู case-study">▾</button>
+            <ul class="submenu">
+              <li><a href="case-study/01.html">1. อุตสาหกรรมยานยนต์ (Automotive)</a></li>
+              <li><a href="case-study/02.html">2. คลังสินค้าและโลจิสติกส์ (Warehouse &amp; Logistics)</a></li>
+              <li><a href="case-study/03.html">3. อิเล็กทรอนิกส์ (Electronics / SMT)</a></li>
+              <li><a href="case-study/04.html">4. อาหารและเครื่องดื่ม (Food &amp; Beverage)</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="tips-tricks/index.html">Tips and Tricks — เทคนิคการทำงาน</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู tips-tricks">▾</button>
+            <ul class="submenu">
+              <li><a href="tips-tricks/01.html">1. UI และ Workflow</a></li>
+              <li><a href="tips-tricks/02.html">2. การสร้างโมเดลและดีบัก</a></li>
+              <li><a href="tips-tricks/03.html">3. ประสิทธิภาพการรัน (Performance)</a></li>
+              <li><a href="tips-tricks/04.html">4. SimTalk และ Scripting</a></li>
+            </ul>
+          </li>
+          <li class="active"><a href="examples.html">Example File</a></li>
+        </ul>
+      </nav>
+      <footer id="footer"><p class="copyright">Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม</p></footer>
     </div>
-
-    <h2>ตัวอย่างที่ 1: สายการผลิตเดี่ยว (Single Line)</h2>
-    <p><strong>โครงสร้าง:</strong> <code>Source → Buffer → SingleProc → Drain</code></p>
-    <ul>
-        <li>Source: สร้างชิ้นงานทุก 6 วินาที (Interval = 6s)</li>
-        <li>Buffer: ความจุ 10 ชิ้น</li>
-        <li>SingleProc: เวลาแปรรูป 8 วินาที/ชิ้น</li>
-    </ul>
-    <p><strong>คำถามฝึกคิด:</strong> เพราะ SingleProc ใช้เวลานานกว่า Source ผลิต (8s &gt; 6s) จะเกิดอะไรขึ้นกับ Buffer เมื่อรันไปนานๆ?</p>
-    <div class="tip"><strong>เฉลย:</strong> Buffer จะเต็มเรื่อยๆ เพราะ SingleProc ระบายชิ้นงานออกช้ากว่าที่ Source ป้อนเข้ามา สุดท้าย Source จะถูก Block — นี่คือตัวอย่างคอขวด (Bottleneck) แบบง่ายที่สุด</div>
-
-    <h2>ตัวอย่างที่ 2: สายการผลิตคู่ขนาน (Parallel Stations)</h2>
-    <p><strong>โครงสร้าง:</strong> <code>Source → (SingleProc1 / SingleProc2) → Drain</code> โดยใช้ Object <strong>Assembly Buffer/Diverter</strong> ในการแยกชิ้นงานไปสองเส้นทาง</p>
-    <p>ใช้แก้ปัญหาจากตัวอย่างที่ 1 — เมื่อเพิ่มสถานีขนาน 2 ตัวที่ทำงานพร้อมกัน ความสามารถในการรองรับ (Throughput) จะเพิ่มขึ้นเกือบเท่าตัว</p>
-    <pre><code>-- Method ผูกกับ Diverter เพื่อเลือกเส้นทางแบบสลับกัน (round robin)
-is
-  var target: object;
-do
-  if Diverter.NumMUsProcessed mod 2 = 0 then
-    target := SingleProc1;
-  else
-    target := SingleProc2;
-  end;
-  @.MU:=target;
-</code></pre>
-
-    <h2>ตัวอย่างที่ 3: เก็บสถิติ Throughput ด้วย Method</h2>
-    <p>ผูก Method นี้ไว้ที่ <code>Drain.ExecuteAt.Entrance</code> เพื่อนับจำนวนชิ้นงานที่ผลิตสำเร็จต่อชั่วโมง</p>
-    <pre><code>is
-do
-  GlobalCounter := GlobalCounter + 1;
-  if EventController.SimTime > 0 then
-    print "Throughput: ", GlobalCounter / (EventController.SimTime / 3600), " pcs/hour";
-  end;
-</code></pre>
-    <p>ต้องสร้างตัวแปร <code>GlobalCounter</code> เป็น Object ประเภท <strong>Variable</strong> (ตั้งค่าเริ่มต้น = 0) ไว้ก่อนใช้งาน</p>
-
-    <div class="page-nav">
-        <a href="advanced.html">← ก่อนหน้า: Advanced</a>
-        <a href="index.html">กลับหน้าแรก</a>
-    </div>
-</main>
-
-<footer class="site-footer">
-    Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม
-</footer>
+  </div>
+  <div id="sidebar-overlay"></div>
+</div>
+<script src="assets/main.js"></script>
 </body>
 </html>

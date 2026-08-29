@@ -3,63 +3,184 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Plant Simulation Tutorial</title>
+<title>หน้าแรก — Plant Simulation Tutorial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap">
 <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-<header class="site-header">
-    <div class="header-inner">
-        <a href="index.html" class="brand">🏭 Plant Simulation Tutorial <span class="badge">TH</span></a>
-        <nav class="main-nav">
-            <a href="index.html" class="active">หน้าแรก</a>
-            <a href="basic.html">Basic</a>
-            <a href="advanced.html">Advanced</a>
-            <a href="examples.html">Example File</a>
-        </nav>
-    </div>
-</header>
+<div id="wrapper">
+  <div id="main">
+    <div class="inner">
+      <header id="header">
+        <a href="index.html" class="logo"><span>Plant Simulation Tutorial</span></a>
+        <button class="menu-toggle" aria-label="เปิดเมนู">☰</button>
+      </header>
 
-<main>
-    <section class="hero">
-        <h1>เรียนรู้ Siemens Tecnomatix Plant Simulation</h1>
-        <p>เว็บไซต์สอนการใช้งานโปรแกรมจำลองการผลิตและโลจิสติกส์ (Discrete Event Simulation) ตั้งแต่พื้นฐานจนถึงขั้นสูง พร้อมตัวอย่างไฟล์ให้ลองทำตาม</p>
-    </section>
+      <main>
+        <section id="banner">
+          <h1>เรียนรู้ Siemens Tecnomatix Plant Simulation</h1>
+          <p class="tagline">เว็บไซต์สอนการใช้งานโปรแกรมจำลองการผลิตและโลจิสติกส์ (Discrete Event Simulation) ภาษาไทย</p>
+          <p class="intro">
+            เนื้อหาแบ่งเป็น 3 ระดับ ตั้งแต่ยังไม่เคยเปิดโปรแกรมมาก่อน ไปจนถึงเขียนสคริปต์ SimTalk
+            ควบคุมโมเดลและทำ Optimization อัตโนมัติ พร้อมส่วนอ้างอิง Object, Case Study จากอุตสาหกรรมจริง
+            และ Tips and Tricks — เลือกเริ่มจากระดับที่ตรงกับพื้นฐานของคุณได้เลย
+          </p>
+        </section>
 
-    <div class="card-grid">
-        <a href="basic.html" class="card">
+        <div class="features">
+          <div class="feature">
+            <h3>🎯 เรียงตามลำดับการใช้งานจริง</h3>
+            <p>แต่ละบทต่อยอดจากบทก่อนหน้า ไม่ต้องท่องจำ ทำตามได้ทันที</p>
+          </div>
+          <div class="feature">
+            <h3>🧪 มีตัวอย่างและคำถามฝึกคิด</h3>
+            <p>ทุกบทมีตัวอย่างที่ลองทำตามได้ พร้อมคำถามท้ายบทเพื่อเช็กความเข้าใจ</p>
+          </div>
+          <div class="feature">
+            <h3>✅ Syntax ที่ยืนยันแล้วจริง</h3>
+            <p>โค้ด SimTalk ในระดับ Advanced อ้างอิงจาก syntax ที่ทดสอบรันได้จริง ไม่ใช่ตัวอย่างทั่วไป</p>
+          </div>
+        </div>
+
+        <h2>เลือกระดับที่จะเรียน</h2>
+        <div class="card-grid">
+          <a href="basic/index.html" class="card">
             <div class="icon">🧩</div>
-            <h3>Basic</h3>
-            <p>รู้จักหน้าตาโปรแกรม, Object พื้นฐาน (Source, Line, SingleProc, Drain), การสร้างโมเดลแรกและรันซิมูเลชัน</p>
-        </a>
-        <a href="advanced.html" class="card">
+            <h3>Basic — พื้นฐาน</h3>
+            <p>รู้จักหน้าตาโปรแกรม, Object พื้นฐาน, สร้างโมเดลแรกและรันซิมูเลชัน (6 บท)</p>
+          </a>
+          <a href="intermediate/index.html" class="card">
+            <div class="icon">🔧</div>
+            <h3>Intermediate — ขั้นกลาง</h3>
+            <p>MU, Distribution แบบสุ่ม, Failure, Bottleneck Analyzer และการจัดกลุ่มโมเดล (6 บท)</p>
+          </a>
+          <a href="advanced/index.html" class="card">
             <div class="icon">⚙️</div>
-            <h3>Advanced</h3>
-            <p>เขียนสคริปต์ด้วย SimTalk, ใช้ Method/Table/EventController, ตั้งค่า Experiment Manager และ Optimizer</p>
-        </a>
-        <a href="examples.html" class="card">
-            <div class="icon">📂</div>
-            <h3>Example File</h3>
-            <p>ตัวอย่างโมเดลจริงพร้อมคำอธิบายทีละขั้นตอน และโค้ด SimTalk ที่ใช้งานได้จริง</p>
-        </a>
+            <h3>Advanced — ขั้นสูง</h3>
+            <p>เขียนสคริปต์ SimTalk, สร้าง Object ด้วยโค้ด, Experiment Manager, GAWizard และ COM automation (7 บท)</p>
+          </a>
+        </div>
+
+        <h2>เนื้อหาเสริม</h2>
+        <div class="card-grid">
+          <a href="object-reference/index.html" class="card">
+            <div class="icon">📖</div>
+            <h3>Object Reference</h3>
+            <p>สาธิตการทำงานของแต่ละ Object เป็นหมวดหมู่ ใช้เปิดอ้างอิงเร็วๆ (3 หมวด)</p>
+          </a>
+          <a href="case-study/index.html" class="card">
+            <div class="icon">🏭</div>
+            <h3>Case Study</h3>
+            <p>ตัวอย่างการใช้งานจากสถานการณ์จริงใน 4 อุตสาหกรรม</p>
+          </a>
+          <a href="tips-tricks/index.html" class="card">
+            <div class="icon">💡</div>
+            <h3>Tips and Tricks</h3>
+            <p>เทคนิคเล็กๆ น้อยๆ ที่ช่วยประหยัดเวลาและลดข้อผิดพลาด (4 หมวด)</p>
+          </a>
+        </div>
+
+        <h2>Plant Simulation คืออะไร?</h2>
+        <p class="lead">
+          Plant Simulation (Tecnomatix Plant Simulation) เป็นซอฟต์แวร์จำลองสถานการณ์แบบ Discrete Event Simulation (DES)
+          ของ Siemens ใช้สำหรับจำลองกระบวนการผลิต สายการประกอบ คลังสินค้า และระบบโลจิสติกส์ ก่อนลงทุนจริง
+          ช่วยให้วิศวกรวิเคราะห์คอขวด (Bottleneck), อัตราการใช้งานเครื่องจักร (Utilization), และ Throughput ได้โดยไม่ต้องหยุดสายการผลิตจริง
+        </p>
+
+        <h2>ตัวอย่างไฟล์</h2>
+        <p>
+          มีไฟล์ตัวอย่างจริงประกอบเนื้อหาบางบทที่ <a href="examples.html">หน้า Example File</a>
+          และในโฟลเดอร์ <code>examples/</code> ของ repo นี้
+        </p>
+      </main>
+
+      <footer class="site-footer">
+        Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม
+      </footer>
     </div>
+  </div>
 
-    <h2>Plant Simulation คืออะไร?</h2>
-    <p class="lead">
-        Plant Simulation (Tecnomatix Plant Simulation) เป็นซอฟต์แวร์จำลองสถานการณ์แบบ Discrete Event Simulation (DES)
-        ของ Siemens ใช้สำหรับจำลองกระบวนการผลิต สายการประกอบ คลังสินค้า และระบบโลจิสติกส์ ก่อนลงทุนจริง
-        ช่วยให้วิศวกรวิเคราะห์คอขวด (Bottleneck), อัตราการใช้งานเครื่องจักร (Utilization), และ Throughput ได้โดยไม่ต้องหยุดสายการผลิตจริง
-    </p>
-
-    <h2>ใช้เว็บนี้ยังไง</h2>
-    <ol>
-        <li>เริ่มที่เมนู <strong>Basic</strong> ถ้ายังไม่เคยเปิดโปรแกรมมาก่อน</li>
-        <li>ไปที่ <strong>Advanced</strong> เมื่อเข้าใจ Object พื้นฐานแล้ว และอยากเขียนสคริปต์ควบคุมโมเดล</li>
-        <li>ดู <strong>Example File</strong> เพื่อฝึกทำตามโมเดลจริงทีละขั้นตอน</li>
-    </ol>
-</main>
-
-<footer class="site-footer">
-    Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม
-</footer>
+  <div id="sidebar">
+    <div class="inner">
+      <nav id="menu">
+        <header class="major"><h2>เมนู</h2></header>
+        <ul>
+          <li class="active"><a href="index.html">หน้าแรก</a></li>
+          <li class="has-children">
+            <a href="basic/index.html">Basic — พื้นฐาน</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู basic">▾</button>
+            <ul class="submenu">
+              <li><a href="basic/01.html">1. Plant Simulation คืออะไร</a></li>
+              <li><a href="basic/02.html">2. หน้าตาโปรแกรม</a></li>
+              <li><a href="basic/03.html">3. Object พื้นฐาน 6 ตัว</a></li>
+              <li><a href="basic/04.html">4. สร้างโมเดลแรก</a></li>
+              <li><a href="basic/05.html">5. รันและอ่านผล Statistics</a></li>
+              <li><a href="basic/06.html">6. บันทึกและเปิดไฟล์โมเดล</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="intermediate/index.html">Intermediate — ขั้นกลาง</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู intermediate">▾</button>
+            <ul class="submenu">
+              <li><a href="intermediate/01.html">1. Object ขั้นกลาง</a></li>
+              <li><a href="intermediate/02.html">2. MU และ MU Class</a></li>
+              <li><a href="intermediate/03.html">3. ค่าที่ไม่คงที่ (Distribution)</a></li>
+              <li><a href="intermediate/04.html">4. ความเสียหายของเครื่องจักร</a></li>
+              <li><a href="intermediate/05.html">5. Chart และ Bottleneck Analyzer</a></li>
+              <li><a href="intermediate/06.html">6. จัดกลุ่มโมเดลเป็น Sub-frame</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="advanced/index.html">Advanced — ขั้นสูง</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู advanced">▾</button>
+            <ul class="submenu">
+              <li><a href="advanced/01.html">1. SimTalk 2.0 พื้นฐาน</a></li>
+              <li><a href="advanced/02.html">2. Method ผูกกับ Event</a></li>
+              <li><a href="advanced/03.html">3. DataTable และ Variable</a></li>
+              <li><a href="advanced/04.html">4. สร้าง Object ด้วยโค้ด</a></li>
+              <li><a href="advanced/05.html">5. Experiment Manager</a></li>
+              <li><a href="advanced/06.html">6. Optimization ด้วย GAWizard</a></li>
+              <li><a href="advanced/07.html">7. ควบคุมจากภายนอกผ่าน COM/Python</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="object-reference/index.html">Object Reference — สาธิต Object</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู object-reference">▾</button>
+            <ul class="submenu">
+              <li><a href="object-reference/01.html">1. Material Flow Objects</a></li>
+              <li><a href="object-reference/02.html">2. Information Flow Objects</a></li>
+              <li><a href="object-reference/03.html">3. Resources &amp; Tools</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="case-study/index.html">Case Study — ตัวอย่างอุตสาหกรรม</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู case-study">▾</button>
+            <ul class="submenu">
+              <li><a href="case-study/01.html">1. อุตสาหกรรมยานยนต์ (Automotive)</a></li>
+              <li><a href="case-study/02.html">2. คลังสินค้าและโลจิสติกส์ (Warehouse &amp; Logistics)</a></li>
+              <li><a href="case-study/03.html">3. อิเล็กทรอนิกส์ (Electronics / SMT)</a></li>
+              <li><a href="case-study/04.html">4. อาหารและเครื่องดื่ม (Food &amp; Beverage)</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="tips-tricks/index.html">Tips and Tricks — เทคนิคการทำงาน</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู tips-tricks">▾</button>
+            <ul class="submenu">
+              <li><a href="tips-tricks/01.html">1. UI และ Workflow</a></li>
+              <li><a href="tips-tricks/02.html">2. การสร้างโมเดลและดีบัก</a></li>
+              <li><a href="tips-tricks/03.html">3. ประสิทธิภาพการรัน (Performance)</a></li>
+              <li><a href="tips-tricks/04.html">4. SimTalk และ Scripting</a></li>
+            </ul>
+          </li>
+          <li><a href="examples.html">Example File</a></li>
+        </ul>
+      </nav>
+      <footer id="footer"><p class="copyright">Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม</p></footer>
+    </div>
+  </div>
+  <div id="sidebar-overlay"></div>
+</div>
+<script src="assets/main.js"></script>
 </body>
 </html>

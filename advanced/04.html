@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4. สร้าง Object ด้วยโค้ด — Plant Simulation Tutorial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div id="wrapper">
+  <div id="main">
+    <div class="inner">
+      <header id="header">
+        <a href="../index.html" class="logo"><span>Plant Simulation Tutorial</span></a>
+        <button class="menu-toggle" aria-label="เปิดเมนู">☰</button>
+      </header>
+
+      <main>
+        <h1>4. สร้าง Object ด้วยโค้ด</h1>
+
+        <div class="objectives">
+          <p>วัตถุประสงค์การเรียนรู้</p>
+          <ol>
+          <li>สร้าง Frame และ Object ด้วย createObject จากโค้ดล้วนๆ ได้</li>
+          <li>เชื่อมต่อ Object ด้วย Connector.connect และทำให้ Transporter ขับเคลื่อนเองได้</li>
+          </ol>
+        </div>
+
+<h2>สร้าง Object ด้วยโค้ด: createObject</h2>
+<p>การสร้าง Object เป็นการเรียก method บน <strong>class template เอง</strong> ไม่ใช่ global function:</p>
+<pre><code>var f := .MaterialFlow.Frame.createObject(.Models, 0, 0)
+f.Name := "Transporting"
+var src := .MaterialFlow.Source.createObject(f, 50, 100)
+src.Name := "Source"</code></pre>
+<table>
+<tr><th>กติกา</th><th>รายละเอียด</th></tr>
+<tr><td>container ต้องเป็น Frame หรือ Folder</td><td>อย่างอื่น error "Argument 1 is neither a Frame nor a Folder"</td></tr>
+<tr><td>x, y เป็นตำแหน่งบังคับ</td><td>ไม่มี overload แบบไม่ระบุตำแหน่ง</td></tr>
+<tr><td>Object ใหม่ได้ชื่ออัตโนมัติ</td><td>ควรตั้งชื่อเองทันทีผ่าน <code>obj.Name := "..."</code></td></tr>
+</table>
+
+<h2>เชื่อมต่อ Object: Connector.connect</h2>
+<pre><code>.MaterialFlow.Connector.connect(src, trk)
+.MaterialFlow.Connector.connect(trk, drn)</code></pre>
+<p>สร้าง Connector จริงเหมือนลากด้วยมือ ตรวจสอบได้ด้วย <code>obj.succ(1)</code> ซึ่งอ่านค่า Object ถัดไปที่เชื่อมอยู่</p>
+
+<h2>ทำให้ Transporter ขับเคลื่อนเอง (จุดที่มักพลาด)</h2>
+<p>Transporter ที่ Duplicate มาวางบน Track แล้ว แม้ตั้ง <code>Speed</code> ไว้ก็ยัง<strong>ไม่วิ่ง</strong>ถ้าไม่ตั้งค่าทั้งสองนี้ครบ:</p>
+<pre><code>veh.Destination := drn          // ปลายทางที่ต้องไปถึง
+veh.AutomaticRouting := true    // ให้คำนวณเส้นทางเองผ่าน Connector</code></pre>
+
+<div class="note">
+<strong>กับดักตอนเช็คผล:</strong> เช็คว่าชิ้นงานถึงปลายทางหรือยังด้วย <code>Drain.StatDeleted</code> (จำนวนสะสมที่ Drain เคยทำลายไปแล้ว)
+<strong>ไม่ใช่</strong> <code>Drain.NumMU</code> (จำนวนที่อยู่ในนั้น ณ ขณะนี้ ซึ่งเป็น 0 เสมอเพราะ Drain ทำลายชิ้นงานทันทีที่รับเข้า)
+เช็คตัวหลังผิดจะดูเหมือนโมเดลค้าง ทั้งที่จริงทำงานถูกต้องอยู่แล้ว
+</div>
+
+<div class="tip">
+<strong>คำถามฝึกคิด:</strong> รันโมเดลที่สร้างด้วยโค้ดไปไม่กี่วินาที แล้ว <code>Drain.StatDeleted</code> ยังเป็น 0 อยู่ ควรสรุปว่าโมเดลพังทันทีหรือไม่?
+</div>
+<div class="tip"><strong>เฉลย:</strong> ยังสรุปไม่ได้ — โมเดลใหม่ที่สร้างด้วย <code>app.NewModel()</code> มักรันใกล้เคียงเวลาจริง (ไม่เร็วจัดเหมือนโมเดลสำเร็จรูปบางไฟล์)
+และ ProcTime ดีฟอลต์มักอยู่ราว 10 วินาที ควรเช็ค <code>EventController.SimTime</code> ว่าเวลาจำลองเดินไปเท่าไหร่แล้ว และเช็ค <code>NumMU</code>
+ของแต่ละสถานีว่าชิ้นงานติดอยู่ตรงไหนก่อนสรุปว่าพัง</div>
+
+        <div class="page-nav">
+          <a href="03.html">← ก่อนหน้า: 3. DataTable และ Variable</a>
+          <a href="05.html">ถัดไป: 5. Experiment Manager →</a>
+        </div>
+      </main>
+
+      <footer class="site-footer">
+        Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม
+      </footer>
+    </div>
+  </div>
+
+  <div id="sidebar">
+    <div class="inner">
+      <nav id="menu">
+        <header class="major"><h2>เมนู</h2></header>
+        <ul>
+          <li><a href="../index.html">หน้าแรก</a></li>
+          <li class="has-children">
+            <a href="../basic/index.html">Basic — พื้นฐาน</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู basic">▾</button>
+            <ul class="submenu">
+              <li><a href="../basic/01.html">1. Plant Simulation คืออะไร</a></li>
+              <li><a href="../basic/02.html">2. หน้าตาโปรแกรม</a></li>
+              <li><a href="../basic/03.html">3. Object พื้นฐาน 6 ตัว</a></li>
+              <li><a href="../basic/04.html">4. สร้างโมเดลแรก</a></li>
+              <li><a href="../basic/05.html">5. รันและอ่านผล Statistics</a></li>
+              <li><a href="../basic/06.html">6. บันทึกและเปิดไฟล์โมเดล</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../intermediate/index.html">Intermediate — ขั้นกลาง</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู intermediate">▾</button>
+            <ul class="submenu">
+              <li><a href="../intermediate/01.html">1. Object ขั้นกลาง</a></li>
+              <li><a href="../intermediate/02.html">2. MU และ MU Class</a></li>
+              <li><a href="../intermediate/03.html">3. ค่าที่ไม่คงที่ (Distribution)</a></li>
+              <li><a href="../intermediate/04.html">4. ความเสียหายของเครื่องจักร</a></li>
+              <li><a href="../intermediate/05.html">5. Chart และ Bottleneck Analyzer</a></li>
+              <li><a href="../intermediate/06.html">6. จัดกลุ่มโมเดลเป็น Sub-frame</a></li>
+            </ul>
+          </li>
+          <li class="has-children expanded">
+            <a href="index.html">Advanced — ขั้นสูง</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู advanced">▾</button>
+            <ul class="submenu">
+              <li><a href="01.html">1. SimTalk 2.0 พื้นฐาน</a></li>
+              <li><a href="02.html">2. Method ผูกกับ Event</a></li>
+              <li><a href="03.html">3. DataTable และ Variable</a></li>
+              <li class="active"><a href="04.html">4. สร้าง Object ด้วยโค้ด</a></li>
+              <li><a href="05.html">5. Experiment Manager</a></li>
+              <li><a href="06.html">6. Optimization ด้วย GAWizard</a></li>
+              <li><a href="07.html">7. ควบคุมจากภายนอกผ่าน COM/Python</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../object-reference/index.html">Object Reference — สาธิต Object</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู object-reference">▾</button>
+            <ul class="submenu">
+              <li><a href="../object-reference/01.html">1. Material Flow Objects</a></li>
+              <li><a href="../object-reference/02.html">2. Information Flow Objects</a></li>
+              <li><a href="../object-reference/03.html">3. Resources &amp; Tools</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../case-study/index.html">Case Study — ตัวอย่างอุตสาหกรรม</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู case-study">▾</button>
+            <ul class="submenu">
+              <li><a href="../case-study/01.html">1. อุตสาหกรรมยานยนต์ (Automotive)</a></li>
+              <li><a href="../case-study/02.html">2. คลังสินค้าและโลจิสติกส์ (Warehouse &amp; Logistics)</a></li>
+              <li><a href="../case-study/03.html">3. อิเล็กทรอนิกส์ (Electronics / SMT)</a></li>
+              <li><a href="../case-study/04.html">4. อาหารและเครื่องดื่ม (Food &amp; Beverage)</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../tips-tricks/index.html">Tips and Tricks — เทคนิคการทำงาน</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู tips-tricks">▾</button>
+            <ul class="submenu">
+              <li><a href="../tips-tricks/01.html">1. UI และ Workflow</a></li>
+              <li><a href="../tips-tricks/02.html">2. การสร้างโมเดลและดีบัก</a></li>
+              <li><a href="../tips-tricks/03.html">3. ประสิทธิภาพการรัน (Performance)</a></li>
+              <li><a href="../tips-tricks/04.html">4. SimTalk และ Scripting</a></li>
+            </ul>
+          </li>
+          <li><a href="../examples.html">Example File</a></li>
+        </ul>
+      </nav>
+      <footer id="footer"><p class="copyright">Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม</p></footer>
+    </div>
+  </div>
+  <div id="sidebar-overlay"></div>
+</div>
+<script src="../assets/main.js"></script>
+</body>
+</html>

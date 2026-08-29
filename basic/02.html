@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2. หน้าตาโปรแกรม — Plant Simulation Tutorial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div id="wrapper">
+  <div id="main">
+    <div class="inner">
+      <header id="header">
+        <a href="../index.html" class="logo"><span>Plant Simulation Tutorial</span></a>
+        <button class="menu-toggle" aria-label="เปิดเมนู">☰</button>
+      </header>
+
+      <main>
+        <h1>2. หน้าตาโปรแกรม</h1>
+
+        <div class="objectives">
+          <p>วัตถุประสงค์การเรียนรู้</p>
+          <ol>
+          <li>จำตำแหน่งและหน้าที่ของส่วนประกอบหลักในโปรแกรมได้</li>
+          <li>เปิดโปรแกรม สร้างไฟล์โมเดลใหม่ และรู้จัก Frame ได้ด้วยตัวเอง</li>
+          </ol>
+        </div>
+
+<h2>วิดีโอสาธิต: เปิดโปรแกรมและหน้า Start Page</h2>
+<p>วิดีโอนี้สาธิตการเปิดโปรแกรม Plant Simulation ครั้งแรก ไปจนถึงหน้า <strong>Start Page</strong> ที่รวมทางลัดสำคัญ
+(Load Last Model, Recent Models, Example Models) — ดูก่อนแล้วค่อยอ่านรายละเอียดแต่ละส่วนด้านล่าง</p>
+<div class="video-embed">
+  <iframe src="https://www.youtube-nocookie.com/embed/l-p1UY2W5CY" title="1. Getting Started - Plant Simulation"
+          loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+</div>
+
+<h2>ส่วนประกอบหลักของโปรแกรม</h2>
+<table>
+<tr><th>ส่วนประกอบ</th><th>หน้าที่</th></tr>
+<tr><td><strong>Class Library</strong></td><td>คลัง Object ทั้งหมดที่ใช้สร้างโมเดล แบ่งเป็นหมวด เช่น MaterialFlow, InformationFlow, Resources, MUs</td></tr>
+<tr><td><strong>Frame</strong></td><td>พื้นที่วาดโมเดล (เหมือน Canvas) ลาก Object มาวางและเชื่อมต่อกันที่นี่ — โมเดลหนึ่งไฟล์มีได้หลาย Frame ซ้อนกัน</td></tr>
+<tr><td><strong>Toolbar</strong></td><td>ปุ่มควบคุมการรันซิมูเลชัน (Start, Reset, Speed)</td></tr>
+<tr><td><strong>Console</strong></td><td>แสดงข้อความ error/log ระหว่างรันหรือเขียนโค้ด SimTalk</td></tr>
+<tr><td><strong>Navigator / Class Library Explorer</strong></td><td>แผงต้นไม้ทางซ้าย ไล่ดูโครงสร้างโมเดลทั้งหมดและ Class Library</td></tr>
+<tr><td><strong>Attribute window</strong></td><td>เปิดจากดับเบิลคลิก Object — ตั้งค่าคุณสมบัติเฉพาะของ Object นั้น เช่น Interval, ProcTime</td></tr>
+</table>
+
+<h2>เปิดโปรแกรมครั้งแรก</h2>
+<ol class="steps">
+<li>เปิด Plant Simulation จะมีไฟล์โมเดลว่างเปล่าพร้อม Frame ชื่อ <code>Model</code> ให้อัตโนมัติ</li>
+<li>ทางซ้ายจะเห็น Class Library — ลองเปิดหมวด <code>MaterialFlow</code> ดู Object ต่างๆ ที่มีให้ใช้</li>
+<li>ลองลาก Object ใดก็ได้มาวางบน Frame เพื่อดูว่าการวางทำงานอย่างไร (ลบออกด้วยปุ่ม Delete ได้ ไม่มีผลเสีย)</li>
+<li>บันทึกไฟล์ครั้งแรกด้วย <code>Ctrl+S</code> เพื่อฝึกความเคยชิน (ดูรายละเอียดเพิ่มในบทที่ 6)</li>
+</ol>
+
+<div class="tip">
+<strong>Tip:</strong> ถ้าหน้าต่างเพี้ยนหรือ panel หายไป ไปที่เมนู <code>View → Reset Window Layout</code>
+(หรือใกล้เคียง แล้วแต่เวอร์ชัน) เพื่อคืนค่าเลย์เอาต์เริ่มต้น
+</div>
+
+<div class="note">
+<strong>คำถามฝึกคิด:</strong> ถ้าอยากรู้ว่า Object ตัวหนึ่งมีคุณสมบัติ (Attribute) อะไรให้ตั้งค่าได้บ้าง ควรทำอย่างไร?
+</div>
+<div class="tip"><strong>เฉลย:</strong> ดับเบิลคลิกที่ Object นั้นเพื่อเปิด Attribute window — จะเห็นทุกแท็บการตั้งค่าของ Object นั้นโดยเฉพาะ</div>
+
+        <div class="page-nav">
+          <a href="01.html">← ก่อนหน้า: 1. Plant Simulation คืออะไร</a>
+          <a href="03.html">ถัดไป: 3. Object พื้นฐาน 6 ตัว →</a>
+        </div>
+      </main>
+
+      <footer class="site-footer">
+        Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม
+      </footer>
+    </div>
+  </div>
+
+  <div id="sidebar">
+    <div class="inner">
+      <nav id="menu">
+        <header class="major"><h2>เมนู</h2></header>
+        <ul>
+          <li><a href="../index.html">หน้าแรก</a></li>
+          <li class="has-children expanded">
+            <a href="index.html">Basic — พื้นฐาน</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู basic">▾</button>
+            <ul class="submenu">
+              <li><a href="01.html">1. Plant Simulation คืออะไร</a></li>
+              <li class="active"><a href="02.html">2. หน้าตาโปรแกรม</a></li>
+              <li><a href="03.html">3. Object พื้นฐาน 6 ตัว</a></li>
+              <li><a href="04.html">4. สร้างโมเดลแรก</a></li>
+              <li><a href="05.html">5. รันและอ่านผล Statistics</a></li>
+              <li><a href="06.html">6. บันทึกและเปิดไฟล์โมเดล</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../intermediate/index.html">Intermediate — ขั้นกลาง</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู intermediate">▾</button>
+            <ul class="submenu">
+              <li><a href="../intermediate/01.html">1. Object ขั้นกลาง</a></li>
+              <li><a href="../intermediate/02.html">2. MU และ MU Class</a></li>
+              <li><a href="../intermediate/03.html">3. ค่าที่ไม่คงที่ (Distribution)</a></li>
+              <li><a href="../intermediate/04.html">4. ความเสียหายของเครื่องจักร</a></li>
+              <li><a href="../intermediate/05.html">5. Chart และ Bottleneck Analyzer</a></li>
+              <li><a href="../intermediate/06.html">6. จัดกลุ่มโมเดลเป็น Sub-frame</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../advanced/index.html">Advanced — ขั้นสูง</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู advanced">▾</button>
+            <ul class="submenu">
+              <li><a href="../advanced/01.html">1. SimTalk 2.0 พื้นฐาน</a></li>
+              <li><a href="../advanced/02.html">2. Method ผูกกับ Event</a></li>
+              <li><a href="../advanced/03.html">3. DataTable และ Variable</a></li>
+              <li><a href="../advanced/04.html">4. สร้าง Object ด้วยโค้ด</a></li>
+              <li><a href="../advanced/05.html">5. Experiment Manager</a></li>
+              <li><a href="../advanced/06.html">6. Optimization ด้วย GAWizard</a></li>
+              <li><a href="../advanced/07.html">7. ควบคุมจากภายนอกผ่าน COM/Python</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../object-reference/index.html">Object Reference — สาธิต Object</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู object-reference">▾</button>
+            <ul class="submenu">
+              <li><a href="../object-reference/01.html">1. Material Flow Objects</a></li>
+              <li><a href="../object-reference/02.html">2. Information Flow Objects</a></li>
+              <li><a href="../object-reference/03.html">3. Resources &amp; Tools</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../case-study/index.html">Case Study — ตัวอย่างอุตสาหกรรม</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู case-study">▾</button>
+            <ul class="submenu">
+              <li><a href="../case-study/01.html">1. อุตสาหกรรมยานยนต์ (Automotive)</a></li>
+              <li><a href="../case-study/02.html">2. คลังสินค้าและโลจิสติกส์ (Warehouse &amp; Logistics)</a></li>
+              <li><a href="../case-study/03.html">3. อิเล็กทรอนิกส์ (Electronics / SMT)</a></li>
+              <li><a href="../case-study/04.html">4. อาหารและเครื่องดื่ม (Food &amp; Beverage)</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../tips-tricks/index.html">Tips and Tricks — เทคนิคการทำงาน</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู tips-tricks">▾</button>
+            <ul class="submenu">
+              <li><a href="../tips-tricks/01.html">1. UI และ Workflow</a></li>
+              <li><a href="../tips-tricks/02.html">2. การสร้างโมเดลและดีบัก</a></li>
+              <li><a href="../tips-tricks/03.html">3. ประสิทธิภาพการรัน (Performance)</a></li>
+              <li><a href="../tips-tricks/04.html">4. SimTalk และ Scripting</a></li>
+            </ul>
+          </li>
+          <li><a href="../examples.html">Example File</a></li>
+        </ul>
+      </nav>
+      <footer id="footer"><p class="copyright">Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม</p></footer>
+    </div>
+  </div>
+  <div id="sidebar-overlay"></div>
+</div>
+<script src="../assets/main.js"></script>
+</body>
+</html>
