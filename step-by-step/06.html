@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>6. SimTalk และภาพเคลื่อนไหว — Plant Simulation Tutorial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div id="wrapper">
+  <div id="main">
+    <div class="inner">
+      <header id="header">
+        <a href="../index.html" class="logo"><span>Plant Simulation Tutorial</span></a>
+        <button class="menu-toggle" aria-label="เปิดเมนู">☰</button>
+      </header>
+
+      <main>
+        <h1>6. SimTalk และภาพเคลื่อนไหว</h1>
+
+        <div class="objectives">
+          <p>วัตถุประสงค์การเรียนรู้</p>
+          <ol>
+          <li>ผูก Method เข้ากับ Button/DropDownList เพื่อสร้างแผงควบคุมได้</li>
+          <li>เข้าใจการใช้ Method สั่งภาพเคลื่อนไหว 3 มิติ ไม่ใช่แค่คำนวณตัวเลข</li>
+          </ol>
+        </div>
+
+<p class="lead" style="max-width:46em;">อ้างอิงเฟรม <code>Model_Method</code> และ <code>Model_3D_Animation</code> — ควบคุมโมเดลด้วยโค้ด ผูก UI เข้ากับ
+Method และสั่งภาพเคลื่อนไหว ดู syntax เต็มๆ ที่ <a href="../advanced/01.html">Advanced บทที่ 1</a></p>
+
+<h2>ผูก Method เข้ากับ UI — Button และ DropDownList</h2>
+<table>
+<tr><th>Object</th><th>ใช้ทำอะไร</th></tr>
+<tr><td><strong>Button</strong></td><td>เรียก Method หนึ่งตัวเมื่อถูกคลิก — ผูกที่ Attribute <code>Method</code> ของปุ่ม</td></tr>
+<tr><td><strong>DropDownList</strong></td><td>ให้ผู้ใช้เลือกค่าจากรายการ แล้วส่งค่าที่เลือกเข้า Method ผ่านตัวแปรที่ผูกไว้</td></tr>
+</table>
+<ol class="steps">
+<li>ลาก Button จากหมวด UserInterface มาวางบน Frame</li>
+<li>เปิด Attribute ของ Button → ช่อง Method → เลือก Method ที่สร้างไว้</li>
+<li>เขียนโค้ดใน Method ตามพฤติกรรมที่ต้องการ เช่น เปลี่ยนอัตราการผลิตของ Source</li>
+<li>ทำแบบเดียวกันกับ DropDownList โดยผูกค่าที่เลือกเข้าตัวแปร แล้วให้ Method อ่านค่านั้นไปใช้ต่อ</li>
+</ol>
+<div class="tip"><strong>Tip:</strong> ปุ่มสองปุ่มในเฟรมนี้มักใช้สาธิตคู่ Start/Stop หรือ Slow/Fast — แยก Method คนละตัวชัดเจน
+ดีกว่ารวมไว้ใน Method เดียวแล้วเช็คเงื่อนไข เพราะดีบักง่ายกว่าเมื่อโมเดลใหญ่ขึ้น</div>
+
+<h2>Model_3D_Animation — สั่งภาพเคลื่อนไหวด้วย Method</h2>
+<p>เฟรมนี้มี Method เพียงตัวเดียวแต่ผูกกับสายการผลิตที่มีทั้ง Station และ PickAndPlace — สาธิตว่า Method ไม่ได้ใช้แค่คำนวณ
+ค่าตัวเลข แต่ยังสั่งเปลี่ยนรูปลักษณ์/การหมุน/สีของ MU ในมุมมอง 3D ได้โดยตรงผ่าน Attribute ของ MU เอง ทำให้แอนิเมชันสื่อความ
+หมายมากกว่าดูแค่ Object เคลื่อนที่เฉยๆ</p>
+<div class="note"><strong>ทำไมสำคัญ:</strong> เมื่อพรีเซนต์โมเดลให้ผู้บริหารหรือลูกค้าดู ภาพเคลื่อนไหวที่สื่อความหมาย
+(เช่น ชิ้นงานเปลี่ยนสีตอนผ่าน QC) ช่วยให้เข้าใจ Logic ได้เร็วกว่าตัวเลขสถิติล้วนๆ มาก</div>
+
+<div class="tip"><strong>คำถามฝึกคิด:</strong> ควรผูก Method ไว้ที่ ExecuteAt.Entrance หรือ ExecuteAt.Exit ถ้าต้องการนับจำนวน
+ชิ้นงานที่ "ผ่านสำเร็จ" ออกจากสถานี?<br><br><strong>เฉลย:</strong> ExecuteAt.Exit — เพราะชิ้นงานที่เข้า (Entrance) อาจยัง
+ประมวลผลไม่เสร็จหรือถูกดีดออกเพราะ Error ได้ การนับที่จุดออกจริงเท่านั้นที่ยืนยันว่าสถานีทำงานสำเร็จกับชิ้นงานนั้นแล้ว</div>
+
+        <div class="page-nav">
+          <a href="05.html">← ก่อนหน้า: 5. หุ่นยนต์และการขนย้าย</a>
+          <a href="07.html">ถัดไป: 7. โมเดล 3 มิติ →</a>
+        </div>
+      </main>
+
+      <footer class="site-footer">
+        Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม
+      </footer>
+    </div>
+  </div>
+
+  <div id="sidebar">
+    <div class="inner">
+      <nav id="menu">
+        <header class="major"><h2>เมนู</h2></header>
+        <ul>
+          <li><a href="../index.html">หน้าแรก</a></li>
+          <li class="has-children">
+            <a href="../basic/index.html">Basic — พื้นฐาน</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู basic">▾</button>
+            <ul class="submenu">
+              <li><a href="../basic/01.html">1. Plant Simulation คืออะไร</a></li>
+              <li><a href="../basic/02.html">2. เริ่มต้นใช้งาน Plant Simulation และ Basic User Interface</a></li>
+              <li><a href="../basic/03.html">3. Object พื้นฐาน 6 ตัว</a></li>
+              <li><a href="../basic/04.html">4. สร้างโมเดลแรก</a></li>
+              <li><a href="../basic/05.html">5. รันและอ่านผล Statistics</a></li>
+              <li><a href="../basic/06.html">6. บันทึกและเปิดไฟล์โมเดล</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../intermediate/index.html">Intermediate — ขั้นกลาง</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู intermediate">▾</button>
+            <ul class="submenu">
+              <li><a href="../intermediate/01.html">1. Object ขั้นกลาง</a></li>
+              <li><a href="../intermediate/02.html">2. MU และ MU Class</a></li>
+              <li><a href="../intermediate/03.html">3. ค่าที่ไม่คงที่ (Distribution)</a></li>
+              <li><a href="../intermediate/04.html">4. ความเสียหายของเครื่องจักร</a></li>
+              <li><a href="../intermediate/05.html">5. Chart และ Bottleneck Analyzer</a></li>
+              <li><a href="../intermediate/06.html">6. จัดกลุ่มโมเดลเป็น Sub-frame</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../advanced/index.html">Advanced — ขั้นสูง</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู advanced">▾</button>
+            <ul class="submenu">
+              <li><a href="../advanced/01.html">1. SimTalk 2.0 พื้นฐาน</a></li>
+              <li><a href="../advanced/02.html">2. Method ผูกกับ Event</a></li>
+              <li><a href="../advanced/03.html">3. DataTable และ Variable</a></li>
+              <li><a href="../advanced/04.html">4. สร้าง Object ด้วยโค้ด</a></li>
+              <li><a href="../advanced/05.html">5. Experiment Manager</a></li>
+              <li><a href="../advanced/06.html">6. Optimization ด้วย GAWizard</a></li>
+              <li><a href="../advanced/07.html">7. ควบคุมจากภายนอกผ่าน COM/Python</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../object-reference/index.html">Object Reference — สาธิต Object</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู object-reference">▾</button>
+            <ul class="submenu">
+              <li><a href="../object-reference/01.html">1. Material Flow Objects</a></li>
+              <li><a href="../object-reference/02.html">2. Information Flow Objects</a></li>
+              <li><a href="../object-reference/03.html">3. Resources &amp; Tools</a></li>
+            </ul>
+          </li>
+          <li class="has-children expanded">
+            <a href="index.html">Step-by-Step File — ไฟล์สอนของ Siemens</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู step-by-step">▾</button>
+            <ul class="submenu">
+              <li><a href="01.html">1. พื้นฐานสายการผลิต</a></li>
+              <li><a href="02.html">2. สถิติและการวิเคราะห์</a></li>
+              <li><a href="03.html">3. การประกอบและการคัดแยก</a></li>
+              <li><a href="04.html">4. แรงงานและทรัพยากรบุคคล</a></li>
+              <li><a href="05.html">5. หุ่นยนต์และการขนย้าย</a></li>
+              <li class="active"><a href="06.html">6. SimTalk และภาพเคลื่อนไหว</a></li>
+              <li><a href="07.html">7. โมเดล 3 มิติ</a></li>
+              <li><a href="08.html">8. Optimization ด้วย GAWizard</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../case-study/index.html">Case Study — ตัวอย่างอุตสาหกรรม</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู case-study">▾</button>
+            <ul class="submenu">
+              <li><a href="../case-study/01.html">1. อุตสาหกรรมยานยนต์ (Automotive)</a></li>
+              <li><a href="../case-study/02.html">2. คลังสินค้าและโลจิสติกส์ (Warehouse &amp; Logistics)</a></li>
+              <li><a href="../case-study/03.html">3. อิเล็กทรอนิกส์ (Electronics / SMT)</a></li>
+              <li><a href="../case-study/04.html">4. อาหารและเครื่องดื่ม (Food &amp; Beverage)</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../tips-tricks/index.html">Tips and Tricks — เทคนิคการทำงาน</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู tips-tricks">▾</button>
+            <ul class="submenu">
+              <li><a href="../tips-tricks/01.html">1. UI และ Workflow</a></li>
+              <li><a href="../tips-tricks/02.html">2. การสร้างโมเดลและดีบัก</a></li>
+              <li><a href="../tips-tricks/03.html">3. ประสิทธิภาพการรัน (Performance)</a></li>
+              <li><a href="../tips-tricks/04.html">4. SimTalk และ Scripting</a></li>
+            </ul>
+          </li>
+          <li><a href="../examples.html">Example File</a></li>
+        </ul>
+      </nav>
+      <footer id="footer"><p class="copyright">Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม</p></footer>
+    </div>
+  </div>
+  <div id="sidebar-overlay"></div>
+</div>
+<script src="../assets/main.js"></script>
+</body>
+</html>

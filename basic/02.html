@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>2. หน้าตาโปรแกรม — Plant Simulation Tutorial</title>
+<title>2. เริ่มต้นใช้งาน Plant Simulation และ Basic User Interface — Plant Simulation Tutorial</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap">
 <link rel="stylesheet" href="../assets/style.css">
@@ -18,13 +18,15 @@
       </header>
 
       <main>
-        <h1>2. หน้าตาโปรแกรม</h1>
+        <h1>2. เริ่มต้นใช้งาน Plant Simulation และ Basic User Interface</h1>
 
         <div class="objectives">
           <p>วัตถุประสงค์การเรียนรู้</p>
           <ol>
           <li>จำตำแหน่งและหน้าที่ของส่วนประกอบหลักในโปรแกรมได้</li>
-          <li>เปิดโปรแกรม สร้างไฟล์โมเดลใหม่ และรู้จัก Frame ได้ด้วยตัวเอง</li>
+          <li>เปิดตัวอย่างโมเดล Factory 51 จาก Start Page ได้ด้วยตัวเอง</li>
+          <li>ควบคุมมุมมอง 3 มิติด้วยเมาส์/คีย์บอร์ด และโต้ตอบกับ Object ด้วย Click/Double-click/Right-click ได้</li>
+          <li>เข้าใจแนวคิด Event-Controlled Simulation และควบคุมการรันผ่าน EventController ได้</li>
           </ol>
         </div>
 
@@ -48,17 +50,108 @@
 <tr><td><strong>Attribute window</strong></td><td>เปิดจากดับเบิลคลิก Object — ตั้งค่าคุณสมบัติเฉพาะของ Object นั้น เช่น Interval, ProcTime</td></tr>
 </table>
 
-<h2>เปิดโปรแกรมครั้งแรก</h2>
+<h2>เปิดตัวอย่างโมเดล Factory 51</h2>
+<p>วิธีที่เร็วที่สุดในการทำความคุ้นเคยกับหน้าตาโปรแกรมคือเปิดโมเดลตัวอย่างที่ติดมากับโปรแกรมดูก่อน — <strong>Factory 51</strong>
+คือโมเดลสาธิตที่ Siemens แนบมาให้ทุกเครื่องที่ติดตั้ง Plant Simulation ใช้แสดงภาพ 3D ของโรงงานแบบครบวงจร</p>
 <ol class="steps">
-<li>เปิด Plant Simulation จะมีไฟล์โมเดลว่างเปล่าพร้อม Frame ชื่อ <code>Model</code> ให้อัตโนมัติ</li>
-<li>ทางซ้ายจะเห็น Class Library — ลองเปิดหมวด <code>MaterialFlow</code> ดู Object ต่างๆ ที่มีให้ใช้</li>
-<li>ลองลาก Object ใดก็ได้มาวางบน Frame เพื่อดูว่าการวางทำงานอย่างไร (ลบออกด้วยปุ่ม Delete ได้ ไม่มีผลเสีย)</li>
-<li>บันทึกไฟล์ครั้งแรกด้วย <code>Ctrl+S</code> เพื่อฝึกความเคยชิน (ดูรายละเอียดเพิ่มในบทที่ 6)</li>
+<li>เปิดโปรแกรม Plant Simulation</li>
+<li>ไปที่เมนู <code>Window → Start Page</code></li>
+<li>ในหน้า Start Page ไปที่คอลัมน์ <code>Getting Started</code> คลิก <code>Example Models</code></li>
+<li>ในรายการที่เปิดขึ้นมา คลิกเลือก <code>Factory 51</code></li>
+<li>ถ้าเครื่องใช้ Student License จะมีหน้าต่างแจ้งเตือนว่าโมเดลนี้เกิน 80 Objects (เกินสิทธิ์ Student License) ให้คลิก
+<code>Yes</code> เพื่อเปิดแบบ Viewer License แทน</li>
 </ol>
+
+<figure class="screenshot">
+  <img src="../assets/images/basic/02-01.jpg" alt="ขั้นตอนเปิดโมเดลตัวอย่าง Factory 51 จาก Start Page" loading="lazy">
+  <figcaption>Start Page → Getting Started → Example Models → Factory 51 → ยืนยัน Viewer License</figcaption>
+</figure>
+
+<div class="note">
+<strong>ทดสอบจริงแล้วพบว่า:</strong> โมเดล Factory 51 มี Object เกิน 80 ตัวจริงตามที่โปรแกรมแจ้ง — เมื่อลองเชื่อมต่อผ่าน COM/สคริปต์ภายนอก
+(แทนการเปิดผ่านหน้าจอโปรแกรมตรงๆ) จะเจอ error <code>"Remote access is not allowed with this license"</code> ทันที นี่คือข้อจำกัดจริงของ
+Viewer/Student License ที่ควรรู้ไว้ — โมเดลขนาดนี้ต้องเปิดผ่าน GUI เท่านั้น จะควบคุมจากภายนอกแบบที่สอนในบท Advanced ไม่ได้จนกว่าจะมี License เต็ม
+</div>
+
+<h2>ภาพรวมโมเดล Factory 51</h2>
+<p>เมื่อเปิดขึ้นมาแล้ว จะเห็นภาพ 3D ของโรงงานจำลองที่มีครบทุกโซนตั้งแต่รับวัตถุดิบจนถึงส่งสินค้าออก — เป็นตัวอย่างที่ดีของสิ่งที่พูดถึงในบทที่แล้ว
+เรื่อง "พฤติกรรมของทั้งระบบ" ที่มองเห็นได้ด้วย 3D Visualization/3D Animation</p>
+
+<figure class="screenshot">
+  <img src="../assets/images/basic/02-02.jpg" alt="ภาพรวมโซนต่างๆ ในโมเดล Factory 51" loading="lazy">
+</figure>
+
+<table>
+<tr><th>โซน</th><th>ประกอบด้วย</th></tr>
+<tr><td><strong>Inbound</strong></td><td>Truck, Forklift, Robot, Crane — รับวัตถุดิบเข้าสู่โรงงาน</td></tr>
+<tr><td><strong>Production Plant (P1 &amp; P2)</strong></td><td>Polishing, Milling, Paint, Drying, Clean, QC, PostProcess, Pack — สองสายการผลิตขนาน</td></tr>
+<tr><td><strong>Robot Auto Packing</strong></td><td>AGV Load/Unload, AGV Charger — หุ่นยนต์บรรจุภัณฑ์และสถานีชาร์จ AGV</td></tr>
+<tr><td><strong>Warehouse</strong></td><td>ASRS (Automated Storage/Retrieval System), WMS — คลังสินค้าอัตโนมัติ</td></tr>
+<tr><td><strong>Outbound</strong></td><td>Conveyor, Truck — ส่งสินค้าสำเร็จรูปออกจากโรงงาน</td></tr>
+</table>
+
+<h2>ควบคุมมุมมอง 3 มิติด้วยเมาส์และคีย์บอร์ด</h2>
+<p>ก่อนเดินสำรวจโมเดล Factory 51 ควรคุ้นเคยกับการควบคุมกล้อง 3D ก่อน — ใช้ได้ทั้งเมาส์และคีย์บอร์ดร่วมกัน</p>
+<table>
+<tr><th>การควบคุม</th><th>ผลลัพธ์</th></tr>
+<tr><td>เลื่อนลูกกลิ้งเมาส์ (Scroll Wheel)</td><td>ซูมเข้า/ออก — กด <code>Shift</code> ค้างเพื่อซูมเร็ว, กด <code>Ctrl</code> ค้างเพื่อซูมช้า</td></tr>
+<tr><td>กดลูกกลิ้งเมาส์ค้าง + ลาก</td><td>หมุนมุมมอง (Rotate) รอบจุดศูนย์กลางฉากหรือรอบ Object ที่เลือก</td></tr>
+<tr><td>กด <code>Ctrl</code> + ลูกกลิ้งเมาส์ค้าง + ลาก</td><td>เลื่อนมุมมองแนวขนาน (Pan)</td></tr>
+</table>
+
+<figure class="screenshot">
+  <img src="../assets/images/basic/02-03.jpg" alt="ไอคอนเปรียบเทียบ Rotate กับ Pan" loading="lazy">
+</figure>
+
+<table>
+<tr><th>ปุ่มคีย์บอร์ด</th><th>ผลลัพธ์</th></tr>
+<tr><td><code>W</code> / <code>S</code></td><td>เดินเข้าใกล้ / เดินออกห่างจาก Object ในมุมมอง 3D</td></tr>
+<tr><td><code>Q</code> / <code>E</code></td><td>เดินไปทางซ้าย / ทางขวาของ Object</td></tr>
+<tr><td><code>A</code> / <code>D</code></td><td>หันซ้าย / หันขวา</td></tr>
+<tr><td><code>Z</code> / <code>Shift + Z</code></td><td>ลดระดับตัวเอง / ยกระดับตัวเองขึ้น</td></tr>
+</table>
+
+<h2>โต้ตอบกับ Object: Click / Double-click / Right-click</h2>
+<p>สามวิธีหลักในการโต้ตอบกับ Object ในมุมมอง 3D (และ 2D เช่นกัน) — ใช้บ่อยที่สุดตลอดทั้งคอร์สนี้</p>
+<table>
+<tr><th>การกระทำ</th><th>ผลลัพธ์</th></tr>
+<tr><td><strong>Click</strong> (คลิกซ้ายครั้งเดียว)</td><td>เลือก Object (Select)</td></tr>
+<tr><td><strong>Double Click</strong></td><td>เปิด Object Window — หน้าต่าง Attribute ของ Object นั้น</td></tr>
+<tr><td><strong>Right Click</strong></td><td>เปิดเมนู Quick tools — ทางลัดไปยังคำสั่งที่ใช้บ่อย เช่น Edit 3D Properties, Show Attributes and Methods (F8), Find Object (F3)</td></tr>
+<tr><td><strong>Double Click</strong> บน Object ที่มี Frame ซ้อนอยู่ข้างใน</td><td>เปิด Frame ข้างในนั้น (กด <code>Shift + Enter</code> เพื่อย้อนกลับออกมา)</td></tr>
+</table>
+
+<div class="side-by-side">
+  <div><figure class="screenshot">
+  <img src="../assets/images/basic/02-04.jpg" alt="หน้าต่าง Attribute ของ Object PickAndPlaceBottom เปิดจากการ Double Click" loading="lazy">
+</figure></div>
+  <div><figure class="screenshot">
+  <img src="../assets/images/basic/02-05.jpg" alt="เมนู Quick tools เปิดจากการ Right Click" loading="lazy">
+</figure></div>
+</div>
 
 <div class="tip">
 <strong>Tip:</strong> ถ้าหน้าต่างเพี้ยนหรือ panel หายไป ไปที่เมนู <code>View → Reset Window Layout</code>
 (หรือใกล้เคียง แล้วแต่เวอร์ชัน) เพื่อคืนค่าเลย์เอาต์เริ่มต้น
+</div>
+
+<h2>Time-Oriented Simulation และ Event-Controlled Simulation</h2>
+<p>Plant Simulation เป็นโปรแกรมจำลองแบบ <strong>discrete, event-controlled</strong> — หมายความว่าโปรแกรมจะตรวจสอบเฉพาะ
+"จุดเวลาที่มีเหตุการณ์เกิดขึ้นจริง" ในโมเดลเท่านั้น (สอดคล้องกับ Discrete Event Simulation ที่พูดถึงในบทที่ 1) ไม่ใช่คำนวณทุกช่วงเวลาต่อเนื่อง
+ควบคุมการรันทั้งหมดผ่าน Object <strong>EventController</strong> ตัวเดียว</p>
+<ol class="steps">
+<li>คลิกที่ปุ่ม <code>Start/Stop Simulation</code> เพื่อเริ่ม/หยุดการจำลอง</li>
+<li>ดับเบิลคลิกที่ <code>EventController</code> เพื่อเปิดหน้าต่างควบคุม (แท็บ Controls/Settings)</li>
+<li>ปรับตัวเลื่อน <code>Slower ↔ Faster</code> เพื่อปรับความเร็วของแบบจำลอง แล้วสังเกตพฤติกรรมการทำงาน</li>
+</ol>
+
+<figure class="screenshot">
+  <img src="../assets/images/basic/02-06.jpg" alt="หน้าต่างควบคุม EventController — ปุ่ม Play/Pause และตัวเลื่อนความเร็ว" loading="lazy">
+</figure>
+
+<div class="note">
+<strong>เล่นสนุกได้ด้วย:</strong> ในโมเดล Factory 51 ลองเดินสำรวจฉาก 3D ด้วยปุ่มคีย์บอร์ดด้านบนดูให้ทั่ว — มีห้องเล็กๆ ซ่อนอยู่ในโมเดล
+ให้ลองหา "Beer room" ดู เป็นวิธีฝึกการควบคุมกล้อง 3D แบบไม่เครียดก่อนไปสร้างโมเดลของตัวเองในบทถัดไป
 </div>
 
 <div class="note">
@@ -89,7 +182,7 @@
             <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู basic">▾</button>
             <ul class="submenu">
               <li><a href="01.html">1. Plant Simulation คืออะไร</a></li>
-              <li class="active"><a href="02.html">2. หน้าตาโปรแกรม</a></li>
+              <li class="active"><a href="02.html">2. เริ่มต้นใช้งาน Plant Simulation และ Basic User Interface</a></li>
               <li><a href="03.html">3. Object พื้นฐาน 6 ตัว</a></li>
               <li><a href="04.html">4. สร้างโมเดลแรก</a></li>
               <li><a href="05.html">5. รันและอ่านผล Statistics</a></li>
@@ -128,6 +221,20 @@
               <li><a href="../object-reference/01.html">1. Material Flow Objects</a></li>
               <li><a href="../object-reference/02.html">2. Information Flow Objects</a></li>
               <li><a href="../object-reference/03.html">3. Resources &amp; Tools</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../step-by-step/index.html">Step-by-Step File — ไฟล์สอนของ Siemens</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู step-by-step">▾</button>
+            <ul class="submenu">
+              <li><a href="../step-by-step/01.html">1. พื้นฐานสายการผลิต</a></li>
+              <li><a href="../step-by-step/02.html">2. สถิติและการวิเคราะห์</a></li>
+              <li><a href="../step-by-step/03.html">3. การประกอบและการคัดแยก</a></li>
+              <li><a href="../step-by-step/04.html">4. แรงงานและทรัพยากรบุคคล</a></li>
+              <li><a href="../step-by-step/05.html">5. หุ่นยนต์และการขนย้าย</a></li>
+              <li><a href="../step-by-step/06.html">6. SimTalk และภาพเคลื่อนไหว</a></li>
+              <li><a href="../step-by-step/07.html">7. โมเดล 3 มิติ</a></li>
+              <li><a href="../step-by-step/08.html">8. Optimization ด้วย GAWizard</a></li>
             </ul>
           </li>
           <li class="has-children">

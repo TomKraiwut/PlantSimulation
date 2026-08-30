@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>5. หุ่นยนต์และการขนย้าย — Plant Simulation Tutorial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div id="wrapper">
+  <div id="main">
+    <div class="inner">
+      <header id="header">
+        <a href="../index.html" class="logo"><span>Plant Simulation Tutorial</span></a>
+        <button class="menu-toggle" aria-label="เปิดเมนู">☰</button>
+      </header>
+
+      <main>
+        <h1>5. หุ่นยนต์และการขนย้าย</h1>
+
+        <div class="objectives">
+          <p>วัตถุประสงค์การเรียนรู้</p>
+          <ol>
+          <li>แยกการใช้งาน PickAndPlace, Track (AGV) และ AGVPool+Marker (AMR) ได้</li>
+          <li>เลือกระหว่างระบบขนย้ายแบบรางกับแบบอิสระให้เหมาะกับสถานการณ์ได้</li>
+          </ol>
+        </div>
+
+<p class="lead" style="max-width:46em;">อ้างอิงเฟรม <code>Model_PickAndPlace</code>, <code>Model_AGV</code>, <code>Model_Basic_AMR</code> — แขนกลหยิบวาง
+และยานพาหนะขนย้ายอัตโนมัติสองยุค (AGV แบบราง กับ AMR แบบอิสระ)</p>
+
+<h2>PickAndPlace — แขนกลหยิบวาง</h2>
+<p><strong>PickAndPlace</strong> ย้ายชิ้นงานจากจุดหนึ่งไปอีกจุดหนึ่งแบบไม่ต่อเนื่อง (หยิบ → เคลื่อนที่ → วาง) ต่างจาก Conveyor
+ที่ลำเลียงต่อเนื่อง เฟรม <code>Model_PickAndPlace</code> มี 4 ชุดวางคู่กันสาธิตรูปแบบการใช้งานต่างกัน</p>
+<div class="tip"><strong>Tip:</strong> เวลารวมของ PickAndPlace มักเป็นคอขวดที่มองข้าม เพราะแยกเป็น 3 ช่วงเวลา
+(หยิบ+เคลื่อนที่+วาง) รวมกัน — ลองแตกดูทีละช่วงใน Statistics ก่อนสรุปว่าเครื่องจักรช้าไม่ใช่ที่แขนกล</div>
+
+<h2>Track — AGV แบบเดินตามราง (ยุคเก่า)</h2>
+<p>เฟรม <code>Model_AGV</code> ใช้ Object <strong>Track</strong> กำหนดเส้นทางเดินรถตายตัวบนพื้น แล้วให้ยานพาหนะวิ่งตาม
+เส้นทางนั้น จุดขึ้น-ลงสินค้าทำผ่าน PickAndPlace ที่ผูกอยู่บน Track — เหมาะกับโรงงานที่เส้นทางขนย้ายคงที่ ไม่เปลี่ยนบ่อย
+(กับดัก Destination/AutomaticRouting ที่พบบ่อยกับ Transporter ดูที่ <a href="../advanced/04.html">Advanced บทที่ 4</a>)</p>
+
+<h2>AGVPool + Marker — AMR แบบอิสระ (ยุคใหม่)</h2>
+<p>เฟรม <code>Model_Basic_AMR</code> ใช้แนวคิดต่างจาก Track: <strong>Marker</strong> คือจุดอ้างอิงลอยตัวในพื้นที่ (ไม่ใช่
+เส้นทางตายตัว) ส่วน <strong>AGVPool</strong> คือกลุ่มยานพาหนะที่คำนวณเส้นทางเดินไปมาระหว่าง Marker เองแบบไดนามิก</p>
+<table>
+<tr><th></th><th>Track</th><th>AGVPool + Marker</th></tr>
+<tr><td>เส้นทาง</td><td>ตายตัว ต้องวาดไว้ล่วงหน้า</td><td>คำนวณเองระหว่าง Marker แต่ละจุด</td></tr>
+<tr><td>ความยืดหยุ่น</td><td>ต่ำ — ย้ายจุดต้องแก้ Track</td><td>สูง — ย้าย Marker ได้อิสระ</td></tr>
+<tr><td>เหมาะกับ</td><td>เส้นทางขนย้ายคงที่ ปริมาณสูง</td><td>ผังพื้นที่เปลี่ยนบ่อย</td></tr>
+</table>
+<p>เฟรมนี้ยังสาธิตรูปแบบ Method วงจรชีวิตมาตรฐาน 3 ตัว — <code>INIT</code>/<code>RESET</code>/<code>ENDSIM</code> —
+ผูกกับจังหวะเริ่ม/รีเซ็ต/จบของ EventController พร้อมตัวแปร <code>Total_Distance</code> สะสมระยะทางที่ AMR วิ่งทั้งหมด</p>
+<div class="note"><strong>รูปแบบนี้ใช้ซ้ำได้ทั่วไป:</strong> การผูก Method ชื่อ INIT/RESET/ENDSIM เข้ากับจังหวะของ
+EventController ใช้ได้กับโมเดลไหนก็ได้ ไม่ใช่แค่ AMR — ดูการผูก Method กับเหตุการณ์เต็มๆ ที่
+<a href="../advanced/02.html">Advanced บทที่ 2</a></div>
+
+<div class="tip"><strong>คำถามฝึกคิด:</strong> ถ้าต้องขยายโกดังเพิ่มโซนใหม่บ่อยๆ ควรเลือก Track หรือ AGVPool+Marker?
+<br><br><strong>เฉลย:</strong> AGVPool + Marker เพราะแค่เพิ่ม Marker จุดใหม่โดยไม่ต้องวาดเส้นทางเชื่อมใหม่ทั้งหมด</div>
+
+        <div class="page-nav">
+          <a href="04.html">← ก่อนหน้า: 4. แรงงานและทรัพยากรบุคคล</a>
+          <a href="06.html">ถัดไป: 6. SimTalk และภาพเคลื่อนไหว →</a>
+        </div>
+      </main>
+
+      <footer class="site-footer">
+        Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม
+      </footer>
+    </div>
+  </div>
+
+  <div id="sidebar">
+    <div class="inner">
+      <nav id="menu">
+        <header class="major"><h2>เมนู</h2></header>
+        <ul>
+          <li><a href="../index.html">หน้าแรก</a></li>
+          <li class="has-children">
+            <a href="../basic/index.html">Basic — พื้นฐาน</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู basic">▾</button>
+            <ul class="submenu">
+              <li><a href="../basic/01.html">1. Plant Simulation คืออะไร</a></li>
+              <li><a href="../basic/02.html">2. เริ่มต้นใช้งาน Plant Simulation และ Basic User Interface</a></li>
+              <li><a href="../basic/03.html">3. Object พื้นฐาน 6 ตัว</a></li>
+              <li><a href="../basic/04.html">4. สร้างโมเดลแรก</a></li>
+              <li><a href="../basic/05.html">5. รันและอ่านผล Statistics</a></li>
+              <li><a href="../basic/06.html">6. บันทึกและเปิดไฟล์โมเดล</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../intermediate/index.html">Intermediate — ขั้นกลาง</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู intermediate">▾</button>
+            <ul class="submenu">
+              <li><a href="../intermediate/01.html">1. Object ขั้นกลาง</a></li>
+              <li><a href="../intermediate/02.html">2. MU และ MU Class</a></li>
+              <li><a href="../intermediate/03.html">3. ค่าที่ไม่คงที่ (Distribution)</a></li>
+              <li><a href="../intermediate/04.html">4. ความเสียหายของเครื่องจักร</a></li>
+              <li><a href="../intermediate/05.html">5. Chart และ Bottleneck Analyzer</a></li>
+              <li><a href="../intermediate/06.html">6. จัดกลุ่มโมเดลเป็น Sub-frame</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../advanced/index.html">Advanced — ขั้นสูง</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู advanced">▾</button>
+            <ul class="submenu">
+              <li><a href="../advanced/01.html">1. SimTalk 2.0 พื้นฐาน</a></li>
+              <li><a href="../advanced/02.html">2. Method ผูกกับ Event</a></li>
+              <li><a href="../advanced/03.html">3. DataTable และ Variable</a></li>
+              <li><a href="../advanced/04.html">4. สร้าง Object ด้วยโค้ด</a></li>
+              <li><a href="../advanced/05.html">5. Experiment Manager</a></li>
+              <li><a href="../advanced/06.html">6. Optimization ด้วย GAWizard</a></li>
+              <li><a href="../advanced/07.html">7. ควบคุมจากภายนอกผ่าน COM/Python</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../object-reference/index.html">Object Reference — สาธิต Object</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู object-reference">▾</button>
+            <ul class="submenu">
+              <li><a href="../object-reference/01.html">1. Material Flow Objects</a></li>
+              <li><a href="../object-reference/02.html">2. Information Flow Objects</a></li>
+              <li><a href="../object-reference/03.html">3. Resources &amp; Tools</a></li>
+            </ul>
+          </li>
+          <li class="has-children expanded">
+            <a href="index.html">Step-by-Step File — ไฟล์สอนของ Siemens</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู step-by-step">▾</button>
+            <ul class="submenu">
+              <li><a href="01.html">1. พื้นฐานสายการผลิต</a></li>
+              <li><a href="02.html">2. สถิติและการวิเคราะห์</a></li>
+              <li><a href="03.html">3. การประกอบและการคัดแยก</a></li>
+              <li><a href="04.html">4. แรงงานและทรัพยากรบุคคล</a></li>
+              <li class="active"><a href="05.html">5. หุ่นยนต์และการขนย้าย</a></li>
+              <li><a href="06.html">6. SimTalk และภาพเคลื่อนไหว</a></li>
+              <li><a href="07.html">7. โมเดล 3 มิติ</a></li>
+              <li><a href="08.html">8. Optimization ด้วย GAWizard</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../case-study/index.html">Case Study — ตัวอย่างอุตสาหกรรม</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู case-study">▾</button>
+            <ul class="submenu">
+              <li><a href="../case-study/01.html">1. อุตสาหกรรมยานยนต์ (Automotive)</a></li>
+              <li><a href="../case-study/02.html">2. คลังสินค้าและโลจิสติกส์ (Warehouse &amp; Logistics)</a></li>
+              <li><a href="../case-study/03.html">3. อิเล็กทรอนิกส์ (Electronics / SMT)</a></li>
+              <li><a href="../case-study/04.html">4. อาหารและเครื่องดื่ม (Food &amp; Beverage)</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../tips-tricks/index.html">Tips and Tricks — เทคนิคการทำงาน</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู tips-tricks">▾</button>
+            <ul class="submenu">
+              <li><a href="../tips-tricks/01.html">1. UI และ Workflow</a></li>
+              <li><a href="../tips-tricks/02.html">2. การสร้างโมเดลและดีบัก</a></li>
+              <li><a href="../tips-tricks/03.html">3. ประสิทธิภาพการรัน (Performance)</a></li>
+              <li><a href="../tips-tricks/04.html">4. SimTalk และ Scripting</a></li>
+            </ul>
+          </li>
+          <li><a href="../examples.html">Example File</a></li>
+        </ul>
+      </nav>
+      <footer id="footer"><p class="copyright">Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม</p></footer>
+    </div>
+  </div>
+  <div id="sidebar-overlay"></div>
+</div>
+<script src="../assets/main.js"></script>
+</body>
+</html>

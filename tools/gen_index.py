@@ -54,6 +54,11 @@ BODY = '''        <section id="banner">
             <h3>Object Reference</h3>
             <p>สาธิตการทำงานของแต่ละ Object เป็นหมวดหมู่ ใช้เปิดอ้างอิงเร็วๆ (3 หมวด)</p>
           </a>
+          <a href="step-by-step.html" class="card">
+            <div class="icon">🗂️</div>
+            <h3>Step-by-Step File</h3>
+            <p>เดินตามไฟล์สอนต้นฉบับของ Siemens (18 เฟรม) ทีละหัวข้อ จัดกลุ่มใหม่เป็น 8 บท</p>
+          </a>
           <a href="case-study.html" class="card">
             <div class="icon">🏭</div>
             <h3>Case Study</h3>

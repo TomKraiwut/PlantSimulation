@@ -36,11 +36,11 @@
 <div class="tip"><strong>ลองสาธิต:</strong> วาง Source เดี่ยวๆ ต่อ Drain ตั้ง <code>Interval := 2</code> วินาที รันแล้วดู
 <code>Drain.StatDeleted</code> เพิ่มขึ้นทุก 2 วินาที — ยืนยันว่า Interval คุมจังหวะการผลิตจริง</div>
 
-<h2>Line</h2>
+<h2>Conveyor</h2>
 <p>สายพานลำเลียงระหว่างสถานี มีความเร็ว/ความยาวจำลองเวลาขนส่งจริง ต่างจากการเชื่อม Object ตรงๆ ที่ไม่มีเวลาขนส่งเลย</p>
-<div class="tip"><strong>ลองสาธิต:</strong> เพิ่ม Line ยาว 50m ความเร็ว 1m/s คั่นกลาง Source-Drain จะเห็นชิ้นงานใช้เวลาประมาณ 50 วินาทีบน Line ก่อนถึง Drain</div>
+<div class="tip"><strong>ลองสาธิต:</strong> เพิ่ม Conveyor ยาว 50m ความเร็ว 1m/s คั่นกลาง Source-Drain จะเห็นชิ้นงานใช้เวลาประมาณ 50 วินาทีบน Conveyor ก่อนถึง Drain</div>
 
-<h2>SingleProc</h2>
+<h2>Station</h2>
 <p>สถานีประมวลผล 1 หัว ควบคุมด้วย <code>ProcTime</code> — ดูรายละเอียดเต็มที่ <a href="../basic/03.html">Basic บทที่ 3</a></p>
 
 <h2>Buffer / Store</h2>
@@ -59,7 +59,7 @@
 <p>เส้นทางให้พาหนะขับเคลื่อนเอง — ต้องตั้ง <code>Destination</code> และ <code>AutomaticRouting</code> ให้ Transporter ถึงจะวิ่งจริง
 (กับดักที่พบบ่อย ดูเต็มๆ ที่ <a href="../advanced/04.html">Advanced บทที่ 4</a>)</p>
 
-<h2>Diverter</h2>
+<h2>Sorter</h2>
 <p>แยกเส้นทางชิ้นงานออกเป็นหลายทาง มักผูก Method ตัดสินใจว่าจะส่งไปทางไหน (ดูตัวอย่างที่ <a href="../examples.html">Example File</a>)</p>
 
         <div class="page-nav">
@@ -85,7 +85,7 @@
             <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู basic">▾</button>
             <ul class="submenu">
               <li><a href="../basic/01.html">1. Plant Simulation คืออะไร</a></li>
-              <li><a href="../basic/02.html">2. หน้าตาโปรแกรม</a></li>
+              <li><a href="../basic/02.html">2. เริ่มต้นใช้งาน Plant Simulation และ Basic User Interface</a></li>
               <li><a href="../basic/03.html">3. Object พื้นฐาน 6 ตัว</a></li>
               <li><a href="../basic/04.html">4. สร้างโมเดลแรก</a></li>
               <li><a href="../basic/05.html">5. รันและอ่านผล Statistics</a></li>
@@ -124,6 +124,20 @@
               <li class="active"><a href="01.html">1. Material Flow Objects</a></li>
               <li><a href="02.html">2. Information Flow Objects</a></li>
               <li><a href="03.html">3. Resources &amp; Tools</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../step-by-step/index.html">Step-by-Step File — ไฟล์สอนของ Siemens</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู step-by-step">▾</button>
+            <ul class="submenu">
+              <li><a href="../step-by-step/01.html">1. พื้นฐานสายการผลิต</a></li>
+              <li><a href="../step-by-step/02.html">2. สถิติและการวิเคราะห์</a></li>
+              <li><a href="../step-by-step/03.html">3. การประกอบและการคัดแยก</a></li>
+              <li><a href="../step-by-step/04.html">4. แรงงานและทรัพยากรบุคคล</a></li>
+              <li><a href="../step-by-step/05.html">5. หุ่นยนต์และการขนย้าย</a></li>
+              <li><a href="../step-by-step/06.html">6. SimTalk และภาพเคลื่อนไหว</a></li>
+              <li><a href="../step-by-step/07.html">7. โมเดล 3 มิติ</a></li>
+              <li><a href="../step-by-step/08.html">8. Optimization ด้วย GAWizard</a></li>
             </ul>
           </li>
           <li class="has-children">

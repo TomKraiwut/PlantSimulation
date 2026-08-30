@@ -33,9 +33,9 @@
 <tr><th>Object</th><th>ใช้ทำอะไร</th><th>ต่างจากตัวพื้นฐานอย่างไร</th></tr>
 <tr><td><strong>Buffer</strong></td><td>พักชิ้นงานแบบ FIFO เรียบง่าย</td><td>เทียบกับ Store: Buffer ไม่มีตำแหน่งจัดเก็บย่อย เข้าก่อนออกก่อนเสมอ</td></tr>
 <tr><td><strong>Store</strong></td><td>พักชิ้นงานแบบมีตำแหน่ง/ชั้นวางย่อย ดึงออกไม่ต้องเรียงลำดับ</td><td>เหมาะจำลองคลังสินค้า/ชั้นวางจริงที่หยิบสินค้าจากตำแหน่งใดก็ได้</td></tr>
-<tr><td><strong>AssemblyStation</strong></td><td>รวมชิ้นงานจากหลายทางเข้าเป็นชิ้นเดียว (เช่น ประกอบชิ้นส่วน A+B)</td><td>SingleProc รับ-ส่งทางเดียว แต่ AssemblyStation รอครบทุกอินพุตก่อนประมวลผล</td></tr>
-<tr><td><strong>Track</strong></td><td>เส้นทางที่ให้ Transporter วิ่งบนนั้น (ต่างจาก Line ที่ขนส่งอัตโนมัติ)</td><td>ใช้คู่กับ Transporter เพื่อจำลองรถขนส่ง/AGV ที่ขับเคลื่อนเอง</td></tr>
-<tr><td><strong>Transporter</strong></td><td>พาหนะขนส่งชิ้นงานที่ขับเคลื่อนไปมาเองบน Track</td><td>ต่างจาก Line ตรงที่ Transporter เป็นวัตถุเดี่ยวที่ต้องวิ่งไปรับ-ส่งเอง ไม่ใช่สายพานตายตัว</td></tr>
+<tr><td><strong>AssemblyStation</strong></td><td>รวมชิ้นงานจากหลายทางเข้าเป็นชิ้นเดียว (เช่น ประกอบชิ้นส่วน A+B)</td><td>Station รับ-ส่งทางเดียว แต่ AssemblyStation รอครบทุกอินพุตก่อนประมวลผล</td></tr>
+<tr><td><strong>Track</strong></td><td>เส้นทางที่ให้ Transporter วิ่งบนนั้น (ต่างจาก Conveyor ที่ขนส่งอัตโนมัติ)</td><td>ใช้คู่กับ Transporter เพื่อจำลองรถขนส่ง/AGV ที่ขับเคลื่อนเอง</td></tr>
+<tr><td><strong>Transporter</strong></td><td>พาหนะขนส่งชิ้นงานที่ขับเคลื่อนไปมาเองบน Track (อยู่ในหมวด MU ไม่ใช่ MaterialFlow)</td><td>ต่างจาก Conveyor ตรงที่ Transporter เป็นวัตถุเดี่ยวที่ต้องวิ่งไปรับ-ส่งเอง ไม่ใช่สายพานตายตัว</td></tr>
 </table>
 
 <div class="tip">
@@ -74,7 +74,7 @@
             <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู basic">▾</button>
             <ul class="submenu">
               <li><a href="../basic/01.html">1. Plant Simulation คืออะไร</a></li>
-              <li><a href="../basic/02.html">2. หน้าตาโปรแกรม</a></li>
+              <li><a href="../basic/02.html">2. เริ่มต้นใช้งาน Plant Simulation และ Basic User Interface</a></li>
               <li><a href="../basic/03.html">3. Object พื้นฐาน 6 ตัว</a></li>
               <li><a href="../basic/04.html">4. สร้างโมเดลแรก</a></li>
               <li><a href="../basic/05.html">5. รันและอ่านผล Statistics</a></li>
@@ -113,6 +113,20 @@
               <li><a href="../object-reference/01.html">1. Material Flow Objects</a></li>
               <li><a href="../object-reference/02.html">2. Information Flow Objects</a></li>
               <li><a href="../object-reference/03.html">3. Resources &amp; Tools</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../step-by-step/index.html">Step-by-Step File — ไฟล์สอนของ Siemens</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู step-by-step">▾</button>
+            <ul class="submenu">
+              <li><a href="../step-by-step/01.html">1. พื้นฐานสายการผลิต</a></li>
+              <li><a href="../step-by-step/02.html">2. สถิติและการวิเคราะห์</a></li>
+              <li><a href="../step-by-step/03.html">3. การประกอบและการคัดแยก</a></li>
+              <li><a href="../step-by-step/04.html">4. แรงงานและทรัพยากรบุคคล</a></li>
+              <li><a href="../step-by-step/05.html">5. หุ่นยนต์และการขนย้าย</a></li>
+              <li><a href="../step-by-step/06.html">6. SimTalk และภาพเคลื่อนไหว</a></li>
+              <li><a href="../step-by-step/07.html">7. โมเดล 3 มิติ</a></li>
+              <li><a href="../step-by-step/08.html">8. Optimization ด้วย GAWizard</a></li>
             </ul>
           </li>
           <li class="has-children">

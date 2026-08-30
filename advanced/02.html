@@ -24,17 +24,17 @@
           <p>วัตถุประสงค์การเรียนรู้</p>
           <ol>
           <li>ผูก Method เข้ากับเหตุการณ์ Entrance/Exit ของสถานีได้</li>
-          <li>ใช้ Trigger ให้ Method ทำงานเป็นระยะเวลาซ้ำๆ ได้</li>
+          <li>ทำให้ Method ทำงานซ้ำตามรอบเวลาได้โดยไม่ต้องผูกกับเหตุการณ์ของ Object อื่น</li>
           </ol>
         </div>
 
 <h2>ผูก Method เข้ากับเหตุการณ์ Entrance/Exit</h2>
-<p>Object ประเภทประมวลผล (เช่น SingleProc) มีช่อง <code>ExecuteAt.Entrance</code> และ <code>ExecuteAt.Exit</code>
+<p>Object ประเภทประมวลผล (เช่น Station) มีช่อง <code>ExecuteAt.Entrance</code> และ <code>ExecuteAt.Exit</code>
 ให้กำหนด Method ที่จะทำงานอัตโนมัติทุกครั้งที่มีชิ้นงานเข้า/ออกจากสถานีนั้น</p>
 <ol class="steps">
 <li>สร้าง Method object ในหมวด <code>InformationFlow</code> ตั้งชื่อ เช่น <code>OnEntry</code></li>
 <li>เขียนโค้ดใน Method นั้น</li>
-<li>ที่ Object เป้าหมาย (เช่น SingleProc) เปิด Attribute → ช่อง <code>ExecuteAt.Entrance</code> → กำหนดให้ชี้ไปที่ Method <code>OnEntry</code></li>
+<li>ที่ Object เป้าหมาย (เช่น Station) เปิด Attribute → ช่อง <code>ExecuteAt.Entrance</code> → กำหนดให้ชี้ไปที่ Method <code>OnEntry</code></li>
 <li>รันซิมูเลชัน — Method จะถูกเรียกอัตโนมัติทุกครั้งที่มีชิ้นงานเข้าสถานี ไม่ต้องเรียกเองด้วยมือ</li>
 </ol>
 
@@ -44,9 +44,12 @@
 var mu := @
 print "MU " + mu.Name + " entered station"</code></pre>
 
-<h2>Trigger: ทำงานเป็นระยะเวลาซ้ำๆ</h2>
-<p>ถ้าต้องการให้ Method ทำงานตามเวลา (ไม่ผูกกับเหตุการณ์ของ Object อื่น) ใช้ Object <strong>Trigger</strong>
-(อยู่ในหมวด <code>InformationFlow</code>) ตั้งค่าคาบเวลาที่ต้องการ แล้วกำหนดให้เรียก Method ที่ต้องการทุกครั้งที่ครบคาบ</p>
+<h2>ทำงานเป็นระยะเวลาซ้ำๆ โดยไม่ผูกกับเหตุการณ์ของ Object อื่น</h2>
+<div class="note"><strong>ข้อควรรู้เรื่องเวอร์ชัน:</strong> Plant Simulation รุ่นปัจจุบัน (ตรวจสอบแล้วกับ V2606) ไม่มี Object
+แยกต่างหากชื่อ <code>Trigger</code> อยู่ใน Class Library หมวด <code>InformationFlow</code> อีกต่อไป — เป็นชื่อจากเวอร์ชันเก่า</div>
+<p>การให้ Method ทำงานซ้ำตามรอบเวลาคงที่ (ไม่ผูกกับเหตุการณ์ Entrance/Exit ของ Object อื่น) ทำได้โดยให้ Method เรียกตัวเองใหม่
+อีกครั้งหลังจากดีเลย์ที่ต้องการผ่านกลไกจัดตารางเวลาของ EventController — ดูรายละเอียด syntax ที่แน่นอนได้จาก Help Manual
+ในเครื่อง (หัวข้อ Method scheduling) ก่อนใช้งานจริง เพื่อให้แน่ใจว่าตรงกับเวอร์ชันที่ติดตั้งอยู่</p>
 
 <h2>รูปแบบทั่วไป: Attribute เก็บ reference ไปยัง Method</h2>
 <p>สอดคล้องกับรูปแบบที่ใช้ซ้ำทั่วทั้งโปรแกรม — แอตทริบิวต์ที่ควบคุมพฤติกรรม (เช่น <code>Ctrl</code> ของเซนเซอร์บางประเภท)
@@ -82,7 +85,7 @@ print "MU " + mu.Name + " entered station"</code></pre>
             <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู basic">▾</button>
             <ul class="submenu">
               <li><a href="../basic/01.html">1. Plant Simulation คืออะไร</a></li>
-              <li><a href="../basic/02.html">2. หน้าตาโปรแกรม</a></li>
+              <li><a href="../basic/02.html">2. เริ่มต้นใช้งาน Plant Simulation และ Basic User Interface</a></li>
               <li><a href="../basic/03.html">3. Object พื้นฐาน 6 ตัว</a></li>
               <li><a href="../basic/04.html">4. สร้างโมเดลแรก</a></li>
               <li><a href="../basic/05.html">5. รันและอ่านผล Statistics</a></li>
@@ -121,6 +124,20 @@ print "MU " + mu.Name + " entered station"</code></pre>
               <li><a href="../object-reference/01.html">1. Material Flow Objects</a></li>
               <li><a href="../object-reference/02.html">2. Information Flow Objects</a></li>
               <li><a href="../object-reference/03.html">3. Resources &amp; Tools</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../step-by-step/index.html">Step-by-Step File — ไฟล์สอนของ Siemens</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู step-by-step">▾</button>
+            <ul class="submenu">
+              <li><a href="../step-by-step/01.html">1. พื้นฐานสายการผลิต</a></li>
+              <li><a href="../step-by-step/02.html">2. สถิติและการวิเคราะห์</a></li>
+              <li><a href="../step-by-step/03.html">3. การประกอบและการคัดแยก</a></li>
+              <li><a href="../step-by-step/04.html">4. แรงงานและทรัพยากรบุคคล</a></li>
+              <li><a href="../step-by-step/05.html">5. หุ่นยนต์และการขนย้าย</a></li>
+              <li><a href="../step-by-step/06.html">6. SimTalk และภาพเคลื่อนไหว</a></li>
+              <li><a href="../step-by-step/07.html">7. โมเดล 3 มิติ</a></li>
+              <li><a href="../step-by-step/08.html">8. Optimization ด้วย GAWizard</a></li>
             </ul>
           </li>
           <li class="has-children">

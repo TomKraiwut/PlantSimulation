@@ -29,14 +29,14 @@
         </div>
 
 <h2>สร้างโมเดลแรก: สายการผลิตง่ายๆ</h2>
-<p>ทำตามขั้นตอนนี้เพื่อสร้างโมเดล <code>Source → SingleProc → Drain</code></p>
+<p>ทำตามขั้นตอนนี้เพื่อสร้างโมเดล <code>Source → Station → Drain</code></p>
 <ol class="steps">
 <li>เปิด Class Library → เลือกหมวด <code>MaterialFlow</code></li>
-<li>ลาก <strong>Source</strong>, <strong>SingleProc</strong>, <strong>Drain</strong> มาวางเรียงกันบน Frame</li>
+<li>ลาก <strong>Source</strong>, <strong>Station</strong>, <strong>Drain</strong> มาวางเรียงกันบน Frame</li>
 <li>ลาก <strong>EventController</strong> มาวางไว้มุมใดก็ได้ (จำเป็นต่อการรัน — ดูบทที่ 3)</li>
 <li>เชื่อมต่อ Object โดยคลิกที่มุมขวาบนของแต่ละ Object แล้วลากไปยัง Object ถัดไป (จะเห็นลูกศรเชื่อม)</li>
 <li>ดับเบิลคลิก <strong>Source</strong> เพื่อตั้งค่า <code>Interval</code> เช่น สร้างชิ้นงานทุก 5 วินาที</li>
-<li>ดับเบิลคลิก <strong>SingleProc</strong> เพื่อตั้งค่า <code>ProcTime</code> เช่น 10 วินาทีต่อชิ้น</li>
+<li>ดับเบิลคลิก <strong>Station</strong> เพื่อตั้งค่า <code>ProcTime</code> เช่น 10 วินาทีต่อชิ้น</li>
 <li>กดปุ่ม <strong>Start Simulation</strong> (▶) ที่ Toolbar ด้านบน</li>
 </ol>
 
@@ -45,11 +45,11 @@
 </div>
 
 <h2>ตัวอย่าง: ทำนายผลก่อนรันจริง</h2>
-<p>โมเดล <code>Source(Interval=5s) → SingleProc(ProcTime=10s) → Drain</code></p>
+<p>โมเดล <code>Source(Interval=5s) → Station(ProcTime=10s) → Drain</code></p>
 <div class="note">
-<strong>คำถามฝึกคิด:</strong> Source ผลิตชิ้นงานเร็วกว่า SingleProc แปรรูปเสร็จ (5s &lt; 10s) จะเกิดอะไรขึ้นเมื่อรันไปนานๆ?
+<strong>คำถามฝึกคิด:</strong> Source ผลิตชิ้นงานเร็วกว่า Station แปรรูปเสร็จ (5s &lt; 10s) จะเกิดอะไรขึ้นเมื่อรันไปนานๆ?
 </div>
-<div class="tip"><strong>เฉลย:</strong> SingleProc รับชิ้นงานไม่ทัน Source เลยจะถูก <strong>Blocked</strong>
+<div class="tip"><strong>เฉลย:</strong> Station รับชิ้นงานไม่ทัน Source เลยจะถูก <strong>Blocked</strong>
 (สถานะรอส่งต่อ เพราะปลายทางไม่ว่าง) — นี่คือคอขวดแบบง่ายที่สุด แก้ได้ด้วยการเพิ่ม Buffer คั่นกลาง
 หรือเพิ่มสถานีขนาน (ดูบท Intermediate)
 </div>
@@ -77,7 +77,7 @@
             <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู basic">▾</button>
             <ul class="submenu">
               <li><a href="01.html">1. Plant Simulation คืออะไร</a></li>
-              <li><a href="02.html">2. หน้าตาโปรแกรม</a></li>
+              <li><a href="02.html">2. เริ่มต้นใช้งาน Plant Simulation และ Basic User Interface</a></li>
               <li><a href="03.html">3. Object พื้นฐาน 6 ตัว</a></li>
               <li class="active"><a href="04.html">4. สร้างโมเดลแรก</a></li>
               <li><a href="05.html">5. รันและอ่านผล Statistics</a></li>
@@ -116,6 +116,20 @@
               <li><a href="../object-reference/01.html">1. Material Flow Objects</a></li>
               <li><a href="../object-reference/02.html">2. Information Flow Objects</a></li>
               <li><a href="../object-reference/03.html">3. Resources &amp; Tools</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../step-by-step/index.html">Step-by-Step File — ไฟล์สอนของ Siemens</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู step-by-step">▾</button>
+            <ul class="submenu">
+              <li><a href="../step-by-step/01.html">1. พื้นฐานสายการผลิต</a></li>
+              <li><a href="../step-by-step/02.html">2. สถิติและการวิเคราะห์</a></li>
+              <li><a href="../step-by-step/03.html">3. การประกอบและการคัดแยก</a></li>
+              <li><a href="../step-by-step/04.html">4. แรงงานและทรัพยากรบุคคล</a></li>
+              <li><a href="../step-by-step/05.html">5. หุ่นยนต์และการขนย้าย</a></li>
+              <li><a href="../step-by-step/06.html">6. SimTalk และภาพเคลื่อนไหว</a></li>
+              <li><a href="../step-by-step/07.html">7. โมเดล 3 มิติ</a></li>
+              <li><a href="../step-by-step/08.html">8. Optimization ด้วย GAWizard</a></li>
             </ul>
           </li>
           <li class="has-children">

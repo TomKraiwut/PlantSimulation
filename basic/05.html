@@ -42,7 +42,7 @@
 </div>
 
 <h2>อ่านผลลัพธ์เบื้องต้น</h2>
-<p>คลิกขวาที่ Object ประเภทประมวลผล (เช่น <strong>SingleProc</strong>) แล้วเลือก <code>Statistics</code> เพื่อดู:</p>
+<p>คลิกขวาที่ Object ประเภทประมวลผล (เช่น <strong>Station</strong>) แล้วเลือก <code>Statistics</code> เพื่อดู:</p>
 <table>
 <tr><th>สถานะ</th><th>ความหมาย</th></tr>
 <tr><td><strong>Working</strong></td><td>เวลาที่เครื่องกำลังแปรรูปชิ้นงานจริง — ยิ่งสูงยิ่งใช้งานคุ้ม</td></tr>
@@ -51,9 +51,9 @@
 </table>
 
 <div class="tip">
-<strong>คำถามฝึกคิด:</strong> ถ้า SingleProc มีค่า Blocked สูงมาก ควรแก้ปัญหาที่ตัว SingleProc นี้เอง หรือที่อื่น?
+<strong>คำถามฝึกคิด:</strong> ถ้า Station มีค่า Blocked สูงมาก ควรแก้ปัญหาที่ตัว Station นี้เอง หรือที่อื่น?
 </div>
-<div class="tip"><strong>เฉลย:</strong> ควรแก้ที่ <em>สถานีถัดไป</em> (ปลายทางที่รับต่อ) ไม่ใช่ตัว SingleProc เอง — เพราะ Blocked สูง
+<div class="tip"><strong>เฉลย:</strong> ควรแก้ที่ <em>สถานีถัดไป</em> (ปลายทางที่รับต่อ) ไม่ใช่ตัว Station เอง — เพราะ Blocked สูง
 แปลว่าสถานีนี้ทำงานเสร็จเร็วกว่าที่ปลายทางจะรับได้ ปลายทางต่างหากที่เป็นคอขวดจริง
 </div>
 
@@ -80,7 +80,7 @@
             <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู basic">▾</button>
             <ul class="submenu">
               <li><a href="01.html">1. Plant Simulation คืออะไร</a></li>
-              <li><a href="02.html">2. หน้าตาโปรแกรม</a></li>
+              <li><a href="02.html">2. เริ่มต้นใช้งาน Plant Simulation และ Basic User Interface</a></li>
               <li><a href="03.html">3. Object พื้นฐาน 6 ตัว</a></li>
               <li><a href="04.html">4. สร้างโมเดลแรก</a></li>
               <li class="active"><a href="05.html">5. รันและอ่านผล Statistics</a></li>
@@ -119,6 +119,20 @@
               <li><a href="../object-reference/01.html">1. Material Flow Objects</a></li>
               <li><a href="../object-reference/02.html">2. Information Flow Objects</a></li>
               <li><a href="../object-reference/03.html">3. Resources &amp; Tools</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../step-by-step/index.html">Step-by-Step File — ไฟล์สอนของ Siemens</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู step-by-step">▾</button>
+            <ul class="submenu">
+              <li><a href="../step-by-step/01.html">1. พื้นฐานสายการผลิต</a></li>
+              <li><a href="../step-by-step/02.html">2. สถิติและการวิเคราะห์</a></li>
+              <li><a href="../step-by-step/03.html">3. การประกอบและการคัดแยก</a></li>
+              <li><a href="../step-by-step/04.html">4. แรงงานและทรัพยากรบุคคล</a></li>
+              <li><a href="../step-by-step/05.html">5. หุ่นยนต์และการขนย้าย</a></li>
+              <li><a href="../step-by-step/06.html">6. SimTalk และภาพเคลื่อนไหว</a></li>
+              <li><a href="../step-by-step/07.html">7. โมเดล 3 มิติ</a></li>
+              <li><a href="../step-by-step/08.html">8. Optimization ด้วย GAWizard</a></li>
             </ul>
           </li>
           <li class="has-children">

@@ -12,6 +12,7 @@
 - **Intermediate — ขั้นกลาง** ([intermediate/](intermediate/index.html)) — 6 บท (`intermediate/01.html` .. `06.html`)
 - **Advanced — ขั้นสูง** ([advanced/](advanced/index.html)) — 7 บท (`advanced/01.html` .. `07.html`)
 - **Object Reference — สาธิต Object** ([object-reference/](object-reference/index.html)) — 3 หมวด (`object-reference/01.html` .. `03.html`)
+- **Step-by-Step File — ไฟล์สอนของ Siemens** ([step-by-step/](step-by-step/index.html)) — 8 บท (`step-by-step/01.html` .. `08.html`) เดินตามไฟล์สอนต้นฉบับของ Siemens `2404_Plant_Simulation_Step_by_Step.spp` (18 เฟรม) ทีละหัวข้อ
 - **Case Study — ตัวอย่างอุตสาหกรรม** ([case-study/](case-study/index.html)) — 4 บท (`case-study/01.html` .. `04.html`)
 - **Tips and Tricks — เทคนิคการทำงาน** ([tips-tricks/](tips-tricks/index.html)) — 4 หมวด (`tips-tricks/01.html` .. `04.html`)
 - [examples.html](examples.html) — ตัวอย่างโมเดลจริงเพิ่มเติม (อยู่ที่ root เหมือนเดิม ไม่ใช่ hub ของหมวดที่มีบทย่อย)

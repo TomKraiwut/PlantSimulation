@@ -13,7 +13,9 @@ OBJECTIVES = {
                    "รู้ว่า Plant Simulation ใช้แก้ปัญหาแบบไหนได้บ้างในงานจริง",
                    "เห็นภาพรวมว่าตลอดคอร์สนี้จะได้เรียนอะไรบ้าง"],
     ("basic", 2): ["จำตำแหน่งและหน้าที่ของส่วนประกอบหลักในโปรแกรมได้",
-                   "เปิดโปรแกรม สร้างไฟล์โมเดลใหม่ และรู้จัก Frame ได้ด้วยตัวเอง"],
+                   "เปิดตัวอย่างโมเดล Factory 51 จาก Start Page ได้ด้วยตัวเอง",
+                   "ควบคุมมุมมอง 3 มิติด้วยเมาส์/คีย์บอร์ด และโต้ตอบกับ Object ด้วย Click/Double-click/Right-click ได้",
+                   "เข้าใจแนวคิด Event-Controlled Simulation และควบคุมการรันผ่าน EventController ได้"],
     ("basic", 3): ["จำ Object พื้นฐาน 6 ตัวที่ใช้บ่อยที่สุด และหน้าที่ของแต่ละตัวได้",
                    "รู้ว่า Object แต่ละตัวมีค่า (Attribute) สำคัญอะไรที่ต้องตั้ง"],
     ("basic", 4): ["ลากวางและเชื่อมต่อ Object เป็นสายการผลิตง่ายๆ ได้ด้วยตัวเอง",
@@ -39,7 +41,7 @@ OBJECTIVES = {
     ("advanced", 1): ["เขียน SimTalk 2.0 ตาม syntax ที่ยืนยันแล้วว่ารันได้จริง ไม่ใช่ syntax เก่า",
                       "เข้าใจโครงสร้าง method header, ตัวแปร, for-loop และ if ใน SimTalk 2.0"],
     ("advanced", 2): ["ผูก Method เข้ากับเหตุการณ์ Entrance/Exit ของสถานีได้",
-                      "ใช้ Trigger ให้ Method ทำงานเป็นระยะเวลาซ้ำๆ ได้"],
+                      "ทำให้ Method ทำงานซ้ำตามรอบเวลาได้โดยไม่ต้องผูกกับเหตุการณ์ของ Object อื่น"],
     ("advanced", 3): ["สร้างและเข้าถึง DataTable/Variable จากโค้ดได้ โดยไม่ติดกับดัก auto-deref",
                       "อ่าน-เขียนค่าในตารางด้วย bracket indexing ได้ถูกต้อง"],
     ("advanced", 4): ["สร้าง Frame และ Object ด้วย createObject จากโค้ดล้วนๆ ได้",
@@ -67,6 +69,23 @@ OBJECTIVES = {
     ("case-study", 4): ["เห็นตัวอย่างการจำลองสายบรรจุภัณฑ์อาหารที่มีข้อจำกัดเรื่องเวลา",
                         "เข้าใจการนำ Distribution และ Failure มาใช้ร่วมกันในโจทย์จริง"],
 
+    ("step-by-step", 1): ["อ่านโครงสร้าง Object ในเฟรม Model_Station/Model_ParallelStation ของไฟล์สอนจริงได้",
+                          "รู้ว่าเมื่อไหร่ควรใช้ ParallelStation แทน Station เดี่ยวหลายตัว"],
+    ("step-by-step", 2): ["ใช้ Chart หลายตัวตอบคำถามคนละแบบในเฟรมเดียวกันได้",
+                          "เข้าใจรูปแบบตาราง ORDER/CT/ST แบบ data-driven และวิธีคำนวณ OEE"],
+    ("step-by-step", 3): ["แยกหน้าที่ AssemblyStation กับ DismantleStation ได้",
+                          "เข้าใจว่าทำไมเฟรม Sorter/Store ต้องมี Store พักงานก่อนประกอบ"],
+    ("step-by-step", 4): ["เข้าใจว่า WorkerPool/Broker/Workplace ทำงานร่วมกันอย่างไร",
+                          "อธิบายความต่างของ 3 เฟรมที่ค่อยๆ เพิ่มความซับซ้อนของระบบแรงงานได้"],
+    ("step-by-step", 5): ["แยกการใช้งาน PickAndPlace, Track (AGV) และ AGVPool+Marker (AMR) ได้",
+                          "เลือกระหว่างระบบขนย้ายแบบรางกับแบบอิสระให้เหมาะกับสถานการณ์ได้"],
+    ("step-by-step", 6): ["ผูก Method เข้ากับ Button/DropDownList เพื่อสร้างแผงควบคุมได้",
+                          "เข้าใจการใช้ Method สั่งภาพเคลื่อนไหว 3 มิติ ไม่ใช่แค่คำนวณตัวเลข"],
+    ("step-by-step", 7): ["รู้จัก Object เฉพาะมุมมอง 3 มิติ (AngularConverter, Turntable, Turnplate)",
+                          "เข้าใจว่าทำไมต้องตรวจสอบ Object กลุ่มนี้ในมุมมอง 3 มิติเสมอ"],
+    ("step-by-step", 8): ["เชื่อมโยง GAWizard เข้ากับ DataTable และ OEE ที่เรียนไปก่อนหน้าได้",
+                          "รู้จุดที่ผิดพลาดบ่อยเวลาตั้งค่าเงื่อนไขจบการค้นหาของ GAWizard"],
+
     ("tips-tricks", 1): ["รู้ทางลัดที่ช่วยให้ทำงานกับโปรแกรมเร็วขึ้นในชีวิตประจำวัน"],
     ("tips-tricks", 2): ["รู้ข้อผิดพลาดที่มือใหม่เจอบ่อย และวิธีเช็คให้ไวก่อนเสียเวลาไล่บั๊กผิดจุด"],
     ("tips-tricks", 3): ["รู้เทคนิคที่ช่วยให้โมเดลใหญ่รันเร็วขึ้นโดยไม่กระทบผลลัพธ์"],
@@ -84,6 +103,12 @@ BODY[("basic", 1)] = f'''
 "เหตุการณ์" ที่เกิดขึ้นเป็นจุดๆ ตามเวลา (เช่น ชิ้นงานมาถึง, เครื่องเริ่มทำงาน, เครื่องทำงานเสร็จ)
 แทนที่จะคำนวณทุกวินาทีต่อเนื่อง ทำให้จำลองกระบวนการผลิตหลายวัน/หลายเดือนได้ในเวลาไม่กี่วินาทีบนคอมพิวเตอร์</p>
 
+<div class="note">
+<strong>นิยาม — Plant Simulation Model คืออะไร:</strong> พูดให้ตรงไปตรงมาที่สุด โมเดลจำลองคือ <em>การเลียนแบบระบบ</em>
+ที่สร้างขึ้นจากความรู้หรือสมมติฐานเกี่ยวกับพฤติกรรมของส่วนต่างๆ ในระบบนั้น โดยมีจุดประสงค์เพื่อให้ได้ข้อมูลเชิงลึกเกี่ยวกับพฤติกรรมของ
+<em>ทั้งระบบ</em> — ไม่ได้จำลองทุกรายละเอียดให้เหมือนจริง 100% แต่เลือกจำลองเฉพาะส่วนที่ส่งผลต่อคำถามที่อยากตอบ
+</div>
+
 {side_by_side(
     screenshot("assets/images/basic/01-01.png", "ตัวอย่างโมเดล 3D ของสายการผลิตใน Plant Simulation"),
     step_list([
@@ -93,6 +118,27 @@ BODY[("basic", 1)] = f'''
         "พาเลทสีเขียวด้านล่าง — จุดพักสินค้าสำเร็จรูปก่อนส่งออกจากไลน์",
     ])
 )}
+
+<h2>Simulation กับ Digital Twin</h2>
+<p><strong>Simulation</strong> (การจำลองสถานการณ์) คือการสร้างแบบจำลองของระบบหรือกระบวนการในโลกจริงขึ้นมา เพื่อศึกษาพฤติกรรม
+ทดสอบสมมติฐาน หรือคาดการณ์ผลลัพธ์ที่จะเกิดขึ้นภายใต้เงื่อนไขต่างๆ โดยไม่ต้องลงมือทำกับสถานการณ์จริง — เน้นออกแบบและทดสอบ
+"สิ่งที่อาจจะเกิดขึ้น" (What-if scenarios)</p>
+<p><strong>Digital Twin</strong> ต่อยอดจากแนวคิดนี้อีกขั้นหนึ่ง: เป็นแบบจำลองเสมือนจริงของวัตถุหรือกระบวนการที่ <em>เชื่อมโยงกับข้อมูลจริง
+อย่างต่อเนื่อง</em> ทำให้แสดงข้อมูลเชิงลึกของสิ่งที่เป็นอยู่ปัจจุบันแบบเรียลไทม์ (Real-time monitoring) และพยากรณ์เหตุการณ์ที่อาจจะเกิดขึ้น
+จากข้อมูลที่ได้รับ (Prediction) ได้ — พูดง่ายๆ คือโมเดล Plant Simulation ที่เริ่มสร้างในคอร์สนี้เป็นจุดตั้งต้น พอต่อเข้ากับข้อมูลจริงจาก
+หน้างานก็ต่อยอดกลายเป็น Digital Twin ได้ต่อไป</p>
+
+{side_by_side(
+    screenshot("assets/images/basic/01-02.jpg", "การผสาน Digital Twin เข้ากับเครื่องจักรจริงระหว่างขั้นตอนติดตั้ง/ตรวจสอบ"),
+    step_list([
+        "ลดต้นทุน — ทดสอบและแก้ปัญหาในโลกดิจิทัลก่อนลงทุนจริง",
+        "ทำนายล่วงหน้า — รู้ว่าอะไรจะเสียก่อนที่มันจะเสียจริง",
+        "ตัดสินใจได้ดีขึ้น — มีข้อมูลเรียลไทม์ประกอบการวิเคราะห์",
+        "ออกแบบได้แม่นยำ — จำลองสถานการณ์ได้ไม่จำกัดจำนวนครั้ง",
+    ])
+)}
+
+{screenshot("assets/images/basic/01-03.jpg", "ตัวอย่าง Plant Simulation Model ของคลังสินค้าอัตโนมัติขนาดใหญ่", caption="โมเดลระดับนี้จำลองทั้งชั้นวางสินค้าอัตโนมัติ (AS/RS), สายพานลำเลียง, และเส้นทางขนย้ายในคลังสินค้าจริง — ใช้หลัก DES เดียวกับโมเดลง่ายๆ ที่กำลังจะสร้างในคอร์สนี้ เพียงแค่ขยายสเกลขึ้น")}
 
 <h2>ใช้ทำอะไรได้บ้าง</h2>
 <table>
@@ -138,17 +184,95 @@ BODY[("basic", 2)] = f'''
 <tr><td><strong>Attribute window</strong></td><td>เปิดจากดับเบิลคลิก Object — ตั้งค่าคุณสมบัติเฉพาะของ Object นั้น เช่น Interval, ProcTime</td></tr>
 </table>
 
-<h2>เปิดโปรแกรมครั้งแรก</h2>
+<h2>เปิดตัวอย่างโมเดล Factory 51</h2>
+<p>วิธีที่เร็วที่สุดในการทำความคุ้นเคยกับหน้าตาโปรแกรมคือเปิดโมเดลตัวอย่างที่ติดมากับโปรแกรมดูก่อน — <strong>Factory 51</strong>
+คือโมเดลสาธิตที่ Siemens แนบมาให้ทุกเครื่องที่ติดตั้ง Plant Simulation ใช้แสดงภาพ 3D ของโรงงานแบบครบวงจร</p>
 <ol class="steps">
-<li>เปิด Plant Simulation จะมีไฟล์โมเดลว่างเปล่าพร้อม Frame ชื่อ <code>Model</code> ให้อัตโนมัติ</li>
-<li>ทางซ้ายจะเห็น Class Library — ลองเปิดหมวด <code>MaterialFlow</code> ดู Object ต่างๆ ที่มีให้ใช้</li>
-<li>ลองลาก Object ใดก็ได้มาวางบน Frame เพื่อดูว่าการวางทำงานอย่างไร (ลบออกด้วยปุ่ม Delete ได้ ไม่มีผลเสีย)</li>
-<li>บันทึกไฟล์ครั้งแรกด้วย <code>Ctrl+S</code> เพื่อฝึกความเคยชิน (ดูรายละเอียดเพิ่มในบทที่ 6)</li>
+<li>เปิดโปรแกรม Plant Simulation</li>
+<li>ไปที่เมนู <code>Window → Start Page</code></li>
+<li>ในหน้า Start Page ไปที่คอลัมน์ <code>Getting Started</code> คลิก <code>Example Models</code></li>
+<li>ในรายการที่เปิดขึ้นมา คลิกเลือก <code>Factory 51</code></li>
+<li>ถ้าเครื่องใช้ Student License จะมีหน้าต่างแจ้งเตือนว่าโมเดลนี้เกิน 80 Objects (เกินสิทธิ์ Student License) ให้คลิก
+<code>Yes</code> เพื่อเปิดแบบ Viewer License แทน</li>
 </ol>
+
+{screenshot("assets/images/basic/02-01.jpg", "ขั้นตอนเปิดโมเดลตัวอย่าง Factory 51 จาก Start Page", caption="Start Page → Getting Started → Example Models → Factory 51 → ยืนยัน Viewer License")}
+
+<div class="note">
+<strong>ทดสอบจริงแล้วพบว่า:</strong> โมเดล Factory 51 มี Object เกิน 80 ตัวจริงตามที่โปรแกรมแจ้ง — เมื่อลองเชื่อมต่อผ่าน COM/สคริปต์ภายนอก
+(แทนการเปิดผ่านหน้าจอโปรแกรมตรงๆ) จะเจอ error <code>"Remote access is not allowed with this license"</code> ทันที นี่คือข้อจำกัดจริงของ
+Viewer/Student License ที่ควรรู้ไว้ — โมเดลขนาดนี้ต้องเปิดผ่าน GUI เท่านั้น จะควบคุมจากภายนอกแบบที่สอนในบท Advanced ไม่ได้จนกว่าจะมี License เต็ม
+</div>
+
+<h2>ภาพรวมโมเดล Factory 51</h2>
+<p>เมื่อเปิดขึ้นมาแล้ว จะเห็นภาพ 3D ของโรงงานจำลองที่มีครบทุกโซนตั้งแต่รับวัตถุดิบจนถึงส่งสินค้าออก — เป็นตัวอย่างที่ดีของสิ่งที่พูดถึงในบทที่แล้ว
+เรื่อง "พฤติกรรมของทั้งระบบ" ที่มองเห็นได้ด้วย 3D Visualization/3D Animation</p>
+
+{screenshot("assets/images/basic/02-02.jpg", "ภาพรวมโซนต่างๆ ในโมเดล Factory 51")}
+
+<table>
+<tr><th>โซน</th><th>ประกอบด้วย</th></tr>
+<tr><td><strong>Inbound</strong></td><td>Truck, Forklift, Robot, Crane — รับวัตถุดิบเข้าสู่โรงงาน</td></tr>
+<tr><td><strong>Production Plant (P1 &amp; P2)</strong></td><td>Polishing, Milling, Paint, Drying, Clean, QC, PostProcess, Pack — สองสายการผลิตขนาน</td></tr>
+<tr><td><strong>Robot Auto Packing</strong></td><td>AGV Load/Unload, AGV Charger — หุ่นยนต์บรรจุภัณฑ์และสถานีชาร์จ AGV</td></tr>
+<tr><td><strong>Warehouse</strong></td><td>ASRS (Automated Storage/Retrieval System), WMS — คลังสินค้าอัตโนมัติ</td></tr>
+<tr><td><strong>Outbound</strong></td><td>Conveyor, Truck — ส่งสินค้าสำเร็จรูปออกจากโรงงาน</td></tr>
+</table>
+
+<h2>ควบคุมมุมมอง 3 มิติด้วยเมาส์และคีย์บอร์ด</h2>
+<p>ก่อนเดินสำรวจโมเดล Factory 51 ควรคุ้นเคยกับการควบคุมกล้อง 3D ก่อน — ใช้ได้ทั้งเมาส์และคีย์บอร์ดร่วมกัน</p>
+<table>
+<tr><th>การควบคุม</th><th>ผลลัพธ์</th></tr>
+<tr><td>เลื่อนลูกกลิ้งเมาส์ (Scroll Wheel)</td><td>ซูมเข้า/ออก — กด <code>Shift</code> ค้างเพื่อซูมเร็ว, กด <code>Ctrl</code> ค้างเพื่อซูมช้า</td></tr>
+<tr><td>กดลูกกลิ้งเมาส์ค้าง + ลาก</td><td>หมุนมุมมอง (Rotate) รอบจุดศูนย์กลางฉากหรือรอบ Object ที่เลือก</td></tr>
+<tr><td>กด <code>Ctrl</code> + ลูกกลิ้งเมาส์ค้าง + ลาก</td><td>เลื่อนมุมมองแนวขนาน (Pan)</td></tr>
+</table>
+
+{screenshot("assets/images/basic/02-03.jpg", "ไอคอนเปรียบเทียบ Rotate กับ Pan")}
+
+<table>
+<tr><th>ปุ่มคีย์บอร์ด</th><th>ผลลัพธ์</th></tr>
+<tr><td><code>W</code> / <code>S</code></td><td>เดินเข้าใกล้ / เดินออกห่างจาก Object ในมุมมอง 3D</td></tr>
+<tr><td><code>Q</code> / <code>E</code></td><td>เดินไปทางซ้าย / ทางขวาของ Object</td></tr>
+<tr><td><code>A</code> / <code>D</code></td><td>หันซ้าย / หันขวา</td></tr>
+<tr><td><code>Z</code> / <code>Shift + Z</code></td><td>ลดระดับตัวเอง / ยกระดับตัวเองขึ้น</td></tr>
+</table>
+
+<h2>โต้ตอบกับ Object: Click / Double-click / Right-click</h2>
+<p>สามวิธีหลักในการโต้ตอบกับ Object ในมุมมอง 3D (และ 2D เช่นกัน) — ใช้บ่อยที่สุดตลอดทั้งคอร์สนี้</p>
+<table>
+<tr><th>การกระทำ</th><th>ผลลัพธ์</th></tr>
+<tr><td><strong>Click</strong> (คลิกซ้ายครั้งเดียว)</td><td>เลือก Object (Select)</td></tr>
+<tr><td><strong>Double Click</strong></td><td>เปิด Object Window — หน้าต่าง Attribute ของ Object นั้น</td></tr>
+<tr><td><strong>Right Click</strong></td><td>เปิดเมนู Quick tools — ทางลัดไปยังคำสั่งที่ใช้บ่อย เช่น Edit 3D Properties, Show Attributes and Methods (F8), Find Object (F3)</td></tr>
+<tr><td><strong>Double Click</strong> บน Object ที่มี Frame ซ้อนอยู่ข้างใน</td><td>เปิด Frame ข้างในนั้น (กด <code>Shift + Enter</code> เพื่อย้อนกลับออกมา)</td></tr>
+</table>
+
+{side_by_side(
+    screenshot("assets/images/basic/02-04.jpg", "หน้าต่าง Attribute ของ Object PickAndPlaceBottom เปิดจากการ Double Click"),
+    screenshot("assets/images/basic/02-05.jpg", "เมนู Quick tools เปิดจากการ Right Click")
+)}
 
 <div class="tip">
 <strong>Tip:</strong> ถ้าหน้าต่างเพี้ยนหรือ panel หายไป ไปที่เมนู <code>View → Reset Window Layout</code>
 (หรือใกล้เคียง แล้วแต่เวอร์ชัน) เพื่อคืนค่าเลย์เอาต์เริ่มต้น
+</div>
+
+<h2>Time-Oriented Simulation และ Event-Controlled Simulation</h2>
+<p>Plant Simulation เป็นโปรแกรมจำลองแบบ <strong>discrete, event-controlled</strong> — หมายความว่าโปรแกรมจะตรวจสอบเฉพาะ
+"จุดเวลาที่มีเหตุการณ์เกิดขึ้นจริง" ในโมเดลเท่านั้น (สอดคล้องกับ Discrete Event Simulation ที่พูดถึงในบทที่ 1) ไม่ใช่คำนวณทุกช่วงเวลาต่อเนื่อง
+ควบคุมการรันทั้งหมดผ่าน Object <strong>EventController</strong> ตัวเดียว</p>
+<ol class="steps">
+<li>คลิกที่ปุ่ม <code>Start/Stop Simulation</code> เพื่อเริ่ม/หยุดการจำลอง</li>
+<li>ดับเบิลคลิกที่ <code>EventController</code> เพื่อเปิดหน้าต่างควบคุม (แท็บ Controls/Settings)</li>
+<li>ปรับตัวเลื่อน <code>Slower ↔ Faster</code> เพื่อปรับความเร็วของแบบจำลอง แล้วสังเกตพฤติกรรมการทำงาน</li>
+</ol>
+
+{screenshot("assets/images/basic/02-06.jpg", "หน้าต่างควบคุม EventController — ปุ่ม Play/Pause และตัวเลื่อนความเร็ว")}
+
+<div class="note">
+<strong>เล่นสนุกได้ด้วย:</strong> ในโมเดล Factory 51 ลองเดินสำรวจฉาก 3D ด้วยปุ่มคีย์บอร์ดด้านบนดูให้ทั่ว — มีห้องเล็กๆ ซ่อนอยู่ในโมเดล
+ให้ลองหา "Beer room" ดู เป็นวิธีฝึกการควบคุมกล้อง 3D แบบไม่เครียดก่อนไปสร้างโมเดลของตัวเองในบทถัดไป
 </div>
 
 <div class="note">
@@ -163,8 +287,8 @@ BODY[("basic", 3)] = '''
 <table>
 <tr><th>Object</th><th>ใช้ทำอะไร</th><th>ค่าสำคัญที่ต้องตั้ง</th></tr>
 <tr><td><strong>Source</strong></td><td>จุดกำเนิดชิ้นงาน (MU) เข้าสู่ระบบ</td><td><code>Interval</code> — ความถี่การผลิตชิ้นงานใหม่</td></tr>
-<tr><td><strong>Line</strong></td><td>เส้นทางลำเลียงชิ้นงานระหว่างสถานีแบบมีความเร็ว/ความยาว</td><td><code>Length</code>, <code>Speed</code></td></tr>
-<tr><td><strong>SingleProc</strong></td><td>สถานีประมวลผล/แปรรูปชิ้นงาน (จำลองเครื่องจักร 1 หัว)</td><td><code>ProcTime</code> — เวลาแปรรูปต่อชิ้น</td></tr>
+<tr><td><strong>Conveyor</strong></td><td>เส้นทางลำเลียงชิ้นงานระหว่างสถานีแบบมีความเร็ว/ความยาว</td><td><code>Length</code>, <code>Speed</code></td></tr>
+<tr><td><strong>Station</strong></td><td>สถานีประมวลผล/แปรรูปชิ้นงาน (จำลองเครื่องจักร 1 หัว)</td><td><code>ProcTime</code> — เวลาแปรรูปต่อชิ้น</td></tr>
 <tr><td><strong>Buffer</strong></td><td>จุดพักชิ้นงานเมื่อสถานีถัดไปไม่ว่าง</td><td><code>Capacity</code> — ความจุสูงสุด</td></tr>
 <tr><td><strong>Drain</strong></td><td>จุดสิ้นสุด ชิ้นงานออกจากระบบ (สินค้าสำเร็จรูป)</td><td>ไม่ต้องตั้งค่าอะไรพิเศษ</td></tr>
 <tr><td><strong>EventController</strong></td><td>ตัวควบคุมเวลาจำลอง (นาฬิกาของโมเดล) ต้องมีเสมอในทุกโมเดล</td><td><code>SimTime</code> อ่านค่าเวลาจำลองปัจจุบัน</td></tr>
@@ -176,8 +300,8 @@ BODY[("basic", 3)] = '''
 </div>
 
 <h2>ลำดับการไหลของชิ้นงานทั่วไป</h2>
-<p><code>Source → (Line) → SingleProc → (Buffer) → SingleProc → (Line) → Drain</code></p>
-<p>ไม่จำเป็นต้องมี Line/Buffer ทุกจุด — เชื่อม Object ติดกันตรงๆ ก็ทำงานได้ แค่ไม่มีระยะทาง/เวลาขนส่งจำลองอยู่ในนั้น</p>
+<p><code>Source → (Conveyor) → Station → (Buffer) → Station → (Conveyor) → Drain</code></p>
+<p>ไม่จำเป็นต้องมี Conveyor/Buffer ทุกจุด — เชื่อม Object ติดกันตรงๆ ก็ทำงานได้ แค่ไม่มีระยะทาง/เวลาขนส่งจำลองอยู่ในนั้น</p>
 
 <div class="tip">
 <strong>คำถามฝึกคิด:</strong> ถ้าไม่ใส่ EventController ลงในโมเดลเลย จะเกิดอะไรขึ้นเมื่อกด Start?
@@ -187,14 +311,14 @@ BODY[("basic", 3)] = '''
 
 BODY[("basic", 4)] = '''
 <h2>สร้างโมเดลแรก: สายการผลิตง่ายๆ</h2>
-<p>ทำตามขั้นตอนนี้เพื่อสร้างโมเดล <code>Source → SingleProc → Drain</code></p>
+<p>ทำตามขั้นตอนนี้เพื่อสร้างโมเดล <code>Source → Station → Drain</code></p>
 <ol class="steps">
 <li>เปิด Class Library → เลือกหมวด <code>MaterialFlow</code></li>
-<li>ลาก <strong>Source</strong>, <strong>SingleProc</strong>, <strong>Drain</strong> มาวางเรียงกันบน Frame</li>
+<li>ลาก <strong>Source</strong>, <strong>Station</strong>, <strong>Drain</strong> มาวางเรียงกันบน Frame</li>
 <li>ลาก <strong>EventController</strong> มาวางไว้มุมใดก็ได้ (จำเป็นต่อการรัน — ดูบทที่ 3)</li>
 <li>เชื่อมต่อ Object โดยคลิกที่มุมขวาบนของแต่ละ Object แล้วลากไปยัง Object ถัดไป (จะเห็นลูกศรเชื่อม)</li>
 <li>ดับเบิลคลิก <strong>Source</strong> เพื่อตั้งค่า <code>Interval</code> เช่น สร้างชิ้นงานทุก 5 วินาที</li>
-<li>ดับเบิลคลิก <strong>SingleProc</strong> เพื่อตั้งค่า <code>ProcTime</code> เช่น 10 วินาทีต่อชิ้น</li>
+<li>ดับเบิลคลิก <strong>Station</strong> เพื่อตั้งค่า <code>ProcTime</code> เช่น 10 วินาทีต่อชิ้น</li>
 <li>กดปุ่ม <strong>Start Simulation</strong> (▶) ที่ Toolbar ด้านบน</li>
 </ol>
 
@@ -203,11 +327,11 @@ BODY[("basic", 4)] = '''
 </div>
 
 <h2>ตัวอย่าง: ทำนายผลก่อนรันจริง</h2>
-<p>โมเดล <code>Source(Interval=5s) → SingleProc(ProcTime=10s) → Drain</code></p>
+<p>โมเดล <code>Source(Interval=5s) → Station(ProcTime=10s) → Drain</code></p>
 <div class="note">
-<strong>คำถามฝึกคิด:</strong> Source ผลิตชิ้นงานเร็วกว่า SingleProc แปรรูปเสร็จ (5s &lt; 10s) จะเกิดอะไรขึ้นเมื่อรันไปนานๆ?
+<strong>คำถามฝึกคิด:</strong> Source ผลิตชิ้นงานเร็วกว่า Station แปรรูปเสร็จ (5s &lt; 10s) จะเกิดอะไรขึ้นเมื่อรันไปนานๆ?
 </div>
-<div class="tip"><strong>เฉลย:</strong> SingleProc รับชิ้นงานไม่ทัน Source เลยจะถูก <strong>Blocked</strong>
+<div class="tip"><strong>เฉลย:</strong> Station รับชิ้นงานไม่ทัน Source เลยจะถูก <strong>Blocked</strong>
 (สถานะรอส่งต่อ เพราะปลายทางไม่ว่าง) — นี่คือคอขวดแบบง่ายที่สุด แก้ได้ด้วยการเพิ่ม Buffer คั่นกลาง
 หรือเพิ่มสถานีขนาน (ดูบท Intermediate)
 </div>
@@ -228,7 +352,7 @@ BODY[("basic", 5)] = '''
 </div>
 
 <h2>อ่านผลลัพธ์เบื้องต้น</h2>
-<p>คลิกขวาที่ Object ประเภทประมวลผล (เช่น <strong>SingleProc</strong>) แล้วเลือก <code>Statistics</code> เพื่อดู:</p>
+<p>คลิกขวาที่ Object ประเภทประมวลผล (เช่น <strong>Station</strong>) แล้วเลือก <code>Statistics</code> เพื่อดู:</p>
 <table>
 <tr><th>สถานะ</th><th>ความหมาย</th></tr>
 <tr><td><strong>Working</strong></td><td>เวลาที่เครื่องกำลังแปรรูปชิ้นงานจริง — ยิ่งสูงยิ่งใช้งานคุ้ม</td></tr>
@@ -237,9 +361,9 @@ BODY[("basic", 5)] = '''
 </table>
 
 <div class="tip">
-<strong>คำถามฝึกคิด:</strong> ถ้า SingleProc มีค่า Blocked สูงมาก ควรแก้ปัญหาที่ตัว SingleProc นี้เอง หรือที่อื่น?
+<strong>คำถามฝึกคิด:</strong> ถ้า Station มีค่า Blocked สูงมาก ควรแก้ปัญหาที่ตัว Station นี้เอง หรือที่อื่น?
 </div>
-<div class="tip"><strong>เฉลย:</strong> ควรแก้ที่ <em>สถานีถัดไป</em> (ปลายทางที่รับต่อ) ไม่ใช่ตัว SingleProc เอง — เพราะ Blocked สูง
+<div class="tip"><strong>เฉลย:</strong> ควรแก้ที่ <em>สถานีถัดไป</em> (ปลายทางที่รับต่อ) ไม่ใช่ตัว Station เอง — เพราะ Blocked สูง
 แปลว่าสถานีนี้ทำงานเสร็จเร็วกว่าที่ปลายทางจะรับได้ ปลายทางต่างหากที่เป็นคอขวดจริง
 </div>
 '''
@@ -280,9 +404,9 @@ BODY[("intermediate", 1)] = '''
 <tr><th>Object</th><th>ใช้ทำอะไร</th><th>ต่างจากตัวพื้นฐานอย่างไร</th></tr>
 <tr><td><strong>Buffer</strong></td><td>พักชิ้นงานแบบ FIFO เรียบง่าย</td><td>เทียบกับ Store: Buffer ไม่มีตำแหน่งจัดเก็บย่อย เข้าก่อนออกก่อนเสมอ</td></tr>
 <tr><td><strong>Store</strong></td><td>พักชิ้นงานแบบมีตำแหน่ง/ชั้นวางย่อย ดึงออกไม่ต้องเรียงลำดับ</td><td>เหมาะจำลองคลังสินค้า/ชั้นวางจริงที่หยิบสินค้าจากตำแหน่งใดก็ได้</td></tr>
-<tr><td><strong>AssemblyStation</strong></td><td>รวมชิ้นงานจากหลายทางเข้าเป็นชิ้นเดียว (เช่น ประกอบชิ้นส่วน A+B)</td><td>SingleProc รับ-ส่งทางเดียว แต่ AssemblyStation รอครบทุกอินพุตก่อนประมวลผล</td></tr>
-<tr><td><strong>Track</strong></td><td>เส้นทางที่ให้ Transporter วิ่งบนนั้น (ต่างจาก Line ที่ขนส่งอัตโนมัติ)</td><td>ใช้คู่กับ Transporter เพื่อจำลองรถขนส่ง/AGV ที่ขับเคลื่อนเอง</td></tr>
-<tr><td><strong>Transporter</strong></td><td>พาหนะขนส่งชิ้นงานที่ขับเคลื่อนไปมาเองบน Track</td><td>ต่างจาก Line ตรงที่ Transporter เป็นวัตถุเดี่ยวที่ต้องวิ่งไปรับ-ส่งเอง ไม่ใช่สายพานตายตัว</td></tr>
+<tr><td><strong>AssemblyStation</strong></td><td>รวมชิ้นงานจากหลายทางเข้าเป็นชิ้นเดียว (เช่น ประกอบชิ้นส่วน A+B)</td><td>Station รับ-ส่งทางเดียว แต่ AssemblyStation รอครบทุกอินพุตก่อนประมวลผล</td></tr>
+<tr><td><strong>Track</strong></td><td>เส้นทางที่ให้ Transporter วิ่งบนนั้น (ต่างจาก Conveyor ที่ขนส่งอัตโนมัติ)</td><td>ใช้คู่กับ Transporter เพื่อจำลองรถขนส่ง/AGV ที่ขับเคลื่อนเอง</td></tr>
+<tr><td><strong>Transporter</strong></td><td>พาหนะขนส่งชิ้นงานที่ขับเคลื่อนไปมาเองบน Track (อยู่ในหมวด MU ไม่ใช่ MaterialFlow)</td><td>ต่างจาก Conveyor ตรงที่ Transporter เป็นวัตถุเดี่ยวที่ต้องวิ่งไปรับ-ส่งเอง ไม่ใช่สายพานตายตัว</td></tr>
 </table>
 
 <div class="tip">
@@ -306,7 +430,7 @@ BODY[("intermediate", 2)] = '''
 
 <div class="note">
 <strong>ข้อควรรู้:</strong> Object ใต้ <code>.MUs</code> เป็น "แม่แบบ" ที่ Source จะ<em>ผลิตสำเนาออกมา</em>ตอนรัน ไม่ใช่ Object
-ที่ลากไปวางบน Frame ได้โดยตรงแบบ Source/SingleProc — ถ้าอยากปรับแต่งคุณสมบัติของ MU (เช่น ตั้งชื่อ, สี, น้ำหนักเริ่มต้น)
+ที่ลากไปวางบน Frame ได้โดยตรงแบบ Source/Station — ถ้าอยากปรับแต่งคุณสมบัติของ MU (เช่น ตั้งชื่อ, สี, น้ำหนักเริ่มต้น)
 ต้อง <strong>Duplicate/Derive</strong> ก๊อปปี้ MU ไปไว้ในหมวด <code>UserObjects</code> ของตัวเองก่อน
 </div>
 
@@ -325,7 +449,7 @@ BODY[("intermediate", 2)] = '''
 </div>
 
 <div class="note">
-<strong>คำถามฝึกคิด:</strong> ทำไมลาก <code>.MUs.Part</code> ไปวางบน Frame ตรงๆ ไม่ได้เหมือน Source/SingleProc?
+<strong>คำถามฝึกคิด:</strong> ทำไมลาก <code>.MUs.Part</code> ไปวางบน Frame ตรงๆ ไม่ได้เหมือน Source/Station?
 </div>
 <div class="tip"><strong>เฉลย:</strong> เพราะ Object ใต้ <code>.MUs</code> เป็นแม่แบบสำหรับให้ Source สร้างสำเนาขึ้นมาตอนรันจำลอง ไม่ใช่ Object
 ที่มีตำแหน่งตายตัวในผังโรงงาน — ต้อง Duplicate/Derive ไปเป็นของตัวเองก่อนถึงจะปรับแต่งและใช้อ้างอิงได้</div>
@@ -349,7 +473,7 @@ BODY[("intermediate", 3)] = '''
 
 <h2>วิธีตั้งค่า</h2>
 <ol class="steps">
-<li>ดับเบิลคลิก Object (เช่น Source หรือ SingleProc) เพื่อเปิด Attribute window</li>
+<li>ดับเบิลคลิก Object (เช่น Source หรือ Station) เพื่อเปิด Attribute window</li>
 <li>ที่ช่อง Interval หรือ ProcTime แทนที่จะพิมพ์ตัวเลขตรงๆ ให้เลือกรูปแบบ Distribution จาก dropdown</li>
 <li>กรอกพารามิเตอร์ของ Distribution นั้น (เช่น Exponential ต้องการค่าเฉลี่ย, Normal ต้องการค่าเฉลี่ยและส่วนเบี่ยงเบนมาตรฐาน)</li>
 <li>รันซิมูเลชันหลายรอบ (Reset แล้วรันใหม่) เพื่อดูว่าผลลัพธ์แต่ละรอบต่างกันแค่ไหน — นี่คือธรรมชาติของความสุ่ม</li>
@@ -374,7 +498,7 @@ BODY[("intermediate", 4)] = '''
 
 <h2>ตั้งค่า Failure บน Object</h2>
 <ol class="steps">
-<li>ดับเบิลคลิกที่ Object ประเภทประมวลผล (เช่น SingleProc) → ไปแท็บ <strong>Failures</strong></li>
+<li>ดับเบิลคลิกที่ Object ประเภทประมวลผล (เช่น Station) → ไปแท็บ <strong>Failures</strong></li>
 <li>เลือกโหมด Failure — ที่พบบ่อยคือ <strong>Availability-based</strong> (กำหนดเปอร์เซ็นต์เวลาที่พร้อมใช้งาน) หรือ
 <strong>MTBF/MTTR</strong> (กำหนดตัวเลขทั้งสองค่าตรงๆ)</li>
 <li>กรอก MTBF และ MTTR (แต่ละค่าตั้งเป็น Distribution ได้เหมือนบทที่แล้ว เช่น เวลาซ่อมสุ่มตาม Exponential)</li>
@@ -437,7 +561,7 @@ BODY[("intermediate", 6)] = '''
 
 <h2>สร้าง Sub-frame</h2>
 <ol class="steps">
-<li>เลือก Object หลายตัวที่ต้องการห่อรวมกัน (เช่น Buffer + SingleProc + สถิติที่เกี่ยวข้อง)</li>
+<li>เลือก Object หลายตัวที่ต้องการห่อรวมกัน (เช่น Buffer + Station + สถิติที่เกี่ยวข้อง)</li>
 <li>คลิกขวา → มองหาตัวเลือกลักษณะ "Group" หรือ "Move to new Frame" (ชื่อเมนูอาจต่างกันเล็กน้อยตามเวอร์ชัน)</li>
 <li>Object ที่เลือกจะถูกย้ายเข้าไปอยู่ใน Frame ใหม่ และ Frame นั้นแสดงเป็น Object ก้อนเดียวใน Frame แม่</li>
 <li>เพิ่ม <strong>Interface object</strong> (จุดเชื่อมต่อเข้า-ออก) ที่ขอบของ Sub-frame เพื่อให้ภายนอกเชื่อมต่อกับ Sub-frame นี้ได้เหมือน Object ปกติ</li>
@@ -507,12 +631,12 @@ return buf</code></pre>
 
 BODY[("advanced", 2)] = '''
 <h2>ผูก Method เข้ากับเหตุการณ์ Entrance/Exit</h2>
-<p>Object ประเภทประมวลผล (เช่น SingleProc) มีช่อง <code>ExecuteAt.Entrance</code> และ <code>ExecuteAt.Exit</code>
+<p>Object ประเภทประมวลผล (เช่น Station) มีช่อง <code>ExecuteAt.Entrance</code> และ <code>ExecuteAt.Exit</code>
 ให้กำหนด Method ที่จะทำงานอัตโนมัติทุกครั้งที่มีชิ้นงานเข้า/ออกจากสถานีนั้น</p>
 <ol class="steps">
 <li>สร้าง Method object ในหมวด <code>InformationFlow</code> ตั้งชื่อ เช่น <code>OnEntry</code></li>
 <li>เขียนโค้ดใน Method นั้น</li>
-<li>ที่ Object เป้าหมาย (เช่น SingleProc) เปิด Attribute → ช่อง <code>ExecuteAt.Entrance</code> → กำหนดให้ชี้ไปที่ Method <code>OnEntry</code></li>
+<li>ที่ Object เป้าหมาย (เช่น Station) เปิด Attribute → ช่อง <code>ExecuteAt.Entrance</code> → กำหนดให้ชี้ไปที่ Method <code>OnEntry</code></li>
 <li>รันซิมูเลชัน — Method จะถูกเรียกอัตโนมัติทุกครั้งที่มีชิ้นงานเข้าสถานี ไม่ต้องเรียกเองด้วยมือ</li>
 </ol>
 
@@ -522,9 +646,12 @@ BODY[("advanced", 2)] = '''
 var mu := @
 print "MU " + mu.Name + " entered station"</code></pre>
 
-<h2>Trigger: ทำงานเป็นระยะเวลาซ้ำๆ</h2>
-<p>ถ้าต้องการให้ Method ทำงานตามเวลา (ไม่ผูกกับเหตุการณ์ของ Object อื่น) ใช้ Object <strong>Trigger</strong>
-(อยู่ในหมวด <code>InformationFlow</code>) ตั้งค่าคาบเวลาที่ต้องการ แล้วกำหนดให้เรียก Method ที่ต้องการทุกครั้งที่ครบคาบ</p>
+<h2>ทำงานเป็นระยะเวลาซ้ำๆ โดยไม่ผูกกับเหตุการณ์ของ Object อื่น</h2>
+<div class="note"><strong>ข้อควรรู้เรื่องเวอร์ชัน:</strong> Plant Simulation รุ่นปัจจุบัน (ตรวจสอบแล้วกับ V2606) ไม่มี Object
+แยกต่างหากชื่อ <code>Trigger</code> อยู่ใน Class Library หมวด <code>InformationFlow</code> อีกต่อไป — เป็นชื่อจากเวอร์ชันเก่า</div>
+<p>การให้ Method ทำงานซ้ำตามรอบเวลาคงที่ (ไม่ผูกกับเหตุการณ์ Entrance/Exit ของ Object อื่น) ทำได้โดยให้ Method เรียกตัวเองใหม่
+อีกครั้งหลังจากดีเลย์ที่ต้องการผ่านกลไกจัดตารางเวลาของ EventController — ดูรายละเอียด syntax ที่แน่นอนได้จาก Help Manual
+ในเครื่อง (หัวข้อ Method scheduling) ก่อนใช้งานจริง เพื่อให้แน่ใจว่าตรงกับเวอร์ชันที่ติดตั้งอยู่</p>
 
 <h2>รูปแบบทั่วไป: Attribute เก็บ reference ไปยัง Method</h2>
 <p>สอดคล้องกับรูปแบบที่ใช้ซ้ำทั่วทั้งโปรแกรม — แอตทริบิวต์ที่ควบคุมพฤติกรรม (เช่น <code>Ctrl</code> ของเซนเซอร์บางประเภท)
@@ -738,11 +865,11 @@ BODY[("object-reference", 1)] = '''
 <div class="tip"><strong>ลองสาธิต:</strong> วาง Source เดี่ยวๆ ต่อ Drain ตั้ง <code>Interval := 2</code> วินาที รันแล้วดู
 <code>Drain.StatDeleted</code> เพิ่มขึ้นทุก 2 วินาที — ยืนยันว่า Interval คุมจังหวะการผลิตจริง</div>
 
-<h2>Line</h2>
+<h2>Conveyor</h2>
 <p>สายพานลำเลียงระหว่างสถานี มีความเร็ว/ความยาวจำลองเวลาขนส่งจริง ต่างจากการเชื่อม Object ตรงๆ ที่ไม่มีเวลาขนส่งเลย</p>
-<div class="tip"><strong>ลองสาธิต:</strong> เพิ่ม Line ยาว 50m ความเร็ว 1m/s คั่นกลาง Source-Drain จะเห็นชิ้นงานใช้เวลาประมาณ 50 วินาทีบน Line ก่อนถึง Drain</div>
+<div class="tip"><strong>ลองสาธิต:</strong> เพิ่ม Conveyor ยาว 50m ความเร็ว 1m/s คั่นกลาง Source-Drain จะเห็นชิ้นงานใช้เวลาประมาณ 50 วินาทีบน Conveyor ก่อนถึง Drain</div>
 
-<h2>SingleProc</h2>
+<h2>Station</h2>
 <p>สถานีประมวลผล 1 หัว ควบคุมด้วย <code>ProcTime</code> — ดูรายละเอียดเต็มที่ <a href="basic-03.html">Basic บทที่ 3</a></p>
 
 <h2>Buffer / Store</h2>
@@ -761,7 +888,7 @@ BODY[("object-reference", 1)] = '''
 <p>เส้นทางให้พาหนะขับเคลื่อนเอง — ต้องตั้ง <code>Destination</code> และ <code>AutomaticRouting</code> ให้ Transporter ถึงจะวิ่งจริง
 (กับดักที่พบบ่อย ดูเต็มๆ ที่ <a href="advanced-04.html">Advanced บทที่ 4</a>)</p>
 
-<h2>Diverter</h2>
+<h2>Sorter</h2>
 <p>แยกเส้นทางชิ้นงานออกเป็นหลายทาง มักผูก Method ตัดสินใจว่าจะส่งไปทางไหน (ดูตัวอย่างที่ <a href="examples.html">Example File</a>)</p>
 '''
 
@@ -779,8 +906,9 @@ BODY[("object-reference", 2)] = '''
 <h2>DataTable</h2>
 <p>ตารางข้อมูล 2 มิติ เข้าถึงด้วย bracket indexing <code>[col, row]</code> — ดู <a href="advanced-03.html">Advanced บทที่ 3</a></p>
 
-<h2>Trigger</h2>
-<p>เรียก Method ให้ทำงานเป็นระยะเวลาซ้ำๆ ตามคาบที่ตั้งไว้ ไม่ต้องผูกกับเหตุการณ์ของ Object อื่น — ดู <a href="advanced-02.html">Advanced บทที่ 2</a></p>
+<h2>เรียก Method ซ้ำตามรอบเวลา</h2>
+<p>ไม่มี Object แยกต่างหากชื่อ Trigger ในเวอร์ชันปัจจุบันแล้ว (ชื่อจากเวอร์ชันเก่า) — ทำ Method ให้ทำงานซ้ำตามรอบเวลาโดยไม่ต้องผูกกับ
+เหตุการณ์ของ Object อื่นได้ผ่านกลไกจัดตารางเวลาของ EventController แทน — ดู <a href="advanced-02.html">Advanced บทที่ 2</a></p>
 '''
 
 BODY[("object-reference", 3)] = '''
@@ -799,6 +927,305 @@ BODY[("object-reference", 3)] = '''
 <p>Optimization ด้วย Genetic Algorithm ตั้งค่าผ่าน GUI wizard เท่านั้น สร้างจากโค้ดตรงๆ ไม่ได้ — ดู <a href="advanced-06.html">Advanced บทที่ 6</a></p>
 '''
 
+BODY[("step-by-step", 1)] = '''
+<p class="lead" style="max-width:46em;">อ้างอิงเฟรม <code>Model_Station</code> และ <code>Model_ParallelStation</code> จากไฟล์สอนต้นฉบับของ Siemens —
+Object พื้นฐานที่สุดที่ต้องรู้ก่อนสร้างโมเดลจำลองการผลิตแรก ดูรายละเอียด Object แต่ละตัวเต็มๆ ได้ที่
+<a href="basic-03.html">Basic บทที่ 3</a></p>
+
+<div class="note">
+<strong>Object ในเฟรมต้นฉบับ:</strong> <code>Model_Station</code> มี EventController, Source ×2, Station ×6, Drain ×2,
+Display ×3, Chart, Connector ×8 — <code>Model_ParallelStation</code> มี EventController, Source ×2, Conveyor,
+ParallelStation ×4, Buffer, Drain, Display ×4, Chart, Connector ×7
+</div>
+
+<h2>สายการผลิตต่อเนื่องหลายสถานี</h2>
+<p>ในเฟรม <code>Model_Station</code> นอกจากสาย <code>Source → Station → Drain</code> เดี่ยวๆ แล้ว ยังมีสายที่ต่อ Station
+ถึง 4 ตัวเรียงกัน (<code>Source1 → Station1 → Station2 → Station3 → Drain1</code>) เพื่อสาธิตว่าสายการผลิตจริงมักมีหลายสถานี
+ต่อเนื่องกัน ไม่ใช่แค่สถานีเดียว — ผลลัพธ์ Throughput รวมของสายจะถูกจำกัดด้วยสถานีที่ช้าที่สุดในสาย (คอขวด)</p>
+
+<h2>เมื่อ Station เดียวไม่พอ: ParallelStation</h2>
+<p>เฟรม <code>Model_ParallelStation</code> สาธิตทางเลือกเมื่อจุดหนึ่งในสายการผลิตต้องมี "เครื่องจักรทำงานแบบเดียวกันหลายเครื่อง
+พร้อมกัน" แทนที่จะวาง Station หลายตัวแล้วต้องมี Sorter แยกเส้นทางเอง <strong>ParallelStation</strong> คือ Object เดียวที่มีคิว
+รับงานได้จากหลายเครื่องจักรภายในตัวมันเอง กำหนดจำนวน "เครื่อง" ในตัวเดียวได้ที่แท็บ Attributes</p>
+
+<table>
+<tr><th>Object เพิ่มเติมในเฟรมนี้</th><th>ใช้ทำอะไร</th></tr>
+<tr><td><strong>Conveyor</strong></td><td>ลำเลียงชิ้นงานแบบต่อเนื่อง (มีความเร็ว/ความยาว) ต่างจาก Connector ที่เป็นแค่เส้นเชื่อมตรรกะ</td></tr>
+<tr><td><strong>Buffer</strong></td><td>จุดพักชิ้นงานแบบมีความจุจำกัด เมื่อสถานีถัดไปไม่ว่าง</td></tr>
+</table>
+
+<div class="tip"><strong>คำถามฝึกคิด:</strong> ถ้ามี Station เดี่ยว 3 ตัวขนานกัน (ต้องมี Sorter + Connector เชื่อมแยก 3 เส้น)
+เทียบกับ ParallelStation 1 ตัวที่ตั้งค่า 3 เครื่องภายใน อะไรต่างกัน?<br><br>
+<strong>เฉลย:</strong> ผลลัพธ์ Throughput ใกล้เคียงกัน แต่ ParallelStation สร้าง/แก้ไขง่ายกว่ามาก (ไม่ต้องวาง Sorter หรือคุม
+Connector หลายเส้น) เหมาะกับกรณีเครื่องจักรเหมือนกันทุกประการ ส่วน Station เดี่ยวหลายตัวเหมาะกับกรณีที่แต่ละเครื่องมีเงื่อนไข/เวลา
+ไม่เท่ากัน</div>
+'''
+
+BODY[("step-by-step", 2)] = '''
+<p class="lead" style="max-width:46em;">อ้างอิงเฟรม <code>Model_Chart</code>, <code>Model_Data_Table</code>, <code>Model_OEE</code>,
+<code>Model_EnergyAnalyzer</code> — อ่านผลลัพธ์การจำลอง จัดเก็บข้อมูลด้วยตาราง และคำนวณ OEE / พลังงาน</p>
+
+<div class="note">
+<strong>Object ในเฟรมต้นฉบับ:</strong> <code>Model_Chart</code> มี Chart ×3, Display ×4 — <code>Model_Data_Table</code>
+เพิ่ม DataTable <strong>ORDER</strong>/<strong>CT</strong>/<strong>ST</strong> — <code>Model_OEE</code> เพิ่ม Display
+สำหรับ Availability/Performance/Quality/OEE — <code>Model_EnergyAnalyzer</code> ฝังเฟรมย่อย EnergyAnalyzer และ GAWizard
+</div>
+
+<h2>Chart หลายตัว ตอบคนละคำถาม</h2>
+<p>เฟรม <code>Model_Chart</code> มี Chart ถึง 3 ตัวเพราะ Chart หนึ่งตัวแสดงได้แค่มุมมองเดียว — ต้องแยก Chart ตามคำถามที่อยาก
+ตอบ เช่น สัดส่วนเวลา Working/Waiting/Blocked ของ Station, จำนวนชิ้นงานสะสมที่ Drain ตามเวลา, และปริมาณ WIP ใน Buffer</p>
+<div class="tip"><strong>Tip:</strong> ใช้ Display คู่กับ Chart เสมอสำหรับตัวเลขที่ต้องอ่านแม่นยำ (เช่น Throughput สะสม) —
+Chart เหมาะกับ "แนวโน้ม/สัดส่วน" ส่วน Display เหมาะกับ "ตัวเลขล่าสุด"</div>
+
+<h2>DataTable — ขับเคลื่อนโมเดลด้วยข้อมูล</h2>
+<table>
+<tr><th>ตาราง</th><th>ความหมาย</th></tr>
+<tr><td><strong>ORDER</strong></td><td>รายการคำสั่งผลิต — ชนิดชิ้นงาน/จำนวนที่ต้องผลิตในแต่ละรอบ</td></tr>
+<tr><td><strong>CT</strong> (Cycle Time)</td><td>เวลาแปรรูปของแต่ละชนิดชิ้นงานที่แต่ละสถานี</td></tr>
+<tr><td><strong>ST</strong> (Setup Time)</td><td>เวลาปรับตั้งเครื่องเมื่อเปลี่ยนชนิดชิ้นงาน</td></tr>
+</table>
+<p>แทนที่จะพิมพ์เวลาแปรรูปตายตัวใน Station แต่ละตัว ให้ Station ดึงค่าจากตารางตามชนิดชิ้นงานที่กำลังประมวลผล — bracket
+indexing ตัวเดียวกับที่สอนใน <a href="advanced-03.html">Advanced บทที่ 3</a>:</p>
+<pre><code>->void;
+var partType := @.PartType
+Station.procTime := CT[partType, Station.name]</code></pre>
+<div class="note"><strong>ทำไมต้องทำแบบนี้:</strong> เมื่อมีหลายชนิดชิ้นงาน การแก้ไขเวลาแปรรูปทำที่ตารางเดียว ไม่ต้องไล่แก้ทีละ
+Station — เป็นพื้นฐานสำคัญก่อนไปบทที่ 8 (Optimization) ที่ต้องปรับค่าจากภายนอกโมเดลได้</div>
+
+<h2>OEE — Overall Equipment Effectiveness</h2>
+<table>
+<tr><th>องค์ประกอบ</th><th>ความหมาย</th></tr>
+<tr><td>Availability</td><td>สัดส่วนเวลาที่เครื่องพร้อมทำงาน (ไม่รวมเวลาหยุดเสีย/ตั้งเครื่อง)</td></tr>
+<tr><td>Performance</td><td>สัดส่วนความเร็วจริงเทียบกับความเร็วสูงสุดที่ออกแบบไว้</td></tr>
+<tr><td>Quality</td><td>สัดส่วนชิ้นงานดีเทียบกับชิ้นงานทั้งหมดที่ผลิต</td></tr>
+<tr><td>OEE</td><td>Availability × Performance × Quality — ตัวชี้วัดประสิทธิภาพรวม</td></tr>
+</table>
+<p>OEE คำนวณจาก Statistics ของ Station โดยตรงผสมกับจำนวนชิ้นงานดี/เสียที่นับได้จาก Drain สองตัวในเฟรมนี้ ไม่จำเป็นต้องมี
+Object พิเศษเพิ่ม — ใช้ Method คำนวณสามค่าแล้วคูณกันได้เลย</p>
+
+<h2>EnergyAnalyzer — วิเคราะห์การใช้พลังงาน</h2>
+<p>เฟรม <code>Model_EnergyAnalyzer</code> ฝัง Object เครื่องมือ <strong>EnergyAnalyzer</strong> ไว้เป็นเฟรมย่อย ใช้ประเมิน
+พลังงานที่ใช้ในแต่ละสถานะของเครื่องจักร (Working/Standby/Off) เหมาะสำหรับวิเคราะห์ต้นทุนพลังงานควบคู่กับ Throughput ก่อน
+ตัดสินใจเพิ่ม/ลดจำนวนเครื่องจักร เฟรมนี้ยังฝัง GAWizard ไว้ด้วย เป็นจุดเริ่มก่อนเข้าเนื้อหาเต็มที่
+<a href="step-by-step-08.html">บทที่ 8: Optimization ด้วย GAWizard</a></p>
+
+<div class="tip"><strong>คำถามฝึกคิด:</strong> ถ้า OEE ของสถานีหนึ่งต่ำ ควรดูค่าไหนก่อน (A, P, หรือ Q) เพื่อรู้ว่าปัญหาหลักคืออะไร?
+<br><br><strong>เฉลย:</strong> ดูทั้งสามค่าแยกกันเสมอ — A ต่ำมักบ่งชี้ปัญหาการหยุดเครื่อง/รอวัตถุดิบ, P ต่ำบ่งชี้เครื่องทำงานช้ากว่าที่
+ออกแบบ, Q ต่ำบ่งชี้ปัญหาคุณภาพต้นทาง — ค่า OEE รวมค่าเดียวไม่บอกว่าควรแก้ตรงไหนก่อน</div>
+'''
+
+BODY[("step-by-step", 3)] = '''
+<p class="lead" style="max-width:46em;">อ้างอิงเฟรม <code>Model_Assembly</code> และ <code>Model_Sorter_and_Store</code> — รวมชิ้นงานหลายชิ้นเป็นหนึ่ง
+แยกชิ้นงานออกจากกัน และจัดเก็บ/คัดแยกตามเงื่อนไข</p>
+
+<div class="note">
+<strong>Object ในเฟรมต้นฉบับ:</strong> <code>Model_Assembly</code> มี Source ×2, AssemblyStation, DismantleStation,
+Buffer ×2, เฟรมย่อย ExperimentManager — <code>Model_Sorter_and_Store</code> มี Source ×4, Store ×3, Sorter,
+AssemblyStation, Connector ×17
+</div>
+
+<h2>AssemblyStation — ประกอบชิ้นงานหลายชิ้นเป็นหนึ่ง</h2>
+<p><strong>AssemblyStation</strong> รับชิ้นงานจากหลายเส้นทางเข้าพร้อมกัน (เช่น ตัวเรือน + ฝา + สกรู) แล้วรวมเป็นชิ้นงาน
+ประกอบ 1 ชิ้นก่อนส่งออกทางเดียว ต่างจาก Station ทั่วไปที่มีทางเข้าทางเดียว — ต้องมีชิ้นงานจากทุกทางเข้าครบก่อนจึงจะเริ่มประกอบ</p>
+<div class="note"><strong>ข้อควรระวัง:</strong> ถ้าเส้นทางใดเส้นทางหนึ่งขาดชิ้นงาน AssemblyStation จะรอเฉยๆ (ไม่ใช่ Error) —
+ถ้า Throughput ต่ำผิดปกติ ให้เช็คว่าทุกเส้นทางป้อนชิ้นงานทันเวลาเท่ากันหรือไม่ นี่คือสาเหตุคอขวดที่พบบ่อยที่สุดของ AssemblyStation</div>
+
+<h2>DismantleStation — แยกชิ้นงานที่ประกอบแล้ว</h2>
+<p>ตรงข้ามกับ AssemblyStation — รับชิ้นงานประกอบ 1 ชิ้นเข้ามา แล้วแยกออกเป็นชิ้นส่วนย่อยส่งออกหลายทาง ในเฟรมนี้ใช้คู่กับ
+AssemblyStation เพื่อสาธิตวงจรประกอบ → แยก</p>
+
+<h2>Experiment Manager — เปรียบเทียบหลายสถานการณ์</h2>
+<p>เฟรมย่อย ExperimentManager สาธิตการรันโมเดลเดียวกันหลายรอบด้วยค่าพารามิเตอร์ต่างกัน โดยไม่ต้องแก้ค่าแล้วรันทีละรอบเอง —
+ดูขั้นตอนตั้งค่าเต็มๆ ที่ <a href="advanced-05.html">Advanced บทที่ 5</a> ซึ่งเป็นพื้นฐานก่อนไปถึง
+<a href="step-by-step-08.html">GAWizard (บทที่ 8)</a> ที่ค้นหาค่าที่ดีที่สุดแทนการลองทีละ Scenario เอง</p>
+
+<h2>Sorter และ Store — คัดแยกและจัดเก็บ</h2>
+<p>เฟรม <code>Model_Sorter_and_Store</code> มี Source ถึง 4 ตัวป้อนชิ้นงานต่างชนิดกันเข้าสู่ <strong>Sorter</strong> ซึ่งแยก
+เส้นทางตามเงื่อนไข (เช่นชนิดชิ้นงาน) ไปยัง <strong>Store</strong> 3 ตัวที่เก็บแยกตามประเภท ก่อนป้อนเข้า AssemblyStation อีก
+ครั้งเพื่อประกอบจากของที่เก็บไว้</p>
+<table>
+<tr><th>Object</th><th>ต่างจาก Buffer อย่างไร</th></tr>
+<tr><td><strong>Sorter</strong></td><td>ตัดสินใจ "ส่งไปทางไหน" ตามกฎ/Method ที่ผูกไว้ — Buffer ไม่มีการตัดสินใจ แค่พักคิว</td></tr>
+<tr><td><strong>Store</strong></td><td>เก็บชิ้นงานแบบสุ่มเข้าถึงได้ (ไม่จำเป็นต้องเป็น FIFO เหมือน Buffer) และดึงออกตามเงื่อนไขได้</td></tr>
+</table>
+
+<div class="tip"><strong>คำถามฝึกคิด:</strong> ทำไม AssemblyStation ในเฟรมนี้ต้องรอรับจาก Store 3 ตัว (ไม่ใช่รับตรงจาก Source
+เหมือนเฟรมก่อนหน้า)?<br><br><strong>เฉลย:</strong> เพราะ Source แต่ละตัวผลิตชิ้นส่วนไม่พร้อมกัน — ถ้าไม่มี Store พักไว้ก่อน
+AssemblyStation จะรอชิ้นส่วนที่มาช้าที่สุดตลอดเวลา การมี Store เป็นบัฟเฟอร์เฉพาะประเภทช่วยให้ AssemblyStation หยิบของที่พร้อม
+อยู่แล้วได้ทันที ลดเวลารอ</div>
+'''
+
+BODY[("step-by-step", 4)] = '''
+<p class="lead" style="max-width:46em;">อ้างอิงเฟรม <code>Model_Basic_Worker</code>, <code>Model_Workers</code>, <code>Model_Worker_Service</code> —
+เรียงความซับซ้อนจากน้อยไปมาก สาธิตการจำลองคนงานที่ต้องใช้ร่วมกันระหว่างหลายสถานี ดูภาพรวม Object กลุ่มนี้เพิ่มที่
+<a href="object-reference-03.html">Object Reference บทที่ 3</a></p>
+
+<h2>สามชิ้นส่วนของระบบแรงงาน</h2>
+<table>
+<tr><th>Object</th><th>หน้าที่</th></tr>
+<tr><td><strong>WorkerPool</strong></td><td>"คลัง" คนงานที่มีอยู่ในระบบ — กำหนดจำนวนคนและกะการทำงานที่นี่</td></tr>
+<tr><td><strong>Broker</strong></td><td>ตัวกลางจับคู่ระหว่างคำขอแรงงานจาก Workplace กับคนงานว่างใน WorkerPool</td></tr>
+<tr><td><strong>Workplace</strong></td><td>จุดที่ผูกกับ Station ซึ่งต้องมีคนงานอยู่ด้วยจึงจะเริ่มประมวลผลได้</td></tr>
+</table>
+<p>ทั้งสามตัวทำงานร่วมกันเสมอเป็นชุด — ถ้าลืม Broker คนงานใน WorkerPool จะไม่ถูกจ่ายงานให้ Workplace เลย</p>
+
+<h2>Model_Basic_Worker — จุดเริ่มต้น</h2>
+<p>เฟรมนี้มี Station เดียวกับ Workplace เดียว: คนงาน 1 คนจาก WorkerPool ถูก Broker ส่งไปช่วยที่ Workplace เมื่อมีชิ้นงานมาถึง
+รันแล้วสังเกตว่า Station จะ "รอคนงาน" (Waiting on Worker) ก่อนเริ่มประมวลผลทุกครั้งที่มีชิ้นงานใหม่เข้ามา</p>
+
+<h2>Model_Workers — คนงานร่วมกันหลายสถานี</h2>
+<p>เพิ่มจำนวน Station/Workplace เป็น 4-6 จุด แต่ WorkerPool ยังมีจำนวนคนงานจำกัด — สาธิตสถานการณ์จริงที่คนงานไม่พอสำหรับทุก
+สถานีพร้อมกัน Broker ต้องตัดสินใจว่าจะส่งคนงานไปช่วยจุดไหนก่อน</p>
+<div class="tip"><strong>Tip:</strong> ถ้า Throughput ต่ำกว่าที่คาด ให้เช็คสถิติของ Broker ก่อน — มักเป็นเพราะจำนวนคนงานใน
+WorkerPool น้อยเกินไปเทียบกับจำนวนจุดที่ต้องการพร้อมกัน ไม่ใช่ปัญหาที่ Station เอง</div>
+
+<h2>Model_Worker_Service — คนงานเดินบริการหลายจุด</h2>
+<p>รูปแบบซับซ้อนที่สุด: คนงานไม่ได้ประจำอยู่กับ Station เดียวตลอดกะ แต่เดินไปมาให้บริการหลายสถานีตามคิวที่เกิดขึ้นจริง
+(roaming service) เหมาะจำลองสถานการณ์เช่น ช่างเทคนิคที่ดูแลหลายเครื่องจักร</p>
+
+<div class="note"><strong>คำถามฝึกคิด:</strong> ทำไมไฟล์สอนถึงแยกเป็น 3 เฟรม (Basic_Worker → Workers → Worker_Service) แทนที่
+จะรวมเป็นเฟรมเดียว?<br><br><strong>เฉลย:</strong> เพื่อแยกตัวแปรที่เพิ่มความซับซ้อนทีละตัว — จากคนงาน 1 คน/สถานีเดียว
+ไปสู่คนงานจำกัดที่ต้องแบ่งกันหลายสถานี ไปสู่คนงานที่เดินบริการเชิงรุก ถ้าเรียนรวมทีเดียวจะแยกไม่ออกว่าพฤติกรรมไหนมาจาก Object ไหน</div>
+'''
+
+BODY[("step-by-step", 5)] = '''
+<p class="lead" style="max-width:46em;">อ้างอิงเฟรม <code>Model_PickAndPlace</code>, <code>Model_AGV</code>, <code>Model_Basic_AMR</code> — แขนกลหยิบวาง
+และยานพาหนะขนย้ายอัตโนมัติสองยุค (AGV แบบราง กับ AMR แบบอิสระ)</p>
+
+<h2>PickAndPlace — แขนกลหยิบวาง</h2>
+<p><strong>PickAndPlace</strong> ย้ายชิ้นงานจากจุดหนึ่งไปอีกจุดหนึ่งแบบไม่ต่อเนื่อง (หยิบ → เคลื่อนที่ → วาง) ต่างจาก Conveyor
+ที่ลำเลียงต่อเนื่อง เฟรม <code>Model_PickAndPlace</code> มี 4 ชุดวางคู่กันสาธิตรูปแบบการใช้งานต่างกัน</p>
+<div class="tip"><strong>Tip:</strong> เวลารวมของ PickAndPlace มักเป็นคอขวดที่มองข้าม เพราะแยกเป็น 3 ช่วงเวลา
+(หยิบ+เคลื่อนที่+วาง) รวมกัน — ลองแตกดูทีละช่วงใน Statistics ก่อนสรุปว่าเครื่องจักรช้าไม่ใช่ที่แขนกล</div>
+
+<h2>Track — AGV แบบเดินตามราง (ยุคเก่า)</h2>
+<p>เฟรม <code>Model_AGV</code> ใช้ Object <strong>Track</strong> กำหนดเส้นทางเดินรถตายตัวบนพื้น แล้วให้ยานพาหนะวิ่งตาม
+เส้นทางนั้น จุดขึ้น-ลงสินค้าทำผ่าน PickAndPlace ที่ผูกอยู่บน Track — เหมาะกับโรงงานที่เส้นทางขนย้ายคงที่ ไม่เปลี่ยนบ่อย
+(กับดัก Destination/AutomaticRouting ที่พบบ่อยกับ Transporter ดูที่ <a href="advanced-04.html">Advanced บทที่ 4</a>)</p>
+
+<h2>AGVPool + Marker — AMR แบบอิสระ (ยุคใหม่)</h2>
+<p>เฟรม <code>Model_Basic_AMR</code> ใช้แนวคิดต่างจาก Track: <strong>Marker</strong> คือจุดอ้างอิงลอยตัวในพื้นที่ (ไม่ใช่
+เส้นทางตายตัว) ส่วน <strong>AGVPool</strong> คือกลุ่มยานพาหนะที่คำนวณเส้นทางเดินไปมาระหว่าง Marker เองแบบไดนามิก</p>
+<table>
+<tr><th></th><th>Track</th><th>AGVPool + Marker</th></tr>
+<tr><td>เส้นทาง</td><td>ตายตัว ต้องวาดไว้ล่วงหน้า</td><td>คำนวณเองระหว่าง Marker แต่ละจุด</td></tr>
+<tr><td>ความยืดหยุ่น</td><td>ต่ำ — ย้ายจุดต้องแก้ Track</td><td>สูง — ย้าย Marker ได้อิสระ</td></tr>
+<tr><td>เหมาะกับ</td><td>เส้นทางขนย้ายคงที่ ปริมาณสูง</td><td>ผังพื้นที่เปลี่ยนบ่อย</td></tr>
+</table>
+<p>เฟรมนี้ยังสาธิตรูปแบบ Method วงจรชีวิตมาตรฐาน 3 ตัว — <code>INIT</code>/<code>RESET</code>/<code>ENDSIM</code> —
+ผูกกับจังหวะเริ่ม/รีเซ็ต/จบของ EventController พร้อมตัวแปร <code>Total_Distance</code> สะสมระยะทางที่ AMR วิ่งทั้งหมด</p>
+<div class="note"><strong>รูปแบบนี้ใช้ซ้ำได้ทั่วไป:</strong> การผูก Method ชื่อ INIT/RESET/ENDSIM เข้ากับจังหวะของ
+EventController ใช้ได้กับโมเดลไหนก็ได้ ไม่ใช่แค่ AMR — ดูการผูก Method กับเหตุการณ์เต็มๆ ที่
+<a href="advanced-02.html">Advanced บทที่ 2</a></div>
+
+<div class="tip"><strong>คำถามฝึกคิด:</strong> ถ้าต้องขยายโกดังเพิ่มโซนใหม่บ่อยๆ ควรเลือก Track หรือ AGVPool+Marker?
+<br><br><strong>เฉลย:</strong> AGVPool + Marker เพราะแค่เพิ่ม Marker จุดใหม่โดยไม่ต้องวาดเส้นทางเชื่อมใหม่ทั้งหมด</div>
+'''
+
+BODY[("step-by-step", 6)] = '''
+<p class="lead" style="max-width:46em;">อ้างอิงเฟรม <code>Model_Method</code> และ <code>Model_3D_Animation</code> — ควบคุมโมเดลด้วยโค้ด ผูก UI เข้ากับ
+Method และสั่งภาพเคลื่อนไหว ดู syntax เต็มๆ ที่ <a href="advanced-01.html">Advanced บทที่ 1</a></p>
+
+<h2>ผูก Method เข้ากับ UI — Button และ DropDownList</h2>
+<table>
+<tr><th>Object</th><th>ใช้ทำอะไร</th></tr>
+<tr><td><strong>Button</strong></td><td>เรียก Method หนึ่งตัวเมื่อถูกคลิก — ผูกที่ Attribute <code>Method</code> ของปุ่ม</td></tr>
+<tr><td><strong>DropDownList</strong></td><td>ให้ผู้ใช้เลือกค่าจากรายการ แล้วส่งค่าที่เลือกเข้า Method ผ่านตัวแปรที่ผูกไว้</td></tr>
+</table>
+<ol class="steps">
+<li>ลาก Button จากหมวด UserInterface มาวางบน Frame</li>
+<li>เปิด Attribute ของ Button → ช่อง Method → เลือก Method ที่สร้างไว้</li>
+<li>เขียนโค้ดใน Method ตามพฤติกรรมที่ต้องการ เช่น เปลี่ยนอัตราการผลิตของ Source</li>
+<li>ทำแบบเดียวกันกับ DropDownList โดยผูกค่าที่เลือกเข้าตัวแปร แล้วให้ Method อ่านค่านั้นไปใช้ต่อ</li>
+</ol>
+<div class="tip"><strong>Tip:</strong> ปุ่มสองปุ่มในเฟรมนี้มักใช้สาธิตคู่ Start/Stop หรือ Slow/Fast — แยก Method คนละตัวชัดเจน
+ดีกว่ารวมไว้ใน Method เดียวแล้วเช็คเงื่อนไข เพราะดีบักง่ายกว่าเมื่อโมเดลใหญ่ขึ้น</div>
+
+<h2>Model_3D_Animation — สั่งภาพเคลื่อนไหวด้วย Method</h2>
+<p>เฟรมนี้มี Method เพียงตัวเดียวแต่ผูกกับสายการผลิตที่มีทั้ง Station และ PickAndPlace — สาธิตว่า Method ไม่ได้ใช้แค่คำนวณ
+ค่าตัวเลข แต่ยังสั่งเปลี่ยนรูปลักษณ์/การหมุน/สีของ MU ในมุมมอง 3D ได้โดยตรงผ่าน Attribute ของ MU เอง ทำให้แอนิเมชันสื่อความ
+หมายมากกว่าดูแค่ Object เคลื่อนที่เฉยๆ</p>
+<div class="note"><strong>ทำไมสำคัญ:</strong> เมื่อพรีเซนต์โมเดลให้ผู้บริหารหรือลูกค้าดู ภาพเคลื่อนไหวที่สื่อความหมาย
+(เช่น ชิ้นงานเปลี่ยนสีตอนผ่าน QC) ช่วยให้เข้าใจ Logic ได้เร็วกว่าตัวเลขสถิติล้วนๆ มาก</div>
+
+<div class="tip"><strong>คำถามฝึกคิด:</strong> ควรผูก Method ไว้ที่ ExecuteAt.Entrance หรือ ExecuteAt.Exit ถ้าต้องการนับจำนวน
+ชิ้นงานที่ "ผ่านสำเร็จ" ออกจากสถานี?<br><br><strong>เฉลย:</strong> ExecuteAt.Exit — เพราะชิ้นงานที่เข้า (Entrance) อาจยัง
+ประมวลผลไม่เสร็จหรือถูกดีดออกเพราะ Error ได้ การนับที่จุดออกจริงเท่านั้นที่ยืนยันว่าสถานีทำงานสำเร็จกับชิ้นงานนั้นแล้ว</div>
+'''
+
+BODY[("step-by-step", 7)] = '''
+<p class="lead" style="max-width:46em;">อ้างอิงเฟรม <code>Model_3D_Factory</code> — Object เฉพาะที่มีความหมายในมุมมอง 3 มิติเท่านั้น สำหรับเปลี่ยนทิศทาง/
+ระดับความสูงของชิ้นงานบนสายพาน</p>
+
+<h2>ทำไมต้องมี Object เฉพาะสำหรับ 3D</h2>
+<p>ในมุมมอง 2D สายพานทุกเส้นวาดเป็นเส้นตรงหรือหักมุมได้อิสระโดยไม่ต้องมี Object พิเศษ แต่ในโรงงานจริง การเปลี่ยนทิศทาง/ระดับ
+ของสายพานต้องใช้อุปกรณ์จริงซึ่งกินพื้นที่และเวลา — เฟรมนี้รวม Object ที่จำลองอุปกรณ์เหล่านั้นไว้ในที่เดียว</p>
+
+<table>
+<tr><th>Object</th><th>ใช้ทำอะไร</th></tr>
+<tr><td><strong>AngularConverter</strong></td><td>เปลี่ยนทิศทางการไหลของชิ้นงานเป็นมุมที่กำหนด ระหว่างสายพานสองเส้น</td></tr>
+<tr><td><strong>Turntable</strong></td><td>โต๊ะหมุนที่หมุนตัวชิ้นงานเองเพื่อเปลี่ยนทิศทางออก ชิ้นงานหยุดนิ่งบนโต๊ะระหว่างหมุน</td></tr>
+<tr><td><strong>Turnplate</strong></td><td>คล้าย Turntable แต่มักใช้กรณีต้องหมุนพร้อมส่งต่อแบบต่อเนื่องมากกว่า</td></tr>
+</table>
+<p>ทั้งสามตัวอยู่ในหมวด MaterialFlow เช่นเดียวกับ Conveyor — วางแทรกระหว่างสองเส้นทางได้เหมือน Object ลำเลียงทั่วไป
+ต่างกันแค่ตอนตั้งค่ามุม/ทิศทางที่ Attribute</p>
+
+<ol class="steps">
+<li>วาง Conveyor เส้นแรกเข้า AngularConverter หรือ Turntable</li>
+<li>ตั้งค่ามุมการเปลี่ยนทิศทางที่ Attributes (เช่น 90° สำหรับเลี้ยวฉาก)</li>
+<li>ต่อ Conveyor เส้นที่สองออกจากอุปกรณ์นั้นในทิศทางใหม่</li>
+<li>สลับมุมมองเป็น 3D เพื่อตรวจสอบว่าชิ้นงานเปลี่ยนทิศทาง/หมุนตามที่ตั้งค่าจริง</li>
+</ol>
+<div class="tip"><strong>Tip:</strong> ในมุมมอง 2D อุปกรณ์เหล่านี้อาจดูเหมือนจุดเชื่อมธรรมดา — ต้องสลับไปมุมมอง 3D เพื่อตรวจสอบ
+ว่าตั้งค่ามุม/ทิศทางถูกต้องจริง อย่าพึ่งพา 2D อย่างเดียวเมื่อใช้ Object กลุ่มนี้</div>
+
+<p>เฟรมนี้ยังฝัง WorkerPool + Broker + Workplace (จาก <a href="step-by-step-04.html">บทที่ 4</a>) ไว้ด้วย เพื่อสาธิตโมเดล
+ระดับใกล้เคียงโรงงานจริงที่ต้องผสมทั้งการขนย้าย 3 มิติและแรงงานคนในเฟรมเดียวกัน</p>
+
+<div class="note"><strong>คำถามฝึกคิด:</strong> ทำไมควรตรวจสอบ Turntable/Turnplate ในมุมมอง 3D เสมอ ทั้งที่โปรแกรมรัน
+ซิมูเลชันได้ปกติแม้ไม่เปิดมุมมอง 3D?<br><br><strong>เฉลย:</strong> ผลลัพธ์ตัวเลขถูกต้องได้แม้ตั้งค่าทิศทาง/มุมผิด เพราะ
+Logic การไหลของชิ้นงานคำนวณแยกจากภาพ 3D — แต่ถ้านำโมเดลไปพรีเซนต์หรือใช้ตรวจสอบพื้นที่จริง มุมที่ผิดจะทำให้ข้อสรุปเรื่อง
+พื้นที่หน้างานผิดพลาดโดยที่ตัวเลขไม่ฟ้องเลย</div>
+'''
+
+BODY[("step-by-step", 8)] = '''
+<p class="lead" style="max-width:46em;">อ้างอิงเฟรม <code>Model_GAWizard</code> — ค้นหาลำดับ/พารามิเตอร์ที่ดีที่สุดโดยอัตโนมัติด้วย GAWizard แทนการลองทีละ
+Scenario เอง เฟรมนี้รวมทุกอย่างจาก<a href="step-by-step-02.html">บทที่ 2</a> (DataTable + OEE) เข้ากับ GAWizard —
+เป็นบทสรุปของไฟล์สอนทั้งไฟล์ ดูขอบเขต/วิธีตั้งค่า GAWizard ผ่าน GUI เต็มๆ ที่ <a href="advanced-06.html">Advanced บทที่ 6</a></p>
+
+<h2>จาก Experiment Manager สู่ Genetic Algorithm</h2>
+<p><a href="advanced-05.html">Experiment Manager</a> ให้ผู้ใช้กำหนด Scenario เองทีละชุดแล้วรันเปรียบเทียบ แต่เมื่อตัวแปรที่
+ต้องปรับมีจำนวนมาก (เช่น ลำดับการผลิตของหลายรายการใน ORDER table) การไล่ลองเองทุก Scenario เป็นไปไม่ได้ในทางปฏิบัติ —
+GAWizard สุ่มสร้างชุดคำตอบ ประเมินผล แล้ว "ผสมพันธุ์/กลายพันธุ์" คำตอบที่ดีที่สุดซ้ำหลายรอบจนได้คำตอบที่ดีขึ้นเรื่อยๆ</p>
+
+<p>ในเฟรมนี้ ตัวแปรที่ GAWizard ปรับคือ<strong>ลำดับรายการใน DataTable ORDER</strong> — เชื่อมโยงตรงกับตาราง ORDER/CT/ST ที่
+สอนไว้ใน<a href="step-by-step-02.html">บทที่ 2</a> — ส่วนค่า Fitness คำนวณจากผลลัพธ์ OEE/Throughput ที่ได้จริงหลังรันจำลอง
+ด้วยลำดับนั้น</p>
+
+<h2>ตัวดำเนินการทางพันธุกรรม (Genetic Operators)</h2>
+<table>
+<tr><th>ตัวดำเนินการ</th><th>ความหมาย</th></tr>
+<tr><td><strong>Crossover</strong></td><td>ผสมคำตอบสองชุดที่ดีเข้าด้วยกันเป็นคำตอบใหม่ — ถ้าไม่ใช้เลย คำตอบใหม่จะเป็นสำเนาของพ่อแม่เฉยๆ</td></tr>
+<tr><td><strong>Mutation</strong></td><td>สุ่มเปลี่ยนบางส่วนของคำตอบหลัง Crossover เพื่อไม่ให้ติดอยู่ที่คำตอบเดิมซ้ำๆ</td></tr>
+<tr><td><strong>Inversion</strong></td><td>สลับลำดับบางช่วงในคำตอบ ใช้บ่อยกับปัญหาประเภทลำดับ (Sequence) แบบในเฟรมนี้</td></tr>
+<tr><td><strong>Elitism</strong></td><td>เก็บคำตอบที่ดีที่สุดของแต่ละรุ่นไว้ไม่ให้หายไปโดยไม่ตั้งใจจาก Crossover/Mutation</td></tr>
+</table>
+<div class="note"><strong>ข้อควรระวัง (Elitism + การประเมินที่มีความสุ่ม):</strong> ถ้าค่า Fitness มาจากการรันจำลองที่มีความสุ่ม
+อย่าเปิด Elitism แบบเข้มงวด — คำตอบหนึ่งอาจดูดีเพราะโชคช่วยในการสุ่มรอบนั้น แล้วฝังตัวอยู่ในประชากรหลายรุ่นทั้งที่จริงไม่ได้ดีที่สุด</div>
+
+<h2>เงื่อนไขจบการค้นหา — จุดที่พลาดบ่อย</h2>
+<p>GAWizard หยุดเมื่อ (1) ครบจำนวนรุ่นที่กำหนด (2) ค่า Fitness ที่ดีที่สุดผ่านเกณฑ์ที่ตั้งไว้ หรือ (3) ค่า Fitness เฉลี่ยผ่าน
+เกณฑ์ที่ตั้งไว้</p>
+<div class="tip"><strong>ข้อควรระวัง:</strong> ค่าเกณฑ์เริ่มต้นของเงื่อนไข (2)/(3) มักทำให้การค้นหาแบบ Maximize หยุดตั้งแต่
+รุ่นแรก เพราะค่าเริ่มต้นต่ำเกินไปจนผ่านเกณฑ์ทันที — ถ้าการค้นหาจบเร็วผิดปกติ (รุ่นเดียวจบ) ให้เช็คค่าเกณฑ์ทั้งสองนี้ก่อนสงสัยว่า
+Configuration Method ผิด</div>
+
+<div class="tip"><strong>คำถามฝึกคิด:</strong> ทำไมเฟรมนี้ถึงต้องมี DataTable ORDER/CT/ST อยู่ด้วย ทั้งที่ GAWizard เป็นเครื่องมือ
+คนละหมวด?<br><br><strong>เฉลย:</strong> เพราะ GAWizard ไม่ได้ "รู้" เรื่องการผลิตเอง — มันแค่ปรับค่าตามที่ตั้งไว้ (ในที่นี้คือ
+ลำดับแถวใน ORDER) แล้วให้โมเดลรันจริงเพื่อวัดผล Data Table คือ "ช่องปรับค่า" ที่แท้จริง ส่วน Station/OEE คือ "ตัวชี้วัด"
+ที่บอกว่าค่าที่ปรับนั้นดีแค่ไหน — ถ้าไม่มีระบบขับเคลื่อนด้วยตารางจากบทที่ 2 มาก่อน GAWizard จะไม่มีอะไรให้ปรับเลย</div>
+'''
+
 BODY[("case-study", 1)] = '''
 <h2>บริบทอุตสาหกรรม</h2>
 <p>สายการประกอบยานยนต์มีสถานีเรียงต่อกันหลายสิบสถานี แต่ละสถานีติดตั้งชิ้นส่วนต่างกัน (ประตู, เบาะ, ระบบไฟฟ้า ฯลฯ)
@@ -809,7 +1236,7 @@ BODY[("case-study", 1)] = '''
 
 <h2>โครงสร้างโมเดล</h2>
 <ul>
-<li>สาย SingleProc เรียงต่อกัน 15-20 สถานี เชื่อมด้วย Line (ดู <a href="basic-04.html">Basic บทที่ 4</a>)</li>
+<li>สาย Station เรียงต่อกัน 15-20 สถานี เชื่อมด้วย Conveyor (ดู <a href="basic-04.html">Basic บทที่ 4</a>)</li>
 <li>ตั้ง Failure แบบ MTBF/MTTR ต่างกันในแต่ละสถานีตามข้อมูลจริงจากโรงงาน (<a href="intermediate-04.html">Intermediate บทที่ 4</a>)</li>
 <li>ตั้ง ProcTime เป็น Distribution สะท้อนความเร็วคนงานที่ไม่เท่ากันทุกคัน (<a href="intermediate-03.html">Intermediate บทที่ 3</a>)</li>
 <li>ใช้ BottleneckAnalyzer หาสถานีคอขวดจริง แทนการเดาจากประสบการณ์ (<a href="intermediate-05.html">Intermediate บทที่ 5</a>)</li>
@@ -855,10 +1282,10 @@ BODY[("case-study", 3)] = '''
 
 <h2>โครงสร้างโมเดล</h2>
 <ul>
-<li>SingleProc ต่อกันจำลองสถานี Print Paste → Place Component → Reflow → AOI</li>
-<li>ที่ AOI ใช้ Diverter แยกแผ่นที่ Reject ออกไปเข้าสถานี Rework แยกต่างหาก (<a href="object-reference-01.html">Object Reference: Material Flow</a>)</li>
+<li>Station ต่อกันจำลองสถานี Print Paste → Place Component → Reflow → AOI</li>
+<li>ที่ AOI ใช้ Sorter แยกแผ่นที่ Reject ออกไปเข้าสถานี Rework แยกต่างหาก (<a href="object-reference-01.html">Object Reference: Material Flow</a>)</li>
 <li>ตั้ง Failure ที่สถานี Place Component ให้ถี่กว่าสถานีอื่น (หัวจับชิ้นส่วนสึกบ่อย) (<a href="intermediate-04.html">Intermediate บทที่ 4</a>)</li>
-<li>ใช้ Method ผูกกับ Diverter ตัดสินใจ Reject/Pass แบบสุ่มตามอัตราจริง (<a href="advanced-02.html">Advanced บทที่ 2</a>)</li>
+<li>ใช้ Method ผูกกับ Sorter ตัดสินใจ Reject/Pass แบบสุ่มตามอัตราจริง (<a href="advanced-02.html">Advanced บทที่ 2</a>)</li>
 </ul>
 
 <div class="note">
@@ -899,7 +1326,7 @@ BODY[("tips-tricks", 1)] = '''
 <p>เมื่อโมเดลมี Object เยอะและซ้อน Frame หลายชั้น การพิมพ์ค้นหาใน Navigator เร็วกว่าการไล่คลิกหาเองมาก</p>
 
 <h2>ตั้งชื่อ Object ตั้งแต่วางครั้งแรก</h2>
-<p>อย่าปล่อยชื่อดีฟอลต์ (<code>SingleProc1</code>, <code>SingleProc2</code>) ไว้นาน — เปลี่ยนเป็นชื่อสื่อความหมายทันทีที่วาง
+<p>อย่าปล่อยชื่อดีฟอลต์ (<code>Station1</code>, <code>Station2</code>) ไว้นาน — เปลี่ยนเป็นชื่อสื่อความหมายทันทีที่วาง
 ก่อนที่โมเดลจะใหญ่จนย้อนมาไล่เปลี่ยนทีหลังลำบาก</p>
 
 <h2>คลิกขวาก่อนเสมอเมื่อไม่แน่ใจ</h2>

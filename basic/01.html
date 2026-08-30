@@ -34,6 +34,12 @@
 "เหตุการณ์" ที่เกิดขึ้นเป็นจุดๆ ตามเวลา (เช่น ชิ้นงานมาถึง, เครื่องเริ่มทำงาน, เครื่องทำงานเสร็จ)
 แทนที่จะคำนวณทุกวินาทีต่อเนื่อง ทำให้จำลองกระบวนการผลิตหลายวัน/หลายเดือนได้ในเวลาไม่กี่วินาทีบนคอมพิวเตอร์</p>
 
+<div class="note">
+<strong>นิยาม — Plant Simulation Model คืออะไร:</strong> พูดให้ตรงไปตรงมาที่สุด โมเดลจำลองคือ <em>การเลียนแบบระบบ</em>
+ที่สร้างขึ้นจากความรู้หรือสมมติฐานเกี่ยวกับพฤติกรรมของส่วนต่างๆ ในระบบนั้น โดยมีจุดประสงค์เพื่อให้ได้ข้อมูลเชิงลึกเกี่ยวกับพฤติกรรมของ
+<em>ทั้งระบบ</em> — ไม่ได้จำลองทุกรายละเอียดให้เหมือนจริง 100% แต่เลือกจำลองเฉพาะส่วนที่ส่งผลต่อคำถามที่อยากตอบ
+</div>
+
 <div class="side-by-side">
   <div><figure class="screenshot">
   <img src="../assets/images/basic/01-01.png" alt="ตัวอย่างโมเดล 3D ของสายการผลิตใน Plant Simulation" loading="lazy">
@@ -45,6 +51,32 @@
     <li><span class="num">4</span><span class="text">พาเลทสีเขียวด้านล่าง — จุดพักสินค้าสำเร็จรูปก่อนส่งออกจากไลน์</span></li>
   </ol></div>
 </div>
+
+<h2>Simulation กับ Digital Twin</h2>
+<p><strong>Simulation</strong> (การจำลองสถานการณ์) คือการสร้างแบบจำลองของระบบหรือกระบวนการในโลกจริงขึ้นมา เพื่อศึกษาพฤติกรรม
+ทดสอบสมมติฐาน หรือคาดการณ์ผลลัพธ์ที่จะเกิดขึ้นภายใต้เงื่อนไขต่างๆ โดยไม่ต้องลงมือทำกับสถานการณ์จริง — เน้นออกแบบและทดสอบ
+"สิ่งที่อาจจะเกิดขึ้น" (What-if scenarios)</p>
+<p><strong>Digital Twin</strong> ต่อยอดจากแนวคิดนี้อีกขั้นหนึ่ง: เป็นแบบจำลองเสมือนจริงของวัตถุหรือกระบวนการที่ <em>เชื่อมโยงกับข้อมูลจริง
+อย่างต่อเนื่อง</em> ทำให้แสดงข้อมูลเชิงลึกของสิ่งที่เป็นอยู่ปัจจุบันแบบเรียลไทม์ (Real-time monitoring) และพยากรณ์เหตุการณ์ที่อาจจะเกิดขึ้น
+จากข้อมูลที่ได้รับ (Prediction) ได้ — พูดง่ายๆ คือโมเดล Plant Simulation ที่เริ่มสร้างในคอร์สนี้เป็นจุดตั้งต้น พอต่อเข้ากับข้อมูลจริงจาก
+หน้างานก็ต่อยอดกลายเป็น Digital Twin ได้ต่อไป</p>
+
+<div class="side-by-side">
+  <div><figure class="screenshot">
+  <img src="../assets/images/basic/01-02.jpg" alt="การผสาน Digital Twin เข้ากับเครื่องจักรจริงระหว่างขั้นตอนติดตั้ง/ตรวจสอบ" loading="lazy">
+</figure></div>
+  <div><ol class="step-list">
+    <li><span class="num">1</span><span class="text">ลดต้นทุน — ทดสอบและแก้ปัญหาในโลกดิจิทัลก่อนลงทุนจริง</span></li>
+    <li><span class="num">2</span><span class="text">ทำนายล่วงหน้า — รู้ว่าอะไรจะเสียก่อนที่มันจะเสียจริง</span></li>
+    <li><span class="num">3</span><span class="text">ตัดสินใจได้ดีขึ้น — มีข้อมูลเรียลไทม์ประกอบการวิเคราะห์</span></li>
+    <li><span class="num">4</span><span class="text">ออกแบบได้แม่นยำ — จำลองสถานการณ์ได้ไม่จำกัดจำนวนครั้ง</span></li>
+  </ol></div>
+</div>
+
+<figure class="screenshot">
+  <img src="../assets/images/basic/01-03.jpg" alt="ตัวอย่าง Plant Simulation Model ของคลังสินค้าอัตโนมัติขนาดใหญ่" loading="lazy">
+  <figcaption>โมเดลระดับนี้จำลองทั้งชั้นวางสินค้าอัตโนมัติ (AS/RS), สายพานลำเลียง, และเส้นทางขนย้ายในคลังสินค้าจริง — ใช้หลัก DES เดียวกับโมเดลง่ายๆ ที่กำลังจะสร้างในคอร์สนี้ เพียงแค่ขยายสเกลขึ้น</figcaption>
+</figure>
 
 <h2>ใช้ทำอะไรได้บ้าง</h2>
 <table>
@@ -74,7 +106,7 @@
 
         <div class="page-nav">
           <a href="index.html">← กลับหน้ารวมบท Basic</a>
-          <a href="02.html">ถัดไป: 2. หน้าตาโปรแกรม →</a>
+          <a href="02.html">ถัดไป: 2. เริ่มต้นใช้งาน Plant Simulation และ Basic User Interface →</a>
         </div>
       </main>
 
@@ -95,7 +127,7 @@
             <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู basic">▾</button>
             <ul class="submenu">
               <li class="active"><a href="01.html">1. Plant Simulation คืออะไร</a></li>
-              <li><a href="02.html">2. หน้าตาโปรแกรม</a></li>
+              <li><a href="02.html">2. เริ่มต้นใช้งาน Plant Simulation และ Basic User Interface</a></li>
               <li><a href="03.html">3. Object พื้นฐาน 6 ตัว</a></li>
               <li><a href="04.html">4. สร้างโมเดลแรก</a></li>
               <li><a href="05.html">5. รันและอ่านผล Statistics</a></li>
@@ -134,6 +166,20 @@
               <li><a href="../object-reference/01.html">1. Material Flow Objects</a></li>
               <li><a href="../object-reference/02.html">2. Information Flow Objects</a></li>
               <li><a href="../object-reference/03.html">3. Resources &amp; Tools</a></li>
+            </ul>
+          </li>
+          <li class="has-children">
+            <a href="../step-by-step/index.html">Step-by-Step File — ไฟล์สอนของ Siemens</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู step-by-step">▾</button>
+            <ul class="submenu">
+              <li><a href="../step-by-step/01.html">1. พื้นฐานสายการผลิต</a></li>
+              <li><a href="../step-by-step/02.html">2. สถิติและการวิเคราะห์</a></li>
+              <li><a href="../step-by-step/03.html">3. การประกอบและการคัดแยก</a></li>
+              <li><a href="../step-by-step/04.html">4. แรงงานและทรัพยากรบุคคล</a></li>
+              <li><a href="../step-by-step/05.html">5. หุ่นยนต์และการขนย้าย</a></li>
+              <li><a href="../step-by-step/06.html">6. SimTalk และภาพเคลื่อนไหว</a></li>
+              <li><a href="../step-by-step/07.html">7. โมเดล 3 มิติ</a></li>
+              <li><a href="../step-by-step/08.html">8. Optimization ด้วย GAWizard</a></li>
             </ul>
           </li>
           <li class="has-children">

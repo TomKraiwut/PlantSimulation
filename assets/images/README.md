@@ -19,7 +19,7 @@ f-string if it isn't one already):
 ```python
 BODY[("basic", 4)] = f'''
 ...
-{screenshot("assets/images/basic/04-01.png", "หน้าจอสร้างโมเดลใหม่", caption="ลาก Source/SingleProc/Drain มาวางบน Frame")}
+{screenshot("assets/images/basic/04-01.png", "หน้าจอสร้างโมเดลใหม่", caption="ลาก Source/Station/Drain มาวางบน Frame")}
 ...
 '''
 ```

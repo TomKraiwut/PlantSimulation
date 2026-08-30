@@ -21,7 +21,7 @@ SECTIONS = {
         "hub": "basic.html",
         "chapters": [
             "Plant Simulation คืออะไร",
-            "หน้าตาโปรแกรม",
+            "เริ่มต้นใช้งาน Plant Simulation และ Basic User Interface",
             "Object พื้นฐาน 6 ตัว",
             "สร้างโมเดลแรก",
             "รันและอ่านผล Statistics",
@@ -62,6 +62,20 @@ SECTIONS = {
             "Resources &amp; Tools",
         ],
     },
+    "step-by-step": {
+        "label": "Step-by-Step File — ไฟล์สอนของ Siemens",
+        "hub": "step-by-step.html",
+        "chapters": [
+            "พื้นฐานสายการผลิต",
+            "สถิติและการวิเคราะห์",
+            "การประกอบและการคัดแยก",
+            "แรงงานและทรัพยากรบุคคล",
+            "หุ่นยนต์และการขนย้าย",
+            "SimTalk และภาพเคลื่อนไหว",
+            "โมเดล 3 มิติ",
+            "Optimization ด้วย GAWizard",
+        ],
+    },
     "case-study": {
         "label": "Case Study — ตัวอย่างอุตสาหกรรม",
         "hub": "case-study.html",
@@ -84,7 +98,7 @@ SECTIONS = {
     },
 }
 
-SECTION_ORDER = ["basic", "intermediate", "advanced", "object-reference", "case-study", "tips-tricks"]
+SECTION_ORDER = ["basic", "intermediate", "advanced", "object-reference", "step-by-step", "case-study", "tips-tricks"]
 
 
 def chapter_filename(section, idx):
@@ -209,6 +223,7 @@ HUB_INTRO = {
     "intermediate": "สำหรับผู้ที่สร้างโมเดลง่ายๆ ได้แล้ว และต้องการให้โมเดลสมจริงขึ้น — ใช้ Object เพิ่มเติม ค่าที่ไม่คงที่ ความเสียหายของเครื่องจักร และการวิเคราะห์ผลลัพธ์ ทั้งหมด 6 บท",
     "advanced": "สำหรับผู้ที่ต้องการควบคุมโมเดลด้วยสคริปต์ SimTalk สร้าง Object ด้วยโค้ด และทำ Optimization อัตโนมัติ ไปจนถึงควบคุมโปรแกรมจากภายนอกผ่าน COM ทั้งหมด 7 บท",
     "object-reference": "รวม Object ที่ใช้บ่อยเป็นหมวดหมู่ พร้อมสาธิตการทำงานสั้นๆ ที่ลองทำตามได้ทันที — ใช้เป็นที่เปิดหาอ้างอิงเร็วๆ เวลาจำไม่ได้ว่า Object ไหนใช้ทำอะไร",
+    "step-by-step": "เดินตามไฟล์สอนต้นฉบับของ Siemens (<code>2404_Plant_Simulation_Step_by_Step.spp</code>) ทีละหัวข้อ — ไฟล์นี้มี 18 เฟรมสาธิตครอบคลุมเกือบทุก Object ในคอร์ส จัดกลุ่มใหม่เป็น 8 บทตามธีมเพื่อให้เห็นภาพว่าความรู้จาก Basic/Intermediate/Advanced ถูกประกอบเป็นไฟล์ตัวอย่างจริงของ Siemens เองอย่างไร",
     "case-study": "ตัวอย่างการใช้ Plant Simulation แก้โจทย์จริงจาก 4 อุตสาหกรรม เห็นภาพว่าความรู้แต่ละบทที่เรียนมาถูกเอาไปประกอบกันอย่างไรในสถานการณ์จริง",
     "tips-tricks": "เทคนิคเล็กๆ น้อยๆ ที่ช่วยประหยัดเวลาและลดข้อผิดพลาดในการทำงาน แบ่งเป็นหมวดตามลักษณะงาน",
 }
@@ -216,8 +231,8 @@ HUB_INTRO = {
 HUB_CARD_DESC = {
     "basic": [
         "รู้จักแนวคิด Discrete Event Simulation และประโยชน์ของโปรแกรมนี้",
-        "Class Library, Frame, Toolbar, Console — ส่วนประกอบหลักที่ต้องรู้จัก",
-        "Source, Line, SingleProc, Buffer, Drain, EventController",
+        "เปิดตัวอย่างโมเดล Factory 51, ควบคุมมุมมอง 3 มิติ, โต้ตอบกับ Object และคุม EventController",
+        "Source, Conveyor, Station, Buffer, Drain, EventController",
         "ลงมือสร้างสายการผลิตง่ายๆ ทีละขั้นตอน",
         "ดูค่า Working / Waiting / Blocked และความหมายของแต่ละค่า",
         "จัดการไฟล์ .spp อย่างปลอดภัย พร้อมนิสัยสำรองไฟล์ที่ควรมี",
@@ -232,7 +247,7 @@ HUB_CARD_DESC = {
     ],
     "advanced": [
         "Syntax ที่ยืนยันแล้วจริง — var, for...next, if...end",
-        "ผูก Method เข้ากับ Entrance/Exit/Trigger ให้ทำงานอัตโนมัติตามเหตุการณ์",
+        "ผูก Method เข้ากับ Entrance/Exit ให้ทำงานอัตโนมัติตามเหตุการณ์",
         "เก็บและอ่านค่าข้อมูลจากโค้ด ด้วย DataTable และ Variable",
         "createObject และ Connector.connect — สร้างและต่อโมเดลด้วยสคริปต์ล้วนๆ",
         "รันหลาย Scenario เปรียบเทียบผลลัพธ์อัตโนมัติ",
@@ -240,9 +255,19 @@ HUB_CARD_DESC = {
         "เชื่อมต่อ Plant Simulation จาก Python ผ่าน COM สำหรับงาน automation",
     ],
     "object-reference": [
-        "Source, Line, SingleProc, Buffer, Drain, EventController, AssemblyStation, Store, Track, Transporter, Diverter",
-        "Method, Variable, DataTable, Trigger — Object ที่ขับเคลื่อนด้วยตรรกะและข้อมูล",
+        "Source, Conveyor, Station, Buffer, Drain, EventController, AssemblyStation, Store, Track, Transporter, Sorter",
+        "Method, Variable, DataTable — Object ที่ขับเคลื่อนด้วยตรรกะและข้อมูล",
         "Worker/Resource, BottleneckAnalyzer, ExperimentManager, GAWizard",
+    ],
+    "step-by-step": [
+        "Source, Station, Drain, Display, Chart, ParallelStation — สร้างสายการผลิตแรกและสายแบบต่อเนื่องหลายสถานี",
+        "Chart, DataTable (ORDER/CT/ST), OEE, EnergyAnalyzer — อ่านผลลัพธ์และวิเคราะห์ประสิทธิภาพสายการผลิต",
+        "AssemblyStation, DismantleStation, Sorter, Store, Experiment Manager",
+        "WorkerPool, Broker, Workplace — จำลองคนงานที่ใช้ร่วมกันหลายสถานี",
+        "PickAndPlace, Track (AGV), AGVPool + Marker (AMR)",
+        "Method, Button, DropDownList — ผูก UI เข้ากับโค้ด SimTalk และควบคุมภาพเคลื่อนไหว",
+        "Turntable, Turnplate, AngularConverter — Object เฉพาะสำหรับมุมมองโรงงาน 3 มิติ",
+        "GAWizard — ค้นหาลำดับ/พารามิเตอร์ที่ดีที่สุดโดยอัตโนมัติด้วยพันธุกรรมเทียม",
     ],
     "case-study": [
         "จำลองสายการประกอบรถยนต์ วิเคราะห์คอขวดของสถานีติดตั้งชิ้นส่วน",
