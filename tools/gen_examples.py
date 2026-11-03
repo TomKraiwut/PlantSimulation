@@ -15,7 +15,7 @@ BODY = '''        <h1>Example File: ตัวอย่างโมเดลจ�
         </div>
 
         <h2>ตัวอย่างที่ 1: สายการผลิตเดี่ยว (Single Line)</h2>
-        <p>เกี่ยวข้องกับ <a href="basic-04.html">Basic บทที่ 4</a></p>
+        <p>เกี่ยวข้องกับ <a href="basic-01.html">Basic บทที่ 01</a></p>
         <p><strong>โครงสร้าง:</strong> <code>Source → Buffer → Station → Drain</code></p>
         <ul>
           <li>Source: สร้างชิ้นงานทุก 6 วินาที (Interval = 6s)</li>

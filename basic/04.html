@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>4. สร้างโมเดลแรก — Plant Simulation Tutorial</title>
+<title>04. คน + กะทำงาน — Plant Simulation Tutorial</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap">
-<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="../assets/style.css?v=0167a8ff">
 </head>
 <body>
 <div id="wrapper">
@@ -14,49 +14,41 @@
     <div class="inner">
       <header id="header">
         <a href="../index.html" class="logo"><span>Plant Simulation Tutorial</span></a>
-        <button class="menu-toggle" aria-label="เปิดเมนู">☰</button>
+        <button class="menu-toggle" aria-label="เปิดเมนู" aria-expanded="false">☰</button>
       </header>
 
       <main>
-        <h1>4. สร้างโมเดลแรก</h1>
+        <h1>04. คน + กะทำงาน</h1>
 
         <div class="objectives">
           <p>วัตถุประสงค์การเรียนรู้</p>
           <ol>
-          <li>ลากวางและเชื่อมต่อ Object เป็นสายการผลิตง่ายๆ ได้ด้วยตัวเอง</li>
-          <li>ตั้งค่า Interval และ Processing Time ได้ถูกต้อง</li>
+          <li>ต่อ Workplace, WorkerPool และ Broker ให้เครื่องใช้คนทำงานได้</li>
+          <li>ตั้ง ShiftCalendar และอ่านสถิติของคนได้</li>
           </ol>
         </div>
 
-<h2>สร้างโมเดลแรก: สายการผลิตง่ายๆ</h2>
-<p>ทำตามขั้นตอนนี้เพื่อสร้างโมเดล <code>Source → Station → Drain</code></p>
+<div class="note">
+<strong>กำลังจัดทำ:</strong> บทนี้กำลังเรียบเรียงเป็นแบบ Step by Step บน Plant Simulation 2606 พร้อมภาพหน้าจอทีละขั้น
+— ด้านล่างคือโครงหัวข้อของบทที่จะได้เรียน
+</div>
+
+<h2>หัวข้อในบทนี้</h2>
 <ol class="steps">
-<li>เปิด Class Library → เลือกหมวด <code>MaterialFlow</code></li>
-<li>ลาก <strong>Source</strong>, <strong>Station</strong>, <strong>Drain</strong> มาวางเรียงกันบน Frame</li>
-<li>ลาก <strong>EventController</strong> มาวางไว้มุมใดก็ได้ (จำเป็นต่อการรัน — ดูบทที่ 3)</li>
-<li>เชื่อมต่อ Object โดยคลิกที่มุมขวาบนของแต่ละ Object แล้วลากไปยัง Object ถัดไป (จะเห็นลูกศรเชื่อม)</li>
-<li>ดับเบิลคลิก <strong>Source</strong> เพื่อตั้งค่า <code>Interval</code> เช่น สร้างชิ้นงานทุก 5 วินาที</li>
-<li>ดับเบิลคลิก <strong>Station</strong> เพื่อตั้งค่า <code>ProcTime</code> เช่น 10 วินาทีต่อชิ้น</li>
-<li>กดปุ่ม <strong>Start Simulation</strong> (▶) ที่ Toolbar ด้านบน</li>
+<li>Workplace ข้างเครื่อง + WorkerPool + Broker ต่อกันอย่างไร</li>
+<li>ให้ Station ต้องใช้คนทำงาน แล้วดูคนเดินระหว่างเครื่อง</li>
+<li>คน 2 คนดูแล 5 เครื่อง → ผลผลิตลด ใครรอใคร</li>
+<li>ShiftCalendar: 2 กะ + เวลาพัก แล้วดูผลต่อวัน</li>
+<li>Worker chart / สถิติของคน (ทำงาน เดิน รอ)</li>
 </ol>
 
-<div class="tip">
-<strong>Tip:</strong> ถ้าเชื่อมต่อ Object ไม่ติด ให้เช็คว่าจุดเชื่อม (Connector) เป็นสีเขียวหรือไม่ — สีแดงหมายถึงยังเชื่อมไม่สำเร็จ
-</div>
-
-<h2>ตัวอย่าง: ทำนายผลก่อนรันจริง</h2>
-<p>โมเดล <code>Source(Interval=5s) → Station(ProcTime=10s) → Drain</code></p>
-<div class="note">
-<strong>คำถามฝึกคิด:</strong> Source ผลิตชิ้นงานเร็วกว่า Station แปรรูปเสร็จ (5s &lt; 10s) จะเกิดอะไรขึ้นเมื่อรันไปนานๆ?
-</div>
-<div class="tip"><strong>เฉลย:</strong> Station รับชิ้นงานไม่ทัน Source เลยจะถูก <strong>Blocked</strong>
-(สถานะรอส่งต่อ เพราะปลายทางไม่ว่าง) — นี่คือคอขวดแบบง่ายที่สุด แก้ได้ด้วยการเพิ่ม Buffer คั่นกลาง
-หรือเพิ่มสถานีขนาน (ดูบท Intermediate)
-</div>
+<h2>Frame ในไฟล์ของบท</h2>
+<p>ไฟล์ <code>.spp</code> ของบทมีหลาย Frame เล่าเรื่องเดียวกัน — เปิดไฟล์ของบทได้เลย ไม่ต้องทำบทก่อนหน้าให้เสร็จ:</p>
+<p><code>Model</code> ไม่มีคน · <code>Model2</code> คน 2 คน · <code>Model3</code> คน 2 คน + ShiftCalendar 2 กะ</p>
 
         <div class="page-nav">
-          <a href="03.html">← ก่อนหน้า: 3. Object พื้นฐาน 6 ตัว</a>
-          <a href="05.html">ถัดไป: 5. รันและอ่านผล Statistics →</a>
+          <a href="03.html">← ก่อนหน้า: 03. เวลาสุ่ม + Buffer + เครื่องเสีย + OEE</a>
+          <a href="05.html">ถัดไป: 05. หลายรุ่น + งานเสีย + Method แรก →</a>
         </div>
       </main>
 
@@ -69,19 +61,22 @@
   <div id="sidebar">
     <div class="inner">
       <nav id="menu">
-        <header class="major"><h2>เมนู</h2></header>
+        <header class="major"><button class="sidebar-close" aria-label="ปิดเมนู">✕</button><h2>เมนู</h2></header>
         <ul>
           <li><a href="../index.html">หน้าแรก</a></li>
           <li class="has-children expanded">
             <a href="index.html">Basic — พื้นฐาน</a>
             <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู basic">▾</button>
             <ul class="submenu">
-              <li><a href="01.html">1. Plant Simulation คืออะไร</a></li>
-              <li><a href="02.html">2. เริ่มต้นใช้งาน Plant Simulation และ Basic User Interface</a></li>
-              <li><a href="03.html">3. Object พื้นฐาน 6 ตัว</a></li>
-              <li class="active"><a href="04.html">4. สร้างโมเดลแรก</a></li>
-              <li><a href="05.html">5. รันและอ่านผล Statistics</a></li>
-              <li><a href="06.html">6. บันทึกและเปิดไฟล์โมเดล</a></li>
+              <li><a href="00a.html">00A. โรงงานตัวอย่าง Factory 51</a></li>
+              <li><a href="00b.html">00B. โมเดลตัวอย่าง Small Parts Production</a></li>
+              <li><a href="01.html">01. โมเดลแรก: Source → Station → Drain</a></li>
+              <li><a href="02.html">02. คอขวด และ ParallelStation</a></li>
+              <li><a href="03.html">03. เวลาสุ่ม + Buffer + เครื่องเสีย + OEE</a></li>
+              <li class="active"><a href="04.html">04. คน + กะทำงาน</a></li>
+              <li><a href="05.html">05. หลายรุ่น + งานเสีย + Method แรก</a></li>
+              <li><a href="06.html">06. ผัง 3D + ขนส่งด้วย AGV</a></li>
+              <li><a href="07.html">07. วิเคราะห์ + หาค่าที่ดีที่สุด</a></li>
             </ul>
           </li>
           <li class="has-children">
@@ -160,6 +155,6 @@
   </div>
   <div id="sidebar-overlay"></div>
 </div>
-<script src="../assets/main.js"></script>
+<script src="../assets/main.js?v=e223124b"></script>
 </body>
 </html>

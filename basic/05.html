@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>5. รันและอ่านผล Statistics — Plant Simulation Tutorial</title>
+<title>05. หลายรุ่น + งานเสีย + Method แรก — Plant Simulation Tutorial</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap">
-<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="../assets/style.css?v=0167a8ff">
 </head>
 <body>
 <div id="wrapper">
@@ -14,52 +14,43 @@
     <div class="inner">
       <header id="header">
         <a href="../index.html" class="logo"><span>Plant Simulation Tutorial</span></a>
-        <button class="menu-toggle" aria-label="เปิดเมนู">☰</button>
+        <button class="menu-toggle" aria-label="เปิดเมนู" aria-expanded="false">☰</button>
       </header>
 
       <main>
-        <h1>5. รันและอ่านผล Statistics</h1>
+        <h1>05. หลายรุ่น + งานเสีย + Method แรก</h1>
 
         <div class="objectives">
           <p>วัตถุประสงค์การเรียนรู้</p>
           <ol>
-          <li>รันและ Reset ซิมูเลชันได้อย่างถูกวิธี</li>
-          <li>อ่านและตีความค่า Working / Waiting / Blocked ได้</li>
+          <li>ปล่อยงานหลายรุ่นตามตารางและแยกงานดี/งานเสียได้</li>
+          <li>เขียน Method สั้นๆ ครั้งแรกเพื่อนับงานเสีย</li>
           </ol>
         </div>
 
-<h2>รัน / หยุด / รีเซ็ต</h2>
-<table>
-<tr><th>ปุ่ม</th><th>ทำอะไร</th></tr>
-<tr><td><strong>Start</strong> (▶)</td><td>เริ่มเดินเวลาจำลอง ตาม EventController</td></tr>
-<tr><td><strong>Stop/Pause</strong> (⏸)</td><td>หยุดชั่วคราว กด Start ต่อได้จากจุดเดิม</td></tr>
-<tr><td><strong>Reset</strong> (⟲)</td><td>ล้างค่าสถิติและตำแหน่งชิ้นงานทั้งหมด กลับสู่เวลา 0</td></tr>
-</table>
-
 <div class="note">
-<strong>ข้อควรระวัง:</strong> อย่าลืมกด <strong>Reset</strong> ก่อนรันใหม่ทุกครั้งที่เปลี่ยนค่าพารามิเตอร์ ไม่งั้นค่าสถิติจะสะสมปนกับรอบก่อนหน้า
-ทำให้ผลวิเคราะห์ผิดพลาด
+<strong>กำลังจัดทำ:</strong> บทนี้กำลังเรียบเรียงเป็นแบบ Step by Step บน Plant Simulation 2606 พร้อมภาพหน้าจอทีละขั้น
+— ด้านล่างคือโครงหัวข้อของบทที่จะได้เรียน
 </div>
 
-<h2>อ่านผลลัพธ์เบื้องต้น</h2>
-<p>คลิกขวาที่ Object ประเภทประมวลผล (เช่น <strong>Station</strong>) แล้วเลือก <code>Statistics</code> เพื่อดู:</p>
-<table>
-<tr><th>สถานะ</th><th>ความหมาย</th></tr>
-<tr><td><strong>Working</strong></td><td>เวลาที่เครื่องกำลังแปรรูปชิ้นงานจริง — ยิ่งสูงยิ่งใช้งานคุ้ม</td></tr>
-<tr><td><strong>Waiting</strong></td><td>เวลาที่รอชิ้นงานเข้ามา (ว่างงาน) — สูงแปลว่าต้นทางป้อนช้าเกินไป</td></tr>
-<tr><td><strong>Blocked</strong></td><td>เวลาที่ทำงานเสร็จแล้วแต่ส่งต่อไม่ได้ (สถานีถัดไปไม่ว่าง) — สูงแปลว่าปลายทางเป็นคอขวด</td></tr>
-</table>
+<h2>หัวข้อในบทนี้</h2>
+<ol class="steps">
+<li>สร้าง MU 3 รุ่น (A / B / C) ใน Class Library สีต่างกัน</li>
+<li>Source ปล่อยงานตามตาราง (DataTable: รุ่น, จำนวน)</li>
+<li>Station ใช้เวลาต่างกันตามรุ่น</li>
+<li>Station5 ส่งงานดี 95% ไป Drain และงานเสีย 5% ไป Rework</li>
+<li>Method แรก: นับงานเสียลง Variable แล้วแสดงบน Display</li>
+<li>Sankey Diagram ดูทางเดินของงาน</li>
+</ol>
 
-<div class="tip">
-<strong>คำถามฝึกคิด:</strong> ถ้า Station มีค่า Blocked สูงมาก ควรแก้ปัญหาที่ตัว Station นี้เอง หรือที่อื่น?
-</div>
-<div class="tip"><strong>เฉลย:</strong> ควรแก้ที่ <em>สถานีถัดไป</em> (ปลายทางที่รับต่อ) ไม่ใช่ตัว Station เอง — เพราะ Blocked สูง
-แปลว่าสถานีนี้ทำงานเสร็จเร็วกว่าที่ปลายทางจะรับได้ ปลายทางต่างหากที่เป็นคอขวดจริง
-</div>
+<h2>Frame ในไฟล์ของบท</h2>
+<p>ไฟล์ <code>.spp</code> ของบทมีหลาย Frame เล่าเรื่องเดียวกัน — เปิดไฟล์ของบทได้เลย ไม่ต้องทำบทก่อนหน้าให้เสร็จ:</p>
+<p><code>Model</code> 1 รุ่น · <code>Model2</code> 3 รุ่นตามตาราง · <code>Model3</code> + งานเสีย / Rework + Method</p>
+<div class="tip">บทนี้เป็นบทแรกที่เขียนโค้ด SimTalk (Method 5–10 บรรทัด) — ดูพื้นฐาน syntax ได้ที่ <a href="../advanced/01.html">Advanced บทที่ 1</a></div>
 
         <div class="page-nav">
-          <a href="04.html">← ก่อนหน้า: 4. สร้างโมเดลแรก</a>
-          <a href="06.html">ถัดไป: 6. บันทึกและเปิดไฟล์โมเดล →</a>
+          <a href="04.html">← ก่อนหน้า: 04. คน + กะทำงาน</a>
+          <a href="06.html">ถัดไป: 06. ผัง 3D + ขนส่งด้วย AGV →</a>
         </div>
       </main>
 
@@ -72,19 +63,22 @@
   <div id="sidebar">
     <div class="inner">
       <nav id="menu">
-        <header class="major"><h2>เมนู</h2></header>
+        <header class="major"><button class="sidebar-close" aria-label="ปิดเมนู">✕</button><h2>เมนู</h2></header>
         <ul>
           <li><a href="../index.html">หน้าแรก</a></li>
           <li class="has-children expanded">
             <a href="index.html">Basic — พื้นฐาน</a>
             <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู basic">▾</button>
             <ul class="submenu">
-              <li><a href="01.html">1. Plant Simulation คืออะไร</a></li>
-              <li><a href="02.html">2. เริ่มต้นใช้งาน Plant Simulation และ Basic User Interface</a></li>
-              <li><a href="03.html">3. Object พื้นฐาน 6 ตัว</a></li>
-              <li><a href="04.html">4. สร้างโมเดลแรก</a></li>
-              <li class="active"><a href="05.html">5. รันและอ่านผล Statistics</a></li>
-              <li><a href="06.html">6. บันทึกและเปิดไฟล์โมเดล</a></li>
+              <li><a href="00a.html">00A. โรงงานตัวอย่าง Factory 51</a></li>
+              <li><a href="00b.html">00B. โมเดลตัวอย่าง Small Parts Production</a></li>
+              <li><a href="01.html">01. โมเดลแรก: Source → Station → Drain</a></li>
+              <li><a href="02.html">02. คอขวด และ ParallelStation</a></li>
+              <li><a href="03.html">03. เวลาสุ่ม + Buffer + เครื่องเสีย + OEE</a></li>
+              <li><a href="04.html">04. คน + กะทำงาน</a></li>
+              <li class="active"><a href="05.html">05. หลายรุ่น + งานเสีย + Method แรก</a></li>
+              <li><a href="06.html">06. ผัง 3D + ขนส่งด้วย AGV</a></li>
+              <li><a href="07.html">07. วิเคราะห์ + หาค่าที่ดีที่สุด</a></li>
             </ul>
           </li>
           <li class="has-children">
@@ -163,6 +157,6 @@
   </div>
   <div id="sidebar-overlay"></div>
 </div>
-<script src="../assets/main.js"></script>
+<script src="../assets/main.js?v=e223124b"></script>
 </body>
 </html>

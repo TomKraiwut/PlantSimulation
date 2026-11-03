@@ -3,13 +3,27 @@
     var wrapper = document.getElementById('wrapper');
     var toggle = document.querySelector('.menu-toggle');
     var overlay = document.getElementById('sidebar-overlay');
+    var closeBtn = document.querySelector('.sidebar-close');
+
+    function setOpen(open) {
+        wrapper.classList.toggle('sidebar-active', open);
+        if (toggle) toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        if (open) {
+            // bring the current chapter into view in a long menu
+            var sidebar = document.getElementById('sidebar');
+            var active = document.querySelector('#menu li.active');
+            if (sidebar && active) {
+                sidebar.scrollTop = active.offsetTop - sidebar.clientHeight / 2;
+            }
+        }
+    }
 
     function closeSidebar() {
-        wrapper.classList.remove('sidebar-active');
+        setOpen(false);
     }
 
     function toggleSidebar() {
-        wrapper.classList.toggle('sidebar-active');
+        setOpen(!wrapper.classList.contains('sidebar-active'));
     }
 
     if (toggle) {
@@ -21,6 +35,10 @@
 
     if (overlay) {
         overlay.addEventListener('click', closeSidebar);
+    }
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeSidebar);
     }
 
     document.addEventListener('keydown', function (e) {

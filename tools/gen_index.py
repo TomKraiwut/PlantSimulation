@@ -33,7 +33,7 @@ BODY = '''        <section id="banner">
           <a href="basic.html" class="card">
             <div class="icon">🧩</div>
             <h3>Basic — พื้นฐาน</h3>
-            <p>รู้จักหน้าตาโปรแกรม, Object พื้นฐาน, สร้างโมเดลแรกและรันซิมูเลชัน (6 บท)</p>
+            <p>ชุดสอน Step by Step บน Plant Simulation 2606: โมเดลตัวอย่าง Factory 51 และ Small Parts, โมเดลแรก แล้วต่อยอดไลน์ 5 สถานีจนถึงหาค่าที่ดีที่สุด (8 บท: 00–07)</p>
           </a>
           <a href="intermediate.html" class="card">
             <div class="icon">🔧</div>

@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>6. บันทึกและเปิดไฟล์โมเดล — Plant Simulation Tutorial</title>
+<title>06. ผัง 3D + ขนส่งด้วย AGV — Plant Simulation Tutorial</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap">
-<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="../assets/style.css?v=0167a8ff">
 </head>
 <body>
 <div id="wrapper">
@@ -14,51 +14,42 @@
     <div class="inner">
       <header id="header">
         <a href="../index.html" class="logo"><span>Plant Simulation Tutorial</span></a>
-        <button class="menu-toggle" aria-label="เปิดเมนู">☰</button>
+        <button class="menu-toggle" aria-label="เปิดเมนู" aria-expanded="false">☰</button>
       </header>
 
       <main>
-        <h1>6. บันทึกและเปิดไฟล์โมเดล</h1>
+        <h1>06. ผัง 3D + ขนส่งด้วย AGV</h1>
 
         <div class="objectives">
           <p>วัตถุประสงค์การเรียนรู้</p>
           <ol>
-          <li>บันทึกไฟล์โมเดล (.spp) และเปิดไฟล์เดิมกลับมาทำต่อได้</li>
-          <li>มีนิสัยสำรองไฟล์ที่ปลอดภัย ก่อนไฟล์เสียหรือหาย</li>
+          <li>วางไลน์บนผังโรงงานและดูในมุมมอง 3D ได้</li>
+          <li>ใช้ AGV ขนของจากคลังเข้าไลน์และเทียบจำนวน AGV ได้</li>
           </ol>
         </div>
 
-<h2>บันทึกไฟล์โมเดล</h2>
-<p>Plant Simulation บันทึกไฟล์เป็นนามสกุล <code>.spp</code> — ไฟล์เดียวเก็บทั้งโมเดล, Frame ย่อยทั้งหมด, และ Class Library ที่ปรับแต่งเอง</p>
+<div class="note">
+<strong>กำลังจัดทำ:</strong> บทนี้กำลังเรียบเรียงเป็นแบบ Step by Step บน Plant Simulation 2606 พร้อมภาพหน้าจอทีละขั้น
+— ด้านล่างคือโครงหัวข้อของบทที่จะได้เรียน
+</div>
+
+<h2>หัวข้อในบทนี้</h2>
 <ol class="steps">
-<li><code>Ctrl+S</code> หรือเมนู <code>File → Save</code> — บันทึกทับไฟล์เดิม</li>
-<li><code>File → Save As</code> — บันทึกเป็นไฟล์ใหม่ (แนะนำเมื่อจะทดลองอะไรเสี่ยงๆ กับโมเดล)</li>
-<li><code>File → Open</code> — เปิดไฟล์ <code>.spp</code> ที่มีอยู่กลับมาทำต่อ</li>
+<li>มุมมอง 3D ของไลน์ และการแก้โครงสร้าง 3D</li>
+<li>วางผังโรงงาน: Import DWG หรือ Textured Plate (รูปผังพื้น) พร้อมปรับความโปร่งใส</li>
+<li>เปลี่ยนรูปวัตถุ (Exchange Graphics / Import Graphic)</li>
+<li>คลังวัตถุดิบ + AGV ขนเข้า Station1</li>
+<li>เพิ่ม AGV เป็น 2 คัน แล้วเทียบผลผลิตและ utilization ของ AGV</li>
+<li>Conveyor — ลำเลียงชิ้นงานระหว่างเครื่อง</li>
 </ol>
 
-<div class="note">
-<strong>ข้อควรระวังเรื่องเวอร์ชัน:</strong> ไฟล์ที่บันทึกจากโปรแกรมเวอร์ชันใหม่กว่า จะ<strong>เปิดไม่ได้</strong>ในโปรแกรมเวอร์ชันเก่ากว่า
-(ขึ้น error ประมาณ "model version is higher than the program version") — ถ้าทำงานร่วมกับคนอื่น ควรตกลงกันว่าใช้โปรแกรมเวอร์ชันเดียวกัน
-หรือรู้ว่าไฟล์ต้นทางเซฟจากเวอร์ชันไหน
-</div>
-
-<h2>นิสัยสำรองไฟล์ที่ควรมี</h2>
-<ul>
-<li>ก่อนทดลองเปลี่ยนโครงสร้างใหญ่ (เช่น ลบ Frame, แก้สคริปต์เยอะ) ให้ <code>Save As</code> เป็นไฟล์สำรองก่อน เช่น <code>PLT_backup_2026-08-29.spp</code></li>
-<li>ตั้งชื่อไฟล์ให้สื่อเวอร์ชัน/วันที่ แทนการเขียนทับไฟล์เดิมตลอด — ย้อนกลับได้เมื่อทำพลาด</li>
-<li>ถ้าทำงานเป็นทีม เก็บไฟล์ไว้ในระบบที่มีประวัติการแก้ไข (เช่น โฟลเดอร์ที่ sync กับ cloud หรือ version control) ไม่ใช่แค่ในเครื่องเดียว</li>
-</ul>
-
-<div class="tip">
-<strong>คำถามฝึกคิด:</strong> เพื่อนร่วมทีมส่งไฟล์ <code>.spp</code> มาให้ แต่เปิดไม่ได้ ขึ้น error เรื่องเวอร์ชัน ควรทำอย่างไรก่อน?
-</div>
-<div class="tip"><strong>เฉลย:</strong> เช็คว่าเครื่องคุณติดตั้ง Plant Simulation เวอร์ชันเดียวกันหรือใหม่กว่าที่เพื่อนใช้เซฟหรือไม่ —
-ถ้าเครื่องมีหลายเวอร์ชันติดตั้งอยู่ ให้เปิดไฟล์ด้วยเวอร์ชันที่เท่ากับหรือใหม่กว่าเวอร์ชันที่บันทึกไฟล์นั้นไว้
-</div>
+<h2>Frame ในไฟล์ของบท</h2>
+<p>ไฟล์ <code>.spp</code> ของบทมีหลาย Frame เล่าเรื่องเดียวกัน — เปิดไฟล์ของบทได้เลย ไม่ต้องทำบทก่อนหน้าให้เสร็จ:</p>
+<p><code>Model</code> ไลน์บนผัง ไม่มี AGV · <code>Model2</code> AGV 1 คัน · <code>Model3</code> AGV 2 คัน</p>
 
         <div class="page-nav">
-          <a href="05.html">← ก่อนหน้า: 5. รันและอ่านผล Statistics</a>
-          <a href="../intermediate/index.html">ถัดไป: Intermediate — ขั้นกลาง →</a>
+          <a href="05.html">← ก่อนหน้า: 05. หลายรุ่น + งานเสีย + Method แรก</a>
+          <a href="07.html">ถัดไป: 07. วิเคราะห์ + หาค่าที่ดีที่สุด →</a>
         </div>
       </main>
 
@@ -71,19 +62,22 @@
   <div id="sidebar">
     <div class="inner">
       <nav id="menu">
-        <header class="major"><h2>เมนู</h2></header>
+        <header class="major"><button class="sidebar-close" aria-label="ปิดเมนู">✕</button><h2>เมนู</h2></header>
         <ul>
           <li><a href="../index.html">หน้าแรก</a></li>
           <li class="has-children expanded">
             <a href="index.html">Basic — พื้นฐาน</a>
             <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู basic">▾</button>
             <ul class="submenu">
-              <li><a href="01.html">1. Plant Simulation คืออะไร</a></li>
-              <li><a href="02.html">2. เริ่มต้นใช้งาน Plant Simulation และ Basic User Interface</a></li>
-              <li><a href="03.html">3. Object พื้นฐาน 6 ตัว</a></li>
-              <li><a href="04.html">4. สร้างโมเดลแรก</a></li>
-              <li><a href="05.html">5. รันและอ่านผล Statistics</a></li>
-              <li class="active"><a href="06.html">6. บันทึกและเปิดไฟล์โมเดล</a></li>
+              <li><a href="00a.html">00A. โรงงานตัวอย่าง Factory 51</a></li>
+              <li><a href="00b.html">00B. โมเดลตัวอย่าง Small Parts Production</a></li>
+              <li><a href="01.html">01. โมเดลแรก: Source → Station → Drain</a></li>
+              <li><a href="02.html">02. คอขวด และ ParallelStation</a></li>
+              <li><a href="03.html">03. เวลาสุ่ม + Buffer + เครื่องเสีย + OEE</a></li>
+              <li><a href="04.html">04. คน + กะทำงาน</a></li>
+              <li><a href="05.html">05. หลายรุ่น + งานเสีย + Method แรก</a></li>
+              <li class="active"><a href="06.html">06. ผัง 3D + ขนส่งด้วย AGV</a></li>
+              <li><a href="07.html">07. วิเคราะห์ + หาค่าที่ดีที่สุด</a></li>
             </ul>
           </li>
           <li class="has-children">
@@ -162,6 +156,6 @@
   </div>
   <div id="sidebar-overlay"></div>
 </div>
-<script src="../assets/main.js"></script>
+<script src="../assets/main.js?v=e223124b"></script>
 </body>
 </html>

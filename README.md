@@ -8,7 +8,11 @@
 ทำให้เพิ่มบทใหม่ในอนาคตได้โดยแค่เพิ่มไฟล์ในโฟลเดอร์เดิม ไม่ต้องยุ่งกับไฟล์อื่น:
 
 - [index.html](index.html) — หน้าแรก
-- **Basic — พื้นฐาน** ([basic/](basic/index.html)) — 6 บท (`basic/01.html` .. `06.html`)
+- **Basic — พื้นฐาน** ([basic/](basic/index.html)) — บท 00–07 ตามชุดสอน Step by Step ของ Plant Simulation 2606
+  (`basic/00a.html` Factory 51 และ `basic/00b.html` Small Parts Production = โมเดลตัวอย่าง 2 ตัวของบท 00,
+  `01.html` โมเดลแรก, `02.html` คอขวด + ParallelStation และ `03.html` Buffer + เครื่องเสีย + OEE ทำเต็มแล้ว,
+  `04.html` .. `07.html` เป็นโครงหัวข้อรอเติมจาก deck ของแต่ละบท)
+- โทนสีของเว็บ (แดง / เทา / ขาว ตามสไลด์) กำหนดเป็นตัวแปรที่ `:root` ใน [assets/style.css](assets/style.css)
 - **Intermediate — ขั้นกลาง** ([intermediate/](intermediate/index.html)) — 6 บท (`intermediate/01.html` .. `06.html`)
 - **Advanced — ขั้นสูง** ([advanced/](advanced/index.html)) — 7 บท (`advanced/01.html` .. `07.html`)
 - **Object Reference — สาธิต Object** ([object-reference/](object-reference/index.html)) — 3 หมวด (`object-reference/01.html` .. `03.html`)
@@ -34,6 +38,13 @@ Layout เป็นแบบ off-canvas sidebar (เมนูเลื่อน�
 
 **เพิ่มบทใหม่ในหมวดที่มีอยู่แล้ว:** เพิ่มชื่อบทใน `SECTIONS[section]["chapters"]` ใน `gen_site.py`, เพิ่ม `OBJECTIVES[(section, เลขบท)]`
 และ `BODY[(section, เลขบท)]` ใน `gen_chapters.py` แล้วรันสคริปต์ทั้ง 4 ตัวใหม่ตามลำดับ — sidebar/page-nav ของทุกหน้าจะอัปเดตอัตโนมัติ
+
+**รหัสบทกำหนดเอง:** หมวดที่ตั้ง `"ids"` ใน `SECTIONS` (ตอนนี้คือ `basic`: `"00a", "00b", "01", ... "09"`) ใช้รหัสนั้นแทนเลข 1..N —
+key ใน `OBJECTIVES`/`BODY` ใช้รหัสเดียวกัน เช่น `("basic", "00b")` ไฟล์ออกมาเป็น `basic/00b.html` ลิงก์ภายในเขียนเป็น `basic-00b.html`
+และเมนูแสดงเป็น `00B.` — ลำดับใน `"ids"` ต้องตรงกับลำดับใน `"chapters"`
+
+**ภาพจากสไลด์:** ภาพประกอบบท Basic 00A/00B ตัดมาจากสไลด์ PowerPoint (ส่วนภาพหน้าจอพร้อมเลขกำกับสีแดง
+ไม่รวมหัวสไลด์/footer) แล้วบีบอัดเป็น JPG — ลำดับเลขในภาพตรงกับ `step_list()` ใต้ภาพ
 
 **เพิ่มหมวดเมนูใหม่ทั้งหมด:** เพิ่ม entry ใหม่ใน `SECTIONS` และ `SECTION_ORDER` ใน `gen_site.py` (ดูตัวอย่าง `object-reference`/
 `case-study`/`tips-tricks` เป็นแบบอ้างอิง) แล้วเพิ่มเนื้อหาใน `gen_chapters.py` เหมือนขั้นตอนข้างบน

@@ -4,12 +4,15 @@
 html, body { margin: 0; padding: 0; }
 
 :root {
-    --accent: #2e7d32;
-    --accent-dark: #1b5e20;
-    --accent-rgb: 46, 125, 50;
+    /* red / gray / white, matching the course slide decks */
+    --accent: #fa000f;          /* fills: number badges, buttons, bars */
+    --accent-dark: #c4000c;     /* text on white (links) -- passes 4.5:1 contrast */
+    --accent-darker: #96000a;
+    --accent-rgb: 250, 0, 15;
 
     --bg: #ffffff;
-    --sidebar-bg: #f5f6f7;
+    --sidebar-bg: #f3f3f3;
+    --box-bg: #f3f3f3;          /* slide-style gray note box */
     --text: #1c1c1c;
     --muted: #3f3f3f;
     --muted-2: #6e6e6e;
@@ -19,6 +22,8 @@ html, body { margin: 0; padding: 0; }
 
     --sidebar-width: 20em;
 }
+
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 
 body {
     background: var(--bg);
@@ -40,8 +45,8 @@ h1 { font-size: 2em; margin-top: 0; }
 h2 { font-size: 1.5em; padding-bottom: 0.3em; border-bottom: 1px solid var(--border); }
 h3 { font-size: 1.15em; }
 
-a { color: var(--accent); text-decoration: none; }
-a:hover { color: var(--accent-dark); text-decoration: underline; }
+a { color: var(--accent-dark); text-decoration: none; }
+a:hover { color: var(--accent-darker); text-decoration: underline; }
 
 /* prose elements stay readable even in a wide container */
 #main > .inner > p,
@@ -52,11 +57,13 @@ a:hover { color: var(--accent-dark); text-decoration: underline; }
 
 code {
     font-family: "Consolas", "SFMono-Regular", Menlo, monospace;
-    background: rgba(var(--accent-rgb), 0.08);
-    color: var(--accent-dark);
+    background: var(--box-bg);
+    color: var(--text);
+    border: 1px solid #e2e2e2;
     padding: 0.1em 0.4em;
     border-radius: 4px;
     font-size: 0.9em;
+    overflow-wrap: anywhere;    /* long file names must not push the page wider than a phone screen */
 }
 
 pre {
@@ -68,7 +75,7 @@ pre {
     line-height: 1.6;
     font-size: 0.85em;
 }
-pre code { background: none; color: inherit; padding: 0; }
+pre code { background: none; color: inherit; padding: 0; border: none; overflow-wrap: normal; }
 
 table {
     width: 100%;
@@ -107,12 +114,18 @@ table th {
     padding: 0 2.5em 4em;
 }
 
+/* stays at the top while scrolling so the menu button is always one tap away on long pages */
 #header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--bg);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1.4em 0;
-    border-bottom: 1px solid var(--border);
+    gap: 1em;
+    padding: 1.1em 0;
+    border-bottom: 3px solid var(--accent);
     margin-bottom: 2em;
 }
 
@@ -122,7 +135,7 @@ a.logo {
     color: var(--text);
     letter-spacing: 0.01em;
 }
-a.logo:hover { text-decoration: none; color: var(--accent); }
+a.logo:hover { text-decoration: none; color: var(--accent-dark); }
 
 .menu-toggle {
     background: var(--accent);
@@ -134,8 +147,23 @@ a.logo:hover { text-decoration: none; color: var(--accent); }
     font-size: 1.1em;
     cursor: pointer;
     line-height: 1;
+    flex: none;
 }
 .menu-toggle:hover { background: var(--accent-dark); }
+
+.sidebar-close {
+    float: right;
+    background: none;
+    border: none;
+    color: var(--muted-2);
+    font-size: 1.3em;
+    width: 2.2em;
+    height: 2.2em;
+    margin: -0.4em -0.6em 0 0;
+    cursor: pointer;
+    line-height: 1;
+}
+.sidebar-close:hover { color: var(--accent-dark); }
 
 #sidebar {
     position: fixed;
@@ -185,8 +213,8 @@ a.logo:hover { text-decoration: none; color: var(--accent); }
     color: var(--muted);
     border-radius: 4px;
 }
-#menu a:hover { color: var(--accent); text-decoration: none; }
-#menu li.active > a { color: var(--accent); font-weight: 600; }
+#menu a:hover { color: var(--accent-dark); text-decoration: none; }
+#menu li.active > a { color: var(--accent-dark); font-weight: 600; }
 
 #menu li.has-children {
     display: flex;
@@ -215,7 +243,7 @@ a.logo:hover { text-decoration: none; color: var(--accent); }
 }
 #menu li.has-children.expanded ul.submenu { max-height: 40em; }
 #menu ul.submenu a { font-size: 0.92em; padding: 0.45em 0.2em; }
-#menu ul.submenu li.active > a { color: var(--accent); font-weight: 600; }
+#menu ul.submenu li.active > a { color: var(--accent-dark); font-weight: 600; }
 
 #footer {
     margin-top: auto;
@@ -240,6 +268,7 @@ a.logo:hover { text-decoration: none; color: var(--accent); }
     color: #fff;
     padding: 3.5em 2.5em;
     border-radius: 10px;
+    border-left: 8px solid var(--accent);
     margin: 1.5em 0 2.5em;
 }
 #banner h1 { color: #fff; margin: 0 0 0.4em; }
@@ -278,9 +307,10 @@ a.logo:hover { text-decoration: none; color: var(--accent); }
 .card p { margin: 0; font-size: 0.92em; }
 .card .icon { font-size: 1.8em; margin-bottom: 0.5em; }
 .card .icon.number {
-    width: 2.2em; height: 2.2em; display: flex; align-items: center;
+    min-width: 2.2em; height: 2.2em; padding: 0 0.4em; box-sizing: border-box;
+    display: inline-flex; align-items: center;
     justify-content: center; background: var(--accent); color: #fff;
-    font-size: 1.1em; font-weight: 700; border-radius: 50%;
+    font-size: 1.1em; font-weight: 700; border-radius: 1.1em;
     margin-bottom: 0.8em;
 }
 ol.steps { padding-left: 1.4em; max-width: 46em; }
@@ -380,24 +410,23 @@ ol.step-list .text { padding-top: 0.15em; }
     .side-by-side { grid-template-columns: 1fr; }
 }
 
+/* gray boxes with a red lead-in label, like the note boxes on the slides */
 .tip, .note {
-    border-radius: 8px;
+    background: var(--box-bg);
+    border-radius: 4px;
     padding: 1em 1.3em;
     margin: 1.4em 0;
     max-width: 46em;
 }
-.tip {
-    background: rgba(var(--accent-rgb), 0.08);
-    border: 1px solid rgba(var(--accent-rgb), 0.35);
-}
-.note {
-    background: rgba(180, 140, 20, 0.08);
-    border: 1px solid rgba(180, 140, 20, 0.35);
-}
+.tip { border-left: 4px solid #8c8c8c; }
+.note { border-left: 4px solid var(--accent); }
+.tip > strong:first-child,
+.note > strong:first-child { color: var(--accent-dark); }
 
 .objectives {
-    background: var(--sidebar-bg);
+    background: var(--box-bg);
     border: 1px solid var(--border);
+    border-top: 3px solid var(--accent);
     border-radius: 8px;
     padding: 1.2em 1.6em;
     margin: 1.4em 0 2em;
@@ -434,9 +463,38 @@ ol.step-list .text { padding-top: 0.15em; }
     #main { transform: none !important; }
 }
 
-/* ---------- small screens ---------- */
+/* ---------- small screens (phones) ---------- */
 @media (max-width: 640px) {
-    #main > .inner { padding: 0 1.2em 3em; }
     :root { --sidebar-width: 85vw; }
-    body { font-size: 20px; }
+    body { font-size: 17px; line-height: 1.75; }
+    #main > .inner { padding: 0 1em 3em; }
+
+    #header { padding: 0.7em 0; margin-bottom: 1.4em; }
+    a.logo { font-size: 1.05em; }
+
+    h1 { font-size: 1.6em; }
+    h2 { font-size: 1.3em; }
+    h3 { font-size: 1.1em; }
+
+    #banner { padding: 1.8em 1.3em; border-left-width: 6px; }
+    .card { padding: 1.2em; }
+    .card-grid { grid-template-columns: 1fr; gap: 1em; }
+
+    /* tables keep their own sideways scroll; make them denser so most fit without it */
+    table { font-size: 0.85em; }
+    table th, table td { padding: 0.45em 0.6em; }
+
+    .tip, .note { padding: 0.8em 1em; }
+    .objectives { padding: 1em 1.1em; }
+    ol.step-list li { gap: 0.7em; margin-bottom: 0.8em; }
+    ol.step-list .num { width: 1.6em; height: 1.6em; font-size: 0.9em; }
+
+    pre { padding: 1em; font-size: 0.8em; }
+
+    .page-nav { flex-direction: column; gap: 0.8em; }
+    .page-nav a:last-child { text-align: right; }
+
+    /* finger-sized tap targets in the menu */
+    #menu a { padding: 0.65em 0.2em; }
+    #menu .submenu-toggle { width: 2.6em; height: 2.6em; }
 }

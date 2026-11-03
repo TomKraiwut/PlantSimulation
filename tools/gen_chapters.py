@@ -1,29 +1,38 @@
 # -*- coding: utf-8 -*-
-"""Generates all 19 chapter pages + regenerates basic.html hub for consistency.
+"""Generates all chapter pages + regenerates basic.html hub for consistency.
 Run after gen_site.py (reuses its templates by importing it)."""
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from gen_site import SECTIONS, SECTION_ORDER, page_html, chapter_filename, hub_page, write, HUB_INTRO, HUB_CARD_DESC, youtube_embed, screenshot, step_list, side_by_side
+from gen_site import SECTIONS, SECTION_ORDER, page_html, chapter_filename, chapter_numbers, chapter_title, chapter_label, hub_page, write, HUB_INTRO, HUB_CARD_DESC, youtube_embed, screenshot, step_list, side_by_side
 
 # ---------------------------------------------------------------------------
 # Chapter objectives (2-3 goals per chapter, "เพื่อ..." style)
 # ---------------------------------------------------------------------------
 OBJECTIVES = {
-    ("basic", 1): ["เข้าใจว่า Discrete Event Simulation (DES) คืออะไร และต่างจากการคำนวณด้วยมือแบบธรรมดาอย่างไร",
-                   "รู้ว่า Plant Simulation ใช้แก้ปัญหาแบบไหนได้บ้างในงานจริง",
-                   "เห็นภาพรวมว่าตลอดคอร์สนี้จะได้เรียนอะไรบ้าง"],
-    ("basic", 2): ["จำตำแหน่งและหน้าที่ของส่วนประกอบหลักในโปรแกรมได้",
-                   "เปิดตัวอย่างโมเดล Factory 51 จาก Start Page ได้ด้วยตัวเอง",
-                   "ควบคุมมุมมอง 3 มิติด้วยเมาส์/คีย์บอร์ด และโต้ตอบกับ Object ด้วย Click/Double-click/Right-click ได้",
-                   "เข้าใจแนวคิด Event-Controlled Simulation และควบคุมการรันผ่าน EventController ได้"],
-    ("basic", 3): ["จำ Object พื้นฐาน 6 ตัวที่ใช้บ่อยที่สุด และหน้าที่ของแต่ละตัวได้",
-                   "รู้ว่า Object แต่ละตัวมีค่า (Attribute) สำคัญอะไรที่ต้องตั้ง"],
-    ("basic", 4): ["ลากวางและเชื่อมต่อ Object เป็นสายการผลิตง่ายๆ ได้ด้วยตัวเอง",
-                   "ตั้งค่า Interval และ Processing Time ได้ถูกต้อง"],
-    ("basic", 5): ["รันและ Reset ซิมูเลชันได้อย่างถูกวิธี",
-                   "อ่านและตีความค่า Working / Waiting / Blocked ได้"],
-    ("basic", 6): ["บันทึกไฟล์โมเดล (.spp) และเปิดไฟล์เดิมกลับมาทำต่อได้",
-                   "มีนิสัยสำรองไฟล์ที่ปลอดภัย ก่อนไฟล์เสียหรือหาย"],
+    ("basic", "00a"): ["เข้าใจว่า Discrete Event Simulation (DES) คืออะไร และ Plant Simulation ใช้แก้ปัญหาแบบไหน",
+                   "เปิด Start Page และเปิดโมเดลตัวอย่าง Factory 51 ได้ด้วยตัวเอง",
+                   "หมุน ซูม เลื่อนมุมมอง 3D และโต้ตอบกับวัตถุด้วยคลิก / ดับเบิลคลิก / คลิกขวาได้",
+                   "เปิด Frame ด้านในแล้วกลับออกมา และสั่ง Start / Reset / ปรับความเร็วผ่าน EventController ได้"],
+    ("basic", "00b"): ["เปิดโมเดลตัวอย่าง Small Parts Production และรันเทียบไลน์เดิมกับไลน์ที่ปรับแล้วได้",
+                       "หาคอขวดของไลน์ประกอบด้วย Station Utilization, Bottleneck Analyzer และ Ranking ได้",
+                       "หาขนาด Buffer ที่พอด้วย Experiment Manager และอ่านผลพลังงานจาก Energy Analyzer ได้"],
+    ("basic", "01"): ["รู้จักส่วนต่างๆ ของหน้าจอ และมองโมเดลแบบแปลนด้วย Planning View ได้",
+                      "วาง Source → Station → Drain ต่อเส้นด้วย Connector และตั้งค่า Source, Station, EventController ได้",
+                      "ใส่ Display แสดงจำนวนชิ้นงาน กด Reset / Start และอ่านผลการจำลองได้"],
+    ("basic", "02"): ["แสดงชื่อ Object และวาง Display / Chart บนไลน์ผลิต 5 สถานีได้",
+                      "หาคอขวดจากสีของ Chart (Working / Blocked / Waiting) ได้",
+                      "แก้คอขวดด้วยเครื่องขนาน หรือ ParallelStation และรู้จักกับดัก Start Processing When Full"],
+    ("basic", "03"): ["ตั้งเวลาทำงานแบบสุ่ม (Uniform) และอธิบายได้ว่าทำไมผลผลิตลดลงทั้งที่เวลาเฉลี่ยเท่าเดิม",
+                      "ใส่ Buffer เป็นพื้นที่พักงาน และรู้ว่า Buffer ช่วยเมื่อไรและไม่ช่วยเมื่อไร",
+                      "ตั้ง Failure ด้วย Availability และ MTTR อ่านแท็บ Statistics คำนวณ OEE และเลือกเวลาจำลองให้นานพอ"],
+    ("basic", "04"): ["ต่อ Workplace, WorkerPool และ Broker ให้เครื่องใช้คนทำงานได้",
+                      "ตั้ง ShiftCalendar และอ่านสถิติของคนได้"],
+    ("basic", "05"): ["ปล่อยงานหลายรุ่นตามตารางและแยกงานดี/งานเสียได้",
+                      "เขียน Method สั้นๆ ครั้งแรกเพื่อนับงานเสีย"],
+    ("basic", "06"): ["วางไลน์บนผังโรงงานและดูในมุมมอง 3D ได้",
+                      "ใช้ AGV ขนของจากคลังเข้าไลน์และเทียบจำนวน AGV ได้"],
+    ("basic", "07"): ["หาคอขวดด้วย Bottleneck Analyzer ได้",
+                      "ใช้ ExperimentManager หาค่าที่คุ้มที่สุดและสรุปผลเพื่อตัดสินใจได้"],
 
     ("intermediate", 1): ["แยกความแตกต่างของ Buffer/Store, AssemblyStation, Track และ Transporter ได้",
                           "เลือกใช้ Object ที่เหมาะกับสถานการณ์ในโมเดลจริงได้"],
@@ -97,20 +106,44 @@ OBJECTIVES = {
 # ---------------------------------------------------------------------------
 BODY = {}
 
-BODY[("basic", 1)] = f'''
-<h2>Discrete Event Simulation คืออะไร</h2>
+def planned_body(topics, frames, extra=""):
+    """Outline page for a Basic chapter whose 2606 step-by-step content is still being written."""
+    topics_html = "\n".join(f"<li>{t}</li>" for t in topics)
+    return f'''
+<div class="note">
+<strong>กำลังจัดทำ:</strong> บทนี้กำลังเรียบเรียงเป็นแบบ Step by Step บน Plant Simulation 2606 พร้อมภาพหน้าจอทีละขั้น
+— ด้านล่างคือโครงหัวข้อของบทที่จะได้เรียน
+</div>
+
+<h2>หัวข้อในบทนี้</h2>
+<ol class="steps">
+{topics_html}
+</ol>
+
+<h2>Frame ในไฟล์ของบท</h2>
+<p>ไฟล์ <code>.spp</code> ของบทมีหลาย Frame เล่าเรื่องเดียวกัน — เปิดไฟล์ของบทได้เลย ไม่ต้องทำบทก่อนหน้าให้เสร็จ:</p>
+<p>{frames}</p>
+{extra}'''
+
+
+BODY[("basic", "00a")] = f'''
+<p class="lead" style="max-width:46em;">บทแรกของชุดสอนยังไม่ต้องสร้างอะไรเอง — เปิดโรงงานตัวอย่าง <strong>Factory 51</strong> ที่ติดมากับโปรแกรม
+เพื่อฝึกใช้หน้าจอ ควบคุมมุมมอง 3D โต้ตอบกับวัตถุ และสั่งรันซิมูเลชัน ทั้งหมด 7 ขั้นตอน
+แล้วต่อด้วยโมเดลตัวอย่างตัวที่สองในบท <a href="basic-00b.html">00B Small Parts Production</a></p>
+
+<h2>Plant Simulation คืออะไร</h2>
 <p>Plant Simulation จำลองระบบแบบ <strong>Discrete Event Simulation (DES)</strong> — คือการจำลอง
 "เหตุการณ์" ที่เกิดขึ้นเป็นจุดๆ ตามเวลา (เช่น ชิ้นงานมาถึง, เครื่องเริ่มทำงาน, เครื่องทำงานเสร็จ)
 แทนที่จะคำนวณทุกวินาทีต่อเนื่อง ทำให้จำลองกระบวนการผลิตหลายวัน/หลายเดือนได้ในเวลาไม่กี่วินาทีบนคอมพิวเตอร์</p>
 
 <div class="note">
-<strong>นิยาม — Plant Simulation Model คืออะไร:</strong> พูดให้ตรงไปตรงมาที่สุด โมเดลจำลองคือ <em>การเลียนแบบระบบ</em>
+<strong>นิยาม — Plant Simulation Model คืออะไร:</strong> โมเดลจำลองคือ <em>การเลียนแบบระบบ</em>
 ที่สร้างขึ้นจากความรู้หรือสมมติฐานเกี่ยวกับพฤติกรรมของส่วนต่างๆ ในระบบนั้น โดยมีจุดประสงค์เพื่อให้ได้ข้อมูลเชิงลึกเกี่ยวกับพฤติกรรมของ
 <em>ทั้งระบบ</em> — ไม่ได้จำลองทุกรายละเอียดให้เหมือนจริง 100% แต่เลือกจำลองเฉพาะส่วนที่ส่งผลต่อคำถามที่อยากตอบ
 </div>
 
 {side_by_side(
-    screenshot("assets/images/basic/01-01.png", "ตัวอย่างโมเดล 3D ของสายการผลิตใน Plant Simulation"),
+    screenshot("assets/images/basic/00a-01.png", "ตัวอย่างโมเดล 3D ของสายการผลิตใน Plant Simulation"),
     step_list([
         "ผังพื้นโรงงาน (เส้นสีเทาจางด้านหลัง) — แบบ Layout จริงที่ใช้เป็นพื้นหลังอ้างอิงตำแหน่งวาง Object",
         "กลุ่มเครื่องจักรสีเขียว-ฟ้า — แต่ละกลุ่มแทนสถานีเครื่องจักร/ประมวลผลในสายการผลิตจริง",
@@ -119,17 +152,16 @@ BODY[("basic", 1)] = f'''
     ])
 )}
 
-<h2>Simulation กับ Digital Twin</h2>
-<p><strong>Simulation</strong> (การจำลองสถานการณ์) คือการสร้างแบบจำลองของระบบหรือกระบวนการในโลกจริงขึ้นมา เพื่อศึกษาพฤติกรรม
-ทดสอบสมมติฐาน หรือคาดการณ์ผลลัพธ์ที่จะเกิดขึ้นภายใต้เงื่อนไขต่างๆ โดยไม่ต้องลงมือทำกับสถานการณ์จริง — เน้นออกแบบและทดสอบ
+<h3>Simulation กับ Digital Twin</h3>
+<p><strong>Simulation</strong> คือการสร้างแบบจำลองของระบบหรือกระบวนการในโลกจริงขึ้นมา เพื่อศึกษาพฤติกรรม
+ทดสอบสมมติฐาน หรือคาดการณ์ผลลัพธ์ภายใต้เงื่อนไขต่างๆ โดยไม่ต้องลงมือทำกับสถานการณ์จริง — เน้นทดสอบ
 "สิ่งที่อาจจะเกิดขึ้น" (What-if scenarios)</p>
-<p><strong>Digital Twin</strong> ต่อยอดจากแนวคิดนี้อีกขั้นหนึ่ง: เป็นแบบจำลองเสมือนจริงของวัตถุหรือกระบวนการที่ <em>เชื่อมโยงกับข้อมูลจริง
-อย่างต่อเนื่อง</em> ทำให้แสดงข้อมูลเชิงลึกของสิ่งที่เป็นอยู่ปัจจุบันแบบเรียลไทม์ (Real-time monitoring) และพยากรณ์เหตุการณ์ที่อาจจะเกิดขึ้น
-จากข้อมูลที่ได้รับ (Prediction) ได้ — พูดง่ายๆ คือโมเดล Plant Simulation ที่เริ่มสร้างในคอร์สนี้เป็นจุดตั้งต้น พอต่อเข้ากับข้อมูลจริงจาก
-หน้างานก็ต่อยอดกลายเป็น Digital Twin ได้ต่อไป</p>
+<p><strong>Digital Twin</strong> ต่อยอดอีกขั้น: เป็นแบบจำลองที่ <em>เชื่อมโยงกับข้อมูลจริงอย่างต่อเนื่อง</em>
+ทำให้ติดตามสิ่งที่เป็นอยู่แบบเรียลไทม์ (Real-time monitoring) และพยากรณ์เหตุการณ์ล่วงหน้า (Prediction) ได้ —
+โมเดลที่เริ่มสร้างในชุดสอนนี้คือจุดตั้งต้น พอต่อเข้ากับข้อมูลจริงจากหน้างานก็ต่อยอดเป็น Digital Twin ได้</p>
 
 {side_by_side(
-    screenshot("assets/images/basic/01-02.jpg", "การผสาน Digital Twin เข้ากับเครื่องจักรจริงระหว่างขั้นตอนติดตั้ง/ตรวจสอบ"),
+    screenshot("assets/images/basic/00a-02.jpg", "การผสาน Digital Twin เข้ากับเครื่องจักรจริงระหว่างขั้นตอนติดตั้ง/ตรวจสอบ"),
     step_list([
         "ลดต้นทุน — ทดสอบและแก้ปัญหาในโลกดิจิทัลก่อนลงทุนจริง",
         "ทำนายล่วงหน้า — รู้ว่าอะไรจะเสียก่อนที่มันจะเสียจริง",
@@ -138,9 +170,8 @@ BODY[("basic", 1)] = f'''
     ])
 )}
 
-{screenshot("assets/images/basic/01-03.jpg", "ตัวอย่าง Plant Simulation Model ของคลังสินค้าอัตโนมัติขนาดใหญ่", caption="โมเดลระดับนี้จำลองทั้งชั้นวางสินค้าอัตโนมัติ (AS/RS), สายพานลำเลียง, และเส้นทางขนย้ายในคลังสินค้าจริง — ใช้หลัก DES เดียวกับโมเดลง่ายๆ ที่กำลังจะสร้างในคอร์สนี้ เพียงแค่ขยายสเกลขึ้น")}
+{screenshot("assets/images/basic/00a-03.jpg", "ตัวอย่าง Plant Simulation Model ของคลังสินค้าอัตโนมัติขนาดใหญ่", caption="โมเดลระดับนี้จำลองทั้งชั้นวางสินค้าอัตโนมัติ (AS/RS), สายพานลำเลียง และเส้นทางขนย้ายในคลังสินค้าจริง — ใช้หลัก DES เดียวกับโมเดลง่ายๆ ที่จะสร้างในชุดสอนนี้ เพียงแค่ขยายสเกลขึ้น")}
 
-<h2>ใช้ทำอะไรได้บ้าง</h2>
 <table>
 <tr><th>โจทย์</th><th>Plant Simulation ช่วยอะไร</th></tr>
 <tr><td>ออกแบบสายการผลิตใหม่</td><td>ทดสอบผัง Layout ก่อนลงทุนจริง ลดความเสี่ยงสร้างแล้วใช้ไม่ได้</td></tr>
@@ -149,254 +180,1187 @@ BODY[("basic", 1)] = f'''
 <tr><td>บริหารสินค้าคงคลัง/โลจิสติกส์</td><td>จำลองคลังสินค้า, AGV, ระบบขนส่งภายในโรงงาน</td></tr>
 </table>
 
+<h2>ภาพรวม 7 ขั้นตอนของบทนี้</h2>
+<table>
+<tr><th>ขั้น</th><th>หัวข้อ</th><th>ทำอะไร</th></tr>
+<tr><td>1</td><td>เปิด Start Page</td><td><code>Window → Start Page</code></td></tr>
+<tr><td>2</td><td>Example Models</td><td>เลือก Factory 51</td></tr>
+<tr><td>3</td><td>รู้จักโรงงาน</td><td>รับของ ผลิต คลัง ส่งของ</td></tr>
+<tr><td>4</td><td>ควบคุมมุมมอง 3D</td><td>ซูม เลื่อน หมุน</td></tr>
+<tr><td>5</td><td>คลิก / ดับเบิลคลิก / คลิกขวา</td><td>เลือกวัตถุ เปิดหน้าต่าง และ Quick tools</td></tr>
+<tr><td>6</td><td>เปิด Frame ด้านใน</td><td>เข้า-ออก Frame P1</td></tr>
+<tr><td>7</td><td>EventController</td><td>Start / Reset / ความเร็ว</td></tr>
+</table>
+
 <div class="tip">
-<strong>ทำไมไม่คำนวณมือ:</strong> เมื่อมีความสุ่ม (เช่น เครื่องเสียแบบสุ่ม, เวลาแปรรูปไม่คงที่) และ Object
-หลายสิบ-หลายร้อยตัวโต้ตอบกัน การคำนวณมือแทบเป็นไปไม่ได้ — DES จำลองความซับซ้อนนี้ให้อัตโนมัติ
+<strong>สิ่งที่ต้องมี:</strong> Plant Simulation 2606 และโมเดล <code>Factory51.spp</code> (อยู่ใน <code>Examples\\Demo</code> ของโฟลเดอร์ติดตั้ง)
+— ใช้ Student License ได้ โดยเปิดแบบ Viewer &nbsp;·&nbsp; ผลที่วัดได้ใน 2606: มีรถบรรทุกเข้ามา <strong>5 คัน</strong> ภายในเวลาจำลอง 48:40 นาที
 </div>
 
-<h2>ภาพรวมคอร์สนี้</h2>
-<p>คอร์สแบ่งเป็น 3 ระดับ: <strong>Basic</strong> รู้จักโปรแกรมและสร้างโมเดลแรก, <strong>Intermediate</strong>
-ทำให้โมเดลสมจริงขึ้นด้วย Object เพิ่มเติมและค่าสุ่ม, <strong>Advanced</strong> เขียนสคริปต์ SimTalk
-ควบคุมโมเดลและทำ Optimization อัตโนมัติ</p>
-
-<div class="note">
-<strong>คำถามฝึกคิด:</strong> ถ้าคุณมีสายการผลิต 5 สถานี แต่ละสถานีมีเวลาทำงานสุ่มไม่เท่ากันทุกครั้ง
-จะรู้ได้อย่างไรว่าสถานีไหนเป็นคอขวดโดยไม่ต้องรันสายการผลิตจริง?
-</div>
-<div class="tip"><strong>เฉลย:</strong> สร้างโมเดลจำลองทั้ง 5 สถานีด้วย Distribution ที่สะท้อนความสุ่มจริง (ดูบท Intermediate 3)
-แล้วใช้ Bottleneck Analyzer (บท Intermediate 5) วิเคราะห์ผลจากการรันจำลอง — ไม่ต้องหยุดสายจริงเลย</div>
-'''
-
-BODY[("basic", 2)] = f'''
-<h2>วิดีโอสาธิต: เปิดโปรแกรมและหน้า Start Page</h2>
-<p>วิดีโอนี้สาธิตการเปิดโปรแกรม Plant Simulation ครั้งแรก ไปจนถึงหน้า <strong>Start Page</strong> ที่รวมทางลัดสำคัญ
-(Load Last Model, Recent Models, Example Models) — ดูก่อนแล้วค่อยอ่านรายละเอียดแต่ละส่วนด้านล่าง</p>
-{youtube_embed("l-p1UY2W5CY", "1. Getting Started - Plant Simulation")}
-
-<h2>ส่วนประกอบหลักของโปรแกรม</h2>
-<table>
-<tr><th>ส่วนประกอบ</th><th>หน้าที่</th></tr>
-<tr><td><strong>Class Library</strong></td><td>คลัง Object ทั้งหมดที่ใช้สร้างโมเดล แบ่งเป็นหมวด เช่น MaterialFlow, InformationFlow, Resources, MUs</td></tr>
-<tr><td><strong>Frame</strong></td><td>พื้นที่วาดโมเดล (เหมือน Canvas) ลาก Object มาวางและเชื่อมต่อกันที่นี่ — โมเดลหนึ่งไฟล์มีได้หลาย Frame ซ้อนกัน</td></tr>
-<tr><td><strong>Toolbar</strong></td><td>ปุ่มควบคุมการรันซิมูเลชัน (Start, Reset, Speed)</td></tr>
-<tr><td><strong>Console</strong></td><td>แสดงข้อความ error/log ระหว่างรันหรือเขียนโค้ด SimTalk</td></tr>
-<tr><td><strong>Navigator / Class Library Explorer</strong></td><td>แผงต้นไม้ทางซ้าย ไล่ดูโครงสร้างโมเดลทั้งหมดและ Class Library</td></tr>
-<tr><td><strong>Attribute window</strong></td><td>เปิดจากดับเบิลคลิก Object — ตั้งค่าคุณสมบัติเฉพาะของ Object นั้น เช่น Interval, ProcTime</td></tr>
-</table>
-
-<h2>เปิดตัวอย่างโมเดล Factory 51</h2>
-<p>วิธีที่เร็วที่สุดในการทำความคุ้นเคยกับหน้าตาโปรแกรมคือเปิดโมเดลตัวอย่างที่ติดมากับโปรแกรมดูก่อน — <strong>Factory 51</strong>
-คือโมเดลสาธิตที่ Siemens แนบมาให้ทุกเครื่องที่ติดตั้ง Plant Simulation ใช้แสดงภาพ 3D ของโรงงานแบบครบวงจร</p>
-<ol class="steps">
-<li>เปิดโปรแกรม Plant Simulation</li>
-<li>ไปที่เมนู <code>Window → Start Page</code></li>
-<li>ในหน้า Start Page ไปที่คอลัมน์ <code>Getting Started</code> คลิก <code>Example Models</code></li>
-<li>ในรายการที่เปิดขึ้นมา คลิกเลือก <code>Factory 51</code></li>
-<li>ถ้าเครื่องใช้ Student License จะมีหน้าต่างแจ้งเตือนว่าโมเดลนี้เกิน 80 Objects (เกินสิทธิ์ Student License) ให้คลิก
-<code>Yes</code> เพื่อเปิดแบบ Viewer License แทน</li>
-</ol>
-
-{screenshot("assets/images/basic/02-01.jpg", "ขั้นตอนเปิดโมเดลตัวอย่าง Factory 51 จาก Start Page", caption="Start Page → Getting Started → Example Models → Factory 51 → ยืนยัน Viewer License")}
-
-<div class="note">
-<strong>ทดสอบจริงแล้วพบว่า:</strong> โมเดล Factory 51 มี Object เกิน 80 ตัวจริงตามที่โปรแกรมแจ้ง — เมื่อลองเชื่อมต่อผ่าน COM/สคริปต์ภายนอก
-(แทนการเปิดผ่านหน้าจอโปรแกรมตรงๆ) จะเจอ error <code>"Remote access is not allowed with this license"</code> ทันที นี่คือข้อจำกัดจริงของ
-Viewer/Student License ที่ควรรู้ไว้ — โมเดลขนาดนี้ต้องเปิดผ่าน GUI เท่านั้น จะควบคุมจากภายนอกแบบที่สอนในบท Advanced ไม่ได้จนกว่าจะมี License เต็ม
-</div>
-
-<h2>ภาพรวมโมเดล Factory 51</h2>
-<p>เมื่อเปิดขึ้นมาแล้ว จะเห็นภาพ 3D ของโรงงานจำลองที่มีครบทุกโซนตั้งแต่รับวัตถุดิบจนถึงส่งสินค้าออก — เป็นตัวอย่างที่ดีของสิ่งที่พูดถึงในบทที่แล้ว
-เรื่อง "พฤติกรรมของทั้งระบบ" ที่มองเห็นได้ด้วย 3D Visualization/3D Animation</p>
-
-{screenshot("assets/images/basic/02-02.jpg", "ภาพรวมโซนต่างๆ ในโมเดล Factory 51")}
-
-<table>
-<tr><th>โซน</th><th>ประกอบด้วย</th></tr>
-<tr><td><strong>Inbound</strong></td><td>Truck, Forklift, Robot, Crane — รับวัตถุดิบเข้าสู่โรงงาน</td></tr>
-<tr><td><strong>Production Plant (P1 &amp; P2)</strong></td><td>Polishing, Milling, Paint, Drying, Clean, QC, PostProcess, Pack — สองสายการผลิตขนาน</td></tr>
-<tr><td><strong>Robot Auto Packing</strong></td><td>AGV Load/Unload, AGV Charger — หุ่นยนต์บรรจุภัณฑ์และสถานีชาร์จ AGV</td></tr>
-<tr><td><strong>Warehouse</strong></td><td>ASRS (Automated Storage/Retrieval System), WMS — คลังสินค้าอัตโนมัติ</td></tr>
-<tr><td><strong>Outbound</strong></td><td>Conveyor, Truck — ส่งสินค้าสำเร็จรูปออกจากโรงงาน</td></tr>
-</table>
-
-<h2>ควบคุมมุมมอง 3 มิติด้วยเมาส์และคีย์บอร์ด</h2>
-<p>ก่อนเดินสำรวจโมเดล Factory 51 ควรคุ้นเคยกับการควบคุมกล้อง 3D ก่อน — ใช้ได้ทั้งเมาส์และคีย์บอร์ดร่วมกัน</p>
-<table>
-<tr><th>การควบคุม</th><th>ผลลัพธ์</th></tr>
-<tr><td>เลื่อนลูกกลิ้งเมาส์ (Scroll Wheel)</td><td>ซูมเข้า/ออก — กด <code>Shift</code> ค้างเพื่อซูมเร็ว, กด <code>Ctrl</code> ค้างเพื่อซูมช้า</td></tr>
-<tr><td>กดลูกกลิ้งเมาส์ค้าง + ลาก</td><td>หมุนมุมมอง (Rotate) รอบจุดศูนย์กลางฉากหรือรอบ Object ที่เลือก</td></tr>
-<tr><td>กด <code>Ctrl</code> + ลูกกลิ้งเมาส์ค้าง + ลาก</td><td>เลื่อนมุมมองแนวขนาน (Pan)</td></tr>
-</table>
-
-{screenshot("assets/images/basic/02-03.jpg", "ไอคอนเปรียบเทียบ Rotate กับ Pan")}
-
-<table>
-<tr><th>ปุ่มคีย์บอร์ด</th><th>ผลลัพธ์</th></tr>
-<tr><td><code>W</code> / <code>S</code></td><td>เดินเข้าใกล้ / เดินออกห่างจาก Object ในมุมมอง 3D</td></tr>
-<tr><td><code>Q</code> / <code>E</code></td><td>เดินไปทางซ้าย / ทางขวาของ Object</td></tr>
-<tr><td><code>A</code> / <code>D</code></td><td>หันซ้าย / หันขวา</td></tr>
-<tr><td><code>Z</code> / <code>Shift + Z</code></td><td>ลดระดับตัวเอง / ยกระดับตัวเองขึ้น</td></tr>
-</table>
-
-<h2>โต้ตอบกับ Object: Click / Double-click / Right-click</h2>
-<p>สามวิธีหลักในการโต้ตอบกับ Object ในมุมมอง 3D (และ 2D เช่นกัน) — ใช้บ่อยที่สุดตลอดทั้งคอร์สนี้</p>
-<table>
-<tr><th>การกระทำ</th><th>ผลลัพธ์</th></tr>
-<tr><td><strong>Click</strong> (คลิกซ้ายครั้งเดียว)</td><td>เลือก Object (Select)</td></tr>
-<tr><td><strong>Double Click</strong></td><td>เปิด Object Window — หน้าต่าง Attribute ของ Object นั้น</td></tr>
-<tr><td><strong>Right Click</strong></td><td>เปิดเมนู Quick tools — ทางลัดไปยังคำสั่งที่ใช้บ่อย เช่น Edit 3D Properties, Show Attributes and Methods (F8), Find Object (F3)</td></tr>
-<tr><td><strong>Double Click</strong> บน Object ที่มี Frame ซ้อนอยู่ข้างใน</td><td>เปิด Frame ข้างในนั้น (กด <code>Shift + Enter</code> เพื่อย้อนกลับออกมา)</td></tr>
-</table>
-
+<h2>ขั้นที่ 1: เปิด Start Page</h2>
 {side_by_side(
-    screenshot("assets/images/basic/02-04.jpg", "หน้าต่าง Attribute ของ Object PickAndPlaceBottom เปิดจากการ Double Click"),
-    screenshot("assets/images/basic/02-05.jpg", "เมนู Quick tools เปิดจากการ Right Click")
+    screenshot("assets/images/basic/00a-04.jpg", "แท็บ Window และหน้า Start Page ของ Plant Simulation 2606"),
+    step_list([
+        "เปิด Plant Simulation 2606 แล้วคลิกแท็บ <code>Window</code>",
+        "คลิก <code>Start Page</code> (ปกติจะขึ้นเองตอนเปิดโปรแกรม)",
+        "ในกลุ่ม <code>Getting Started</code> คลิก <code>Example Models</code>",
+    ])
+)}
+<div class="note">
+<strong>Start Page:</strong> มีปุ่ม <strong>Load Last Model</strong>, <strong>Recent Models</strong> และ <strong>Open Model File</strong> —
+ถ้าไม่เห็นปุ่ม <strong>Create New Model</strong> แสดงว่ายังมีโมเดลอื่นเปิดค้างอยู่ &nbsp;·&nbsp; Plant Simulation 2606 เพิ่มปุ่ม
+<strong>QuickStart</strong> และ <strong>New Features</strong> เข้ามาใหม่
+</div>
+
+<h2>ขั้นที่ 2: เปิดโมเดลตัวอย่าง Factory 51</h2>
+{screenshot("assets/images/basic/00a-05.jpg", "หน้าต่าง Example Models และโมเดล Factory 51 ที่เปิดแล้ว")}
+{step_list([
+    "คลิก <code>Factory 51</code> ในหน้าต่าง Example Models",
+    "โมเดลจะอยู่ใน Class Library → <code>Models → Factory51</code>",
+    "แถบ <em>The model contains outdated libraries</em> กด <code>X</code> ปิดได้ บทนี้ไม่ต้องอัปเดต",
+    "โมเดลเปิดในหน้าต่าง 3D (แท็บล่างชื่อ <code>3D.Models.Factory51</code>)",
+    "2606 มีตัวอย่างเพิ่ม เช่น <strong>Python GA Demo</strong> และ <strong>Standard Object Examples</strong>",
+])}
+<div class="note">
+<strong>Student License:</strong> โมเดล Factory 51 มีวัตถุเกิน 80 ตัว โปรแกรมจะถาม — กด <code>Yes</code> เพื่อเปิดแบบ <strong>Viewer</strong>
+(ดูและรันได้ แต่บันทึกการแก้ไขไม่ได้) และ License แบบนี้ควบคุมโมเดลจากภายนอกผ่าน COM ไม่ได้
+(ขึ้น <code>"Remote access is not allowed with this license"</code>)
+</div>
+
+<h2>ขั้นที่ 3: รู้จัก Factory 51 — ระบบทั้งโรงงานใน 3D</h2>
+{screenshot("assets/images/basic/00a-06.jpg", "ภาพรวมโซนต่างๆ ในโมเดล Factory 51", caption="Factory 51 — Overview: รับของ → ผลิต → คลัง → ส่งของ")}
+{side_by_side(
+    screenshot("assets/images/basic/00a-07.jpg", "ตำแหน่งของแต่ละโซนใน Factory 51"),
+    step_list([
+        "<strong>Inbound</strong> — รถบรรทุก โฟล์คลิฟต์ หุ่นยนต์ เครน รับวัตถุดิบเข้าโรงงาน",
+        "<strong>P1 / P2</strong> — โรงผลิต 2 หลัง: ขัด (Polishing) กัด (Milling) พ่นสี อบ ล้าง QC แพ็ก",
+        "<strong>AGV</strong> — ขนส่งด้วย AGV พร้อมจุดชาร์จ และ Robot Auto Packing",
+        "<strong>คลัง HBW</strong> — คลังสินค้าอัตโนมัติ (ASRS, WMS)",
+        "<strong>Outbound</strong> — สายพานและรถบรรทุกส่งของออก",
+    ])
 )}
 
-<div class="tip">
-<strong>Tip:</strong> ถ้าหน้าต่างเพี้ยนหรือ panel หายไป ไปที่เมนู <code>View → Reset Window Layout</code>
-(หรือใกล้เคียง แล้วแต่เวอร์ชัน) เพื่อคืนค่าเลย์เอาต์เริ่มต้น
-</div>
-
-<h2>Time-Oriented Simulation และ Event-Controlled Simulation</h2>
-<p>Plant Simulation เป็นโปรแกรมจำลองแบบ <strong>discrete, event-controlled</strong> — หมายความว่าโปรแกรมจะตรวจสอบเฉพาะ
-"จุดเวลาที่มีเหตุการณ์เกิดขึ้นจริง" ในโมเดลเท่านั้น (สอดคล้องกับ Discrete Event Simulation ที่พูดถึงในบทที่ 1) ไม่ใช่คำนวณทุกช่วงเวลาต่อเนื่อง
-ควบคุมการรันทั้งหมดผ่าน Object <strong>EventController</strong> ตัวเดียว</p>
-<ol class="steps">
-<li>คลิกที่ปุ่ม <code>Start/Stop Simulation</code> เพื่อเริ่ม/หยุดการจำลอง</li>
-<li>ดับเบิลคลิกที่ <code>EventController</code> เพื่อเปิดหน้าต่างควบคุม (แท็บ Controls/Settings)</li>
-<li>ปรับตัวเลื่อน <code>Slower ↔ Faster</code> เพื่อปรับความเร็วของแบบจำลอง แล้วสังเกตพฤติกรรมการทำงาน</li>
-</ol>
-
-{screenshot("assets/images/basic/02-06.jpg", "หน้าต่างควบคุม EventController — ปุ่ม Play/Pause และตัวเลื่อนความเร็ว")}
-
+<h2>ขั้นที่ 4: ควบคุมมุมมอง 3D ด้วยเมาส์</h2>
+{side_by_side(
+    screenshot("assets/images/basic/00a-08.jpg", "มุมมองเริ่มต้น เทียบกับหลังซูม เลื่อน และหมุน"),
+    step_list([
+        "<strong>หมุนล้อเมาส์</strong> = ซูมเข้า-ออก (กด <code>Shift</code> ค้าง = เร็ว ×10, <code>Ctrl</code> ค้าง = ช้า ×0.1)",
+        "<strong>คลิกขวาค้างแล้วลาก</strong> = เลื่อนฉาก (Pan) — หรือกดล้อค้างแล้วลาก",
+        "<code>Ctrl</code> + <strong>คลิกขวาค้างแล้วลาก</strong> = หมุนฉาก — หรือกดซ้าย+ขวาค้าง",
+        "กด <code>V</code> = View All เห็นทั้งฉาก",
+    ])
+)}
 <div class="note">
-<strong>เล่นสนุกได้ด้วย:</strong> ในโมเดล Factory 51 ลองเดินสำรวจฉาก 3D ด้วยปุ่มคีย์บอร์ดด้านบนดูให้ทั่ว — มีห้องเล็กๆ ซ่อนอยู่ในโมเดล
-ให้ลองหา "Beer room" ดู เป็นวิธีฝึกการควบคุมกล้อง 3D แบบไม่เครียดก่อนไปสร้างโมเดลของตัวเองในบทถัดไป
+<strong>ระวัง:</strong> ลากหมุนนิดเดียวพอ ถ้าหมุนจนมุมเพี้ยน กด <code>V</code> จะไม่คืนมุมกล้อง — ให้ใช้แท็บ <code>View</code>
+(<code>From Top</code> / <code>Front</code>) หรือเปิดโมเดลใหม่
 </div>
 
-<div class="note">
-<strong>คำถามฝึกคิด:</strong> ถ้าอยากรู้ว่า Object ตัวหนึ่งมีคุณสมบัติ (Attribute) อะไรให้ตั้งค่าได้บ้าง ควรทำอย่างไร?
-</div>
-<div class="tip"><strong>เฉลย:</strong> ดับเบิลคลิกที่ Object นั้นเพื่อเปิด Attribute window — จะเห็นทุกแท็บการตั้งค่าของ Object นั้นโดยเฉพาะ</div>
-'''
-
-BODY[("basic", 3)] = '''
-<h2>Object พื้นฐาน 6 ตัว</h2>
-<p>Object เหล่านี้อยู่ใน Class Library หมวด <code>MaterialFlow</code> เป็นชุดที่ใช้บ่อยที่สุดในการสร้างสายการผลิตแบบง่าย</p>
+<h3>เดินในฉากด้วยคีย์บอร์ด</h3>
+{screenshot("assets/images/basic/00a-09.jpg", "การควบคุมฉาก 3D ด้วยเมาส์และคีย์บอร์ด", caption="ภาพนี้มาจากเวอร์ชันก่อน — ใน 2606 กดล้อค้าง = เลื่อน และ Ctrl + คลิกขวาค้าง = หมุน ตามขั้นที่ 4")}
 <table>
-<tr><th>Object</th><th>ใช้ทำอะไร</th><th>ค่าสำคัญที่ต้องตั้ง</th></tr>
-<tr><td><strong>Source</strong></td><td>จุดกำเนิดชิ้นงาน (MU) เข้าสู่ระบบ</td><td><code>Interval</code> — ความถี่การผลิตชิ้นงานใหม่</td></tr>
-<tr><td><strong>Conveyor</strong></td><td>เส้นทางลำเลียงชิ้นงานระหว่างสถานีแบบมีความเร็ว/ความยาว</td><td><code>Length</code>, <code>Speed</code></td></tr>
-<tr><td><strong>Station</strong></td><td>สถานีประมวลผล/แปรรูปชิ้นงาน (จำลองเครื่องจักร 1 หัว)</td><td><code>ProcTime</code> — เวลาแปรรูปต่อชิ้น</td></tr>
-<tr><td><strong>Buffer</strong></td><td>จุดพักชิ้นงานเมื่อสถานีถัดไปไม่ว่าง</td><td><code>Capacity</code> — ความจุสูงสุด</td></tr>
-<tr><td><strong>Drain</strong></td><td>จุดสิ้นสุด ชิ้นงานออกจากระบบ (สินค้าสำเร็จรูป)</td><td>ไม่ต้องตั้งค่าอะไรพิเศษ</td></tr>
-<tr><td><strong>EventController</strong></td><td>ตัวควบคุมเวลาจำลอง (นาฬิกาของโมเดล) ต้องมีเสมอในทุกโมเดล</td><td><code>SimTime</code> อ่านค่าเวลาจำลองปัจจุบัน</td></tr>
+<tr><th>ปุ่ม</th><th>ผลลัพธ์</th></tr>
+<tr><td><code>W</code> / <code>S</code></td><td>เดินเข้าใกล้ / ถอยออกจากวัตถุในหน้าต่าง 3D</td></tr>
+<tr><td><code>Q</code> / <code>E</code></td><td>เดินไปทางซ้าย / ทางขวา</td></tr>
+<tr><td><code>A</code> / <code>D</code></td><td>หันซ้าย / หันขวา</td></tr>
+<tr><td><code>Z</code> / <code>Shift + Z</code></td><td>ลดระดับตัวเองลง / ยกตัวเองขึ้น</td></tr>
+</table>
+
+<h2>ขั้นที่ 5: คลิก ดับเบิลคลิก และคลิกขวาที่วัตถุ</h2>
+{screenshot("assets/images/basic/00a-10.jpg", "คลิกเลือกสายพาน Line10, หน้าต่างของวัตถุ และเมนู Quick tools")}
+{step_list([
+    "<strong>คลิก</strong> = เลือกวัตถุ (ขึ้นสีเหลือง) — ในภาพคือสายพาน <code>Line10</code>",
+    "<strong>ดับเบิลคลิก</strong> = เปิดหน้าต่างของวัตถุ (ตั้งค่า เวลา การเสีย ฯลฯ)",
+    "<strong>คลิกขวา</strong> = Quick tools: แถบปุ่ม Start / Stop / Reset ด้านบน",
+    "เมนูลัด เช่น <code>Open</code> (Enter), <code>Show Statistics Report</code> (F6), <code>Show Attributes</code> (F8)",
+])}
+
+<h2>ขั้นที่ 6: เปิด Frame ด้านใน และกลับออกมา</h2>
+{screenshot("assets/images/basic/00a-11.jpg", "เปิด Frame P1 และเมนู Open Location")}
+{step_list([
+    "<strong>ดับเบิลคลิก</strong> วัตถุในโรงผลิต (เช่นบูธขัดผิวใน P1) → เปิด Frame <code>P1</code> แยกออกมา",
+    "แท็บล่างเปลี่ยนเป็น <code>3D.Models.Factory51.P1</code>",
+    "กลับ Frame หลัก: <code>Shift + Enter</code> หรือคลิกขวาที่ว่าง → <code>Open Location</code>",
+    "<code>Backspace</code> = Previous Scene (กลับมุมมองก่อนหน้า)",
+])}
+
+<h2>ขั้นที่ 7: EventController — เริ่ม หยุด รีเซ็ต และความเร็ว</h2>
+<p>Plant Simulation เป็นโปรแกรมจำลองแบบ <strong>discrete, event-controlled</strong> — โปรแกรมตรวจสอบเฉพาะ
+"จุดเวลาที่มีเหตุการณ์เกิดขึ้น" ในโมเดลเท่านั้น ไม่ได้คำนวณทุกช่วงเวลาต่อเนื่อง (Time-oriented)
+และควบคุมการรันทั้งหมดผ่านวัตถุ <strong>EventController</strong> ตัวเดียว</p>
+{screenshot("assets/images/basic/00a-12.jpg", "ปุ่ม Start/Stop Simulation, Reset Simulation และหน้าต่าง EventController ใน Factory 51")}
+{screenshot("assets/images/basic/00a-13.jpg", "ปุ่มในฉากและหน้าต่าง EventController")}
+{step_list([
+    "คลิก <code>Start/Stop Simulation</code> (ปุ่มในฉาก) เพื่อเริ่ม / หยุด",
+    "<code>Reset Simulation</code> = เวลากลับไป 0",
+    "ดับเบิลคลิกนาฬิกา <strong>EventController</strong>",
+    "<code>Time</code> = เวลาจำลองตอนนี้ (ในภาพคือ 48:40)",
+    "แถบ <code>Slower</code> / <code>Faster</code> ปรับความเร็ว",
+    "<code>Real-time × 3</code> = เร็วกว่าเวลาจริง 3 เท่า",
+])}
+
+<h2>แบบฝึก: หา Beer room ใน Factory 51</h2>
+<p>ฝึกซูม เลื่อน และหมุนมุมมองให้คล่อง — ในโรงงานมีห้องเล็กๆ ซ่อนอยู่ ลองหาเองก่อนแล้วค่อยดูเฉลย</p>
+<details>
+<summary>ดูเฉลย</summary>
+{screenshot("assets/images/basic/00a-14.jpg", "ตำแหน่ง Beer room ในโรงผลิต P1")}
+{step_list([
+    "ซูมเข้าโรงผลิต P1 มองใต้ชั้นลอย (แถวป้าย Maintenance / Bathroom)",
+    "ประตู <strong>Beer</strong> อยู่ข้างห้อง Bathroom",
+])}
+</details>
+
+<h2>ปัญหาที่พบบ่อย และสิ่งที่ต่างใน 2606</h2>
+<table>
+<tr><th>อาการ / จุดที่ต่าง</th><th>วิธีแก้ / คำอธิบาย</th></tr>
+<tr><td>Student License: เกิน 80 objects</td><td>กด <code>Yes</code> เพื่อเปิดแบบ Viewer (ดูและรันได้ แต่บันทึกการแก้ไขไม่ได้)</td></tr>
+<tr><td>กดล้อค้างแล้วไม่หมุน</td><td>2606: <code>Ctrl</code> + คลิกขวาค้างลาก = หมุน, กดล้อค้าง = เลื่อน</td></tr>
+<tr><td>หมุนจนมุมกล้องเพี้ยน</td><td>กด <code>V</code> ไม่คืนมุม → แท็บ <code>View</code>: <code>From Top</code> / <code>Front</code> หรือเปิดโมเดลใหม่</td></tr>
+<tr><td>ป้ายชื่อวัตถุค้างบนจอ</td><td>เลื่อนเมาส์ไปพื้นที่ว่างในฉาก ป้ายจะหายไป</td></tr>
+<tr><td>แถบ outdated libraries</td><td>กด <code>X</code> ปิดได้ บทนี้ไม่ต้อง Manage Libraries</td></tr>
+<tr><td>Example Models / Start Page</td><td>2606 เพิ่ม Python GA Demo, Standard Object Examples, QuickStart, New Features และ Copilot</td></tr>
+</table>
+
+<h2>ภาพรวมชุดสอน 8 บท</h2>
+<p>บท 02–07 ใช้<strong>ไลน์ผลิต 5 สถานี</strong> (Source → Station1…5 → Drain, 0:10 นาทีต่อชิ้น) ไลน์เดียวต่อเนื่อง
+แต่ละบทเพิ่มปัญหาจริงทีละเรื่อง จนถึงการตัดสินใจลงทุน — 1 บท = 1 ไฟล์ <code>.spp</code> ที่มีหลาย Frame
+(<code>Model</code> ก่อนแก้ → <code>Model2</code> แก้ 1 จุด → <code>Model3</code> …)</p>
+<table>
+<tr><th>บท</th><th>หัวข้อ</th><th>หลังจบบททำได้</th><th>เขียนโค้ด</th></tr>
+<tr><td>00A</td><td><a href="basic-00a.html">โรงงานตัวอย่าง Factory 51</a></td><td>เปิด Start Page เปิดตัวอย่าง หมุน/ซูม 3D เปิด Frame ด้านใน สั่ง Run / Reset</td><td>ไม่</td></tr>
+<tr><td>00B</td><td><a href="basic-00b.html">โมเดลตัวอย่าง Small Parts</a></td><td>รันเทียบไลน์ ใช้ Bottleneck Analyzer, Experiment Manager และ Energy Analyzer บนโมเดลที่มีอยู่แล้ว</td><td>ไม่</td></tr>
+<tr><td>01</td><td><a href="basic-01.html">โมเดลแรก</a></td><td>Source → Station → Drain, ตั้งเวลา, EventController, Display</td><td>ไม่</td></tr>
+<tr><td>02</td><td><a href="basic-02.html">คอขวด + ParallelStation</a></td><td>ไลน์ 5 สถานี, Display / Chart, แก้คอขวดด้วยเครื่องขนาน หรือ ParallelStation, กับดัก When Full</td><td>ไม่</td></tr>
+<tr><td>03</td><td><a href="basic-03.html">เวลาสุ่ม + Buffer + เครื่องเสีย + OEE</a></td><td>Uniform, Buffer, Failure (Availability, MTTR), แท็บ Statistics, คำนวณ OEE, รันสั้น vs ยาว</td><td>ไม่</td></tr>
+<tr><td>04</td><td><a href="basic-04.html">คน + กะทำงาน</a></td><td>Workplace, WorkerPool, Broker, คนคุมเครื่อง, ShiftCalendar, Worker chart</td><td>ไม่</td></tr>
+<tr><td>05</td><td><a href="basic-05.html">หลายรุ่น + งานเสีย + Method แรก</a></td><td>Source ตามตาราง, เวลาต่างกันตามรุ่น, FG/NG, Variable, Method สั้น, Sankey</td><td><strong>ใช่</strong> (5–10 บรรทัด)</td></tr>
+<tr><td>06</td><td><a href="basic-06.html">ผัง 3D + ขนส่งด้วย AGV</a></td><td>วางไลน์บนผังโรงงาน, 3D view, AGV ขนจากคลังเข้าไลน์, Conveyor</td><td>อาจมี</td></tr>
+<tr><td>07</td><td><a href="basic-07.html">วิเคราะห์ + หาค่าที่ดีที่สุด</a></td><td>Bottleneck Analyzer, ExperimentManager, อ่านผล, สรุปเพื่อตัดสินใจ</td><td>ไม่</td></tr>
 </table>
 
 <div class="note">
-<strong>ข้อควรรู้:</strong> ทุก Object มีแอตทริบิวต์ <code>Name</code> (ชื่อ) และ <code>InternalClassType</code>
-(ชื่อประเภทจริงในภาษาอังกฤษ เช่น "Source", "Drain") ที่ใช้อ้างอิงได้ทั้งจาก GUI และจากสคริปต์ (ดูบท Advanced)
+<strong>คำถามฝึกคิด:</strong> ถ้าอยากรู้ว่าวัตถุตัวหนึ่ง (เช่นสายพาน Line10) ตั้งค่าอะไรได้บ้าง และอยากดูสถิติของมันเร็วๆ ควรทำอย่างไร?
 </div>
-
-<h2>ลำดับการไหลของชิ้นงานทั่วไป</h2>
-<p><code>Source → (Conveyor) → Station → (Buffer) → Station → (Conveyor) → Drain</code></p>
-<p>ไม่จำเป็นต้องมี Conveyor/Buffer ทุกจุด — เชื่อม Object ติดกันตรงๆ ก็ทำงานได้ แค่ไม่มีระยะทาง/เวลาขนส่งจำลองอยู่ในนั้น</p>
-
-<div class="tip">
-<strong>คำถามฝึกคิด:</strong> ถ้าไม่ใส่ EventController ลงในโมเดลเลย จะเกิดอะไรขึ้นเมื่อกด Start?
-</div>
-<div class="tip"><strong>เฉลย:</strong> โมเดลจะรันไม่ได้เลย — EventController คือนาฬิกาของทั้งระบบ ไม่มี EventController = ไม่มีเวลาให้เดินหน้า</div>
+<div class="tip"><strong>เฉลย:</strong> ดับเบิลคลิกเพื่อเปิดหน้าต่างของวัตถุ (เห็นทุกแท็บการตั้งค่า) และคลิกขวา → <code>Show Statistics Report</code>
+หรือกด <code>F6</code> เพื่อดูสถิติ</div>
 '''
 
-BODY[("basic", 4)] = '''
-<h2>สร้างโมเดลแรก: สายการผลิตง่ายๆ</h2>
-<p>ทำตามขั้นตอนนี้เพื่อสร้างโมเดล <code>Source → Station → Drain</code></p>
-<ol class="steps">
-<li>เปิด Class Library → เลือกหมวด <code>MaterialFlow</code></li>
-<li>ลาก <strong>Source</strong>, <strong>Station</strong>, <strong>Drain</strong> มาวางเรียงกันบน Frame</li>
-<li>ลาก <strong>EventController</strong> มาวางไว้มุมใดก็ได้ (จำเป็นต่อการรัน — ดูบทที่ 3)</li>
-<li>เชื่อมต่อ Object โดยคลิกที่มุมขวาบนของแต่ละ Object แล้วลากไปยัง Object ถัดไป (จะเห็นลูกศรเชื่อม)</li>
-<li>ดับเบิลคลิก <strong>Source</strong> เพื่อตั้งค่า <code>Interval</code> เช่น สร้างชิ้นงานทุก 5 วินาที</li>
-<li>ดับเบิลคลิก <strong>Station</strong> เพื่อตั้งค่า <code>ProcTime</code> เช่น 10 วินาทีต่อชิ้น</li>
-<li>กดปุ่ม <strong>Start Simulation</strong> (▶) ที่ Toolbar ด้านบน</li>
-</ol>
+BODY[("basic", "00b")] = f'''
+<p class="lead" style="max-width:46em;">โมเดลตัวอย่างตัวที่สองต่อจาก <a href="basic-00a.html">00A Factory 51</a> — ยังไม่ต้องสร้างอะไรเอง
+แค่เปิดไลน์ประกอบชิ้นงานเล็กที่ Siemens ทำไว้แล้ว และลองใช้เครื่องมือวิเคราะห์ทีละขั้น 10 ขั้นตอน: รันไลน์เดิม ดูกราฟ
+หาคอขวด เพิ่ม Buffer หาขนาด Buffer ที่พอด้วย Experiment Manager และดูการใช้พลังงาน
+ให้เห็นภาพว่าเรียนจบชุดสอนแล้วจะวิเคราะห์ไลน์จริงได้แบบไหน (บท 02–07 จะสอนสร้างและวิเคราะห์ไลน์ของตัวเองทีละเรื่อง)</p>
 
 <div class="tip">
-<strong>Tip:</strong> ถ้าเชื่อมต่อ Object ไม่ติด ให้เช็คว่าจุดเชื่อม (Connector) เป็นสีเขียวหรือไม่ — สีแดงหมายถึงยังเชื่อมไม่สำเร็จ
+<strong>สิ่งที่ต้องมี:</strong> Plant Simulation 2606 และโมเดล <code>Small Parts Production.spp</code> (อยู่ใน <code>Examples\\Demo</code>
+ของโฟลเดอร์ติดตั้ง) &nbsp;·&nbsp; ผลที่วัดได้ใน 2606: ผลผลิต <strong>1,400 → ~1,460 ชิ้น/วัน</strong> (Assembly1 → Assembly2)
 </div>
 
-<h2>ตัวอย่าง: ทำนายผลก่อนรันจริง</h2>
-<p>โมเดล <code>Source(Interval=5s) → Station(ProcTime=10s) → Drain</code></p>
-<div class="note">
-<strong>คำถามฝึกคิด:</strong> Source ผลิตชิ้นงานเร็วกว่า Station แปรรูปเสร็จ (5s &lt; 10s) จะเกิดอะไรขึ้นเมื่อรันไปนานๆ?
-</div>
-<div class="tip"><strong>เฉลย:</strong> Station รับชิ้นงานไม่ทัน Source เลยจะถูก <strong>Blocked</strong>
-(สถานะรอส่งต่อ เพราะปลายทางไม่ว่าง) — นี่คือคอขวดแบบง่ายที่สุด แก้ได้ด้วยการเพิ่ม Buffer คั่นกลาง
-หรือเพิ่มสถานีขนาน (ดูบท Intermediate)
-</div>
-'''
-
-BODY[("basic", 5)] = '''
-<h2>รัน / หยุด / รีเซ็ต</h2>
+<h2>ลำดับการวิเคราะห์</h2>
 <table>
-<tr><th>ปุ่ม</th><th>ทำอะไร</th></tr>
-<tr><td><strong>Start</strong> (▶)</td><td>เริ่มเดินเวลาจำลอง ตาม EventController</td></tr>
-<tr><td><strong>Stop/Pause</strong> (⏸)</td><td>หยุดชั่วคราว กด Start ต่อได้จากจุดเดิม</td></tr>
-<tr><td><strong>Reset</strong> (⟲)</td><td>ล้างค่าสถิติและตำแหน่งชิ้นงานทั้งหมด กลับสู่เวลา 0</td></tr>
+<tr><th>ลำดับ</th><th>งาน</th><th>ทำอะไร</th><th>ใครทำ</th></tr>
+<tr><td>1</td><td>รันไลน์เดิม</td><td>Assembly1 รัน 1 วัน ดู Throughput และพลังงาน</td><td>ผู้ใช้</td></tr>
+<tr><td>2</td><td>ดูกราฟ</td><td>Station / Worker Utilization และกะทำงาน</td><td>ผู้ใช้</td></tr>
+<tr><td>3</td><td>หาคอขวด</td><td>Bottleneck Analyzer + Ranking</td><td>Plant Sim</td></tr>
+<tr><td>4</td><td>เพิ่ม Buffer</td><td>Assembly2 มี Buffer หน้า MS4</td><td>ผู้ใช้</td></tr>
+<tr><td>5</td><td>หาขนาด Buffer</td><td>Experiment Manager 8 การทดลอง</td><td>Plant Sim</td></tr>
+<tr><td>6</td><td>ดูพลังงาน</td><td>Energy Analyzer + สายพานหยุดอัตโนมัติ</td><td>Plant Sim</td></tr>
+</table>
+
+<h2>ขั้นที่ 1: เปิดโมเดลตัวอย่าง Small Parts Production</h2>
+{side_by_side(
+    screenshot("assets/images/basic/00b-01.jpg", "โมเดล Small Parts Production และ Class Library"),
+    step_list([
+        "<code>File → Open</code> แล้วเลือก <code>...\\Plant Simulation 2606\\Examples\\Demo\\Small Parts Production.spp</code>",
+        "Class Library → <code>Models</code> มี <strong>Assembly1</strong> (ไลน์เดิม) และ <strong>Assembly2</strong> (เพิ่ม Buffer)",
+        "แถบ <em>The model contains outdated libraries</em> กด <code>X</code> ปิดได้ บทนี้ไม่ต้องอัปเดต",
+        "Frame เปิดเป็นหน้าต่าง 3D มุมมองจากด้านบน (2606 ไม่มีหน้าต่าง 2D แยก)",
+        "Assembly2 เปิดซ้อนอยู่ด้านหลัง ปิดไว้ก่อนได้",
+    ])
+)}
+<div class="note"><strong>ข้อควรจำ:</strong> ไฟล์ใน Program Files บันทึกทับไม่ได้ — ถ้าจะแก้ให้ <code>File → Save As</code> ไปโฟลเดอร์งานของตัวเองก่อน</div>
+
+<h2>ขั้นที่ 2: รัน Assembly1 แล้วดู Throughput</h2>
+{screenshot("assets/images/basic/00b-02.jpg", "Assembly1 ระหว่างรันและหลังรันจบ 1 วัน")}
+{step_list([
+    "กด <code>Start</code> ในโมเดล (รันจบ 1 วันทันที) หรือ ▶ ที่ <code>Home → Event Controller</code> ถ้าอยากเห็นชิ้นงานวิ่ง",
+    "ระหว่างรัน ชิ้นงานต่อคิวยาวหน้า MS3 / MS4",
+    "จบ 1 วัน: Throughput <strong>1,400 ชิ้น</strong>",
+    "พลังงานทั้งไลน์ <strong>14.3 kWh</strong> (Energy saving measures = ปิด, จุดแดง)",
+])}
+
+<h2>ขั้นที่ 3: Station Utilization — สัดส่วนเวลาของทุกสถานี</h2>
+{screenshot("assets/images/basic/00b-03.jpg", "เมนู Show ของ Station Utilization และกราฟสัดส่วนเวลา")}
+{step_list([
+    "คลิกขวาที่ <code>Station Utilization</code>",
+    "เลือก <code>Show</code>",
+    "<strong>MS4</strong> Waiting ต่ำสุด 1.4% และ Failed สูงสุด 3.3% → งานไม่เคยขาด = <strong>คอขวด</strong>",
+    "MS1–MS5 เป็นสถานีคน ทำงาน 2 กะ จึงมี Unplanned 33% (สีฟ้า)",
+])}
+
+<h2>ขั้นที่ 4: Worker Utilization และ ShiftCalendar</h2>
+{screenshot("assets/images/basic/00b-04.jpg", "กราฟ Worker Utilization และหน้าต่าง ShiftCalendar")}
+{step_list([
+    "คลิกขวา <code>Worker-Utilization</code> → <code>View Chart</code>",
+    "Worker / Worker_Round: Working ประมาณ 25–29%",
+    "Adjuster (ช่างปรับเครื่อง) ทำงานน้อย รอเป็นส่วนใหญ่",
+    "ดับเบิลคลิก <code>ShiftCalendar</code>: Shift-1 06:00–14:00, Shift-2 14:00–22:00",
+    "คอลัมน์ <code>Pauses</code> = เวลาพักในแต่ละกะ",
+])}
+
+<h2>ขั้นที่ 5: Bottleneck Analyzer — Show Analysis</h2>
+{screenshot("assets/images/basic/00b-05.jpg", "เมนู Show Analysis และแท่งสถานะบนสถานี")}
+{step_list([
+    "คลิกขวาที่ <code>Bottlenecks</code>",
+    "เลือก <code>Show Analysis</code>",
+    "แท่งสีขึ้นบนทุกสถานี: <strong>เขียว</strong> Working, <strong>เทา</strong> Waiting, <strong>เหลือง</strong> Blocked, <strong>แดง</strong> Failed",
+    "MS4 แท่งเขียวสูง แทบไม่มีสีเทา ต่างจาก AS3 / AS4 ที่สีเทาสูง",
+])}
+
+<h2>ขั้นที่ 6: Ranking — เรียงตารางหาคอขวด</h2>
+{screenshot("assets/images/basic/00b-06.jpg", "หน้าต่างเลือกเกณฑ์ Ranking และตาราง ResourceStats")}
+{step_list([
+    "คลิกขวา <code>Bottlenecks</code> → <code>Ranking</code>",
+    "เลือกเกณฑ์ <code>Working</code>",
+    "กด <code>OK</code> ได้ตาราง <code>ResourceStats</code>",
+    "คลิกขวาหัวคอลัมน์ <code>waiting</code> → <code>Sort Ascending</code>",
+    "MS4, MS2, MS1: waiting ต่ำ + blocked ต่ำ = <strong>คอขวด</strong>",
+    "ParallelProc / AS6: waiting ต่ำแต่ blocked สูง = ถูกปลายทางบล็อก <em>ไม่ใช่</em>คอขวด",
+])}
+
+<h2>ขั้นที่ 7: Assembly2 — เพิ่ม Buffer หน้า MS4 แล้วเทียบผล</h2>
+{screenshot("assets/images/basic/00b-07.jpg", "Assembly2 ที่มี Buffer หน้า MS4 และกราฟ Station Utilization")}
+{step_list([
+    "ดับเบิลคลิก <code>Models → Assembly2</code> ใน Class Library แล้วกด <code>Start</code>",
+    "Throughput ~1,460 ชิ้น (วัดได้ 1,462–1,466 จาก 4 รอบ; Assembly1 = 1,400)",
+    "Buffer B (<code>Buffer1</code>) อยู่ระหว่าง AS3 กับ MS4",
+    "Energy saving measures เปิด (จุดเขียว)",
+    "Station Utilization: MS4 ไม่มีสีเหลือง (Blocked) แล้ว (หัวกราฟยังเขียน Assembly 1 ตามตัวอย่างของ Siemens)",
+])}
+
+<h2>ขั้นที่ 8: BufferOptimization — กำหนด Output, Input และ Experiments</h2>
+{screenshot("assets/images/basic/00b-08.jpg", "หน้าต่าง Experiment Manager และ Define Output Values")}
+{step_list([
+    "ดับเบิลคลิก <code>BufferOptimization</code> (Experiment Manager) → <code>Define Output Values</code>",
+    "<code>root.Drain.statDeleted</code> = Throughput, <code>High Values are Better</code> = true → OK",
+    "<code>Define Input Values</code> (ภาพถัดไป)",
+    "<code>Define Experiments</code> (ภาพถัดไป)",
+    "<code>Observations per experiment</code> = 5 (รันซ้ำ 5 รอบต่อการทดลองแล้วเฉลี่ย)",
+])}
+{screenshot("assets/images/basic/00b-09.jpg", "Define Input Values และตาราง Experiments")}
+{step_list([
+    "<code>root.Buffer1.capacity</code> = ความจุของ Buffer B → OK",
+    "<code>Active</code> = true ทุกแถว = รันทุกการทดลอง",
+    "Capacity of buffer 2, 4, 6 … 16 รวม 8 การทดลอง → OK",
+])}
+<div class="tip"><strong>ทำซ้ำ:</strong> อยากทดลองค่าอื่น แก้ตัวเลขในคอลัมน์ Capacity of buffer หรือเพิ่มแถวได้เลย</div>
+
+<h2>ขั้นที่ 9: รันการทดลอง และอ่าน Report</h2>
+{screenshot("assets/images/basic/00b-10.jpg", "ปุ่ม Start ของ Experiment Manager และ Report ผลการทดลอง")}
+{step_list([
+    "กด <code>Start</code> รอข้อความ <em>The experiment run is finished</em> (ประมาณ 10 วินาที) → OK",
+    "ครบ 8/8 การทดลอง 5/5 รอบ",
+    "Buffer ตั้งแต่ <strong>6</strong> ขึ้นไป = 1,478.8 ชิ้น (เฉลี่ย) ค่าเท่ากันหมด → <strong>6 ก็พอ</strong>",
+    "Report เปิดเองหลังรันจบ หรือกด <code>Evaluation → Report</code>",
+    "สรุปค่าที่ดีที่สุด: Throughput สูงสุด 1,478.8",
+    "บันทึก / พิมพ์ Report จากปุ่มมุมซ้ายบน",
+])}
+
+<h2>ขั้นที่ 10: Energy — ตั้งค่าพลังงานของสายพาน และอ่าน Energy Analyzer</h2>
+{screenshot("assets/images/basic/00b-11.jpg", "หน้าต่างสายพาน F1 และแท็บ Energy")}
+{step_list([
+    "ใน Assembly2 ดับเบิลคลิกสายพาน <code>F1</code>",
+    "<code>Automatic Stop</code> = สายพานหยุดเองเมื่อว่าง (ตัวที่ทำให้ประหยัดไฟ)",
+    "คลิกแท็บ <code>Energy</code>",
+    "<code>Active</code> = นับพลังงานของวัตถุนี้",
+    "<code>Working</code> 1 kW ขณะลำเลียง",
+    "<code>Operational</code> 0.3 kW ขณะเปิดรอ",
+])}
+{screenshot("assets/images/basic/00b-12.jpg", "เมนู Energy Analyzer, กราฟพลังงานแยกตามวัตถุ และ Power Input ตามเวลา")}
+{step_list([
+    "คลิกขวา <code>Energy Analyzer</code>",
+    "<code>Show Chart</code> = พลังงานแยกตามวัตถุ",
+    "<code>Show Plotter</code> = Power Input ตามเวลา",
+    "สถานีอัตโนมัติ AS / PreProduction ใช้ไฟมากสุด",
+    "หลัง 22:00 (หมดกะ) Power Input ลดจาก ~37 kW เหลือ ~10 kW",
+])}
+<div class="note"><strong>ผล:</strong> Assembly2 ใช้ 11.6 kWh เทียบ Assembly1 14.3 kWh (ลด ~19%) ในขณะที่ได้ชิ้นงานมากขึ้น</div>
+
+<h2>สรุปผล: Assembly1 เทียบ Assembly2 (วัดใน 2606)</h2>
+<table>
+<tr><th>หัวข้อ</th><th>Assembly1 (ไลน์เดิม)</th><th>Assembly2 (ปรับแล้ว)</th><th>หมายเหตุ</th></tr>
+<tr><td>Throughput / วัน</td><td>1,400 ชิ้น</td><td>1,462–1,466 ชิ้น</td><td>รัน 1 วัน, 4 รอบ</td></tr>
+<tr><td>พลังงาน / วัน</td><td>14.3 kWh</td><td>11.5–11.6 kWh</td><td>ลด ~19%</td></tr>
+<tr><td>Buffer หน้า MS4</td><td>ไม่มี</td><td>B (Buffer1)</td><td>ขนาด 6 ก็พอ (ขั้นที่ 9)</td></tr>
+<tr><td>Energy saving measures</td><td>ปิด</td><td>เปิด</td><td>สายพาน Automatic Stop</td></tr>
+<tr><td>คอขวด</td><td>MS4 (Waiting 1.4%)</td><td>MS4 ไม่ Blocked แล้ว</td><td>ดูขั้นที่ 3, 6, 7</td></tr>
+</table>
+
+<h2>ปัญหาที่พบบ่อย และวิธีแก้ (2606)</h2>
+<table>
+<tr><th>อาการ</th><th>วิธีแก้</th></tr>
+<tr><td>กด Start ในโมเดลแล้วจบทันที ไม่เห็นชิ้นงานวิ่ง</td><td>กด Reset แล้วใช้ ▶ ที่ <code>Home → Event Controller</code> (Real time) ปรับความเร็วด้วยแถบเลื่อน</td></tr>
+<tr><td>Show Analysis แล้วมองไม่เห็นแท่ง</td><td>แท่งเป็น 3D มองจากด้านบนจะแบน → เอียงมุมกล้อง / ซูมเข้า</td></tr>
+<tr><td>แถบ The model contains outdated libraries</td><td>กด <code>X</code> ปิดได้ บทนี้ไม่ต้อง Manage Libraries</td></tr>
+<tr><td>Plotter แสดงแค่ช่วงสั้นๆ</td><td>เปิด Plotter ไว้ระหว่างรัน แล้วหยุดในช่วงเวลาที่สนใจ</td></tr>
+<tr><td>Throughput ของ Assembly2 ไม่ตรงกับหน้านี้</td><td>ปกติ ต่างได้ไม่กี่ชิ้นต่อรอบ ใช้ Experiment Manager ที่เฉลี่ยหลายรอบ</td></tr>
+<tr><td>บันทึกโมเดลไม่ได้</td><td>ไฟล์อยู่ใน Program Files → <code>File → Save As</code> ไปโฟลเดอร์ของตัวเอง</td></tr>
 </table>
 
 <div class="note">
-<strong>ข้อควรระวัง:</strong> อย่าลืมกด <strong>Reset</strong> ก่อนรันใหม่ทุกครั้งที่เปลี่ยนค่าพารามิเตอร์ ไม่งั้นค่าสถิติจะสะสมปนกับรอบก่อนหน้า
-ทำให้ผลวิเคราะห์ผิดพลาด
+<strong>คำถามฝึกคิด:</strong> ในขั้นที่ 6 ทำไม ParallelProc / AS6 ที่ waiting ต่ำเหมือน MS4 จึง<em>ไม่ใช่</em>คอขวด?
 </div>
+<div class="tip"><strong>เฉลย:</strong> เพราะ blocked สูง — เครื่องทำเสร็จแล้วแต่ส่งต่อไม่ได้ แปลว่าปัญหาอยู่ที่ปลายทาง ไม่ใช่ที่ตัวมันเอง
+คอขวดจริงต้อง waiting ต่ำ <em>และ</em> blocked ต่ำ (ทำงานตลอดเวลา) แบบ MS4 — ใช้หลักเดียวกันนี้ในบท
+<a href="basic-07.html">Basic 07 วิเคราะห์ + หาค่าที่ดีที่สุด</a></div>
+'''
 
-<h2>อ่านผลลัพธ์เบื้องต้น</h2>
-<p>คลิกขวาที่ Object ประเภทประมวลผล (เช่น <strong>Station</strong>) แล้วเลือก <code>Statistics</code> เพื่อดู:</p>
+BODY[("basic", "01")] = f'''
+<p class="lead" style="max-width:46em;">สร้างโมเดลแรกของตัวเอง <code>Source → Station → Drain</code> ทีละขั้น 6 ขั้นตอน ตั้งแต่เปิดไฟล์
+รู้จักหน้าจอ วาง object และต่อเส้น ตั้งค่า ใส่ตัวเลขด้วย Display จนถึงกด Run แล้วอ่านผล</p>
+
 <table>
-<tr><th>สถานะ</th><th>ความหมาย</th></tr>
-<tr><td><strong>Working</strong></td><td>เวลาที่เครื่องกำลังแปรรูปชิ้นงานจริง — ยิ่งสูงยิ่งใช้งานคุ้ม</td></tr>
-<tr><td><strong>Waiting</strong></td><td>เวลาที่รอชิ้นงานเข้ามา (ว่างงาน) — สูงแปลว่าต้นทางป้อนช้าเกินไป</td></tr>
-<tr><td><strong>Blocked</strong></td><td>เวลาที่ทำงานเสร็จแล้วแต่ส่งต่อไม่ได้ (สถานีถัดไปไม่ว่าง) — สูงแปลว่าปลายทางเป็นคอขวด</td></tr>
+<tr><th>ขั้น</th><th>หัวข้อ</th><th>ทำอะไร</th></tr>
+<tr><td>1</td><td>เปิดไฟล์</td><td>Start Page › Open Model File</td></tr>
+<tr><td>2</td><td>รู้จักหน้าจอ</td><td>Class Library, Toolbox, Frame, Planning View</td></tr>
+<tr><td>3</td><td>วาง object + ต่อเส้น</td><td>Source → Station → Drain ด้วย Connector</td></tr>
+<tr><td>4</td><td>ตั้งค่า</td><td>Source, Station, EventController</td></tr>
+<tr><td>5</td><td>ใส่ตัวเลขด้วย Display</td><td>แสดงจำนวนชิ้นงานบน Frame</td></tr>
+<tr><td>6</td><td>กด Run อ่านผล</td><td>จำลอง 1 ชั่วโมง แล้วลองเปลี่ยนค่า</td></tr>
 </table>
 
 <div class="tip">
-<strong>คำถามฝึกคิด:</strong> ถ้า Station มีค่า Blocked สูงมาก ควรแก้ปัญหาที่ตัว Station นี้เอง หรือที่อื่น?
+<strong>สิ่งที่ต้องมี:</strong> Plant Simulation 2606 และไฟล์ <code>Basic_01_Create_Simple_Model.spp</code> (Frame อยู่ที่ Class Library › Models › Model)
+&nbsp;·&nbsp; ผลจำลอง 1 ชั่วโมง: <strong>359 ชิ้น</strong> (เวลาผลิต 10 วินาทีต่อชิ้น)
 </div>
-<div class="tip"><strong>เฉลย:</strong> ควรแก้ที่ <em>สถานีถัดไป</em> (ปลายทางที่รับต่อ) ไม่ใช่ตัว Station เอง — เพราะ Blocked สูง
-แปลว่าสถานีนี้ทำงานเสร็จเร็วกว่าที่ปลายทางจะรับได้ ปลายทางต่างหากที่เป็นคอขวดจริง
+<div class="note">
+<strong>ข้อควรจำ:</strong> Plant Simulation 2606 ทำงานแบบ 3D อย่างเดียว ถ้าอยากมองแบบแปลนให้ใช้ <strong>Planning View</strong>
+(ภาพทุกภาพในบทนี้ใช้ Planning View)
 </div>
-'''
 
-BODY[("basic", 6)] = '''
-<h2>บันทึกไฟล์โมเดล</h2>
-<p>Plant Simulation บันทึกไฟล์เป็นนามสกุล <code>.spp</code> — ไฟล์เดียวเก็บทั้งโมเดล, Frame ย่อยทั้งหมด, และ Class Library ที่ปรับแต่งเอง</p>
-<ol class="steps">
-<li><code>Ctrl+S</code> หรือเมนู <code>File → Save</code> — บันทึกทับไฟล์เดิม</li>
-<li><code>File → Save As</code> — บันทึกเป็นไฟล์ใหม่ (แนะนำเมื่อจะทดลองอะไรเสี่ยงๆ กับโมเดล)</li>
-<li><code>File → Open</code> — เปิดไฟล์ <code>.spp</code> ที่มีอยู่กลับมาทำต่อ</li>
-</ol>
+<h3>ทุกโมเดลทำ 5 ขั้นเหมือนกัน</h3>
+<table>
+<tr><th></th><th>งาน</th><th>ทำอย่างไร</th><th>ดูที่</th></tr>
+<tr><td>1</td><td>วาง object</td><td>เลือกจาก Toolbox แล้วคลิกลงใน Frame</td><td>ขั้นที่ 3</td></tr>
+<tr><td>2</td><td>ต่อเส้น</td><td>Connector บอกทางเดินของชิ้นงาน</td><td>ขั้นที่ 3</td></tr>
+<tr><td>3</td><td>ตั้งค่า</td><td>ดับเบิลคลิก object ใส่เวลา</td><td>ขั้นที่ 4</td></tr>
+<tr><td>4</td><td>ใส่ตัวเลข</td><td>Display แสดงค่าบน Frame</td><td>ขั้นที่ 5</td></tr>
+<tr><td>5</td><td>Run + อ่านผล</td><td>EventController: Reset แล้ว Start</td><td>ขั้นที่ 6</td></tr>
+</table>
+<p>Basic 01 ในตัวเลข: <strong>1</strong> Frame (<code>.Models.Model</code>) · <strong>6</strong> object · <strong>2</strong> Connector ·
+<strong>60</strong> นาทีจำลองต่อการรัน</p>
+
+<h2>ขั้นที่ 1: หน้า Start Page เมื่อเปิดโปรแกรม</h2>
+{side_by_side(
+    screenshot("assets/images/basic/01-01.jpg", "หน้า Start Page ของ Plant Simulation 2606"),
+    step_list([
+        "<strong>Open Model File</strong> — เปิดไฟล์ <code>Basic_01_Create_Simple_Model.spp</code>",
+        "<strong>Recent Models</strong> — ไฟล์ที่เปิดล่าสุด",
+        "<strong>Create New Model</strong> — สร้างโมเดลใหม่ว่างๆ เมื่อจะสร้างเอง",
+        '<strong>Example Models</strong> — ตัวอย่างโมเดลจาก Siemens (ดูบท <a href="basic-00a.html">00A</a> และ <a href="basic-00b.html">00B</a>)',
+    ])
+)}
+<div class="tip"><strong>ทางลัด:</strong> <strong>Load Last Model</strong> (ช่องบนซ้าย) เปิดไฟล์ที่ใช้ครั้งก่อนได้ในคลิกเดียว ชื่อไฟล์แสดงอยู่บนช่อง</div>
+
+<h2>ขั้นที่ 2: ส่วนต่างๆ ของหน้าจอ</h2>
+{side_by_side(
+    screenshot("assets/images/basic/01-02.jpg", "หน้าจอหลักของ Plant Simulation 2606 เมื่อเปิด Frame Model"),
+    step_list([
+        "<strong>Ribbon</strong> — ปุ่มคำสั่ง กลุ่ม Event Controller ใช้ Run / Reset",
+        "<strong>Class Library</strong> — คลังทุก object และโมเดล เปิด <code>Models › Model</code>",
+        "<strong>Toolbox</strong> — ไอคอน object พร้อมวาง",
+        "<strong>Frame</strong> — พื้นที่วางโมเดล (ภาพนี้เป็น Planning View)",
+        "<strong>แท็บ Frame</strong> — Frame ที่เปิดอยู่ สลับไปมาได้",
+    ])
+)}
+<div class="note"><strong>วิธีเปิด Frame:</strong> ใน Class Library ดับเบิลคลิก <code>Models › Model</code></div>
+
+<h3>มองโมเดลแบบแปลนด้วย Planning View</h3>
+{screenshot("assets/images/basic/01-03.jpg", "Ribbon แท็บ 3D › View: Planning View, Names, Connections และ View All")}
+{step_list([
+    "<strong>View</strong> — แท็บใต้หัวข้อ 3D (สีน้ำเงินเข้ม)",
+    "<strong>Planning View</strong> — มองจากด้านบน เหมือนแปลนโรงงาน",
+    "<strong>Names</strong> — แสดงชื่อ object",
+    "<strong>Connections</strong> — แสดงเส้นเชื่อมและทิศทาง",
+    "<strong>View All</strong> — ซูมให้เห็นทั้งโมเดล",
+])}
+<div class="note"><strong>ไฟล์นี้ปิดชื่อ object ไว้:</strong> ถ้ากด Names แล้วยังไม่เห็นชื่อ ให้คลิกขวาที่ object ›
+<code>Edit 3D Properties</code> › แท็บ <code>Captions</code> › ติ๊ก <code>Name/Label Activated</code></div>
+
+<h2>ขั้นที่ 3: วาง object และต่อเส้น</h2>
+<p>object ที่ใช้อยู่ใน Toolbox แท็บ <strong>Material Flow</strong></p>
+{screenshot("assets/images/basic/01-04.jpg", "Toolbox แท็บ Material Flow")}
+{step_list([
+    "<strong>Connector</strong> — ต่อเส้นระหว่าง object",
+    "<strong>EventController</strong> — นาฬิกา (1 ตัวต่อ Frame)",
+    "<strong>Source</strong> — ปล่อยชิ้นงาน",
+    "<strong>Drain</strong> — รับชิ้นงานออก",
+    "<strong>Station</strong> — เครื่องจักร ทำทีละ 1 ชิ้น",
+])}
+<div class="tip"><strong>วิธีวาง / ต่อเส้น:</strong> คลิกไอคอนใน Toolbox แล้วคลิกในพื้นที่ Frame ·
+ต่อเส้น: คลิก Connector แล้วคลิก object ต้นทาง → ปลายทาง</div>
+
+<h3>โมเดลแรก Source → Station → Drain</h3>
+{side_by_side(
+    screenshot("assets/images/basic/01-05.jpg", "โมเดลแรกใน Frame .Models.Model"),
+    step_list([
+        "<strong>Source</strong> — ปล่อยชิ้นงานเข้าระบบ",
+        "<strong>Connector</strong> — เส้นลูกศร บอกทางเดินชิ้นงาน",
+        "<strong>Station</strong> — เครื่องจักร ทำทีละ 1 ชิ้น",
+        "<strong>Drain</strong> — ชิ้นงานออกจากระบบ",
+        "<strong>EventController</strong> — นาฬิกาควบคุมการจำลอง",
+        "<strong>Display</strong> — ป้ายแสดงตัวเลข (ขั้นที่ 5)",
+    ])
+)}
+<div class="note"><strong>ทิศทาง:</strong> ชิ้นงานเดินตามหัวลูกศรของ Connector: Source → Station → Drain</div>
+
+<h2>ขั้นที่ 4: ตั้งค่า</h2>
+<h3>ตั้งค่า Source</h3>
+{side_by_side(
+    screenshot("assets/images/basic/01-06.jpg", "หน้าต่างตั้งค่า Source"),
+    step_list([
+        "<strong>Blocking</strong> — ติ๊กไว้ = ถ้าทางข้างหน้าเต็ม Source จะรอ",
+        "<strong>Time of Creation</strong> — <code>Interval Adjustable</code> = ปล่อยตามช่วงเวลา",
+        "<strong>Interval = 0</strong> — ปล่อยชิ้นใหม่ทันทีที่ Station ว่าง",
+        "<strong>MU</strong> — ชนิดชิ้นงานที่ปล่อย (<code>*.MUs.Part</code>)",
+    ])
+)}
+<div class="note"><strong>ข้อควรจำ:</strong> ดับเบิลคลิก object ใดก็ได้เพื่อเปิดหน้าต่างตั้งค่า แก้แล้วกด <code>Apply</code> หรือ <code>OK</code></div>
+
+<h3>ตั้งเวลาทำงานของ Station</h3>
+{side_by_side(
+    screenshot("assets/images/basic/01-07.jpg", "หน้าต่างตั้งค่า Station แท็บ Times"),
+    step_list([
+        "<strong>Processing Time = 0:10</strong> — ทำ 1 ชิ้นใช้ 10 วินาที",
+        "<strong>Const</strong> — เวลาเท่ากันทุกชิ้น",
+        "<strong>Set-up Time</strong> — เวลาเปลี่ยนรุ่น (ยังไม่ใช้ = 0)",
+        "<strong>OK</strong> — บันทึกแล้วปิดหน้าต่าง",
+    ])
+)}
+<div class="tip"><strong>รูปแบบเวลา:</strong> ชม:นาที:วินาที เช่น <code>0:10</code> = 10 วินาที, <code>1:00</code> = 1 นาที, <code>1:00:00</code> = 1 ชั่วโมง</div>
+
+<h3>ตั้งเวลาจำลอง แล้วกด Run</h3>
+{side_by_side(
+    screenshot("assets/images/basic/01-08.jpg", "หน้าต่าง EventController แท็บ Settings และ Controls"),
+    step_list([
+        "<strong>Settings</strong> — แท็บตั้งค่าเวลา",
+        "<strong>End Time = 1:00:00</strong> — จำลอง 1 ชั่วโมงแล้วหยุดเอง",
+        "<strong>Reset</strong> (ปุ่มแดง) — ล้างผลเก่า กดก่อนรันใหม่ทุกครั้ง",
+        "<strong>Start</strong> (ปุ่มเขียว) — เริ่มจำลอง ปุ่มเดียวกันมีใน Ribbon › Home",
+        "<strong>Slower – Faster</strong> — ปรับความเร็วของภาพเคลื่อนไหว",
+    ])
+)}
+<div class="note"><strong>ระวัง:</strong> ถ้าไม่กด Reset ก่อน Start การจำลองจะเดินต่อจากเวลาเดิม</div>
+
+<h2>ขั้นที่ 5: ใส่ตัวเลขด้วย Display</h2>
+<h3>วาง Display บน Frame</h3>
+{screenshot("assets/images/basic/01-09.jpg", "Toolbox แท็บ User Interface และไอคอน Display")}
+{side_by_side(
+    screenshot("assets/images/basic/01-10.jpg", "Display ที่วางไว้ใต้ Drain"),
+    step_list([
+        "Toolbox คลิกแท็บ <strong>User Interface</strong>",
+        "คลิกไอคอน <strong>Display</strong> (รูปตัวเลข 9.86) แล้วคลิกวางใน Frame",
+        "ในไฟล์นี้วางไว้ใต้ <strong>Drain</strong> ก่อนรันแสดงเลข 0",
+    ])
+)}
+<div class="tip"><strong>ไอคอนข้างเคียง:</strong> Comment (รูปกระดาษเหลือง) ใช้เขียนข้อความบน Frame · Chart (รูปกราฟแท่ง) ใช้ทำกราฟ</div>
+
+<h3>บอก Display ว่าจะแสดงค่าอะไร</h3>
+{side_by_side(
+    screenshot("assets/images/basic/01-11.jpg", "หน้าต่าง Display แท็บ Data"),
+    step_list([
+        "<strong>Path = <code>Drain.statNumIn</code></strong> — จำนวนชิ้นที่เข้า Drain (ชิ้นงานที่เสร็จ)",
+        "<strong>Mode = Watch</strong> — เฝ้าดูค่า อัปเดตเองระหว่างรัน",
+        "<strong>Value</strong> — ค่าตอนนี้ (ก่อนรัน = 0)",
+        "<strong>Active</strong> — ติ๊กไว้ = Display ทำงาน",
+    ])
+)}
+<div class="tip"><strong>ลองเอง:</strong> เปลี่ยน Path เป็น <code>Source.statNumOut</code> จะเห็นจำนวนชิ้นที่ Source ปล่อยออกมา</div>
+
+<h3>ปรับหน้าตาตัวเลข</h3>
+{side_by_side(
+    screenshot("assets/images/basic/01-12.jpg", "หน้าต่าง Display แท็บ Display"),
+    step_list([
+        "<strong>Type = Text</strong> — แสดงเป็นตัวเลข",
+        "<strong>Color</strong> — สีของตัวเลข",
+        "<strong>Font Size = Small</strong> — ขนาดตัวเลข",
+        "<strong>Decimal Places</strong> — จำนวนทศนิยม (ไฟล์นี้ = -1)",
+    ])
+)}
+<div class="note"><strong>อีกแบบ:</strong> <code>Type › Bar</code> แสดงเป็นแท่งแทนตัวเลข</div>
+
+<h2>ขั้นที่ 6: กด Run แล้วอ่านผล</h2>
+{screenshot("assets/images/basic/01-13.jpg", "Display ก่อนรันและหลังรัน 1 ชั่วโมง และเวลาจำลองที่มุมขวาล่าง")}
+{step_list([
+    "<strong>ก่อนรัน</strong> — Display = 0",
+    "<strong>หลังรัน Display = 359</strong> — ชิ้นงานที่เสร็จใน 1 ชั่วโมง",
+    "<strong>1:00:00.0000</strong> — เวลาจำลองที่มุมขวาล่างของหน้าต่าง ครบแล้วหยุดเอง",
+])}
+<div class="note"><strong>ทำไมไม่ใช่ 360:</strong> Source ปล่อย 360 ชิ้น แต่ชิ้นสุดท้ายยังอยู่ใน Station ตอนหมดเวลา</div>
+
+<h3>ลองเปลี่ยนค่า แล้วดูตัวเลขใน Display</h3>
+<table>
+<tr><th>ลองเปลี่ยน</th><th>แก้ที่</th><th>Display หลังรัน</th><th>ทำไม</th></tr>
+<tr><td>ค่าเดิมในไฟล์</td><td>–</td><td><strong>359</strong></td><td>3600 ÷ 10 = 360 ลบ 1 ชิ้นที่ค้าง</td></tr>
+<tr><td>Processing Time = 0:20</td><td>Station</td><td><strong>179</strong></td><td>ช้าลง 2 เท่า ได้ครึ่งเดียว</td></tr>
+<tr><td>Processing Time = 0:05</td><td>Station</td><td><strong>719</strong></td><td>เร็วขึ้น 2 เท่า ได้เท่าตัว</td></tr>
+<tr><td>Interval = 0:12</td><td>Source</td><td><strong>300</strong></td><td>งานเข้าช้ากว่าที่เครื่องทำได้ · Station ทำงาน 83%</td></tr>
+<tr><td>End Time = 8:00:00</td><td>EventController</td><td><strong>2879</strong></td><td>8 ชม. × 360 ลบ 1</td></tr>
+</table>
+<p>วัดจริงใน Plant Simulation 2606 ด้วยไฟล์ของบท แก้ทีละค่าจากค่าเดิม — กด Reset ก่อน Start ทุกครั้ง</p>
+
+<h2>สรุป object ในโมเดลนี้</h2>
+<table>
+<tr><th>Object</th><th>ใช้ทำอะไร</th><th>ค่าในไฟล์นี้</th></tr>
+<tr><td><strong>Source</strong></td><td>ปล่อยชิ้นงานเข้าระบบ</td><td>Interval 0, Blocking, MU = Part</td></tr>
+<tr><td><strong>Station</strong></td><td>เครื่องจักรทำทีละ 1 ชิ้น</td><td>Processing Time 0:10</td></tr>
+<tr><td><strong>Drain</strong></td><td>ชิ้นงานออกจากระบบ</td><td>นับจำนวนชิ้นที่เสร็จ</td></tr>
+<tr><td><strong>Connector × 2</strong></td><td>ทางเดินชิ้นงาน</td><td>Source → Station → Drain</td></tr>
+<tr><td><strong>EventController</strong></td><td>นาฬิกาควบคุมการจำลอง</td><td>End Time 1:00:00</td></tr>
+<tr><td><strong>Display</strong></td><td>แสดงตัวเลขบน Frame</td><td>Path Drain.statNumIn, Type Text</td></tr>
+</table>
+
+<h2>ปัญหาที่พบบ่อย และวิธีแก้</h2>
+<table>
+<tr><th>อาการ</th><th>วิธีแก้</th></tr>
+<tr><td>โมเดลเอียงเป็น 3D มองเส้นไม่ชัด</td><td><code>View › Planning View</code> แล้ว <code>View All</code></td></tr>
+<tr><td>ไม่เห็นชื่อ object</td><td><code>View › Names</code> (ถ้ายังไม่ขึ้น: Edit 3D Properties › Captions › Name/Label Activated)</td></tr>
+<tr><td>Display ยังเป็น 0 หลังรัน</td><td>ตรวจ Path = <code>Drain.statNumIn</code>, ติ๊ก Active และต่อ Connector ถึง Drain</td></tr>
+<tr><td>กด Start แล้วผลไม่เริ่มจากศูนย์</td><td>กด Reset (ปุ่มแดง) ก่อน Start ทุกครั้ง</td></tr>
+<tr><td>รันไปเรื่อยๆ ไม่หยุด</td><td>EventController › Settings › ใส่ End Time เช่น <code>1:00:00</code></td></tr>
+<tr><td>เปิด Names แล้วตัวเลขทับชื่อ Drain</td><td>ลาก Display ลงไปข้างล่างอีกเล็กน้อย</td></tr>
+</table>
+
+<div class="tip"><strong>บันทึกงาน:</strong> <code>Ctrl+S</code> บันทึกทับ, <code>File › Save As</code> บันทึกเป็นไฟล์ใหม่ (แนะนำก่อนทดลองแก้ค่าหลายอย่าง) —
+ไฟล์ที่บันทึกจากเวอร์ชันใหม่กว่าจะเปิดในโปรแกรมเวอร์ชันเก่ากว่าไม่ได้</div>
 
 <div class="note">
-<strong>ข้อควรระวังเรื่องเวอร์ชัน:</strong> ไฟล์ที่บันทึกจากโปรแกรมเวอร์ชันใหม่กว่า จะ<strong>เปิดไม่ได้</strong>ในโปรแกรมเวอร์ชันเก่ากว่า
-(ขึ้น error ประมาณ "model version is higher than the program version") — ถ้าทำงานร่วมกับคนอื่น ควรตกลงกันว่าใช้โปรแกรมเวอร์ชันเดียวกัน
-หรือรู้ว่าไฟล์ต้นทางเซฟจากเวอร์ชันไหน
+<strong>คำถามฝึกคิด:</strong> ถ้าตั้ง Source Interval = 0:05 (ปล่อยงานทุก 5 วินาที) แต่ Station ยังใช้ 0:10 ต่อชิ้น Display หลังรัน 1 ชั่วโมงจะได้ประมาณเท่าไร?
 </div>
+<div class="tip"><strong>เฉลย:</strong> ยังได้ประมาณ 359 ชิ้นเท่าเดิม — Station ทำได้แค่ 1 ชิ้นต่อ 10 วินาที งานที่ปล่อยเร็วกว่านั้นต้องรอ (Source ถูก Blocking)
+ตัวที่กำหนดผลผลิตคือเครื่องที่ช้าที่สุด หรือ<strong>คอขวด</strong> ซึ่งเป็นหัวข้อของบท <a href="basic-02.html">02</a></div>
+'''
 
-<h2>นิสัยสำรองไฟล์ที่ควรมี</h2>
-<ul>
-<li>ก่อนทดลองเปลี่ยนโครงสร้างใหญ่ (เช่น ลบ Frame, แก้สคริปต์เยอะ) ให้ <code>Save As</code> เป็นไฟล์สำรองก่อน เช่น <code>PLT_backup_2026-08-29.spp</code></li>
-<li>ตั้งชื่อไฟล์ให้สื่อเวอร์ชัน/วันที่ แทนการเขียนทับไฟล์เดิมตลอด — ย้อนกลับได้เมื่อทำพลาด</li>
-<li>ถ้าทำงานเป็นทีม เก็บไฟล์ไว้ในระบบที่มีประวัติการแก้ไข (เช่น โฟลเดอร์ที่ sync กับ cloud หรือ version control) ไม่ใช่แค่ในเครื่องเดียว</li>
-</ul>
+BODY[("basic", "02")] = f'''
+<p class="lead" style="max-width:46em;">ต่อจากบท 01 — ใช้ไลน์ผลิต 5 สถานีที่จะใช้ไปตลอดชุดสอน อ่านผลจาก Display และ Chart หาเครื่องที่ช้าที่สุด (คอขวด)
+แล้วแก้ 2 วิธี: เพิ่มเครื่องขนาน หรือใช้ <strong>ParallelStation</strong> ตัวเดียว ทั้งหมด 11 ขั้น ไม่ต้องเขียนโค้ด</p>
+
+<table>
+<tr><th>ลำดับ</th><th>หัวข้อ</th><th>ทำอะไร</th><th>ขั้น</th></tr>
+<tr><td>1</td><td>เปิด Frame Model</td><td>ไลน์ 5 สถานี เวลาเท่ากัน 0:10</td><td>1</td></tr>
+<tr><td>2</td><td>วาง Display + Chart</td><td>จาก Toolbox แล้วลาก object มาวาง</td><td>2–3</td></tr>
+<tr><td>3</td><td>รัน Model อ่านผล</td><td>FG 355 ทุกแท่งสีเขียว</td><td>4</td></tr>
+<tr><td>4</td><td>Model2 มีคอขวด</td><td>Station3 ช้าเป็น 0:20 ได้ 177</td><td>5</td></tr>
+<tr><td>5</td><td>Model3 เพิ่มเครื่อง</td><td>Station32 วางขนาน ได้ 354</td><td>6</td></tr>
+<tr><td>6</td><td>รู้จัก ParallelStation</td><td>เครื่องเดียวหลายช่อง</td><td>7</td></tr>
+<tr><td>7</td><td>ตั้งช่อง + เวลา</td><td>X × Y และ 0:20 ต่อชิ้น</td><td>8–9</td></tr>
+<tr><td>8</td><td>Model4 กับดัก When Full</td><td>ได้แค่ 177</td><td>10</td></tr>
+<tr><td>9</td><td>Model5 เอาติ๊กออก</td><td>กลับมา 354</td><td>11</td></tr>
+</table>
 
 <div class="tip">
-<strong>คำถามฝึกคิด:</strong> เพื่อนร่วมทีมส่งไฟล์ <code>.spp</code> มาให้ แต่เปิดไม่ได้ ขึ้น error เรื่องเวอร์ชัน ควรทำอย่างไรก่อน?
+<strong>สิ่งที่ต้องมี:</strong> Plant Simulation 2606 และไฟล์ <code>Basic_02_Bottleneck_ParallelStation.spp</code>
+(Class Library › Models › Model … Model5) &nbsp;·&nbsp; ผลผลิตก่อน–หลังแก้คอขวด <strong>177 → 354 ชิ้น/ชม.</strong> ทั้ง 2 วิธี
+(ทุกตัวเลขในบทนี้วัดจริงใน Plant Simulation 2606 จำลอง 1 ชั่วโมง)
 </div>
-<div class="tip"><strong>เฉลย:</strong> เช็คว่าเครื่องคุณติดตั้ง Plant Simulation เวอร์ชันเดียวกันหรือใหม่กว่าที่เพื่อนใช้เซฟหรือไม่ —
-ถ้าเครื่องมีหลายเวอร์ชันติดตั้งอยู่ ให้เปิดไฟล์ด้วยเวอร์ชันที่เท่ากับหรือใหม่กว่าเวอร์ชันที่บันทึกไฟล์นั้นไว้
+<div class="note">
+<strong>ต่อจาก Basic 01:</strong> การวาง object ต่อเส้น ตั้งค่า และกด Run ทำเหมือน <a href="basic-01.html">บท 01</a>
+บทนี้เน้นอ่านผล หาเครื่องที่ช้าที่สุด แล้วแก้ 2 วิธี
 </div>
+
+<h3>5 Frame ในไฟล์นี้ เล่าเรื่องเดียวกัน</h3>
+<table>
+<tr><th>Frame</th><th>เรื่อง</th><th>ขั้น</th></tr>
+<tr><td><code>Model</code></td><td>ไลน์สมดุล ทุกเครื่อง 0:10 ได้ 355 ชิ้น/ชม.</td><td>1–4</td></tr>
+<tr><td><code>Model2</code></td><td>Station3 ช้าเป็น 0:20 ทั้งไลน์เหลือ 177 ชิ้น/ชม.</td><td>5</td></tr>
+<tr><td><code>Model3</code></td><td>เพิ่ม Station32 ขนานกับ Station3 ได้ 354 ชิ้น/ชม.</td><td>6</td></tr>
+<tr><td><code>Model4</code></td><td>ParallelStation 2 ช่อง ติ๊ก When Full ได้แค่ 177 ชิ้น/ชม.</td><td>7–10</td></tr>
+<tr><td><code>Model5</code></td><td>ParallelStation เดิม เอาติ๊กออก ได้ 354 ชิ้น/ชม.</td><td>11</td></tr>
+</table>
+
+<h2>ขั้นที่ 1: Frame Model ไลน์ 5 สถานี</h2>
+{side_by_side(
+    screenshot("assets/images/basic/02-01.jpg", "Frame Model ไลน์ 5 สถานี ก่อนรัน (Planning View)"),
+    step_list([
+        "<strong>Source</strong> — ปล่อยงานทันทีที่ว่าง (Interval 0)",
+        "<strong>Station1–5</strong> — ทุกเครื่อง 0:10 ต่อชิ้น",
+        "<strong>Drain</strong> — ชิ้นงานที่เสร็จ",
+        "<strong>Display</strong> — Production Time = เวลาจำลอง",
+        "<strong>Display</strong> — FG = จำนวนชิ้นที่เสร็จ",
+        "<strong>Chart</strong> — Resource Statistics สถานะเครื่อง",
+        "<strong>EventController</strong> — End 1:00:00",
+    ])
+)}
+<div class="note"><strong>เปิด Frame:</strong> Class Library › Models มี 5 Frame ดับเบิลคลิกเพื่อเปิด ถ้าหน้าต่างเล็ก กดปุ่ม □ มุมขวาบนของ Frame เพื่อขยาย</div>
+
+<h3>แสดงชื่อ Object ใน Frame</h3>
+<p>คลิกขวาที่ Object › <code>Edit 3D Properties</code> › แท็บ <code>Captions</code></p>
+{side_by_side(
+    screenshot("assets/images/basic/02-02.jpg", "เมนูคลิกขวาที่ Station1"),
+    screenshot("assets/images/basic/02-03.jpg", "หน้าต่าง Edit 3D Properties แท็บ Captions"),
+)}
+{step_list([
+    "คลิกขวาที่ <strong>Station1</strong>",
+    "<code>Edit 3D Properties...</code> — หรือคลิกเลือกแล้วกด <code>Space</code>",
+    "แท็บ <code>Captions</code>",
+    "ติ๊ก <code>Name / Label Activated</code>",
+    "<code>OK</code> — ชื่อขึ้นใต้ Object",
+])}
+
+{side_by_side(
+    screenshot("assets/images/basic/02-04.jpg", "ก่อน (บน) และหลังตั้งชื่อครบทุก Object (ล่าง)"),
+    step_list([
+        "<strong>EventController</strong> — ชื่อขึ้นใต้นาฬิกา",
+        "<strong>Source</strong> — ทำทีละ Object เหมือนภาพก่อนหน้า",
+        "<strong>Station1–5</strong> — ชื่อตรงกับใน Class Library และใน Chart",
+        "<strong>Drain</strong> — ชื่อถูกป้าย FG บังอยู่ (วางที่เดียวกัน)",
+    ])
+)}
+<div class="note"><strong>ชื่อไม่ขึ้น:</strong> ดูแท็บ View (ริบบอน 3D) › ปุ่ม <code>Names</code> ต้องเปิดอยู่ ปุ่มนี้เปิด / ปิดชื่อของทุก Object ใน Frame พร้อมกัน
+— ตั้งที่ Object ใน Frame มีผลกับ Object นั้นตัวเดียว ถ้าตั้งที่ Class ใน Class Library ทุก Object ที่สืบทอดมาจะแสดงชื่อด้วย</div>
+
+<h2>ขั้นที่ 2: วาง Display และลาก Drain มาวาง</h2>
+{side_by_side(
+    screenshot("assets/images/basic/02-05.jpg", "Toolbox แท็บ User Interface และ Display ที่วางใหม่"),
+    step_list([
+        "แท็บ <strong>User Interface</strong> ใน Toolbox",
+        "<strong>Display</strong> — คลิกไอคอน 9.86",
+        "คลิกใน Frame — วาง Display ใกล้ Drain",
+    ])
+)}
+<div class="tip"><strong>ภาพนี้:</strong> ลบป้าย FG เดิมใน Frame Model ออกก่อน แล้ววางใหม่ให้ดูทีละขั้น (ไม่ได้บันทึกไฟล์) ถ้าทำตาม ให้ลบป้ายเดิมก่อนเหมือนกัน
+— Display ใหม่ยังไม่รู้ว่าจะแสดงค่าอะไร บนจอจึงเป็นกรอบเปล่าชื่อ Display</div>
+
+{screenshot("assets/images/basic/02-06.jpg", "ลาก Drain ไปปล่อยบน Display (ซ้าย) และ Display แสดง 0 (ขวา)")}
+{step_list([
+    "<strong>คลิกค้างที่ Drain</strong> แล้วลากไป",
+    "<strong>ปล่อยบน Display</strong> — ห้ามปล่อยบนพื้นว่าง ไม่งั้น Drain จะย้ายที่แทน",
+    "<strong>Display แสดง 0</strong> — Path = <code>Drain.statNumIn</code> ตั้งให้เอง = จำนวนชิ้นที่เข้า Drain",
+])}
+
+<h3>คลิกขวา Start แล้วอ่านค่า</h3>
+{screenshot("assets/images/basic/02-07.jpg", "แถบเครื่องมือเมื่อคลิกขวาที่พื้น Frame (ซ้าย) และค่าหลังรัน 1 ชั่วโมง (ขวา)")}
+{step_list([
+    "<strong>Start/Stop Simulation</strong> — ปุ่มเขียวในแถบเครื่องมือที่ขึ้นตอนคลิกขวา",
+    "<strong>Reset Simulation</strong> — ปุ่มแดง กลับไปเริ่มต้น ค่าบน Display กลับเป็น 0",
+    "<strong>355</strong> — ชิ้นที่เสร็จใน 1 ชั่วโมง อีก 5 ชิ้นยังอยู่ในเครื่อง (Work in Process)",
+])}
+<p>ปุ่ม Start และ Reset เดียวกันนี้อยู่ที่ริบบอน <code>Home › Event Controller</code> ด้วย</p>
+
+<h3>ข้อความนำหน้า และรูปแบบตัวอักษร</h3>
+{screenshot("assets/images/basic/02-08.jpg", "หน้าต่าง Display แท็บ Data (ซ้าย) และแท็บ Display (ขวา)")}
+{step_list([
+    "<strong>Path</strong> — ป้ายเวลา = <code>EventController.SimTime</code>",
+    '<strong>Comment</strong> — ข้อความหน้าตัวเลข เช่น "Production Time =" และ "FG ="',
+    "แท็บ <strong>Display</strong> — รูปแบบของป้าย",
+    "<strong>Font Size</strong> — ขนาดตัวอักษร",
+    "<strong>Color</strong> — สีตัวอักษร แล้วกด <code>Apply</code>",
+])}
+<div class="note"><strong>ป้าย FG:</strong> ใช้ Path = <code>Drain.statNumIn</code> (ได้มาจากการลาก Drain) และ Comment "FG =" บน Frame จึงขึ้นเป็น FG = 355</div>
+
+<h2>ขั้นที่ 3: วาง Chart ดูสถานะเครื่อง</h2>
+{side_by_side(
+    screenshot("assets/images/basic/02-09.jpg", "วาง Chart ใต้ไลน์ แล้วลาก Station1 มาวาง"),
+    screenshot("assets/images/basic/02-10.jpg", "หน้าต่าง Statistics Type"),
+)}
+{step_list([
+    "แท็บ <strong>User Interface</strong>",
+    "<strong>Chart</strong> — คลิกไอคอนกราฟแท่ง",
+    "คลิกใน Frame — วาง Chart ใต้ไลน์",
+    "<strong>ลาก Station1</strong> ไปปล่อยบน Chart",
+    "<strong>Resource Statistics</strong> ใน Statistics Type (= สถานะของเครื่อง)",
+    "<code>OK</code>",
+])}
+
+{screenshot("assets/images/basic/02-11.jpg", "หน้าต่าง Chart หลังรัน (ซ้าย) และเมนูคลิกขวาที่ Chart (ขวา)")}
+{step_list([
+    "<strong>Station1–5</strong> — ลากทีละเครื่องมาปล่อยบน Chart ได้ 5 แท่ง (ครั้งต่อไปไม่ถาม Statistics Type)",
+    "ปุ่ม <strong>×</strong> — ปิดหน้าต่าง Chart",
+    "คลิกขวาที่ Chart › <code>Show</code> — เปิดหน้าต่างอีกครั้ง",
+])}
+
+<h3>ค่าของ Chart ที่ตั้งให้</h3>
+{side_by_side(
+    screenshot("assets/images/basic/02-12.jpg", "หน้าต่าง Chart แท็บ Data"),
+    step_list([
+        "<strong>Collect Data</strong> — ติ๊กไว้ = เก็บข้อมูลระหว่างรัน",
+        "<strong>Data Source = Input Channels</strong> — แสดงข้อมูลของ object ที่เลือก",
+        "ปุ่ม <strong>Input Channels</strong> — รายการ Station1–5 ที่ลากมาวาง",
+        "<strong>Mode = Sample, Interval 1:00</strong> — เก็บค่าทุก 1 นาที",
+    ])
+)}
+<div class="tip"><strong>ไม่ต้องพิมพ์เอง:</strong> ลาก object มาวางบน Chart = เพิ่มเข้า Input Channels ให้เอง ใช้ปุ่มนี้เมื่ออยากลบหรือเรียงลำดับแท่ง</div>
+
+<h3>Chart แบบแบนบน Frame หรือแบบ 3D</h3>
+{screenshot("assets/images/basic/02-13.jpg", "แท็บ Display ของ Chart: Model (ซ้าย) และ Model2 (ขวา)")}
+{step_list([
+    "<strong>Category</strong> — <code>Chart</code> = กราฟแบนบน Frame (Model) · <code>3D Chart</code> = ป้ายกราฟตั้งในฉาก 3D (Model2–Model5)",
+    "<strong>Chart Type = 100% Stacked Columns</strong> — แท่งละ 100% แบ่งสีตามสถานะ",
+    "<strong>Display in Frame</strong> — ติ๊กไว้ = แสดงกราฟบน Frame แทนไอคอน",
+])}
+<div class="note"><strong>ระวัง:</strong> 3D Chart วาดใหม่ระหว่างรันแบบมีภาพเคลื่อนไหว ถ้ารันแบบไม่มีภาพเคลื่อนไหว กราฟจะว่าง</div>
+
+{screenshot("assets/images/basic/02-14.jpg", "Model2 › Chart: แท็บ Display (ซ้าย) และปุ่ม 3D › Transformation (ขวา)")}
+{step_list([
+    "<strong>Category = 3D Chart</strong> — Display in Frame ติ๊กให้เอง",
+    "ปุ่ม <strong>3D</strong> มุมซ้ายล่าง — เปิดหน้าต่าง 3D แท็บ Transformation",
+    "<strong>Rotation: Angle = 90, Axis X = 1</strong> — หมุน 90 องศารอบแกน X แผ่นกราฟจึงตั้งขึ้นจากพื้น",
+    "<strong>Position Z = 4 m</strong> — ยกกราฟขึ้นจากพื้น (X, Y = ตำแหน่งบนพื้น)",
+    "<code>Apply</code> แล้ว <code>OK</code> — ดูผลในมุมมอง 3D (ขั้นที่ 5)",
+])}
+
+<h2>ขั้นที่ 4: รัน Model 1 ชั่วโมง แล้วอ่านผล</h2>
+{side_by_side(
+    screenshot("assets/images/basic/02-15.jpg", "Frame Model หลังรัน 1 ชั่วโมง"),
+    step_list([
+        "<strong>Production Time = 1:00:00</strong> — ครบเวลาแล้วหยุดเอง",
+        "<strong>FG = 355</strong> — ชิ้นงานที่เสร็จใน 1 ชั่วโมง",
+        "<strong>Chart เขียวเต็มทุกแท่ง</strong> — ทุกเครื่อง Working ~99–100%",
+    ])
+)}
+<div class="note"><strong>ทำไมไม่ใช่ 360:</strong> Source ปล่อย 360 ชิ้น ตอนหมดเวลายังค้างอยู่ใน Station เครื่องละ 1 ชิ้น รวม 5 ชิ้น — ไลน์นี้สมดุล</div>
+
+<h2>ขั้นที่ 5: Model2 — Station3 ช้ากว่าเพื่อน 2 เท่า</h2>
+{side_by_side(
+    screenshot("assets/images/basic/02-16.jpg", "หน้าต่าง Station3 ใน Model2"),
+    screenshot("assets/images/basic/02-17.jpg", "Model2 หลังรัน 1 ชั่วโมง"),
+)}
+{step_list([
+    "<strong>Station3 Processing Time = 0:20</strong> — เครื่องอื่นยัง 0:10",
+    "<strong>FG = 177</strong> — ทั้งไลน์ได้แค่ครึ่งเดียว",
+])}
+<div class="note"><strong>คอขวด (Bottleneck):</strong> ทั้งไลน์เดินได้เร็วเท่าเครื่องที่ช้าที่สุด 3600 ÷ 20 = 180 ชิ้น ใกล้กับ 177 ที่วัดได้</div>
+
+<h3>3D Chart บอกว่าเครื่องไหนเป็นคอขวด</h3>
+{side_by_side(
+    screenshot("assets/images/basic/02-18.jpg", "3D Chart ของ Model2 หลังรัน 1 ชั่วโมง"),
+    step_list([
+        "<strong>Station1–2 สีเหลือง</strong> — Blocked ~50% ทำเสร็จแต่ส่งต่อไม่ได้",
+        "<strong>Station3 เขียวเต็ม</strong> — Working ~99% = คอขวด",
+        "<strong>Station4–5 สีเทา</strong> — Waiting ~51% รองานจากเครื่องก่อนหน้า",
+        "<strong>ชื่อสถานะ</strong> — ดูสีจาก legend ด้านขวา",
+    ])
+)}
+<div class="tip"><strong>วิธีจำ:</strong> ก่อนคอขวด = <strong>เหลือง</strong> (Blocked) · หลังคอขวด = <strong>เทา</strong> (Waiting) · คอขวด = <strong>เขียวเต็มแท่ง</strong></div>
+
+<h2>ขั้นที่ 6: Model3 — เพิ่ม Station32 ขนานกับ Station3</h2>
+{side_by_side(
+    screenshot("assets/images/basic/02-19.jpg", "Frame Model3 ที่มี Station32 วางขนาน"),
+    step_list([
+        "<strong>Station3</strong> — 0:20 เหมือนเดิม",
+        "<strong>Station32</strong> — เครื่องใหม่ 0:20 วางขนานกัน",
+        "<strong>Connector 8 เส้น</strong> — Station2 ส่งไป 2 ทาง (Exit Strategy = Cyclic) แล้วรวมเข้า Station4",
+        "<strong>FG = 354</strong> — กลับมาเกือบเท่าไลน์สมดุล",
+    ])
+)}
+<div class="note"><strong>ทำไมได้ผล:</strong> 2 เครื่อง × 20 วินาที = เฉลี่ย 10 วินาทีต่อชิ้น เท่ากับเครื่องอื่นในไลน์</div>
+
+{screenshot("assets/images/basic/02-20.jpg", "Chart ของ Model3 หลังแก้ (ซ้าย) และตำแหน่ง Station32 ในฉาก 3D (ขวา)")}
+{step_list([
+    "<strong>ทุกแท่งสีเขียว</strong> — ไม่มีเครื่องถูกบล็อก หรือรองาน",
+    "<strong>แท่ง Station32</strong> — เครื่องใหม่อยู่ใน Input Channels ของ Chart แล้ว",
+    "<strong>Station32</strong> — วางหน้า Station3 ในฉาก 3D",
+])}
+<div class="tip"><strong>คำถาม:</strong> แก้ได้ 177 → 354 แต่ต้องวางเครื่องเพิ่มและต่อเส้นแยกทาง มีวิธีที่ง่ายกว่านี้ไหม → ParallelStation (ขั้นที่ 7)</div>
+
+<h2>ขั้นที่ 7: ParallelStation แทน 2 เครื่อง</h2>
+{screenshot("assets/images/basic/02-21.jpg", "Toolbox แท็บ Material Flow: Station และ ParallelStation")}
+{screenshot("assets/images/basic/02-22.jpg", "Frame Model4 ที่ใช้ ParallelStation แทน Station3")}
+{step_list([
+    "<strong>Station</strong> — เครื่อง 1 ช่อง ทำทีละชิ้น",
+    "<strong>ParallelStation</strong> — เครื่องหลายช่อง ทำหลายชิ้นพร้อมกัน",
+    "วางแทน Station3 ต่อ Connector เข้า 1 ออก 1",
+])}
+<div class="note"><strong>ต่อเส้นน้อยลง:</strong> 2 เครื่องแยกใช้ Connector เข้า–ออก 4 เส้น ParallelStation ตัวเดียวใช้ 2 เส้น (Model3 8 เส้น → Model4 6 เส้น)</div>
+
+<h2>ขั้นที่ 8–9: ตั้งจำนวนช่อง และเวลาทำงาน</h2>
+{side_by_side(
+    screenshot("assets/images/basic/02-23.jpg", "หน้าต่าง ParallelStation แท็บ Attributes"),
+    step_list([
+        "<strong>X-Dimension = 2</strong> — จำนวนช่องแนวนอน",
+        "<strong>Y-Dimension = 1</strong> — จำนวนแถว → 2 × 1 = 2 ช่อง",
+        "<strong>Start Processing When Full</strong> — ติ๊กไว้ (ค่าเริ่มต้น) = รอให้ครบทุกช่องก่อนเริ่มทำ",
+    ])
+)}
+<div class="note"><strong>ตามคู่มือ:</strong> ค่าเริ่มต้นคือติ๊ก When Full ไว้ ชิ้นใหม่เข้าได้เมื่อชุดเดิมทำเสร็จและออกหมดแล้ว
+— ParallelStation ที่วางใหม่จาก Toolbox มีค่าเริ่มต้น 2 × 2 = 4 ช่อง ในไฟล์นี้ตั้งเป็น 2 × 1</div>
+
+{side_by_side(
+    screenshot("assets/images/basic/02-24.jpg", "หน้าต่าง ParallelStation แท็บ Times"),
+    step_list([
+        "<strong>Times</strong> — แท็บตั้งเวลา",
+        "<strong>Processing Time = 0:20</strong> — ทุกช่องใช้ 20 วินาทีต่อชิ้น",
+    ])
+)}
+<div class="tip"><strong>คิดเร็ว:</strong> 2 ช่อง × 20 วินาที = เฉลี่ย 10 วินาทีต่อชิ้น เท่ากับเครื่องอื่นในไลน์ ควรได้ ~354 ชิ้น/ชม. เหมือน Model3</div>
+
+<h2>ขั้นที่ 10: Model4 — ได้แค่ 177 ทั้งที่มี 2 ช่อง</h2>
+{screenshot("assets/images/basic/02-25.jpg", "Frame Model4 หลังรัน 1 ชั่วโมง")}
+{step_list([
+    "<strong>ParallelStation</strong> — ติ๊ก When Full ไว้",
+    "<strong>FG = 177</strong> — เท่ากับ Model2 ที่มีเครื่องเดียว 20 วินาที",
+])}
+<div class="note"><strong>ทำไม:</strong> ต้องรอชิ้นที่ 2 เข้ามาให้ครบก่อนเริ่ม และรับชุดใหม่ได้เมื่อออกหมดแล้ว 2 ช่องจึงทำงานเหมือนเครื่องเดียว</div>
+
+{side_by_side(
+    screenshot("assets/images/basic/02-26.jpg", "3D Chart ของ Model4 หลังรัน"),
+    step_list([
+        "<strong>Station1–2 สีเหลือง</strong> — Blocked ~49% ส่งต่อไม่ได้",
+        "<strong>ParallelStation</strong> — เขียว 50% เทา 50% = รอชิ้นให้ครบ 2 ช่อง",
+        "<strong>Station4–5 สีเทา</strong> — Waiting ~51% รองาน",
+        "<strong>ชื่อสถานะ</strong> — ดูสีจาก legend ด้านขวา",
+    ])
+)}
+<div class="tip"><strong>ต่างจาก Model2:</strong> คอขวดใน Model2 เขียวเต็มแท่ง แต่ ParallelStation ที่ติ๊ก When Full เสียเวลาครึ่งหนึ่งไปกับการรอ</div>
+
+<h2>ขั้นที่ 11: Model5 — เอาติ๊ก When Full ออก</h2>
+{screenshot("assets/images/basic/02-27.jpg", "ParallelStation ใน Model5 ที่ไม่ได้ติ๊ก When Full และผลหลังรัน")}
+{step_list([
+    "<strong>Start Processing When Full</strong> — เอาติ๊กออก = เริ่มทำทันทีที่มีชิ้นเข้าช่อง ไม่ต้องรอให้ครบ",
+    "<strong>FG = 354</strong> — เท่ากับ 2 เครื่องแยกใน Model3 แต่ต่อเส้นน้อยกว่า",
+])}
+<div class="tip"><strong>จำง่าย:</strong> ParallelStation ที่ทำงานต่อเนื่องในไลน์ → เอาติ๊ก When Full ออก · ติ๊กไว้เมื่อต้องการให้ทำพร้อมกันทั้งชุด เช่น เตาอบ</div>
+
+{screenshot("assets/images/basic/02-28.jpg", "3D Chart ก่อน–หลังเอาติ๊กออก: Model4 (ซ้าย) และ Model5 (ขวา)")}
+{step_list([
+    "<strong>ติ๊ก When Full</strong> — ParallelStation ทำงาน 50% · ได้ 177 ชิ้น/ชม.",
+    "<strong>เอาติ๊กออก</strong> — ทำงาน 99% ทุกแท่งเขียว · ได้ 354 ชิ้น/ชม. (+100%)",
+])}
+<div class="note"><strong>บทเรียน:</strong> ก่อนซื้อเครื่องเพิ่ม ให้ดูก่อนว่าเครื่องเดิมทำงานจริงกี่ % — เปลี่ยนแค่ติ๊กเดียว ผลเพิ่มเป็นเท่าตัวโดยไม่ต้องเพิ่มเครื่อง</div>
+
+<h2>สรุป 5 Frame (จำลอง 1 ชั่วโมง)</h2>
+<table>
+<tr><th>Frame</th><th>สิ่งที่ต่าง</th><th>Connector</th><th>FG (ชิ้น/ชม.)</th><th>เครื่องจุด Station3 ทำงาน</th></tr>
+<tr><td><code>Model</code></td><td>ทุกเครื่อง 0:10</td><td>6</td><td><strong>355</strong></td><td>~99% ไลน์สมดุล</td></tr>
+<tr><td><code>Model2</code></td><td>Station3 = 0:20</td><td>6</td><td><strong>177</strong></td><td>99% = คอขวด</td></tr>
+<tr><td><code>Model3</code></td><td>เพิ่ม Station32 (0:20) ขนานกับ Station3</td><td>8</td><td><strong>354</strong></td><td>~99% ทั้ง 2 เครื่อง</td></tr>
+<tr><td><code>Model4</code></td><td>ParallelStation 2 ช่อง 0:20 ติ๊ก When Full</td><td>6</td><td><strong>177</strong></td><td>50% (รอครึ่งเวลา)</td></tr>
+<tr><td><code>Model5</code></td><td>ParallelStation 2 ช่อง 0:20 ไม่ติ๊ก</td><td>6</td><td><strong>354</strong></td><td>~99%</td></tr>
+</table>
+<p>Model3 กับ Model5 ได้ผลเท่ากัน แต่ Model5 ใช้ object และเส้นน้อยกว่า ส่วน Model4 แสดงว่าค่าเริ่มต้นที่ไม่ได้ตรวจ ทำให้ผลเหลือครึ่งเดียว</p>
+
+<h2>ลองเอง</h2>
+<p>เดาก่อนว่า FG จะเป็นเท่าไร แล้วรันดู — แก้ทีละค่าจากค่าเดิม และกด Reset ก่อน Start ทุกครั้ง</p>
+<h3>ลองเอง 1: เปลี่ยนเวลาแล้วดู FG (Model–Model3)</h3>
+<table>
+<tr><th>Frame</th><th>ลองเปลี่ยน</th><th>FG หลังรัน</th><th>ทำไม</th></tr>
+<tr><td><code>Model</code></td><td>Station1 = 0:20</td><td><strong>177</strong></td><td>คอขวดอยู่ต้นไลน์ ผลเท่ากัน</td></tr>
+<tr><td><code>Model</code></td><td>Station5 = 0:20</td><td><strong>177</strong></td><td>คอขวดอยู่ท้ายไลน์ ผลก็เท่ากัน</td></tr>
+<tr><td><code>Model2</code></td><td>Station3 = 0:15</td><td><strong>237</strong></td><td>3600 ÷ 15 = 240</td></tr>
+<tr><td><code>Model2</code></td><td>Station3 = 0:10</td><td><strong>355</strong></td><td>กลับเป็นไลน์สมดุลเหมือน Model</td></tr>
+<tr><td><code>Model3</code></td><td>Station3 และ Station32 = 0:30</td><td><strong>236</strong></td><td>2 เครื่อง ÷ 30 วินาที = 15 วินาทีต่อชิ้น</td></tr>
+</table>
+
+<h3>ลองเอง 2: เปลี่ยนช่องและเวลาใน Model4</h3>
+<table>
+<tr><th>ลองเปลี่ยนที่ ParallelStation</th><th>FG หลังรัน</th><th>ทำไม</th></tr>
+<tr><td>เอาติ๊ก When Full ออก</td><td><strong>354</strong></td><td>เหมือน Model5</td></tr>
+<tr><td>4 ช่อง (X = 4) × 0:40 ติ๊ก When Full</td><td><strong>140</strong></td><td>ต้องรอให้ครบ 4 ชิ้น ยิ่งช่องมากยิ่งรอนาน</td></tr>
+<tr><td>4 ช่อง × 0:40 ไม่ติ๊ก</td><td><strong>352</strong></td><td>เฉลี่ย 10 วินาทีต่อชิ้น เท่าเครื่องอื่น</td></tr>
+<tr><td>2 ช่อง × 0:10 ติ๊ก When Full</td><td><strong>236</strong></td><td>เครื่องเร็วขึ้น 2 เท่า แต่ยังแพ้ไลน์ปกติ (355)</td></tr>
+<tr><td>3 ช่อง × 0:20 ไม่ติ๊ก</td><td><strong>354</strong></td><td>ช่องเพิ่มไม่ช่วย เครื่องอื่นจำกัดที่ 10 วินาที</td></tr>
+</table>
+
+<h2>ปัญหาที่พบบ่อย และวิธีแก้</h2>
+<table>
+<tr><th>อาการ</th><th>วิธีแก้</th></tr>
+<tr><td>3D Chart ว่างหลังรัน</td><td>รันด้วยปุ่ม Start แบบมีภาพเคลื่อนไหว 3D Chart จะวาดใหม่ระหว่างรัน</td></tr>
+<tr><td>Planning View มองไม่เห็น 3D Chart</td><td>3D Chart ตั้งขึ้นในฉาก 3D: ปิด Planning View แล้วหมุนมุมกล้อง</td></tr>
+<tr><td>Chart ไม่มีแท่งของเครื่องใหม่</td><td>ใส่เครื่องใหม่ (Station32, ParallelStation) ใน Input Channels ของ Chart</td></tr>
+<tr><td>เพิ่มเครื่องแล้ว FG ไม่เพิ่ม</td><td>ตรวจ Connector เข้า–ออกเครื่องใหม่ให้ครบ</td></tr>
+<tr><td>ParallelStation รับงานชุดเดียวแล้วรอนาน</td><td>แท็บ Attributes › เอาติ๊ก <code>Start Processing When Full</code> ออก</td></tr>
+<tr><td>จำนวนช่องไม่ตรงที่ต้องการ</td><td>จำนวนช่อง = X-Dimension × Y-Dimension (ค่าเริ่มต้น 2 × 2 = 4)</td></tr>
+<tr><td>เพิ่มช่องแล้ว FG ไม่เพิ่ม</td><td>คอขวดย้ายไปเครื่องอื่นแล้ว ดูสีใน Chart</td></tr>
+<tr><td>กด Start แล้วผลไม่เริ่มจากศูนย์</td><td>กด Reset (ปุ่มแดง) ก่อน Start ทุกครั้ง</td></tr>
+</table>
+
+<div class="note">
+<strong>คำถามฝึกคิด:</strong> ในลองเอง 1 ทำไมการตั้ง Station1 หรือ Station5 เป็น 0:20 ได้ FG 177 เท่ากับตั้ง Station3 ทั้งที่อยู่คนละตำแหน่งในไลน์?
+</div>
+<div class="tip"><strong>เฉลย:</strong> เพราะทั้งไลน์เดินได้เร็วเท่าเครื่องที่ช้าที่สุดเสมอ ไม่ว่าคอขวดจะอยู่ต้น กลาง หรือท้ายไลน์
+สิ่งที่ต่างคือสีใน Chart — เครื่องก่อนคอขวดจะเป็นสีเหลือง (Blocked) เครื่องหลังคอขวดเป็นสีเทา (Waiting)
+ถ้าคอขวดอยู่ Station1 ก็จะไม่มีสีเหลืองเลย มีแต่สีเทาตามหลัง</div>
 '''
+
+BODY[("basic", "03")] = f'''
+<p class="lead" style="max-width:46em;">ต่อจากบท 02 — ไลน์ 5 สถานีเดิม เวลาเฉลี่ย 10 วินาทีเท่าเดิม บทนี้ดู 2 เรื่องที่ทำให้ไลน์ได้น้อยกว่าที่คิด:
+<strong>เวลาไม่คงที่</strong> (แก้ด้วย Buffer) และ<strong>เครื่องเสีย</strong> (อ่านผลด้วยแท็บ Statistics และ OEE) ทั้งหมด 9 ขั้น ไม่ต้องเขียนโค้ด</p>
+
+<table>
+<tr><th>ลำดับ</th><th>หัวข้อ</th><th>ผล</th><th>ขั้น</th></tr>
+<tr><td>1</td><td>ตั้งเวลาแบบสุ่ม</td><td>Uniform 0:05–0:15</td><td>1</td></tr>
+<tr><td>2</td><td>Model ไม่มี Buffer</td><td>355 เหลือ 276</td><td>2–3</td></tr>
+<tr><td>3</td><td>Model2 ใส่ Buffer</td><td>ความจุ 3 ชิ้น ได้ 337</td><td>4</td></tr>
+<tr><td>4</td><td>Model3 ไม่มีเครื่องเสีย</td><td>1 กะ 8 ชม. ได้ 2,875</td><td>5</td></tr>
+<tr><td>5</td><td>ตั้ง Failure</td><td>Availability 90%, MTTR 5:00</td><td>6</td></tr>
+<tr><td>6</td><td>Model4 อ่านผล</td><td>2,484 ชิ้น</td><td>7</td></tr>
+<tr><td>7</td><td>Statistics + OEE</td><td>A × P × Q จากสถิติ</td><td>8</td></tr>
+<tr><td>8</td><td>Model5 รัน 30 วัน</td><td>เครื่องเสียเข้าใกล้ 10%</td><td>9</td></tr>
+<tr><td>9</td><td>ลองเอง</td><td>ความจุ Buffer, Availability, MTTR</td><td>–</td></tr>
+</table>
+
+<div class="tip">
+<strong>สิ่งที่ต้องมี:</strong> Plant Simulation 2606 และไฟล์ <code>Basic_03_Buffer_Failures_OEE.spp</code>
+(Class Library › Models › Model … Model5) &nbsp;·&nbsp; ใส่ Buffer 3 ชิ้น ผลผลิต <strong>276 → 337 ชิ้น/ชม.</strong>
+(ทุกตัวเลขในบทนี้วัดจริงใน Plant Simulation 2606)
+</div>
+
+<h3>5 Frame ในไฟล์นี้ เล่า 2 เรื่อง</h3>
+<table>
+<tr><th>Frame</th><th>เรื่อง</th><th>ขั้น</th></tr>
+<tr><td><code>Model</code></td><td>เวลาสุ่ม ต่อเครื่องตรงกัน ได้ 276 ชิ้น/ชม.</td><td>1–3</td></tr>
+<tr><td><code>Model2</code></td><td>ใส่ Buffer ความจุ 3 ระหว่างทุกเครื่อง ได้ 337 ชิ้น/ชม.</td><td>4</td></tr>
+<tr><td><code>Model3</code></td><td>กลับเป็นเวลาคงที่ 0:10 ไม่มีเครื่องเสีย 1 กะ ได้ 2,875 ชิ้น</td><td>5</td></tr>
+<tr><td><code>Model4</code></td><td>Station3 Availability 90% MTTR 5:00 1 กะ ได้ 2,484 ชิ้น</td><td>6–8</td></tr>
+<tr><td><code>Model5</code></td><td>เหมือน Model4 แต่รัน 30 วัน ได้ 324 ชิ้น/ชม.</td><td>9</td></tr>
+</table>
+<div class="note"><strong>2 เรื่อง:</strong> เรื่องที่ 1 (Model, Model2) เวลาไม่คงที่ทำให้เสียผลผลิต ที่พักงานดึงกลับมาได้ ·
+เรื่องที่ 2 (Model3–5) กลับไปใช้เวลาคงที่ เพื่อให้เห็นผลของเครื่องเสียอย่างเดียว ไม่ปนกับเวลาสุ่ม</div>
+
+<h2>ขั้นที่ 1: ตั้งเวลาทำงานแบบสุ่ม (Uniform)</h2>
+{side_by_side(
+    screenshot("assets/images/basic/03-01.jpg", "Frame Model › Station1 แท็บ Times ตั้งเวลาแบบ Uniform"),
+    step_list([
+        "<strong>Uniform</strong> — สุ่มเวลาได้ทุกค่าในช่วงที่กำหนด (เลือกจากช่อง Const / Uniform / ชนิดอื่น)",
+        "<strong>0:05, 0:15</strong> — ต่ำสุด 5 วินาที สูงสุด 15 วินาที เฉลี่ย 10 วินาที เท่ากับบท 02",
+    ])
+)}
+<div class="tip"><strong>ทำไมใช้เวลาสุ่ม:</strong> งานจริงไม่ได้ใช้เวลาเท่ากันทุกชิ้น · ไฟล์นี้ตั้งทุก Station แบบเดียวกัน · รันซ้ำได้ผลเท่าเดิมทุกครั้ง</div>
+
+<h2>ขั้นที่ 2: Model — เวลาเฉลี่ยเท่าเดิม แต่ได้น้อยลง</h2>
+{screenshot("assets/images/basic/03-02.jpg", "Frame Model หลังรัน 1 ชั่วโมง")}
+{step_list([
+    "<strong>Station1–5</strong> — ทุกเครื่องสุ่ม 0:05–0:15",
+    "<strong>ต่อเครื่องตรงกัน</strong> — ไม่มีที่พักงานระหว่างเครื่อง",
+    "<strong>FG = 276</strong> — ลดจาก 355 ในบท 02 (−22%)",
+])}
+<div class="note"><strong>ทำไมลดลง:</strong> เครื่องหน้าเสร็จเร็วแต่เครื่องหลังยังไม่ว่าง → ต้องรอส่ง · เครื่องหลังเสร็จเร็วแต่ไม่มีงานเข้า → ว่าง</div>
+
+<h2>ขั้นที่ 3: Chart — เสียเวลากระจายทั้งไลน์</h2>
+{side_by_side(
+    screenshot("assets/images/basic/03-03.jpg", "3D Chart ของ Model หลังรัน"),
+    step_list([
+        "<strong>Station1 สีเหลือง</strong> — Blocked 24% ทำเสร็จแต่ส่งต่อไม่ได้",
+        "<strong>Station5 สีเทา</strong> — Waiting 24% รองาน",
+        "<strong>สีเขียว</strong> — ทุกเครื่องทำงานแค่ 76–79%",
+        "<strong>ชื่อสถานะ</strong> — ดูสีจาก legend ด้านขวา",
+    ])
+)}
+<div class="tip"><strong>ต่างจากบท 02:</strong> ไม่มีเครื่องไหนเขียวเต็มแท่ง ไม่มีคอขวดจุดเดียว แต่ทุกเครื่องเสียเวลาไปกับการรอ</div>
+
+<h2>ขั้นที่ 4: Buffer = พื้นที่พักงานระหว่างเครื่อง</h2>
+{screenshot("assets/images/basic/03-04.jpg", "ไอคอน Buffer ใน Toolbox แท็บ Material Flow")}
+{side_by_side(
+    screenshot("assets/images/basic/03-05.jpg", "หน้าต่าง Buffer1 ใน Model2"),
+    step_list([
+        "<strong>Buffer</strong> — ไอคอนใน Toolbox (เลื่อนเมาส์ไปชี้จะเห็นชื่อ)",
+        "<strong>Capacity = 3</strong> — พักงานได้สูงสุด 3 ชิ้น",
+        "<strong>Buffer Type = Queue</strong> — เข้าก่อน ออกก่อน (FIFO)",
+    ])
+)}
+<div class="note"><strong>วิธีวาง:</strong> วาง Buffer ระหว่าง 2 Station แล้วต่อ Connector: Station → Buffer → Station
+— Model2 มี Buffer1 ถึง Buffer4 ความจุ 3 ชิ้นทุกตัว วางระหว่างทุกคู่ของ Station</div>
+
+{screenshot("assets/images/basic/03-06.jpg", "Frame Model2 หลังรัน 1 ชั่วโมง")}
+{step_list([
+    "<strong>Buffer1</strong> — ระหว่าง Station1 กับ Station2",
+    "<strong>Buffer4</strong> — ระหว่าง Station4 กับ Station5",
+    "<strong>FG = 337</strong> — เพิ่มจาก 276 (+22%) ทุก Station ทำงาน 91–97%",
+])}
+<div class="tip"><strong>Buffer ช่วยอย่างไร:</strong> ไม่ได้ทำให้เครื่องเร็วขึ้น แต่เครื่องที่เสร็จเร็วมีที่วางงาน ไม่ต้องหยุดรอเครื่องถัดไป</div>
+
+{screenshot("assets/images/basic/03-07.jpg", "3D Chart ก่อน–หลังใส่ Buffer: Model (ซ้าย) และ Model2 (ขวา)")}
+{step_list([
+    "<strong>ไม่มี Buffer</strong> — Station ทำงาน 76–79% · ได้ 276 ชิ้น/ชม.",
+    "<strong>มี Buffer 3 ชิ้น</strong> — ทำงาน 91–97% · ได้ 337 ชิ้น/ชม.",
+])}
+<div class="note"><strong>สังเกต:</strong> สีเหลืองและสีเทาลดลงมาก เครื่องเดิม เวลาเดิม แค่เพิ่มที่พักงาน — Station5 ยังรองานอยู่บ้าง (Waiting 9%) เพราะเวลาสุ่มทำให้บางช่วงงานมาไม่ทัน</div>
+
+<h2>ขั้นที่ 5: Model3 — 1 กะ ไม่มีเครื่องเสีย</h2>
+{side_by_side(
+    screenshot("assets/images/basic/03-08.jpg", "Frame Model3 หลังรัน 8 ชั่วโมง"),
+    step_list([
+        "<strong>End Time = 8:00:00</strong> — จำลอง 1 กะ",
+        "<strong>FG = 2,875</strong> — ≈ 8 × 360 ชิ้น",
+        "<strong>Chart เขียวทุกแท่ง</strong> — ทุกเครื่องทำงานเต็มที่",
+    ])
+)}
+<div class="tip"><strong>ทำไมกลับเป็นเวลาคงที่:</strong> ดูผลของเครื่องเสียอย่างเดียว ไม่ปนกับเวลาสุ่ม · 8 ชั่วโมงเพราะเครื่องเสียเกิดนานๆ ครั้ง
+(ตั้งที่ EventController › Settings › End Time) — Model3 คือไลน์ของบท 02 (ทุกเครื่อง 0:10)</div>
+
+<h2>ขั้นที่ 6: เพิ่มเครื่องเสียให้ Station3</h2>
+{side_by_side(
+    screenshot("assets/images/basic/03-09.jpg", "Model4 › Station3 แท็บ Failures"),
+    step_list([
+        "<strong>Failures</strong> — แท็บตั้งเครื่องเสีย",
+        "<strong>New…</strong> — เพิ่มรูปแบบเครื่องเสีย 1 แบบ",
+        "<strong>Availability = 90%</strong> — เครื่องพร้อมทำงาน 90% ของเวลา",
+        "<strong>MTTR = 300</strong> — ซ่อมเฉลี่ยครั้งละ 300 วินาที (5 นาที)",
+    ])
+)}
+<div class="note"><strong>Active:</strong> ติ๊กไว้ทั้งช่องบนและในตาราง = เปิดใช้เครื่องเสีย · เอาติ๊กออกเมื่ออยากรันแบบเครื่องไม่เสีย
+— ดับเบิลคลิกแถว Failure ในตารางเพื่อเปิดดูรายละเอียด</div>
+
+{side_by_side(
+    screenshot("assets/images/basic/03-10.jpg", "รายละเอียด Failure ของ Station3"),
+    step_list([
+        "<strong>Availability</strong> (ติ๊ก) — กรอกเป็น % และ MTTR",
+        "<strong>Availability = 90%</strong> — เวลาพร้อมทำงาน",
+        "<strong>MTTR = 5:00</strong> — เวลาซ่อมเฉลี่ยต่อครั้ง",
+        "<strong>Interval = 45:00</strong> — เวลาเฉลี่ยระหว่างเสีย โปรแกรมคำนวณให้",
+        "<strong>Duration</strong> — เวลาเสียแต่ละครั้ง สุ่มรอบ 5:00",
+        "<strong>Failure Relates To</strong> — SimulationTime = นับตลอดการจำลอง",
+    ])
+)}
+<div class="tip"><strong>ตรวจตัวเลข:</strong> 45 ÷ (45 + 5) = 90% ตรงกับ Availability ที่ตั้ง — ถ้าจะกรอก Interval เอง ให้เอาติ๊ก Availability ออก</div>
+
+<h2>ขั้นที่ 7: Model4 — เครื่องเดียวเสีย ทั้งไลน์หยุดตาม</h2>
+{screenshot("assets/images/basic/03-11.jpg", "Frame Model4 หลังรัน 8 ชั่วโมง")}
+{side_by_side(
+    screenshot("assets/images/basic/03-12.jpg", "Chart ของ Model4 หลังรัน"),
+    step_list([
+        "<strong>Station3</strong> — มีเครื่องเสีย (เปิดชื่อไว้)",
+        "<strong>FG = 2,484</strong> — ลดจาก 2,875 (−14%)",
+        "<strong>สีแดง = Failed</strong> — แท่ง Station3 ใน Chart",
+    ])
+)}
+<div class="note"><strong>อ่าน Chart:</strong> Station3 เสีย → Station1–2 ส่งต่อไม่ได้ (เหลือง) → Station4–5 ไม่มีงานเข้า (เทา)</div>
+
+<h2>ขั้นที่ 8: อ่านแท็บ Statistics แล้วคำนวณ OEE</h2>
+{side_by_side(
+    screenshot("assets/images/basic/03-13.jpg", "Station3 แท็บ Statistics หลังรัน"),
+    step_list([
+        "<strong>Statistics</strong> — แท็บสถิติของเครื่อง",
+        "<strong>Working 86.33%</strong> — เวลาที่ทำงานจริง",
+        "<strong>Failed 13.60%</strong> — เวลาที่เครื่องเสีย",
+        "<strong>Exits 2,486</strong> — ชิ้นที่ผ่านเครื่องนี้",
+    ])
+)}
+<div class="note"><strong>ทำไมไม่ใช่ 10%:</strong> เครื่องเสียเป็นการสุ่ม 8 ชั่วโมงสั้นเกินไป ค่ายังไม่เฉลี่ย (ดูขั้นที่ 9)
+— ค่าในแท็บ Statistics เป็นของการรันล่าสุด กด Reset แล้วค่าจะเริ่มใหม่</div>
+
+<h3>คำนวณ OEE จากสถิติ: OEE = A × P × Q</h3>
+<table>
+<tr><th>ตัวชี้วัด</th><th>ความหมาย</th><th>Model4 (8 ชม.)</th><th>มาจากไหน</th></tr>
+<tr><td><strong>Availability (A)</strong></td><td>เวลาพร้อมทำงาน ÷ เวลาทั้งหมด</td><td>86.4%</td><td>100% − Failed 13.6%</td></tr>
+<tr><td><strong>Performance (P)</strong></td><td>ความเร็วจริง ÷ ความเร็วที่ตั้ง</td><td>~100%</td><td>ทำงานที่ 0:10 ตามที่ตั้ง</td></tr>
+<tr><td><strong>Quality (Q)</strong></td><td>ของดี ÷ ของทั้งหมด</td><td>100%</td><td>โมเดลนี้ไม่มีของเสีย</td></tr>
+<tr><td><strong>OEE</strong></td><td>A × P × Q</td><td><strong>≈ 86%</strong></td><td>ตรวจ: FG 2,484 ÷ เต็ม 2,880 = 86.3%</td></tr>
+</table>
+<div class="tip"><strong>หาปุ่ม OEE ไม่เจอ?</strong> Plant Simulation ไม่มีปุ่ม OEE ให้ คำนวณจากแท็บ Statistics (นิยาม OEE แบบมาตรฐานทั่วไป)
+— ผลผลิตสูงสุดใน 8 ชั่วโมง = 8 × 3600 ÷ 10 = 2,880 ชิ้น</div>
+
+<h2>ขั้นที่ 9: Model5 — รัน 30 วัน ค่าจึงนิ่ง</h2>
+{screenshot("assets/images/basic/03-14.jpg", "EventController › Settings ของ Model5 (ซ้าย) และ Station3 › Statistics หลังรัน 30 วัน (ขวา)")}
+{step_list([
+    "<strong>End Time = 30:00:00:00</strong> — 30 วัน (วัน:ชม:นาที:วินาที)",
+    "<strong>Failed 9.99%</strong> — ใกล้ 10% ที่ตั้งไว้",
+    "<strong>Working 90.01%</strong> — FG 233,314 ชิ้น = 324 ชิ้น/ชม. = 360 × 90%",
+])}
+<div class="note"><strong>สรุป:</strong> ผลที่มีการสุ่ม ต้องรันนานพอ หรือรันหลายรอบแล้วเฉลี่ย ก่อนนำไปตัดสินใจ
+— Model5 ตั้งเหมือน Model4 ทุกอย่าง ต่างแค่ End Time รันแบบไม่มีภาพเคลื่อนไหวใช้เวลาไม่กี่วินาที</div>
+
+<h3>รันสั้น vs รันยาว (Station3 Availability 90%)</h3>
+<table>
+<tr><th>เวลาจำลอง</th><th>เครื่องเสียที่วัดได้</th><th>FG ต่อชั่วโมง</th><th>อ่านว่า</th></tr>
+<tr><td>8 ชม. (Model4)</td><td>13.6%</td><td>310.5</td><td>สั้นไป สุ่มเจอเสียมาก</td></tr>
+<tr><td>24 ชม. (Model4, End 24:00:00)</td><td>9.1%</td><td>327.0</td><td>ยังแกว่ง</td></tr>
+<tr><td>30 วัน (Model5)</td><td>10.0%</td><td>324.0</td><td>นิ่ง = 360 × 90%</td></tr>
+<tr><td>ไม่มีเครื่องเสีย (Model3, 8 ชม.)</td><td>0%</td><td>359.4</td><td>ฐานเปรียบเทียบ</td></tr>
+</table>
+
+<h2>สรุป 5 Frame</h2>
+<table>
+<tr><th>Frame</th><th>ตั้งค่า</th><th>เวลาจำลอง</th><th>ผลผลิต</th><th>Station ทำงาน</th></tr>
+<tr><td><code>Model</code></td><td>เวลาสุ่ม 0:05–0:15 ต่อเครื่องตรงกัน</td><td>1 ชม.</td><td><strong>276</strong> ชิ้น/ชม.</td><td>76–79%</td></tr>
+<tr><td><code>Model2</code></td><td>+ Buffer ความจุ 3 ชิ้น</td><td>1 ชม.</td><td><strong>337</strong> ชิ้น/ชม.</td><td>91–97%</td></tr>
+<tr><td><code>Model3</code></td><td>เวลาคงที่ 0:10 ไม่มีเครื่องเสีย</td><td>8 ชม.</td><td><strong>2,875</strong> ชิ้น</td><td>~100%</td></tr>
+<tr><td><code>Model4</code></td><td>Station3 Availability 90% MTTR 5:00</td><td>8 ชม.</td><td><strong>2,484</strong> ชิ้น</td><td>86%</td></tr>
+<tr><td><code>Model5</code></td><td>เหมือน Model4</td><td>30 วัน</td><td><strong>324</strong> ชิ้น/ชม.</td><td>90%</td></tr>
+</table>
+<p>เทียบกับเวลาคงที่ 0:10 ไม่มีเครื่องเสีย (บท 02) ได้ 355 ชิ้น/ชม. — เวลาสุ่มเสียไป 79 ชิ้นต่อชั่วโมง Buffer ดึงกลับมาได้ 61 ชิ้น
+ส่วนเครื่องเดียวเสีย 10% ทั้งไลน์ก็เสีย 10% เพราะไม่มีที่พักงาน</p>
+
+<h2>ลองเอง</h2>
+<p>แก้ทีละแถวจากค่าเดิม และกด Reset ก่อน Start ทุกครั้ง</p>
+<h3>ลองเอง 1: Buffer และเวลาสุ่ม (Model, Model2)</h3>
+<table>
+<tr><th>Frame</th><th>ลองเปลี่ยน</th><th>FG หลังรัน</th><th>ทำไม</th></tr>
+<tr><td><code>Model2</code></td><td>Buffer1–4 Capacity = 1</td><td><strong>320</strong></td><td>พักได้น้อย ช่วยได้บางส่วน</td></tr>
+<tr><td><code>Model2</code></td><td>Buffer1–4 Capacity = 10</td><td><strong>339</strong></td><td>มากกว่า 3 ได้เพิ่มแค่ 2 ชิ้น</td></tr>
+<tr><td><code>Model2</code></td><td>ทุก Station เวลา Const 0:10</td><td><strong>355</strong></td><td>เวลาไม่ผันแปร Buffer ไม่ได้ช่วยเพิ่ม</td></tr>
+<tr><td><code>Model</code></td><td>Uniform 0:08–0:12 (ช่วงแคบลง)</td><td><strong>320</strong></td><td>ผันแปรน้อย เสียน้อยลง</td></tr>
+</table>
+<div class="note"><strong>แถวที่ 3 สำคัญ:</strong> Buffer ช่วยเมื่อเวลาผันแปรเท่านั้น ถ้าเวลาคงที่ให้แก้ที่คอขวดแบบ<a href="basic-02.html">บท 02</a></div>
+
+<h3>ลองเอง 2: เปลี่ยนเครื่องเสียแล้วดูผล (Model4, Model5)</h3>
+<table>
+<tr><th>Frame</th><th>ลองเปลี่ยนที่ Station3</th><th>ผลหลังรัน</th><th>อ่านว่า</th></tr>
+<tr><td><code>Model5</code></td><td>Availability = 95%</td><td><strong>341.5</strong> ชิ้น/ชม.</td><td>เสีย 5%</td></tr>
+<tr><td><code>Model5</code></td><td>Availability = 80%</td><td><strong>289.0</strong> ชิ้น/ชม.</td><td>เสีย 20%</td></tr>
+<tr><td><code>Model5</code></td><td>MTTR = 0:30 (เสียบ่อย สั้น)</td><td><strong>324.3</strong> ชิ้น/ชม.</td><td>เท่าเดิม เมื่อไม่มี Buffer</td></tr>
+<tr><td><code>Model5</code></td><td>MTTR = 30:00 (เสียน้อย นาน)</td><td><strong>322.1</strong> ชิ้น/ชม.</td><td>ใกล้เคียงเดิม</td></tr>
+<tr><td><code>Model4</code></td><td>MTTR = 0:30 (8 ชม.)</td><td><strong>2,583</strong> ชิ้น</td><td>ต่างจาก 2,484 เพราะการสุ่ม</td></tr>
+</table>
+<p>แถว MTTR แสดงว่าในระยะยาว ผลขึ้นกับ Availability ไม่ใช่ MTTR เมื่อไลน์ไม่มี Buffer</p>
+
+<h2>ปัญหาที่พบบ่อย และวิธีแก้</h2>
+<table>
+<tr><th>อาการ</th><th>วิธีแก้</th></tr>
+<tr><td>รันซ้ำแล้วผลเท่าเดิมทุกครั้ง</td><td>ปกติ: ตัวเลขสุ่มเริ่มจากค่า seed เดิม เปลี่ยนได้ที่ <code>File › Options</code></td></tr>
+<tr><td>Buffer เต็ม / ว่างตลอดเวลา</td><td>เต็ม = เครื่องถัดไปช้ากว่างานที่เข้า · ว่าง = งานเข้าช้ากว่าที่เครื่องถัดไปทำได้</td></tr>
+<tr><td>ใส่ Buffer แล้ว FG ไม่เพิ่ม</td><td>ถ้าเวลาคงที่ Buffer ไม่ช่วย ให้หาคอขวดแบบบท 02</td></tr>
+<tr><td>ไม่รู้ว่าไอคอนไหนคือ Buffer</td><td>เลื่อนเมาส์ไปชี้ไอคอนใน Toolbox จะเห็นชื่อ</td></tr>
+<tr><td>ตั้ง Availability แล้วเครื่องไม่เสีย</td><td>ตรวจช่อง Active ในแท็บ Failures ทั้งช่องบนและในตาราง</td></tr>
+<tr><td>เครื่องเสีย % ไม่ตรงที่ตั้ง</td><td>รันนานขึ้น (30 วันได้ 9.99%) หรือรันหลายรอบแล้วเฉลี่ย</td></tr>
+<tr><td>หาปุ่ม OEE ไม่เจอ</td><td>ไม่มี ให้คำนวณจากแท็บ Statistics: A × P × Q</td></tr>
+<tr><td>3D Chart ว่างหลังรัน</td><td>รันด้วยปุ่ม Start แบบมีภาพเคลื่อนไหว</td></tr>
+</table>
+
+<div class="note">
+<strong>คำถามฝึกคิด:</strong> หัวหน้าเห็นผล Model4 (รัน 8 ชม.) แล้วสรุปว่า "Station3 เสีย 13.6% ต้องรีบเปลี่ยนเครื่อง" ควรตอบอย่างไร?
+</div>
+<div class="tip"><strong>เฉลย:</strong> 8 ชั่วโมงสั้นเกินไปสำหรับเหตุการณ์สุ่ม ตัวเลขยังแกว่ง (24 ชม. ได้ 9.1%, 30 วันได้ 10.0%)
+ควรรันนานพอหรือรันหลายรอบแล้วเฉลี่ยก่อน — ค่าที่ตั้งไว้คือเสีย 10% และในระยะยาวทั้งไลน์จะเสียผลผลิตประมาณ 10% ตาม
+เพราะไม่มีที่พักงานรอบ Station3</div>
+'''
+
+BODY[("basic", "04")] = planned_body([
+    "Workplace ข้างเครื่อง + WorkerPool + Broker ต่อกันอย่างไร",
+    "ให้ Station ต้องใช้คนทำงาน แล้วดูคนเดินระหว่างเครื่อง",
+    "คน 2 คนดูแล 5 เครื่อง → ผลผลิตลด ใครรอใคร",
+    "ShiftCalendar: 2 กะ + เวลาพัก แล้วดูผลต่อวัน",
+    "Worker chart / สถิติของคน (ทำงาน เดิน รอ)",
+], "<code>Model</code> ไม่มีคน · <code>Model2</code> คน 2 คน · <code>Model3</code> คน 2 คน + ShiftCalendar 2 กะ")
+
+BODY[("basic", "05")] = planned_body([
+    "สร้าง MU 3 รุ่น (A / B / C) ใน Class Library สีต่างกัน",
+    "Source ปล่อยงานตามตาราง (DataTable: รุ่น, จำนวน)",
+    "Station ใช้เวลาต่างกันตามรุ่น",
+    "Station5 ส่งงานดี 95% ไป Drain และงานเสีย 5% ไป Rework",
+    "Method แรก: นับงานเสียลง Variable แล้วแสดงบน Display",
+    "Sankey Diagram ดูทางเดินของงาน",
+], "<code>Model</code> 1 รุ่น · <code>Model2</code> 3 รุ่นตามตาราง · <code>Model3</code> + งานเสีย / Rework + Method",
+'<div class="tip">บทนี้เป็นบทแรกที่เขียนโค้ด SimTalk (Method 5–10 บรรทัด) — ดูพื้นฐาน syntax ได้ที่ <a href="advanced-01.html">Advanced บทที่ 1</a></div>')
+
+BODY[("basic", "06")] = planned_body([
+    "มุมมอง 3D ของไลน์ และการแก้โครงสร้าง 3D",
+    "วางผังโรงงาน: Import DWG หรือ Textured Plate (รูปผังพื้น) พร้อมปรับความโปร่งใส",
+    "เปลี่ยนรูปวัตถุ (Exchange Graphics / Import Graphic)",
+    "คลังวัตถุดิบ + AGV ขนเข้า Station1",
+    "เพิ่ม AGV เป็น 2 คัน แล้วเทียบผลผลิตและ utilization ของ AGV",
+    "Conveyor — ลำเลียงชิ้นงานระหว่างเครื่อง",
+], "<code>Model</code> ไลน์บนผัง ไม่มี AGV · <code>Model2</code> AGV 1 คัน · <code>Model3</code> AGV 2 คัน")
+
+BODY[("basic", "07")] = planned_body([
+    "Bottleneck Analyzer บนไลน์ของบท 06 (Show Analysis, Ranking)",
+    "ExperimentManager: Output = ผลผลิต, Input = ขนาด Buffer + จำนวนคน (หรือ AGV)",
+    "รันการทดลอง อ่านตาราง Report และกราฟ",
+    "เลือกค่าที่คุ้ม (ผลผลิตที่เพิ่ม เทียบเงินที่ต้องลงทุน) และสรุปเพื่อคุยกับผู้บริหาร",
+    "ทางต่อ: GA (GAWizard) เมื่อตัวแปรเยอะ",
+], "<code>Model</code> ไลน์ + Bottleneck Analyzer · <code>ExperimentManager</code>",
+'<div class="tip"><strong>อยากลองก่อน:</strong> เครื่องมือชุดเดียวกันนี้ (Bottleneck Analyzer, Ranking, Experiment Manager, Energy Analyzer) '
+'ได้ลองใช้ครบทีละขั้นบนโมเดลตัวอย่างของ Siemens แล้วในบท <a href="basic-00b.html">00B Small Parts Production</a> '
+'— บทนี้จะใช้เครื่องมือเดิมกับไลน์ 5 สถานีที่สร้างเองมาตลอดชุด</div>')
 
 BODY[("intermediate", 1)] = '''
 <h2>Object ขั้นกลางที่ใช้บ่อย</h2>
@@ -870,7 +1834,7 @@ BODY[("object-reference", 1)] = '''
 <div class="tip"><strong>ลองสาธิต:</strong> เพิ่ม Conveyor ยาว 50m ความเร็ว 1m/s คั่นกลาง Source-Drain จะเห็นชิ้นงานใช้เวลาประมาณ 50 วินาทีบน Conveyor ก่อนถึง Drain</div>
 
 <h2>Station</h2>
-<p>สถานีประมวลผล 1 หัว ควบคุมด้วย <code>ProcTime</code> — ดูรายละเอียดเต็มที่ <a href="basic-03.html">Basic บทที่ 3</a></p>
+<p>สถานีประมวลผล 1 หัว ควบคุมด้วย <code>ProcTime</code> — ดูรายละเอียดเต็มที่ <a href="basic-01.html">Basic บทที่ 01</a></p>
 
 <h2>Buffer / Store</h2>
 <p>พักชิ้นงานคอยส่งต่อ — Buffer แบบ FIFO ธรรมดา, Store มีตำแหน่งจัดเก็บย่อยหยิบสุ่มได้ ดูเปรียบเทียบที่ <a href="intermediate-01.html">Intermediate บทที่ 1</a></p>
@@ -930,7 +1894,7 @@ BODY[("object-reference", 3)] = '''
 BODY[("step-by-step", 1)] = '''
 <p class="lead" style="max-width:46em;">อ้างอิงเฟรม <code>Model_Station</code> และ <code>Model_ParallelStation</code> จากไฟล์สอนต้นฉบับของ Siemens —
 Object พื้นฐานที่สุดที่ต้องรู้ก่อนสร้างโมเดลจำลองการผลิตแรก ดูรายละเอียด Object แต่ละตัวเต็มๆ ได้ที่
-<a href="basic-03.html">Basic บทที่ 3</a></p>
+<a href="basic-01.html">Basic บทที่ 01</a></p>
 
 <div class="note">
 <strong>Object ในเฟรมต้นฉบับ:</strong> <code>Model_Station</code> มี EventController, Source ×2, Station ×6, Drain ×2,
@@ -1236,7 +2200,7 @@ BODY[("case-study", 1)] = '''
 
 <h2>โครงสร้างโมเดล</h2>
 <ul>
-<li>สาย Station เรียงต่อกัน 15-20 สถานี เชื่อมด้วย Conveyor (ดู <a href="basic-04.html">Basic บทที่ 4</a>)</li>
+<li>สาย Station เรียงต่อกัน 15-20 สถานี เชื่อมด้วย Conveyor (ดู <a href="basic-02.html">Basic บทที่ 02</a>)</li>
 <li>ตั้ง Failure แบบ MTBF/MTTR ต่างกันในแต่ละสถานีตามข้อมูลจริงจากโรงงาน (<a href="intermediate-04.html">Intermediate บทที่ 4</a>)</li>
 <li>ตั้ง ProcTime เป็น Distribution สะท้อนความเร็วคนงานที่ไม่เท่ากันทุกคัน (<a href="intermediate-03.html">Intermediate บทที่ 3</a>)</li>
 <li>ใช้ BottleneckAnalyzer หาสถานีคอขวดจริง แทนการเดาจากประสบการณ์ (<a href="intermediate-05.html">Intermediate บทที่ 5</a>)</li>
@@ -1388,23 +2352,27 @@ BODY[("tips-tricks", 4)] = '''
 
 # ---------------------------------------------------------------------------
 def chapter_page(section, idx):
-    title = SECTIONS[section]["chapters"][idx - 1]
+    title = chapter_title(section, idx)
+    label = chapter_label(section, idx)
     objs = OBJECTIVES[(section, idx)]
     objs_html = "\n".join(f"          <li>{o}</li>" for o in objs)
     body_content = BODY[(section, idx)].strip()
+    numbers = chapter_numbers(section)
 
     # prev/next
-    if idx > 1:
-        prev_href = chapter_filename(section, idx - 1)
-        prev_label = f"← ก่อนหน้า: {idx - 1}. {SECTIONS[section]['chapters'][idx - 2]}"
+    pos = numbers.index(idx)
+    if pos > 0:
+        prev_id = numbers[pos - 1]
+        prev_href = chapter_filename(section, prev_id)
+        prev_label = f"← ก่อนหน้า: {chapter_label(section, prev_id)}. {chapter_title(section, prev_id)}"
     else:
         prev_href = SECTIONS[section]["hub"]
         prev_label = f"← กลับหน้ารวมบท {SECTIONS[section]['label'].split(' — ')[0]}"
 
-    n_chapters = len(SECTIONS[section]["chapters"])
-    if idx < n_chapters:
-        next_href = chapter_filename(section, idx + 1)
-        next_label = f"ถัดไป: {idx + 1}. {SECTIONS[section]['chapters'][idx]} →"
+    if pos < len(numbers) - 1:
+        next_id = numbers[pos + 1]
+        next_href = chapter_filename(section, next_id)
+        next_label = f"ถัดไป: {chapter_label(section, next_id)}. {chapter_title(section, next_id)} →"
     else:
         sec_idx = SECTION_ORDER.index(section)
         if sec_idx < len(SECTION_ORDER) - 1:
@@ -1415,7 +2383,7 @@ def chapter_page(section, idx):
             next_href = "index.html"
             next_label = "จบคอร์ส — กลับหน้าแรก"
 
-    body = f'''        <h1>{idx}. {title}</h1>
+    body = f'''        <h1>{label}. {title}</h1>
 
         <div class="objectives">
           <p>วัตถุประสงค์การเรียนรู้</p>
@@ -1430,13 +2398,12 @@ def chapter_page(section, idx):
           <a href="{prev_href}">{prev_label}</a>
           <a href="{next_href}">{next_label}</a>
         </div>'''
-    return page_html(f"{idx}. {title}", body, expand_section=section, active_top=section, active_chapter=idx)
+    return page_html(f"{label}. {title}", body, expand_section=section, active_top=section, active_chapter=idx)
 
 
 if __name__ == "__main__":
     for sec in SECTION_ORDER:
-        n = len(SECTIONS[sec]["chapters"])
-        for i in range(1, n + 1):
+        for i in chapter_numbers(sec):
             write(chapter_filename(sec, i), chapter_page(sec, i))
     # regenerate basic.html hub via the same generator for full consistency
     write(SECTIONS["basic"]["hub"], hub_page("basic"))

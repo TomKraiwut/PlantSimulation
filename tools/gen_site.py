@@ -6,11 +6,23 @@ its section folder (basic/01.html, object-reference/01.html, ...) and rewrites e
 href/src that points at a known old flat filename to the correct relative path for
 the new location. This means chapter bodies never need to know their own folder depth.
 """
+import hashlib
 import os
 import re
 import posixpath
 
 ROOT = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+
+
+def _asset_version(relpath):
+    """Short content hash appended as ?v=... so browsers (and phones especially) fetch a
+    changed style.css / main.js right away instead of keeping a cached copy."""
+    with open(os.path.join(ROOT, *relpath.split("/")), "rb") as f:
+        return hashlib.sha1(f.read()).hexdigest()[:8]
+
+
+CSS_HREF = f"assets/style.css?v={_asset_version('assets/style.css')}"
+JS_SRC = f"assets/main.js?v={_asset_version('assets/main.js')}"
 
 FONT_LINKS = '''<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap">'''
@@ -19,13 +31,19 @@ SECTIONS = {
     "basic": {
         "label": "Basic — พื้นฐาน",
         "hub": "basic.html",
+        # follows the Plant Simulation 2606 Step-by-Step course plan (chapters 00-07);
+        # chapter 00 (example models) is split into 00A Factory 51 and 00B Small Parts
+        "ids": ["00a", "00b", "01", "02", "03", "04", "05", "06", "07"],
         "chapters": [
-            "Plant Simulation คืออะไร",
-            "เริ่มต้นใช้งาน Plant Simulation และ Basic User Interface",
-            "Object พื้นฐาน 6 ตัว",
-            "สร้างโมเดลแรก",
-            "รันและอ่านผล Statistics",
-            "บันทึกและเปิดไฟล์โมเดล",
+            "โรงงานตัวอย่าง Factory 51",
+            "โมเดลตัวอย่าง Small Parts Production",
+            "โมเดลแรก: Source → Station → Drain",
+            "คอขวด และ ParallelStation",
+            "เวลาสุ่ม + Buffer + เครื่องเสีย + OEE",
+            "คน + กะทำงาน",
+            "หลายรุ่น + งานเสีย + Method แรก",
+            "ผัง 3D + ขนส่งด้วย AGV",
+            "วิเคราะห์ + หาค่าที่ดีที่สุด",
         ],
     },
     "intermediate": {
@@ -101,14 +119,33 @@ SECTIONS = {
 SECTION_ORDER = ["basic", "intermediate", "advanced", "object-reference", "step-by-step", "case-study", "tips-tricks"]
 
 
+def _chapter_stem(idx):
+    return f"{idx:02d}" if isinstance(idx, int) else idx
+
+
 def chapter_filename(section, idx):
-    return f"{section}-{idx:02d}.html"
+    return f"{section}-{_chapter_stem(idx)}.html"
+
+
+def chapter_numbers(section):
+    """Chapter ids of a section in reading order -- 1..N, or the section's own "ids"
+    list (strings such as "00a", "01") when it sets one."""
+    return SECTIONS[section].get("ids") or list(range(1, len(SECTIONS[section]["chapters"]) + 1))
+
+
+def chapter_title(section, idx):
+    return SECTIONS[section]["chapters"][chapter_numbers(section).index(idx)]
+
+
+def chapter_label(section, idx):
+    """Chapter number as shown to readers, e.g. 3 -> "3", "00a" -> "00A"."""
+    return str(idx).upper()
 
 
 def sidebar_html(expand_section=None, active_top=None, active_chapter=None):
     parts = []
     parts.append('      <nav id="menu">')
-    parts.append('        <header class="major"><h2>เมนู</h2></header>')
+    parts.append('        <header class="major"><button class="sidebar-close" aria-label="ปิดเมนู">✕</button><h2>เมนู</h2></header>')
     parts.append('        <ul>')
     home_active = ' class="active"' if active_top == "index" else ''
     parts.append(f'          <li{home_active}><a href="index.html">หน้าแรก</a></li>')
@@ -125,10 +162,10 @@ def sidebar_html(expand_section=None, active_top=None, active_chapter=None):
         parts.append(f'            <a href="{info["hub"]}">{info["label"]}</a>')
         parts.append(f'            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู {sec}">▾</button>')
         parts.append('            <ul class="submenu">')
-        for i, title in enumerate(info["chapters"], start=1):
+        for i in chapter_numbers(sec):
             fname = chapter_filename(sec, i)
             li_active = ' class="active"' if (active_top == sec and active_chapter == i) else ''
-            parts.append(f'              <li{li_active}><a href="{fname}">{i}. {title}</a></li>')
+            parts.append(f'              <li{li_active}><a href="{fname}">{chapter_label(sec, i)}. {chapter_title(sec, i)}</a></li>')
         parts.append('            </ul>')
         parts.append('          </li>')
 
@@ -148,7 +185,7 @@ def page_html(title, body, expand_section=None, active_top=None, active_chapter=
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{title} — Plant Simulation Tutorial</title>
 {FONT_LINKS}
-<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="{CSS_HREF}">
 </head>
 <body>
 <div id="wrapper">
@@ -156,7 +193,7 @@ def page_html(title, body, expand_section=None, active_top=None, active_chapter=
     <div class="inner">
       <header id="header">
         <a href="index.html" class="logo"><span>Plant Simulation Tutorial</span></a>
-        <button class="menu-toggle" aria-label="เปิดเมนู">☰</button>
+        <button class="menu-toggle" aria-label="เปิดเมนู" aria-expanded="false">☰</button>
       </header>
 
       <main>
@@ -177,7 +214,7 @@ def page_html(title, body, expand_section=None, active_top=None, active_chapter=
   </div>
   <div id="sidebar-overlay"></div>
 </div>
-<script src="assets/main.js"></script>
+<script src="{JS_SRC}"></script>
 </body>
 </html>
 '''
@@ -186,12 +223,12 @@ def page_html(title, body, expand_section=None, active_top=None, active_chapter=
 def hub_page(section):
     info = SECTIONS[section]
     cards = []
-    for i, title in enumerate(info["chapters"], start=1):
+    for n, i in enumerate(chapter_numbers(section)):
         fname = chapter_filename(section, i)
-        desc = HUB_CARD_DESC[section][i - 1]
+        desc = HUB_CARD_DESC[section][n]
         cards.append(f'''          <a href="{fname}" class="card">
-            <div class="icon number">{i}</div>
-            <h3>{title}</h3>
+            <div class="icon number">{chapter_label(section, i)}</div>
+            <h3>{chapter_title(section, i)}</h3>
             <p>{desc}</p>
           </a>''')
     cards_html = "\n".join(cards)
@@ -202,7 +239,8 @@ def hub_page(section):
     if idx > 0:
         prev_sec = SECTION_ORDER[idx - 1]
         prev_html = f'<a href="{SECTIONS[prev_sec]["hub"]}">← ก่อนหน้า: {SECTIONS[prev_sec]["label"]}</a>'
-    first_chapter = chapter_filename(section, 1)
+    first_no = chapter_numbers(section)[0]
+    first_chapter = chapter_filename(section, first_no)
 
     body = f'''        <h1>{info["label"]}</h1>
         <p class="lead" style="max-width:46em;">{HUB_INTRO[section]}</p>
@@ -213,13 +251,13 @@ def hub_page(section):
 
         <div class="page-nav">
           {prev_html}
-          <a href="{first_chapter}">เริ่มบทที่ 1: {info["chapters"][0]} →</a>
+          <a href="{first_chapter}">เริ่มบทที่ {chapter_label(section, first_no)}: {info["chapters"][0]} →</a>
         </div>'''
     return page_html(info["label"].split(" — ")[0], body, expand_section=section, active_top=section)
 
 
 HUB_INTRO = {
-    "basic": "สำหรับผู้ที่ยังไม่เคยเปิดโปรแกรมมาก่อน เริ่มจากรู้จักหน้าตาโปรแกรม ไปจนถึงสร้างและรันโมเดลจำลองแรกของคุณ ทั้งหมด 6 บท เรียงตามลำดับที่ควรทำตาม",
+    "basic": "ชุดสอน Step by Step บน Plant Simulation 2606 ทั้งหมด 8 บท (00–07) — บท 00 เปิดดูโมเดลตัวอย่าง 2 ตัว (00A Factory 51 และ 00B Small Parts Production) บท 01 สร้างโมเดลแรกเอง ส่วนบท 02–07 ใช้<strong>ไลน์ผลิต 5 สถานีไลน์เดียวต่อเนื่อง</strong> แต่ละบทเพิ่มปัญหาจริงทีละเรื่อง: คอขวด + เครื่องขนาน → เวลาสุ่ม + Buffer + เครื่องเสีย → คน + กะ → หลายรุ่น + งานเสีย → 3D + AGV → หาค่าที่ดีที่สุด บท 00–04 ไม่ต้องเขียนโค้ด",
     "intermediate": "สำหรับผู้ที่สร้างโมเดลง่ายๆ ได้แล้ว และต้องการให้โมเดลสมจริงขึ้น — ใช้ Object เพิ่มเติม ค่าที่ไม่คงที่ ความเสียหายของเครื่องจักร และการวิเคราะห์ผลลัพธ์ ทั้งหมด 6 บท",
     "advanced": "สำหรับผู้ที่ต้องการควบคุมโมเดลด้วยสคริปต์ SimTalk สร้าง Object ด้วยโค้ด และทำ Optimization อัตโนมัติ ไปจนถึงควบคุมโปรแกรมจากภายนอกผ่าน COM ทั้งหมด 7 บท",
     "object-reference": "รวม Object ที่ใช้บ่อยเป็นหมวดหมู่ พร้อมสาธิตการทำงานสั้นๆ ที่ลองทำตามได้ทันที — ใช้เป็นที่เปิดหาอ้างอิงเร็วๆ เวลาจำไม่ได้ว่า Object ไหนใช้ทำอะไร",
@@ -230,12 +268,15 @@ HUB_INTRO = {
 
 HUB_CARD_DESC = {
     "basic": [
-        "รู้จักแนวคิด Discrete Event Simulation และประโยชน์ของโปรแกรมนี้",
-        "เปิดตัวอย่างโมเดล Factory 51, ควบคุมมุมมอง 3 มิติ, โต้ตอบกับ Object และคุม EventController",
-        "Source, Conveyor, Station, Buffer, Drain, EventController",
-        "ลงมือสร้างสายการผลิตง่ายๆ ทีละขั้นตอน",
-        "ดูค่า Working / Waiting / Blocked และความหมายของแต่ละค่า",
-        "จัดการไฟล์ .spp อย่างปลอดภัย พร้อมนิสัยสำรองไฟล์ที่ควรมี",
+        "เปิด Start Page เปิดโมเดลตัวอย่าง หมุน/ซูม 3D เปิด Frame ด้านใน และสั่ง Run / Reset",
+        "เปิดโมเดลตัวอย่างไลน์ประกอบ หาคอขวด เพิ่ม Buffer หาขนาดด้วย Experiment Manager และดูพลังงาน",
+        "Source → Station → Drain, ตั้งเวลา, EventController และ Display",
+        "ไลน์ 5 สถานี, Display / Chart, หาคอขวดจากสี แล้วแก้ด้วยเครื่องขนาน หรือ ParallelStation (กับดัก When Full)",
+        "เวลาแบบ Uniform, Buffer, Failure (Availability, MTTR), แท็บ Statistics, OEE, รันสั้นเทียบรันยาว",
+        "Workplace, WorkerPool, Broker, คนคุมเครื่อง, ShiftCalendar และ Worker chart",
+        "Source ตามตาราง, เวลาต่างกันตามรุ่น, งานดี/งานเสีย, Variable และ Method สั้นๆ",
+        "วางไลน์บนผังโรงงาน, มุมมอง 3D, AGV ขนของจากคลังเข้าไลน์ และ Conveyor",
+        "Bottleneck Analyzer, ExperimentManager, อ่านผลและสรุปเพื่อตัดสินใจลงทุน",
     ],
     "intermediate": [
         "Buffer/Store, AssemblyStation, Track, Transporter — เมื่อไหร่ควรใช้ตัวไหน",
@@ -300,8 +341,9 @@ def screenshot(img_path, alt, caption=None):
     'assets/images/basic/04-01.png' -- write() rewrites it for the page's
     actual folder depth automatically (see _relocate_links)."""
     cap_html = f'\n  <figcaption>{caption}</figcaption>' if caption else ""
+    # linked to the full-size file so wide multi-panel screenshots can be opened and zoomed
     return f'''<figure class="screenshot">
-  <img src="{img_path}" alt="{alt}" loading="lazy">{cap_html}
+  <a href="{img_path}" target="_blank" rel="noopener"><img src="{img_path}" alt="{alt}" loading="lazy"></a>{cap_html}
 </figure>'''
 
 
@@ -336,8 +378,8 @@ def _build_old_to_new():
     for sec in SECTION_ORDER:
         info = SECTIONS[sec]
         mapping[info["hub"]] = f"{sec}/index.html"
-        for i in range(1, len(info["chapters"]) + 1):
-            mapping[chapter_filename(sec, i)] = f"{sec}/{i:02d}.html"
+        for i in chapter_numbers(sec):
+            mapping[chapter_filename(sec, i)] = f"{sec}/{_chapter_stem(i)}.html"
     return mapping
 
 

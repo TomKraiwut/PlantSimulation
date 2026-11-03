@@ -6,7 +6,7 @@
 <title>Basic — Plant Simulation Tutorial</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap">
-<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="../assets/style.css?v=0167a8ff">
 </head>
 <body>
 <div id="wrapper">
@@ -14,49 +14,64 @@
     <div class="inner">
       <header id="header">
         <a href="../index.html" class="logo"><span>Plant Simulation Tutorial</span></a>
-        <button class="menu-toggle" aria-label="เปิดเมนู">☰</button>
+        <button class="menu-toggle" aria-label="เปิดเมนู" aria-expanded="false">☰</button>
       </header>
 
       <main>
         <h1>Basic — พื้นฐาน</h1>
-        <p class="lead" style="max-width:46em;">สำหรับผู้ที่ยังไม่เคยเปิดโปรแกรมมาก่อน เริ่มจากรู้จักหน้าตาโปรแกรม ไปจนถึงสร้างและรันโมเดลจำลองแรกของคุณ ทั้งหมด 6 บท เรียงตามลำดับที่ควรทำตาม</p>
+        <p class="lead" style="max-width:46em;">ชุดสอน Step by Step บน Plant Simulation 2606 ทั้งหมด 8 บท (00–07) — บท 00 เปิดดูโมเดลตัวอย่าง 2 ตัว (00A Factory 51 และ 00B Small Parts Production) บท 01 สร้างโมเดลแรกเอง ส่วนบท 02–07 ใช้<strong>ไลน์ผลิต 5 สถานีไลน์เดียวต่อเนื่อง</strong> แต่ละบทเพิ่มปัญหาจริงทีละเรื่อง: คอขวด + เครื่องขนาน → เวลาสุ่ม + Buffer + เครื่องเสีย → คน + กะ → หลายรุ่น + งานเสีย → 3D + AGV → หาค่าที่ดีที่สุด บท 00–04 ไม่ต้องเขียนโค้ด</p>
 
         <div class="card-grid">
+          <a href="00a.html" class="card">
+            <div class="icon number">00A</div>
+            <h3>โรงงานตัวอย่าง Factory 51</h3>
+            <p>เปิด Start Page เปิดโมเดลตัวอย่าง หมุน/ซูม 3D เปิด Frame ด้านใน และสั่ง Run / Reset</p>
+          </a>
+          <a href="00b.html" class="card">
+            <div class="icon number">00B</div>
+            <h3>โมเดลตัวอย่าง Small Parts Production</h3>
+            <p>เปิดโมเดลตัวอย่างไลน์ประกอบ หาคอขวด เพิ่ม Buffer หาขนาดด้วย Experiment Manager และดูพลังงาน</p>
+          </a>
           <a href="01.html" class="card">
-            <div class="icon number">1</div>
-            <h3>Plant Simulation คืออะไร</h3>
-            <p>รู้จักแนวคิด Discrete Event Simulation และประโยชน์ของโปรแกรมนี้</p>
+            <div class="icon number">01</div>
+            <h3>โมเดลแรก: Source → Station → Drain</h3>
+            <p>Source → Station → Drain, ตั้งเวลา, EventController และ Display</p>
           </a>
           <a href="02.html" class="card">
-            <div class="icon number">2</div>
-            <h3>เริ่มต้นใช้งาน Plant Simulation และ Basic User Interface</h3>
-            <p>เปิดตัวอย่างโมเดล Factory 51, ควบคุมมุมมอง 3 มิติ, โต้ตอบกับ Object และคุม EventController</p>
+            <div class="icon number">02</div>
+            <h3>คอขวด และ ParallelStation</h3>
+            <p>ไลน์ 5 สถานี, Display / Chart, หาคอขวดจากสี แล้วแก้ด้วยเครื่องขนาน หรือ ParallelStation (กับดัก When Full)</p>
           </a>
           <a href="03.html" class="card">
-            <div class="icon number">3</div>
-            <h3>Object พื้นฐาน 6 ตัว</h3>
-            <p>Source, Conveyor, Station, Buffer, Drain, EventController</p>
+            <div class="icon number">03</div>
+            <h3>เวลาสุ่ม + Buffer + เครื่องเสีย + OEE</h3>
+            <p>เวลาแบบ Uniform, Buffer, Failure (Availability, MTTR), แท็บ Statistics, OEE, รันสั้นเทียบรันยาว</p>
           </a>
           <a href="04.html" class="card">
-            <div class="icon number">4</div>
-            <h3>สร้างโมเดลแรก</h3>
-            <p>ลงมือสร้างสายการผลิตง่ายๆ ทีละขั้นตอน</p>
+            <div class="icon number">04</div>
+            <h3>คน + กะทำงาน</h3>
+            <p>Workplace, WorkerPool, Broker, คนคุมเครื่อง, ShiftCalendar และ Worker chart</p>
           </a>
           <a href="05.html" class="card">
-            <div class="icon number">5</div>
-            <h3>รันและอ่านผล Statistics</h3>
-            <p>ดูค่า Working / Waiting / Blocked และความหมายของแต่ละค่า</p>
+            <div class="icon number">05</div>
+            <h3>หลายรุ่น + งานเสีย + Method แรก</h3>
+            <p>Source ตามตาราง, เวลาต่างกันตามรุ่น, งานดี/งานเสีย, Variable และ Method สั้นๆ</p>
           </a>
           <a href="06.html" class="card">
-            <div class="icon number">6</div>
-            <h3>บันทึกและเปิดไฟล์โมเดล</h3>
-            <p>จัดการไฟล์ .spp อย่างปลอดภัย พร้อมนิสัยสำรองไฟล์ที่ควรมี</p>
+            <div class="icon number">06</div>
+            <h3>ผัง 3D + ขนส่งด้วย AGV</h3>
+            <p>วางไลน์บนผังโรงงาน, มุมมอง 3D, AGV ขนของจากคลังเข้าไลน์ และ Conveyor</p>
+          </a>
+          <a href="07.html" class="card">
+            <div class="icon number">07</div>
+            <h3>วิเคราะห์ + หาค่าที่ดีที่สุด</h3>
+            <p>Bottleneck Analyzer, ExperimentManager, อ่านผลและสรุปเพื่อตัดสินใจลงทุน</p>
           </a>
         </div>
 
         <div class="page-nav">
           <a href="../index.html">← กลับหน้าแรก</a>
-          <a href="01.html">เริ่มบทที่ 1: Plant Simulation คืออะไร →</a>
+          <a href="00a.html">เริ่มบทที่ 00A: โรงงานตัวอย่าง Factory 51 →</a>
         </div>
       </main>
 
@@ -69,19 +84,22 @@
   <div id="sidebar">
     <div class="inner">
       <nav id="menu">
-        <header class="major"><h2>เมนู</h2></header>
+        <header class="major"><button class="sidebar-close" aria-label="ปิดเมนู">✕</button><h2>เมนู</h2></header>
         <ul>
           <li><a href="../index.html">หน้าแรก</a></li>
           <li class="has-children expanded active">
             <a href="index.html">Basic — พื้นฐาน</a>
             <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู basic">▾</button>
             <ul class="submenu">
-              <li><a href="01.html">1. Plant Simulation คืออะไร</a></li>
-              <li><a href="02.html">2. เริ่มต้นใช้งาน Plant Simulation และ Basic User Interface</a></li>
-              <li><a href="03.html">3. Object พื้นฐาน 6 ตัว</a></li>
-              <li><a href="04.html">4. สร้างโมเดลแรก</a></li>
-              <li><a href="05.html">5. รันและอ่านผล Statistics</a></li>
-              <li><a href="06.html">6. บันทึกและเปิดไฟล์โมเดล</a></li>
+              <li><a href="00a.html">00A. โรงงานตัวอย่าง Factory 51</a></li>
+              <li><a href="00b.html">00B. โมเดลตัวอย่าง Small Parts Production</a></li>
+              <li><a href="01.html">01. โมเดลแรก: Source → Station → Drain</a></li>
+              <li><a href="02.html">02. คอขวด และ ParallelStation</a></li>
+              <li><a href="03.html">03. เวลาสุ่ม + Buffer + เครื่องเสีย + OEE</a></li>
+              <li><a href="04.html">04. คน + กะทำงาน</a></li>
+              <li><a href="05.html">05. หลายรุ่น + งานเสีย + Method แรก</a></li>
+              <li><a href="06.html">06. ผัง 3D + ขนส่งด้วย AGV</a></li>
+              <li><a href="07.html">07. วิเคราะห์ + หาค่าที่ดีที่สุด</a></li>
             </ul>
           </li>
           <li class="has-children">
@@ -160,6 +178,6 @@
   </div>
   <div id="sidebar-overlay"></div>
 </div>
-<script src="../assets/main.js"></script>
+<script src="../assets/main.js?v=e223124b"></script>
 </body>
 </html>

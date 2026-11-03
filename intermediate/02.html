@@ -6,7 +6,7 @@
 <title>2. MU และ MU Class — Plant Simulation Tutorial</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap">
-<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="../assets/style.css?v=0167a8ff">
 </head>
 <body>
 <div id="wrapper">
@@ -14,7 +14,7 @@
     <div class="inner">
       <header id="header">
         <a href="../index.html" class="logo"><span>Plant Simulation Tutorial</span></a>
-        <button class="menu-toggle" aria-label="เปิดเมนู">☰</button>
+        <button class="menu-toggle" aria-label="เปิดเมนู" aria-expanded="false">☰</button>
       </header>
 
       <main>
@@ -73,19 +73,22 @@
   <div id="sidebar">
     <div class="inner">
       <nav id="menu">
-        <header class="major"><h2>เมนู</h2></header>
+        <header class="major"><button class="sidebar-close" aria-label="ปิดเมนู">✕</button><h2>เมนู</h2></header>
         <ul>
           <li><a href="../index.html">หน้าแรก</a></li>
           <li class="has-children">
             <a href="../basic/index.html">Basic — พื้นฐาน</a>
             <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู basic">▾</button>
             <ul class="submenu">
-              <li><a href="../basic/01.html">1. Plant Simulation คืออะไร</a></li>
-              <li><a href="../basic/02.html">2. เริ่มต้นใช้งาน Plant Simulation และ Basic User Interface</a></li>
-              <li><a href="../basic/03.html">3. Object พื้นฐาน 6 ตัว</a></li>
-              <li><a href="../basic/04.html">4. สร้างโมเดลแรก</a></li>
-              <li><a href="../basic/05.html">5. รันและอ่านผล Statistics</a></li>
-              <li><a href="../basic/06.html">6. บันทึกและเปิดไฟล์โมเดล</a></li>
+              <li><a href="../basic/00a.html">00A. โรงงานตัวอย่าง Factory 51</a></li>
+              <li><a href="../basic/00b.html">00B. โมเดลตัวอย่าง Small Parts Production</a></li>
+              <li><a href="../basic/01.html">01. โมเดลแรก: Source → Station → Drain</a></li>
+              <li><a href="../basic/02.html">02. คอขวด และ ParallelStation</a></li>
+              <li><a href="../basic/03.html">03. เวลาสุ่ม + Buffer + เครื่องเสีย + OEE</a></li>
+              <li><a href="../basic/04.html">04. คน + กะทำงาน</a></li>
+              <li><a href="../basic/05.html">05. หลายรุ่น + งานเสีย + Method แรก</a></li>
+              <li><a href="../basic/06.html">06. ผัง 3D + ขนส่งด้วย AGV</a></li>
+              <li><a href="../basic/07.html">07. วิเคราะห์ + หาค่าที่ดีที่สุด</a></li>
             </ul>
           </li>
           <li class="has-children expanded">
@@ -164,6 +167,6 @@
   </div>
   <div id="sidebar-overlay"></div>
 </div>
-<script src="../assets/main.js"></script>
+<script src="../assets/main.js?v=e223124b"></script>
 </body>
 </html>
