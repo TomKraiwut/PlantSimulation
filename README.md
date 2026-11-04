@@ -31,6 +31,8 @@ Layout เป็นแบบ off-canvas sidebar (เมนูเลื่อน�
 - [tools/gen_chapters.py](tools/gen_chapters.py) — อ่านไฟล์ใน `tools/chapters/` แล้วสร้างทุกหน้าบท + หน้ารวมบท
   บทที่ยังไม่มีไฟล์จะขึ้นหน้า "กำลังจัดทำ"
 - [tools/gen_index.py](tools/gen_index.py) — หน้าแรก (การ์ดสร้างจากรายชื่อบทใน `SECTIONS` อัตโนมัติ)
+- [tools/gen_quiz.py](tools/gen_quiz.py) — หน้า `pre-test.html` / `post-test.html` ที่ฝัง Google Form
+  ลิงก์ฟอร์มตั้งที่ `QUIZ_PAGES` ใน `gen_site.py` (ข้อสอบ/เฉลยและสคริปต์สร้างฟอร์มอยู่ใน `_No_Upload/quiz/` ซึ่งไม่ขึ้น GitHub)
 
 **แก้เนื้อหาบท:** แก้ไฟล์ใน `tools/chapters/` · **เปลี่ยนชื่อบทหรือคำอธิบายการ์ด:** แก้ `SECTIONS` / `HUB_CARD_DESC` ใน `gen_site.py`
 · **เพิ่มบท:** เพิ่มชื่อใน `SECTIONS[section]["chapters"]` + คำอธิบายใน `HUB_CARD_DESC` แล้วสร้าง `tools/chapters/<section>_<NN>.py`
@@ -44,6 +46,7 @@ cd tools
 python gen_site.py
 python gen_chapters.py
 python gen_index.py
+python gen_quiz.py
 ```
 
 **ข้อควรระวังใน f-string ของ `BODY`:** ปีกกา `{` `}` ที่เป็นตัวอักษรจริง (เช่นในโค้ด SimTalk/Python) ต้องเขียนเป็น `{{` `}}`

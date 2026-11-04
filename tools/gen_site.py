@@ -75,6 +75,15 @@ SECTIONS = {
 # "latest" always resolves to the newest release, so these links never need editing
 DOWNLOAD_BASE = "https://github.com/TomKraiwut/PlantSimulation/releases/latest/download/"
 
+# Pre-/post-test pages, written by gen_quiz.py. "form" is the Google Form link for learners
+# (the .../viewform URL that _No_Upload/quiz/Code.gs prints); empty = page says the test is not open yet.
+QUIZ_PAGES = {
+    "pre-test.html": {"title": "แบบทดสอบก่อนเรียน",
+                      "form": "https://docs.google.com/forms/d/e/1FAIpQLSfCo_1d2bAEWt2sqgTqvzDQs-SQP1eyN-Lx450zNVCMM-mbXQ/viewform"},
+    "post-test.html": {"title": "แบบทดสอบหลังเรียน และ Feedback",
+                       "form": "https://docs.google.com/forms/d/e/1FAIpQLScE6-pQ1tLfSiZNTsqNI2so5tmqT8oGAhe4jW_kW8l1eFz1kw/viewform"},
+}
+
 SECTION_ORDER = ["overview", "lessons"]
 
 
@@ -116,6 +125,8 @@ def sidebar_html(expand_section=None, active_top=None, active_chapter=None):
     parts.append('        <ul>')
     home_active = ' class="active"' if active_top == "index" else ''
     parts.append(f'          <li{home_active}><a href="index.html">หน้าแรก</a></li>')
+    pre_active = ' class="active"' if active_top == "pre-test.html" else ''
+    parts.append(f'          <li{pre_active}><a href="pre-test.html">{QUIZ_PAGES["pre-test.html"]["title"]}</a></li>')
 
     for sec in SECTION_ORDER:
         info = SECTIONS[sec]
@@ -142,6 +153,8 @@ def sidebar_html(expand_section=None, active_top=None, active_chapter=None):
         parts.append('            </ul>')
         parts.append('          </li>')
 
+    post_active = ' class="active"' if active_top == "post-test.html" else ''
+    parts.append(f'          <li{post_active}><a href="post-test.html">{QUIZ_PAGES["post-test.html"]["title"]}</a></li>')
     parts.append('        </ul>')
     parts.append('      </nav>')
     return "\n".join(parts)
@@ -301,6 +314,8 @@ def side_by_side(left_html, right_html):
 def _build_old_to_new():
     mapping = {
         "index.html": "index.html",
+        "pre-test.html": "pre-test.html",
+        "post-test.html": "post-test.html",
         "assets/style.css": "assets/style.css",
         "assets/main.js": "assets/main.js",
     }

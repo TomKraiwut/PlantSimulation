@@ -439,6 +439,17 @@ ol.step-list .text { padding-top: 0.15em; }
 .objectives p:first-child { margin-top: 0; font-weight: 600; color: var(--text); }
 .objectives ol { margin-bottom: 0; }
 
+/* embedded Google Form on the pre-/post-test pages (the form scrolls inside the frame) */
+.form-embed { max-width: 46em; margin: 1em 0 2em; }
+.form-embed iframe {
+    width: 100%;
+    height: 1600px;
+    max-height: 85vh;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg);
+}
+
 /* chapter model file download, under the objectives box */
 .download {
     display: flex;

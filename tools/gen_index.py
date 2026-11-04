@@ -1,8 +1,18 @@
 # -*- coding: utf-8 -*-
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from gen_site import (SECTIONS, page_html, write, chapter_filename, chapter_numbers,
+from gen_site import (SECTIONS, QUIZ_PAGES, page_html, write, chapter_filename, chapter_numbers,
                       chapter_title, chapter_label, HUB_CARD_DESC)
+
+
+def quiz_card(page, badge, desc):
+    return f'''        <div class="card-grid">
+          <a href="{page}" class="card">
+            <div class="icon number">{badge}</div>
+            <h3>{QUIZ_PAGES[page]["title"]}</h3>
+            <p>{desc}</p>
+          </a>
+        </div>'''
 
 
 def cards(section):
@@ -26,6 +36,9 @@ BODY = f'''        <section id="banner">
           </p>
         </section>
 
+        <h2>เริ่มที่นี่</h2>
+{quiz_card("pre-test.html", "ก่อน", "แบบทดสอบ 20 ข้อ และความคาดหวังต่อการเรียน ประมาณ 15 นาที — ใช้เทียบคะแนนกับหลังเรียน")}
+
         <h2>{SECTIONS["overview"]["label"]}</h2>
         <p>รู้จัก Plant Simulation และเปิดโมเดลตัวอย่างที่ติดมากับโปรแกรม — ยังไม่ต้องสร้างโมเดลเอง</p>
         <div class="card-grid">
@@ -37,7 +50,10 @@ BODY = f'''        <section id="banner">
         เปิดไฟล์ของบทได้เลย ไม่ต้องทำบทก่อนหน้าให้เสร็จ</p>
         <div class="card-grid">
 {cards("lessons")}
-        </div>'''
+        </div>
+
+        <h2>เรียนจบแล้ว</h2>
+{quiz_card("post-test.html", "หลัง", "แบบทดสอบ 20 ข้อชุดเดียวกับก่อนเรียน และประเมินการเรียน (Feedback) — ผลสอบส่งให้ทางอีเมล")}'''
 
 if __name__ == "__main__":
     write("index.html", page_html("หน้าแรก", BODY, active_top="index"))

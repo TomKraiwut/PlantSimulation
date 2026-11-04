@@ -10,7 +10,7 @@ import sys, os
 import importlib.util
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from gen_site import (SECTIONS, SECTION_ORDER, page_html, chapter_filename, chapter_numbers,
-                      chapter_title, chapter_label, chapter_download, DOWNLOAD_BASE, hub_page, write)
+                      chapter_title, chapter_label, chapter_download, DOWNLOAD_BASE, QUIZ_PAGES, hub_page, write)
 
 CHAPTER_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "chapters")
 
@@ -80,10 +80,12 @@ def chapter_page(section, idx):
         </div>
 '''
 
+    # the course starts at the pre-test and ends at the post-test
     prev = _neighbour(section, idx, -1)
-    prev_href, prev_label = prev if prev else ("index.html", "หน้าแรก")
+    prev_href, prev_label = prev if prev else ("pre-test.html", QUIZ_PAGES["pre-test.html"]["title"])
     nxt = _neighbour(section, idx, +1)
-    next_html = f'<a href="{nxt[0]}">ถัดไป: {nxt[1]} →</a>' if nxt else '<a href="index.html">จบชุดสอน — กลับหน้าแรก</a>'
+    next_html = (f'<a href="{nxt[0]}">ถัดไป: {nxt[1]} →</a>' if nxt
+                 else f'<a href="post-test.html">ถัดไป: {QUIZ_PAGES["post-test.html"]["title"]} →</a>')
 
     body = f'''        <h1>{label}. {title}</h1>
 {objs_html}{download_html}
