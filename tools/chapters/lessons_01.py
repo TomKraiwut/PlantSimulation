@@ -31,7 +31,7 @@ BODY = f'''
 </div>
 <div class="note">
 <strong>ข้อควรจำ:</strong> Plant Simulation 2606 ทำงานแบบ 3D อย่างเดียว ถ้าอยากมองแบบแปลนให้ใช้ <strong>Planning View</strong>
-(ภาพทุกภาพในบทนี้ใช้ Planning View)
+(ภาพ Frame ในบทนี้ใช้ Planning View เกือบทุกภาพ)
 </div>
 
 <h2>ทุกโมเดลทำ 5 ขั้นเหมือนกัน</h2>
@@ -53,7 +53,7 @@ BODY = f'''
         "<strong>Open Model File</strong> — เปิดไฟล์ <code>01_Create_Simple_Model.spp</code>",
         "<strong>Recent Models</strong> — ไฟล์ที่เปิดล่าสุด",
         "<strong>Create New Model</strong> — สร้างโมเดลใหม่ว่างๆ เมื่อจะสร้างเอง",
-        '<strong>Example Models</strong> — ตัวอย่างโมเดลจาก Siemens (ดู <a href="overview-02.html">Factory 51</a> และ <a href="overview-03.html">Small Parts</a>)',
+        '<strong>Example Models</strong> — ตัวอย่างโมเดลจาก Siemens (ดู <a href="overview-02.html">Factory 51</a> และ <a href="overview-03.html">Small Parts Production</a>)',
     ])
 )}
 <div class="tip"><strong>ทางลัด:</strong> <strong>Load Last Model</strong> (ช่องบนซ้าย) เปิดไฟล์ที่ใช้ครั้งก่อนได้ในคลิกเดียว ชื่อไฟล์แสดงอยู่บนช่อง</div>

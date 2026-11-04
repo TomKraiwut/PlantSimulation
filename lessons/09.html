@@ -6,7 +6,7 @@
 <title>09. Python ใน Plant Simulation — Plant Simulation Tutorial</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap">
-<link rel="stylesheet" href="../assets/style.css?v=0167a8ff">
+<link rel="stylesheet" href="../assets/style.css?v=b1b0afb0">
 </head>
 <body>
 <div id="wrapper">
@@ -28,6 +28,12 @@
           <li>สร้างฟังก์ชันด้วย def แล้วให้ Method ของ SimTalk เรียกใช้ด้วย .call ได้</li>
           <li>ใช้ pandas นับชิ้นงานต่อชั่วโมงจากตาราง และวาดกราฟด้วย matplotlib ได้</li>
           </ol>
+        </div>
+
+        <div class="download">
+          <a class="download-btn" href="https://github.com/TomKraiwut/PlantSimulation/releases/latest/download/09_Python.spp">⬇ ดาวน์โหลดไฟล์ของบท</a>
+          <p><code>09_Python.spp</code> — บันทึกจาก Plant Simulation 2606 (เปิดในเวอร์ชันเก่ากว่าไม่ได้)
+          · เปิดไฟล์แล้วดับเบิลคลิก Frame ใน Class Library › Models</p>
         </div>
 
 <p class="lead" style="max-width:46em;">บทนี้สำหรับคนที่ไม่เคยเขียน Python มาก่อน — 6 ขั้นตอน จากติดตั้ง Python ถึงกราฟผลผลิต
@@ -294,10 +300,10 @@ print "OEE from Python =", r</code></pre>
 </div>
 <p>โค้ดใน PythonModule <code>Analyse</code> บรรทัด 1–17 (ดับเบิลคลิก Analyse › Import หลังรันจบ):</p>
 <pre><code>import os
-import pandas as pd                       # tables
+import pandas as pd                 # tables
 import matplotlib
-matplotlib.use("Agg")                     # draw into a file, no window
-import matplotlib.pyplot as plt           # charts
+matplotlib.use("Agg")               # draw into a file, no window
+import matplotlib.pyplot as plt     # charts
 import PlantSimulation as ps
 
 # 1) read the whole table PartLog (row 0 = column names)
@@ -336,7 +342,7 @@ plt.savefig(path)
 plt.close()
 print("Saved:", path)</code></pre>
 <div class="tip"><strong>matplotlib.use("Agg"):</strong> วาดลงไฟล์ ไม่เปิดหน้าต่าง · ถ้าใช้ <code>plt.show()</code> ต้องปิดหน้าต่างกราฟก่อนกลับไปใช้ Plant Simulation (Help 2606)
-· สีแดงตั้งด้วย <code>color="#FA000F"</code> · บรรทัด 20 ในภาพของสไลด์ยาวเกินขอบหน้าต่าง (ตรง <code>…</code>) เปิด Analyse ในไฟล์ 09_Python.spp เพื่อดูบรรทัดเต็ม
+· สีแดงตั้งด้วย <code>color="#FA000F"</code> · บรรทัด 20 ในภาพยาวเกินขอบหน้าต่าง (ตรง <code>…</code>) เปิด Analyse ในไฟล์ 09_Python.spp เพื่อดูบรรทัดเต็ม
 · ต่อยอด: บันทึกเป็น Excel ด้วย <code>df.to_excel(...)</code> (ต้อง <code>pip install openpyxl</code> เพิ่ม ยังไม่ได้ทดสอบในบทนี้)</div>
 
 <h2>สรุป: คำสั่ง Python ที่ใช้ในบทนี้</h2>
@@ -403,7 +409,7 @@ print("Saved:", path)</code></pre>
       </main>
 
       <footer class="site-footer">
-        Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม
+        Plant Simulation Tutorial
       </footer>
     </div>
   </div>
@@ -435,7 +441,7 @@ print("Saved:", path)</code></pre>
           <li class="active"><a href="09.html">09. Python ใน Plant Simulation</a></li>
         </ul>
       </nav>
-      <footer id="footer"><p class="copyright">Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม</p></footer>
+      <footer id="footer"><p class="copyright">Plant Simulation Tutorial</p></footer>
     </div>
   </div>
   <div id="sidebar-overlay"></div>

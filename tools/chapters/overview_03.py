@@ -7,7 +7,7 @@ OBJECTIVES = ["เปิดโมเดลตัวอย่าง Small Parts P
                        "หาขนาด Buffer ที่พอด้วย Experiment Manager และอ่านผลพลังงานจาก Energy Analyzer ได้"]
 
 BODY = f'''
-<p class="lead" style="max-width:46em;">โมเดลตัวอย่างตัวที่สองต่อจาก <a href="overview-02.html">00A Factory 51</a> — ยังไม่ต้องสร้างอะไรเอง
+<p class="lead" style="max-width:46em;">โมเดลตัวอย่างตัวที่สองต่อจาก <a href="overview-02.html">Factory 51</a> — ยังไม่ต้องสร้างอะไรเอง
 แค่เปิดไลน์ประกอบชิ้นงานเล็กที่ Siemens ทำไว้แล้ว และลองใช้เครื่องมือวิเคราะห์ทีละขั้น 10 ขั้นตอน: รันไลน์เดิม ดูกราฟ
 หาคอขวด เพิ่ม Buffer หาขนาด Buffer ที่พอด้วย Experiment Manager และดูการใช้พลังงาน
 ให้เห็นภาพว่าเรียนจบชุดสอนแล้วจะวิเคราะห์ไลน์จริงได้แบบไหน (บท 01–09 จะสอนสร้างและวิเคราะห์ไลน์ของตัวเองทีละเรื่อง)</p>
@@ -119,7 +119,7 @@ BODY = f'''
 <h2>ขั้นที่ 9: รันการทดลอง และอ่าน Report</h2>
 {screenshot("assets/images/overview/03-10.jpg", "ปุ่ม Start ของ Experiment Manager และ Report ผลการทดลอง")}
 {step_list([
-    "กด <code>Start</code> รอข้อความ <em>The experiment run is finished</em> (ประมาณ 10 วินาที) → OK",
+    "กด <code>Start</code> รอข้อความ <em>The experiment run is finished</em> (ราว 10 วินาทีบนเครื่องที่ทดสอบ) → OK",
     "ครบ 8/8 การทดลอง 5/5 รอบ",
     "Buffer ตั้งแต่ <strong>6</strong> ขึ้นไป = 1,478.8 ชิ้น (เฉลี่ย) ค่าเท่ากันหมด → <strong>6 ก็พอ</strong>",
     "Report เปิดเองหลังรันจบ หรือกด <code>Evaluation → Report</code>",
@@ -172,5 +172,5 @@ BODY = f'''
 <strong>คำถามฝึกคิด:</strong> ในขั้นที่ 6 ทำไม ParallelProc / AS6 ที่ waiting ต่ำเหมือน MS4 จึง<em>ไม่ใช่</em>คอขวด?
 </div>
 <div class="tip"><strong>เฉลย:</strong> เพราะ blocked สูง — เครื่องทำเสร็จแล้วแต่ส่งต่อไม่ได้ แปลว่าปัญหาอยู่ที่ปลายทาง ไม่ใช่ที่ตัวมันเอง
-คอขวดจริงต้อง waiting ต่ำ <em>และ</em> blocked ต่ำ (ทำงานตลอดเวลา) แบบ MS4 — ใช้หลักเดียวกันนี้ใน<a href="lessons-02.html">บท 02 คอขวด และ ParallelStation</a></div>
+คอขวดจริงต้อง waiting ต่ำ <em>และ</em> blocked ต่ำ (งานไม่เคยขาด และส่งงานออกได้) แบบ MS4 — ใช้หลักเดียวกันนี้ใน<a href="lessons-02.html">บท 02 คอขวด และ ParallelStation</a></div>
 '''

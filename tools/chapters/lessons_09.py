@@ -51,10 +51,10 @@ OEE := r
 print "OEE from Python =", r</code></pre>'''
 
 CODE_ANALYSE = '''<pre><code>import os
-import pandas as pd                       # tables
+import pandas as pd                 # tables
 import matplotlib
-matplotlib.use("Agg")                     # draw into a file, no window
-import matplotlib.pyplot as plt           # charts
+matplotlib.use("Agg")               # draw into a file, no window
+import matplotlib.pyplot as plt     # charts
 import PlantSimulation as ps
 
 # 1) read the whole table PartLog (row 0 = column names)
@@ -306,7 +306,7 @@ python -m pip show pandas matplotlib</code></pre>
 <p>ท้ายโค้ด Analyse บรรทัด 19–28:</p>
 ''' + CODE_PLOT + f'''
 <div class="tip"><strong>matplotlib.use("Agg"):</strong> วาดลงไฟล์ ไม่เปิดหน้าต่าง · ถ้าใช้ <code>plt.show()</code> ต้องปิดหน้าต่างกราฟก่อนกลับไปใช้ Plant Simulation (Help 2606)
-· สีแดงตั้งด้วย <code>color="#FA000F"</code> · บรรทัด 20 ในภาพของสไลด์ยาวเกินขอบหน้าต่าง (ตรง <code>…</code>) เปิด Analyse ในไฟล์ 09_Python.spp เพื่อดูบรรทัดเต็ม
+· สีแดงตั้งด้วย <code>color="#FA000F"</code> · บรรทัด 20 ในภาพยาวเกินขอบหน้าต่าง (ตรง <code>…</code>) เปิด Analyse ในไฟล์ 09_Python.spp เพื่อดูบรรทัดเต็ม
 · ต่อยอด: บันทึกเป็น Excel ด้วย <code>df.to_excel(...)</code> (ต้อง <code>pip install openpyxl</code> เพิ่ม ยังไม่ได้ทดสอบในบทนี้)</div>
 
 <h2>สรุป: คำสั่ง Python ที่ใช้ในบทนี้</h2>

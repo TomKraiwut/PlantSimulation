@@ -6,7 +6,7 @@
 <title>1. Introduction to Plant Simulation — Plant Simulation Tutorial</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap">
-<link rel="stylesheet" href="../assets/style.css?v=0167a8ff">
+<link rel="stylesheet" href="../assets/style.css?v=b1b0afb0">
 </head>
 <body>
 <div id="wrapper">
@@ -32,7 +32,7 @@
 <h2>Discrete Event Simulation (DES)</h2>
 <p>Plant Simulation จำลองระบบแบบ <strong>Discrete Event Simulation (DES)</strong> — คือการจำลอง
 "เหตุการณ์" ที่เกิดขึ้นเป็นจุดๆ ตามเวลา (เช่น ชิ้นงานมาถึง, เครื่องเริ่มทำงาน, เครื่องทำงานเสร็จ)
-แทนที่จะคำนวณทุกวินาทีต่อเนื่อง ทำให้จำลองกระบวนการผลิตหลายวัน/หลายเดือนได้ในเวลาไม่กี่วินาทีบนคอมพิวเตอร์</p>
+แทนที่จะคำนวณทุกวินาทีต่อเนื่อง ทำให้จำลองกระบวนการผลิตหลายวัน/หลายเดือนได้ในเวลาสั้นกว่าเวลาจริงมากบนคอมพิวเตอร์</p>
 
 <div class="note">
 <strong>นิยาม — Plant Simulation Model คืออะไร:</strong> โมเดลจำลองคือ <em>การเลียนแบบระบบ</em>
@@ -44,12 +44,12 @@
   <div><figure class="screenshot">
   <a href="../assets/images/overview/01-01.png" target="_blank" rel="noopener"><img src="../assets/images/overview/01-01.png" alt="ตัวอย่างโมเดล 3D ของสายการผลิตใน Plant Simulation" loading="lazy"></a>
 </figure></div>
-  <div><ol class="step-list">
-    <li><span class="num">1</span><span class="text">ผังพื้นโรงงาน (เส้นสีเทาจางด้านหลัง) — แบบ Layout จริงที่ใช้เป็นพื้นหลังอ้างอิงตำแหน่งวาง Object</span></li>
-    <li><span class="num">2</span><span class="text">กลุ่มเครื่องจักรสีเขียว-ฟ้า — แต่ละกลุ่มแทนสถานีเครื่องจักร/ประมวลผลในสายการผลิตจริง</span></li>
-    <li><span class="num">3</span><span class="text">เส้นทางสีส้ม — เส้นทางลำเลียงชิ้นงานที่เชื่อมแต่ละสถานีเข้าด้วยกัน</span></li>
-    <li><span class="num">4</span><span class="text">พาเลทสีเขียวด้านล่าง — จุดพักสินค้าสำเร็จรูปก่อนส่งออกจากไลน์</span></li>
-  </ol></div>
+  <div><ul>
+<li>ผังพื้นโรงงาน (เส้นสีเทาจางด้านหลัง) — แบบ Layout จริงที่ใช้เป็นพื้นหลังอ้างอิงตำแหน่งวาง Object</li>
+<li>กลุ่มเครื่องจักรสีเขียว-ฟ้า — แต่ละกลุ่มแทนสถานีเครื่องจักร/ประมวลผลในสายการผลิตจริง</li>
+<li>เส้นสีส้ม — แนวเส้นทางขนส่งภายในโรงงาน</li>
+<li>กลุ่มชั้นวางสีเขียวด้านล่าง — พื้นที่จัดเก็บ/พักชิ้นงาน</li>
+</ul></div>
 </div>
 
 <h2>Simulation กับ Digital Twin</h2>
@@ -64,17 +64,18 @@
   <div><figure class="screenshot">
   <a href="../assets/images/overview/01-02.jpg" target="_blank" rel="noopener"><img src="../assets/images/overview/01-02.jpg" alt="การผสาน Digital Twin เข้ากับเครื่องจักรจริงระหว่างขั้นตอนติดตั้ง/ตรวจสอบ" loading="lazy"></a>
 </figure></div>
-  <div><ol class="step-list">
-    <li><span class="num">1</span><span class="text">ลดต้นทุน — ทดสอบและแก้ปัญหาในโลกดิจิทัลก่อนลงทุนจริง</span></li>
-    <li><span class="num">2</span><span class="text">ทำนายล่วงหน้า — รู้ว่าอะไรจะเสียก่อนที่มันจะเสียจริง</span></li>
-    <li><span class="num">3</span><span class="text">ตัดสินใจได้ดีขึ้น — มีข้อมูลเรียลไทม์ประกอบการวิเคราะห์</span></li>
-    <li><span class="num">4</span><span class="text">ออกแบบได้แม่นยำ — จำลองสถานการณ์ได้ไม่จำกัดจำนวนครั้ง</span></li>
-  </ol></div>
+  <div><p><strong>ประโยชน์ของ Simulation / Digital Twin</strong></p>
+<ul>
+<li>ลดต้นทุน — ทดสอบและแก้ปัญหาในโลกดิจิทัลก่อนลงทุนจริง</li>
+<li>ทำนายล่วงหน้า — รู้ว่าอะไรจะเสียก่อนที่มันจะเสียจริง</li>
+<li>ตัดสินใจได้ดีขึ้น — มีข้อมูลเรียลไทม์ประกอบการวิเคราะห์</li>
+<li>ออกแบบได้แม่นยำ — จำลองสถานการณ์ได้ไม่จำกัดจำนวนครั้ง</li>
+</ul></div>
 </div>
 
 <figure class="screenshot">
   <a href="../assets/images/overview/01-03.jpg" target="_blank" rel="noopener"><img src="../assets/images/overview/01-03.jpg" alt="ตัวอย่าง Plant Simulation Model ของคลังสินค้าอัตโนมัติขนาดใหญ่" loading="lazy"></a>
-  <figcaption>โมเดลระดับนี้จำลองทั้งชั้นวางสินค้าอัตโนมัติ (AS/RS), สายพานลำเลียง และเส้นทางขนย้ายในคลังสินค้าจริง — ใช้หลัก DES เดียวกับโมเดลง่ายๆ ที่จะสร้างในชุดสอนนี้ เพียงแค่ขยายสเกลขึ้น</figcaption>
+  <figcaption>โมเดลระดับนี้จำลองทั้งชั้นวางสินค้าอัตโนมัติ (AS/RS), สายพานลำเลียง และเส้นทางขนย้ายในคลังสินค้า — ใช้หลัก DES เดียวกับโมเดลง่ายๆ ที่จะสร้างในชุดสอนนี้ เพียงแค่ขยายสเกลขึ้น</figcaption>
 </figure>
 
 <h2>Plant Simulation ใช้ทำอะไรได้บ้าง</h2>
@@ -108,7 +109,7 @@
       </main>
 
       <footer class="site-footer">
-        Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม
+        Plant Simulation Tutorial
       </footer>
     </div>
   </div>
@@ -140,7 +141,7 @@
           <li><a href="../lessons/09.html">09. Python ใน Plant Simulation</a></li>
         </ul>
       </nav>
-      <footer id="footer"><p class="copyright">Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม</p></footer>
+      <footer id="footer"><p class="copyright">Plant Simulation Tutorial</p></footer>
     </div>
   </div>
   <div id="sidebar-overlay"></div>

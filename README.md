@@ -57,6 +57,16 @@ python gen_index.py
 - **ขนาดไฟล์**: GitHub บล็อกไฟล์เดี่ยวที่เกิน 100MB — รูปภาพควรไม่เกิน ~300KB ต่อรูป
   **ห้าม commit ไฟล์วิดีโอ (.mp4) ขึ้น repo** ให้อัปโหลดขึ้น YouTube แล้วฝังลิงก์แทน
 
+## ไฟล์โมเดล (.spp) ให้ดาวน์โหลด
+
+ทุกบท 01–09 มีปุ่ม "ดาวน์โหลดไฟล์ของบท" ใต้วัตถุประสงค์ ลิงก์ไปที่ไฟล์แนบของ **GitHub Release ล่าสุด**
+(`https://github.com/TomKraiwut/PlantSimulation/releases/latest/download/<ชื่อไฟล์>`) — ไฟล์ .spp ไม่อยู่ใน repo
+ชื่อไฟล์ของแต่ละบทอยู่ที่ `SECTIONS["lessons"]["downloads"]` ใน `gen_site.py`
+
+อัปเดตไฟล์: GitHub → **Releases → Draft a new release** → ตั้ง tag ใหม่ (เช่น `v2026.11.04`) → แนบไฟล์ .spp
+**ชื่อไฟล์ต้องตรงกับรายชื่อเดิม** → **Publish release** — หน้าเว็บไม่ต้องแก้ ลิงก์ชี้ไป release ล่าสุดเอง
+(โมเดลตัวอย่างใน Overview เป็นไฟล์ของ Siemens ที่มากับโปรแกรมใน `Examples\Demo` จึงไม่แนบ)
+
 ## วิธีเปิดใช้งานเป็นเว็บไซต์ (GitHub Pages)
 
 1. ไปที่ repo บน GitHub → **Settings → Pages**

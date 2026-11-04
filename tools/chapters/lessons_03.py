@@ -130,7 +130,7 @@ BODY = f'''
     "<strong>Capacity -1</strong> — = รับได้เต็มความยาวสายพาน",
     "<strong>Buffer Capacity 8</strong> — พักงานได้ 8 ชิ้น",
 ])}
-<div class="tip"><strong>ค่าเริ่มต้นของ PtS 2606:</strong> Conveyor กว้าง 1 m ความเร็ว 1 m/s · Buffer ความจุ 8 ชิ้น</div>
+<div class="tip"><strong>ค่าเริ่มต้นของ Plant Simulation 2606:</strong> Conveyor กว้าง 1 m ความเร็ว 1 m/s · Buffer ความจุ 8 ชิ้น</div>
 
 <h2>ขั้นที่ 3: เปลี่ยนรูปสายพานใน 3D เป็นแบบ Roller</h2>
 <p>มุมมอง 3D › คลิกขวาที่ Conveyor › <code>Edit 3D Properties...</code> › แท็บ Appearance</p>
@@ -335,7 +335,7 @@ BODY = f'''
 </table>
 <div class="note"><strong>บทเรียน:</strong> เครื่องเสียเป็นเรื่องสุ่ม ต้องรันนานพอก่อนสรุป · OEE = FG ต่อชั่วโมง ÷ 360 (เต็มที่ 0:10 ต่อชิ้น)</div>
 
-<h2>สรุป 5 Frame (PtS 2606)</h2>
+<h2>สรุป 5 Frame (Plant Simulation 2606)</h2>
 <table>
 <tr><th>Frame</th><th>สิ่งที่ต่าง</th><th>เวลาที่รัน</th><th>FG</th><th>NG</th><th>ดู</th></tr>
 <tr><td style="white-space:nowrap;">Model</td><td>Source / Station 0:10 · Exit Cyclic</td><td>1 ชม.</td><td>180</td><td>179</td><td>ขั้น 1–3</td></tr>
@@ -355,7 +355,7 @@ BODY = f'''
 <tr><td>Model5 › Availability 95</td><td>324.5 FG / ชม.</td><td>เครื่องเสีย 5.1%</td></tr>
 <tr><td>Model5 › Availability 80</td><td>273.1 FG / ชม.</td><td>เครื่องเสีย 20.1%</td></tr>
 </table>
-<div class="tip"><strong>วิธีลอง:</strong> วัดจริงใน PtS 2606 แก้ทีละแถวจากค่าเดิมของไฟล์ · กด Reset ก่อน Start ทุกครั้ง</div>
+<div class="tip"><strong>วิธีลอง:</strong> วัดจริงใน Plant Simulation 2606 แก้ทีละแถวจากค่าเดิมของไฟล์ · กด Reset ก่อน Start ทุกครั้ง</div>
 
 <h2>ปัญหาที่พบบ่อย และวิธีแก้</h2>
 <table>

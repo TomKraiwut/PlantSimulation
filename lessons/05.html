@@ -6,7 +6,7 @@
 <title>05. ประกอบ และถอด (Assembly / Dismantle) — Plant Simulation Tutorial</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap">
-<link rel="stylesheet" href="../assets/style.css?v=0167a8ff">
+<link rel="stylesheet" href="../assets/style.css?v=b1b0afb0">
 </head>
 <body>
 <div id="wrapper">
@@ -28,6 +28,12 @@
           <li>ใช้ DismantleStation ถอดชิ้นงานออกจากพาเลท และจัดลำดับ Connector ขาเข้า/ขาออกได้ถูกต้อง</li>
           <li>ทำพาเลทวนกลับ แล้วใช้ ExperimentManager หาจำนวนพาเลทที่พอดีกับไลน์ได้</li>
           </ol>
+        </div>
+
+        <div class="download">
+          <a class="download-btn" href="https://github.com/TomKraiwut/PlantSimulation/releases/latest/download/05_Assembly_Dismantle.spp">⬇ ดาวน์โหลดไฟล์ของบท</a>
+          <p><code>05_Assembly_Dismantle.spp</code> — บันทึกจาก Plant Simulation 2606 (เปิดในเวอร์ชันเก่ากว่าไม่ได้)
+          · เปิดไฟล์แล้วดับเบิลคลิก Frame ใน Class Library › Models</p>
         </div>
 
 <p class="lead" style="max-width:46em;">บทก่อน ๆ ชิ้นงานเดินทางเดียวจาก Source ถึง Drain บทนี้ชิ้นงานต้อง<strong>ขึ้นพาเลท</strong>:
@@ -275,8 +281,8 @@ AssemblyStation เติมชิ้นงานลงพาเลท Dismantle
 <strong>คำถามฝึกคิด:</strong> Model5 มีพาเลท 1 ใบได้ 216 ชิ้น ถ้าเพิ่มเป็น 2 ใบได้ 432 (2 เท่า) ทำไมเพิ่มจาก 6 ใบเป็น 7–8 ใบแล้วผลไม่เพิ่มจาก 1,240?
 </div>
 <div class="tip"><strong>เฉลย:</strong> เมื่อพาเลทน้อย สถานีรอพาเลทเกือบตลอด (AssemblyStation รอ 85% ในขั้นที่ 7) พาเลทจึงเป็นตัวจำกัด
-เพิ่มพาเลทเท่าไรผลก็เพิ่มตาม แต่ที่ 6 ใบ ไลน์ได้ 1,240 ชิ้น เท่ากับ Model4 ที่มีพาเลทไม่จำกัด — ตัวจำกัดย้ายไปเป็นเวลาของสถานี (0:10) แล้ว
-พาเลทที่เกินมาจึงแค่รอคิว ไม่ได้เพิ่มผลผลิต</div>
+เพิ่มพาเลทเท่าไรผลก็เพิ่มตาม แต่ที่ 6 ใบ ไลน์ได้ 1,240 ชิ้น เท่ากับ Model4 ที่มีพาเลทไม่จำกัดแล้ว — พาเลทไม่ใช่ตัวจำกัดอีกต่อไป
+ผลผลิตชนเพดานเดียวกับ Model4 (310 พาเลท × 4 ชิ้น) พาเลทใบที่ 7–8 จึงไม่ได้เพิ่มผลผลิต</div>
 
         <div class="page-nav">
           <a href="04.html">← ก่อนหน้า: 04. คน และกะทำงาน</a>
@@ -285,7 +291,7 @@ AssemblyStation เติมชิ้นงานลงพาเลท Dismantle
       </main>
 
       <footer class="site-footer">
-        Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม
+        Plant Simulation Tutorial
       </footer>
     </div>
   </div>
@@ -317,7 +323,7 @@ AssemblyStation เติมชิ้นงานลงพาเลท Dismantle
           <li><a href="09.html">09. Python ใน Plant Simulation</a></li>
         </ul>
       </nav>
-      <footer id="footer"><p class="copyright">Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม</p></footer>
+      <footer id="footer"><p class="copyright">Plant Simulation Tutorial</p></footer>
     </div>
   </div>
   <div id="sidebar-overlay"></div>

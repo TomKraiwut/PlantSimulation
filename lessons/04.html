@@ -6,7 +6,7 @@
 <title>04. คน และกะทำงาน — Plant Simulation Tutorial</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap">
-<link rel="stylesheet" href="../assets/style.css?v=0167a8ff">
+<link rel="stylesheet" href="../assets/style.css?v=b1b0afb0">
 </head>
 <body>
 <div id="wrapper">
@@ -28,6 +28,12 @@
           <li>ใส่ ShiftCalendar และเปรียบเทียบผังไลน์ I กับ U ได้</li>
           <li>เพิ่มคนขนของ ช่างตั้งเครื่อง และช่างซ่อมที่มี Service และ Workplace ของตัวเองได้</li>
           </ol>
+        </div>
+
+        <div class="download">
+          <a class="download-btn" href="https://github.com/TomKraiwut/PlantSimulation/releases/latest/download/04_Workers_Shifts.spp">⬇ ดาวน์โหลดไฟล์ของบท</a>
+          <p><code>04_Workers_Shifts.spp</code> — บันทึกจาก Plant Simulation 2606 (เปิดในเวอร์ชันเก่ากว่าไม่ได้)
+          · เปิดไฟล์แล้วดับเบิลคลิก Frame ใน Class Library › Models</p>
         </div>
 
 <p class="lead" style="max-width:46em;">ต่อจาก<a href="03.html">บท 03</a>: บทก่อนเครื่องทำงานเองได้ บทนี้เครื่องต้องมีคนคุม
@@ -420,8 +426,8 @@ Model3 มีแถวเดียว Amount = 1 จึงได้แท่ง 
 <ol class="step-list">
     <li><span class="num">1</span><span class="text">ปิด popup — วาง Workplace เหนือเครื่องแล้วกด × ไม่เลือกอะไร (Set-up Importer ตั้งในเครื่องแล้ว)</span></li>
     <li><span class="num">2</span><span class="text"><code>Workplace4–6</code> › Supported Services = <code>SetupTech</code> — ที่ยืนของช่างเท่านั้น</span></li>
-    <li><span class="num">3</span><span class="text"><code>Workplace1–3</code> › Supported Services = <code>Processing</code> — ที่ยืนของคนคุมเครื่องเท่านั้น (ตั้งแบบเดียวกัน ไม่มีในภาพ)</span></li>
   </ol>
+<div class="tip"><strong>Workplace1–3:</strong> ตั้ง Supported Services = <code>Processing</code> แบบเดียวกัน — ที่ยืนของคนคุมเครื่องเท่านั้น (ไม่มีในภาพ)</div>
 <div class="note"><strong>ระวัง:</strong> popup เหลือ 2 ตัวเลือกเพราะเครื่องเปิด Processing และ Set-up แล้ว ถ้าเผลอเลือก Transport Importer
 ชิ้นงานต้องรอคนยก ไลน์ค้าง FG = 0 (แก้ที่ Station › Importer › Transport เอาเครื่องหมายถูกที่ Active ออก)
 · ถ้า Workplace1–3 ยังรับทุก Service ช่างจะไปยืนแทนคนคุมเครื่อง คนคุมเครื่องต้องเดินออกไปแล้วกลับมา ได้ 277</div>
@@ -459,8 +465,8 @@ Model3 มีแถวเดียว Amount = 1 จึงได้แท่ง 
 <ol class="step-list">
     <li><span class="num">1</span><span class="text"><code>Failure Importer</code> — วาง Workplace เหนือเครื่องแล้วเลือก Failure Importer ทำทั้ง 3 เครื่อง</span></li>
     <li><span class="num">2</span><span class="text"><code>Workplace4–6</code> › Supported Services = <code>Repair</code> — ที่ยืนของช่างซ่อม</span></li>
-    <li><span class="num">3</span><span class="text"><code>Workplace1–3</code> › Supported Services = <code>Processing</code> — ที่ยืนของคนคุมเครื่อง (ตั้งแบบเดียวกัน ไม่มีในภาพ)</span></li>
   </ol>
+<div class="tip"><strong>Workplace1–3:</strong> ตั้ง Supported Services = <code>Processing</code> แบบเดียวกัน — ที่ยืนของคนคุมเครื่อง (ไม่มีในภาพ)</div>
 <div class="note"><strong>ต้องมี Workplace ของช่าง:</strong> ทดลองแล้ว: ถ้าไม่มี Workplace ที่รับ Repair ช่างไม่มาซ่อมเลย เครื่องเสียค้าง ได้แค่ 58 ชิ้น</div>
 
 <h2>ขั้นที่ 12: คลาส Repairman และช่างซ่อม 1 คน</h2>
@@ -550,7 +556,7 @@ Speed จะมีผลก็ต่อเมื่อคนไม่พอแ�
       </main>
 
       <footer class="site-footer">
-        Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม
+        Plant Simulation Tutorial
       </footer>
     </div>
   </div>
@@ -582,7 +588,7 @@ Speed จะมีผลก็ต่อเมื่อคนไม่พอแ�
           <li><a href="09.html">09. Python ใน Plant Simulation</a></li>
         </ul>
       </nav>
-      <footer id="footer"><p class="copyright">Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม</p></footer>
+      <footer id="footer"><p class="copyright">Plant Simulation Tutorial</p></footer>
     </div>
   </div>
   <div id="sidebar-overlay"></div>

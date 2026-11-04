@@ -12,14 +12,18 @@ OBJECTIVES = [
 ONSENSOR = '''<pre><code>param SensorID: integer, Front: boolean
 --Activating the sensor moves the parts from the
 --container to the specified destination
+
 @.stopped := true
+
 var Destination:object := PickAndPlace2
+
 while not @.Empty
-  var mu: object := @.cont
-  if not mu.move(Destination)
-    stopuntil mu.location /= @ and not Destination.isLoading
-  end
+    var mu: object := @.cont
+    if not mu.move(Destination)
+        stopuntil mu.location /= @ and not Destination.isLoading
+    end
 end
+
 @.stopped := false</code></pre>'''
 
 BODY = f'''
@@ -119,7 +123,7 @@ BODY = f'''
     "<code>Amount</code> 2 = สร้าง 2 คันแล้วหยุด",
     "<code>Interval</code> 0:10 ปล่อยห่างกัน 10 วินาที",
     "<code>MU</code> = <code>*.MUs.Transporter</code> (ลาก Transporter มาวางบน Source ก็ได้)",
-    "กดรัน",
+    "กดรัน รถออกจาก <code>AGVSource</code> เข้า Track",
     "รถ 2 คันวิ่งวน (ภาพที่เวลาจำลอง 40 วินาที)",
 ])}
 <p>รถวิ่งรอบละ 82.6 วินาที (82.6 m ที่ 1 m/s) Source ไม่สร้างรถเพิ่มเพราะ Amount = 2</p>
@@ -311,7 +315,8 @@ TwoLaneTrack ให้รถวิ่งไปกลับคนละเลน�
 <div class="note">
 <strong>คำถามฝึกคิด:</strong> ใน T02_PickAndPlace ได้ 734 ชิ้นใน 8 ชม. ถ้าอยากได้ชิ้นงานมากขึ้น ควรเพิ่มรถ Transporter หรือไม่?
 </div>
-<div class="tip"><strong>เฉลย:</strong> ไม่ช่วยมาก — คอขวดคือหุ่นยนต์ตัวโหลด PickAndPlace ที่ทำงาน 99.9% ของเวลา (ราว 39 วินาที/ชิ้น)
-ส่วน PickAndPlace2 ทำงาน 74% และรถ 2 คันก็พอแล้ว ต้องแก้ที่หุ่นยนต์ตัวโหลด เช่น ปรับ Time Factor ของหุ่นยนต์
+<div class="tip"><strong>เฉลย:</strong> ดูคอขวดก่อน — ผลที่วัดได้บอกว่าคอขวดคือหุ่นยนต์ตัวโหลด PickAndPlace ที่ทำงาน 99.9% ของเวลา (ราว 39 วินาที/ชิ้น)
+ส่วน PickAndPlace2 ทำงาน 74% และรถ 2 คันก็พอแล้ว รถจึงไม่ใช่ตัวจำกัด การเพิ่มรถจึงไม่น่าทำให้ได้ชิ้นงานมากขึ้น ต้องดูที่หุ่นยนต์ตัวโหลด
+ลองเองได้ในตารางลองเอง: ลดรถเหลือ 1 คัน หรือเพิ่ม Time Factor ของหุ่นยนต์ แล้วเทียบ Display กับ 734 ชิ้น
 (หลักเดียวกับการหาคอขวดใน<a href="lessons-02.html">บท 02</a>)</div>
 '''

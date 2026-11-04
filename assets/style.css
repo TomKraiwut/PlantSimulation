@@ -178,7 +178,11 @@ a.logo:hover { text-decoration: none; color: var(--accent-dark); }
     z-index: 20;
     overflow-y: auto;
 }
+/* menu text is smaller than body text so long chapter titles fit on one line;
+   set here (not on #sidebar) so the sidebar width, given in em, is unchanged */
 #sidebar .inner {
+    font-size: 16px;
+    line-height: 1.5;
     padding: 1.6em 1.8em;
     display: flex;
     flex-direction: column;
@@ -206,10 +210,10 @@ a.logo:hover { text-decoration: none; color: var(--accent-dark); }
 }
 
 #menu ul { list-style: none; margin: 0; padding: 0; }
-#menu > ul > li { margin-bottom: 0.2em; }
+#menu > ul > li { margin-bottom: 0.1em; }
 #menu a {
     display: block;
-    padding: 0.55em 0.2em;
+    padding: 0.5em 0.2em;
     color: var(--muted);
     border-radius: 4px;
 }
@@ -435,6 +439,29 @@ ol.step-list .text { padding-top: 0.15em; }
 .objectives p:first-child { margin-top: 0; font-weight: 600; color: var(--text); }
 .objectives ol { margin-bottom: 0; }
 
+/* chapter model file download, under the objectives box */
+.download {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6em 1.2em;
+    max-width: 46em;
+    margin: -0.8em 0 2em;
+    padding: 1em 1.3em;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+.download p { margin: 0; flex: 1 1 18em; font-size: 0.85em; color: var(--muted-2); }
+a.download-btn {
+    flex: none;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 600;
+    padding: 0.5em 1.1em;
+    border-radius: 6px;
+}
+a.download-btn:hover { background: var(--accent-dark); color: #fff; text-decoration: none; }
+
 .page-nav {
     display: flex;
     justify-content: space-between;
@@ -491,10 +518,13 @@ ol.step-list .text { padding-top: 0.15em; }
 
     pre { padding: 1em; font-size: 0.8em; }
 
+    .download { padding: 0.9em 1em; }
+    a.download-btn { width: 100%; text-align: center; }
     .page-nav { flex-direction: column; gap: 0.8em; }
     .page-nav a:last-child { text-align: right; }
 
     /* finger-sized tap targets in the menu */
-    #menu a { padding: 0.65em 0.2em; }
+    #sidebar .inner { font-size: 15px; padding: 1.3em 1.4em; }
+    #menu a { padding: 0.6em 0.2em; }
     #menu .submenu-toggle { width: 2.6em; height: 2.6em; }
 }

@@ -192,7 +192,7 @@ BODY = f'''
     "<strong>Chart Type = 100% Stacked Columns</strong> — แท่งละ 100% แบ่งสีตามสถานะ",
     "<strong>Display in Frame</strong> — ช่องหน้าชื่อมีเครื่องหมายถูก ☑ = แสดงกราฟบน Frame แทนไอคอน",
 ])}
-<div class="note"><strong>ระวัง:</strong> 3D Chart วาดใหม่ระหว่างรันแบบมีภาพเคลื่อนไหว ถ้ารันแบบไม่มีภาพเคลื่อนไหว กราฟจะว่าง (ทดสอบใน PtS 2606)
+<div class="note"><strong>ระวัง:</strong> 3D Chart วาดใหม่ระหว่างรันแบบมีภาพเคลื่อนไหว ถ้ารันแบบไม่มีภาพเคลื่อนไหว กราฟจะว่าง (ทดสอบใน Plant Simulation 2606)
 — Chart แบบแบนมองเห็นใน Planning View ส่วน 3D Chart ต้องดูในมุมมอง 3D</div>
 
 <h2>ขั้นที่ 3: ตั้ง 3D Chart ให้ยืนอยู่หลังไลน์</h2>
@@ -259,7 +259,7 @@ BODY = f'''
 <tr><td><code>Ctrl + ↑ ↓</code></td><td>ยกขึ้น / ลง (แกน Z) ครั้งละ 0.1 m · เพิ่ม Shift = 1 m</td></tr>
 <tr><td><code>Ctrl + → ←</code></td><td>หมุนรอบแกน Z ครั้งละ 1° · เพิ่ม Shift = 45°</td></tr>
 </table>
-<div class="tip"><strong>ตรวจแล้ว:</strong> ทุกปุ่มลองกด Station32 ใน PtS 2606 แล้วอ่านตำแหน่งจริง ได้ค่าตามตารางนี้</div>
+<div class="tip"><strong>ตรวจแล้ว:</strong> ทุกปุ่มลองกด Station32 ใน Plant Simulation 2606 แล้วอ่านตำแหน่งจริง ได้ค่าตามตารางนี้</div>
 
 <h2>ขั้นที่ 6: ลบ และแทรก Object</h2>
 <p>คลิกขวา › × · ลาก Object ไปปล่อยบน Connector</p>
@@ -366,7 +366,7 @@ BODY = f'''
 <div class="note"><strong>บทเรียน:</strong> ก่อนซื้อเครื่องเพิ่ม ให้ดูก่อนว่าเครื่องเดิมทำงานจริงกี่ % — เปลี่ยนแค่ช่องเดียว (เอาเครื่องหมายถูกออก)
 ผลเพิ่มเป็นเท่าตัวโดยไม่ต้องเพิ่มเครื่อง</div>
 
-<h2>สรุป 5 Frame (จำลอง 1 ชั่วโมง, PtS 2606)</h2>
+<h2>สรุป 5 Frame (จำลอง 1 ชั่วโมง, Plant Simulation 2606)</h2>
 <table>
 <tr><th>Frame</th><th>สิ่งที่ต่าง</th><th>Connector</th><th>FG (ชิ้น/ชม.)</th><th>เครื่องจุด Station3 ทำงาน</th></tr>
 <tr><td><code>Model</code></td><td>ทุกเครื่อง 0:10</td><td>6</td><td><strong>355</strong></td><td>~99% ไลน์สมดุล</td></tr>
@@ -375,7 +375,7 @@ BODY = f'''
 <tr><td><code>Model4</code></td><td>ParallelStation 2 ช่อง 0:20 เปิด When Full ☑</td><td>6</td><td><strong>177</strong></td><td>50% (รอครึ่งเวลา)</td></tr>
 <tr><td><code>Model5</code></td><td>ParallelStation 2 ช่อง 0:20 ปิด When Full ☐</td><td>6</td><td><strong>354</strong></td><td>~99%</td></tr>
 </table>
-<p>ทุกตัวเลขวัดจริงด้วยไฟล์นี้ใน PtS 2606 — Model3 กับ Model5 ได้ผลเท่ากัน แต่ Model5 ใช้ object และเส้นน้อยกว่า
+<p>ทุกตัวเลขวัดจริงด้วยไฟล์นี้ใน Plant Simulation 2606 — Model3 กับ Model5 ได้ผลเท่ากัน แต่ Model5 ใช้ object และเส้นน้อยกว่า
 ส่วน Model4 แสดงว่าค่าเริ่มต้นที่ไม่ได้ตรวจ ทำให้ผลเหลือครึ่งเดียว</p>
 
 <h2>ลองเอง 1: เปลี่ยนเวลาแล้วดู FG (Model–Model3)</h2>
@@ -388,7 +388,7 @@ BODY = f'''
 <tr><td><code>Model2</code></td><td>Station3 = 0:10</td><td><strong>355</strong></td><td>กลับเป็นไลน์สมดุลเหมือน Model</td></tr>
 <tr><td><code>Model3</code></td><td>Station3 และ Station32 = 0:30</td><td><strong>236</strong></td><td>2 เครื่อง ÷ 30 วินาที = 15 วินาทีต่อชิ้น</td></tr>
 </table>
-<p>วัดจริงใน PtS 2606 แก้ทีละค่าจากค่าเดิม · กด Reset ก่อน Start ทุกครั้ง</p>
+<p>วัดจริงใน Plant Simulation 2606 แก้ทีละค่าจากค่าเดิม · กด Reset ก่อน Start ทุกครั้ง</p>
 
 <h2>ลองเอง 2: เปลี่ยนช่องและเวลาใน Model4</h2>
 <table>
@@ -399,7 +399,7 @@ BODY = f'''
 <tr><td>2 ช่อง × 0:10 เปิด When Full ☑</td><td><strong>236</strong></td><td>เครื่องเร็วขึ้น 2 เท่า แต่ยังแพ้ไลน์ปกติ (355)</td></tr>
 <tr><td>3 ช่อง × 0:20 ปิด When Full ☐</td><td><strong>354</strong></td><td>ช่องเพิ่มไม่ช่วย เครื่องอื่นจำกัดที่ 10 วินาที</td></tr>
 </table>
-<p>วัดจริงใน PtS 2606 แก้ทีละแถวจากค่าเดิมของ Model4 · กด Reset ก่อน Start ทุกครั้ง — แถวที่ 4 น่าสนใจที่สุด:
+<p>วัดจริงใน Plant Simulation 2606 แก้ทีละแถวจากค่าเดิมของ Model4 · กด Reset ก่อน Start ทุกครั้ง — แถวที่ 4 น่าสนใจที่สุด:
 เครื่องเร็วขึ้นแต่ผลยังต่ำ เพราะเสียเวลารอให้ครบช่อง</p>
 
 <h2>ปัญหาที่พบบ่อย และวิธีแก้</h2>

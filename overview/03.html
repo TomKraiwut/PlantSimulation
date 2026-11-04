@@ -6,7 +6,7 @@
 <title>3. Small Parts Production — Plant Simulation Tutorial</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap">
-<link rel="stylesheet" href="../assets/style.css?v=0167a8ff">
+<link rel="stylesheet" href="../assets/style.css?v=b1b0afb0">
 </head>
 <body>
 <div id="wrapper">
@@ -29,7 +29,7 @@
           </ol>
         </div>
 
-<p class="lead" style="max-width:46em;">โมเดลตัวอย่างตัวที่สองต่อจาก <a href="02.html">00A Factory 51</a> — ยังไม่ต้องสร้างอะไรเอง
+<p class="lead" style="max-width:46em;">โมเดลตัวอย่างตัวที่สองต่อจาก <a href="02.html">Factory 51</a> — ยังไม่ต้องสร้างอะไรเอง
 แค่เปิดไลน์ประกอบชิ้นงานเล็กที่ Siemens ทำไว้แล้ว และลองใช้เครื่องมือวิเคราะห์ทีละขั้น 10 ขั้นตอน: รันไลน์เดิม ดูกราฟ
 หาคอขวด เพิ่ม Buffer หาขนาด Buffer ที่พอด้วย Experiment Manager และดูการใช้พลังงาน
 ให้เห็นภาพว่าเรียนจบชุดสอนแล้วจะวิเคราะห์ไลน์จริงได้แบบไหน (บท 01–09 จะสอนสร้างและวิเคราะห์ไลน์ของตัวเองทีละเรื่อง)</p>
@@ -161,7 +161,7 @@
   <a href="../assets/images/overview/03-10.jpg" target="_blank" rel="noopener"><img src="../assets/images/overview/03-10.jpg" alt="ปุ่ม Start ของ Experiment Manager และ Report ผลการทดลอง" loading="lazy"></a>
 </figure>
 <ol class="step-list">
-    <li><span class="num">1</span><span class="text">กด <code>Start</code> รอข้อความ <em>The experiment run is finished</em> (ประมาณ 10 วินาที) → OK</span></li>
+    <li><span class="num">1</span><span class="text">กด <code>Start</code> รอข้อความ <em>The experiment run is finished</em> (ราว 10 วินาทีบนเครื่องที่ทดสอบ) → OK</span></li>
     <li><span class="num">2</span><span class="text">ครบ 8/8 การทดลอง 5/5 รอบ</span></li>
     <li><span class="num">3</span><span class="text">Buffer ตั้งแต่ <strong>6</strong> ขึ้นไป = 1,478.8 ชิ้น (เฉลี่ย) ค่าเท่ากันหมด → <strong>6 ก็พอ</strong></span></li>
     <li><span class="num">4</span><span class="text">Report เปิดเองหลังรันจบ หรือกด <code>Evaluation → Report</code></span></li>
@@ -218,7 +218,7 @@
 <strong>คำถามฝึกคิด:</strong> ในขั้นที่ 6 ทำไม ParallelProc / AS6 ที่ waiting ต่ำเหมือน MS4 จึง<em>ไม่ใช่</em>คอขวด?
 </div>
 <div class="tip"><strong>เฉลย:</strong> เพราะ blocked สูง — เครื่องทำเสร็จแล้วแต่ส่งต่อไม่ได้ แปลว่าปัญหาอยู่ที่ปลายทาง ไม่ใช่ที่ตัวมันเอง
-คอขวดจริงต้อง waiting ต่ำ <em>และ</em> blocked ต่ำ (ทำงานตลอดเวลา) แบบ MS4 — ใช้หลักเดียวกันนี้ใน<a href="../lessons/02.html">บท 02 คอขวด และ ParallelStation</a></div>
+คอขวดจริงต้อง waiting ต่ำ <em>และ</em> blocked ต่ำ (งานไม่เคยขาด และส่งงานออกได้) แบบ MS4 — ใช้หลักเดียวกันนี้ใน<a href="../lessons/02.html">บท 02 คอขวด และ ParallelStation</a></div>
 
         <div class="page-nav">
           <a href="02.html">← ก่อนหน้า: 2. โรงงานตัวอย่าง Factory 51</a>
@@ -227,7 +227,7 @@
       </main>
 
       <footer class="site-footer">
-        Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม
+        Plant Simulation Tutorial
       </footer>
     </div>
   </div>
@@ -259,7 +259,7 @@
           <li><a href="../lessons/09.html">09. Python ใน Plant Simulation</a></li>
         </ul>
       </nav>
-      <footer id="footer"><p class="copyright">Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม</p></footer>
+      <footer id="footer"><p class="copyright">Plant Simulation Tutorial</p></footer>
     </div>
   </div>
   <div id="sidebar-overlay"></div>

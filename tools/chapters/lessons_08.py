@@ -151,6 +151,7 @@ AGV.cont.move(Station)</code></pre>
 <pre><code>waituntil AGVPool.NumIdleAGVs &gt; 0
 var AGV:=AGVPool.getIdleAGV
 
+
 AGV.setRoute([Marker])
 waituntil AGV.DestinationWasReached
 Source.cont.move(AGV)
@@ -216,7 +217,7 @@ AGV.isIdle := True</code></pre>
 ])}
 <div class="tip"><strong>INIT และ ENDSIM:</strong> Method ชื่อนี้ถูกเรียกเองตอน Reset/เริ่ม และตอนจบการรัน (ไม่ต้องผูกกับวัตถุใด) ·
 รถวิ่งครบเส้นทางแล้วหยุด ไม่มี event เหลือ การรันจึงจบเองก่อน End 1 ชั่วโมง ·
-เฟรมนี้มาจากโมเดลตัวอย่าง <code>2504_AGVPool and GAWizard.spp</code> เปิดบน 2606 ได้เลยโดยไม่ต้องแก้</div>
+เฟรมนี้มาจากโมเดลตัวอย่างที่ทำใน Plant Simulation 2504 เปิดบน 2606 ได้เลยโดยไม่ต้องแก้</div>
 
 <h2>ขั้นที่ 6: AGVPool และ Marker</h2>
 <p>ดับเบิลคลิก <code>AGVPool</code> (ซ้าย) · ดับเบิลคลิก <code>M1</code> (ขวา)</p>
@@ -269,8 +270,11 @@ AGVPool.cont.setRoute(DataTable)</code></pre>
     "<code>L := Km / 10</code> ดีเซล รถวิ่งได้ 10 km ต่อลิตร",
     "<code>CO := L × 2.9793</code> kgCO₂e ต่อลิตร ดีเซลใช้นอกถนน (เครื่องจักรในโรงงาน)",
 ])}
-<pre><code>Km := AGVPool.cont.StatTraveledDistance / 1000 * Rounds
-L  := Km / 10
+<pre><code>-- ระยะทางต่อปี (km) = ระยะทาง 1 รอบ (m) / 1000 x จำนวนรอบต่อปี
+Km := AGVPool.cont.StatTraveledDistance / 1000 * Rounds
+-- น้ำมันดีเซล (ลิตร): รถวิ่งได้ 10 km ต่อลิตร
+L := Km / 10
+-- การปล่อยคาร์บอน (kgCO2e): ดีเซลใช้นอกถนน 2.9793 kgCO2e ต่อลิตร
 CO := L * 2.9793</code></pre>
 <div class="tip"><strong>ที่มา:</strong> ตาราง Emission Factor ม.มหิดล 2024 (อ้าง IPCC และ พพ.) — ดีเซลใช้นอกถนน 2.9793, บนถนน 2.7406 kgCO₂e/ลิตร
 (ดูหัวข้อที่มาท้ายบท) · ถ้าเป็นรถวิ่งบนถนนใช้ 2.7406</div>
@@ -408,7 +412,7 @@ CO := L * 2.9793</code></pre>
 <li>Plant Simulation Help 2606 หัวข้อ <em>Load Parts Onto an AGV</em> (หน้า 2287) · AGVPool, Marker, setRoute, GAWizard</li>
 </ul>
 <div class="note"><strong>ใช้ค่าไหน:</strong> บทนี้ใช้ 2.9793 kgCO₂e/ลิตร (ดีเซลใช้นอกถนน) เพราะ AGV / รถในโรงงานไม่ได้วิ่งบนถนน ·
-ค่าทางการล่าสุดของ อบก. ยังไม่ได้ตรวจ ให้ตรวจก่อนใช้ตัวเลขกับงานลูกค้า</div>
+ค่าทางการล่าสุดของ อบก. ยังไม่ได้ตรวจ ให้ตรวจก่อนใช้ตัวเลขกับงานจริง</div>
 
 <div class="note">
 <strong>คำถามฝึกคิด:</strong> ในหัวข้อลองเองของขั้นที่ 4 ทำไมเพิ่ม AGV จาก 2 เป็น 3, 4, 5 คันแล้ว Drain ยังได้ 359 ชิ้นเท่าเดิม?

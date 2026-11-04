@@ -10,7 +10,7 @@ import sys, os
 import importlib.util
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from gen_site import (SECTIONS, SECTION_ORDER, page_html, chapter_filename, chapter_numbers,
-                      chapter_title, chapter_label, hub_page, write)
+                      chapter_title, chapter_label, chapter_download, DOWNLOAD_BASE, hub_page, write)
 
 CHAPTER_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "chapters")
 
@@ -69,13 +69,24 @@ def chapter_page(section, idx):
         </div>
 '''
 
+    download_html = ""
+    spp = chapter_download(section, idx)
+    if spp:
+        download_html = f'''
+        <div class="download">
+          <a class="download-btn" href="{DOWNLOAD_BASE}{spp}">⬇ ดาวน์โหลดไฟล์ของบท</a>
+          <p><code>{spp}</code> — บันทึกจาก Plant Simulation 2606 (เปิดในเวอร์ชันเก่ากว่าไม่ได้)
+          · เปิดไฟล์แล้วดับเบิลคลิก Frame ใน Class Library › Models</p>
+        </div>
+'''
+
     prev = _neighbour(section, idx, -1)
     prev_href, prev_label = prev if prev else ("index.html", "หน้าแรก")
     nxt = _neighbour(section, idx, +1)
     next_html = f'<a href="{nxt[0]}">ถัดไป: {nxt[1]} →</a>' if nxt else '<a href="index.html">จบชุดสอน — กลับหน้าแรก</a>'
 
     body = f'''        <h1>{label}. {title}</h1>
-{objs_html}
+{objs_html}{download_html}
 {body_content}
 
         <div class="page-nav">

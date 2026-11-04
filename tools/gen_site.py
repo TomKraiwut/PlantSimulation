@@ -56,8 +56,24 @@ SECTIONS = {
             "AMR — AGVPool และ GAWizard",
             "Python ใน Plant Simulation",
         ],
+        # the chapter's model file, one per chapter in the same order -- attached to a GitHub Release
+        # (see DOWNLOAD_BASE); upload a new release with the same file names to update them
+        "downloads": [
+            "01_Create_Simple_Model.spp",
+            "02_Bottleneck_ParallelStation.spp",
+            "03_Conveyor_Buffer_Failures_OEE.spp",
+            "04_Workers_Shifts.spp",
+            "05_Assembly_Dismantle.spp",
+            "06_Track_and_Transporter.spp",
+            "07_Sim-Talk.spp",
+            "08_AMR.spp",
+            "09_Python.spp",
+        ],
     },
 }
+
+# "latest" always resolves to the newest release, so these links never need editing
+DOWNLOAD_BASE = "https://github.com/TomKraiwut/PlantSimulation/releases/latest/download/"
 
 SECTION_ORDER = ["overview", "lessons"]
 
@@ -78,6 +94,12 @@ def chapter_numbers(section):
 
 def chapter_title(section, idx):
     return SECTIONS[section]["chapters"][chapter_numbers(section).index(idx)]
+
+
+def chapter_download(section, idx):
+    """File name of the chapter's model download, or None."""
+    files = SECTIONS[section].get("downloads")
+    return files[chapter_numbers(section).index(idx)] if files else None
 
 
 def chapter_label(section, idx):
@@ -150,7 +172,7 @@ def page_html(title, body, expand_section=None, active_top=None, active_chapter=
       </main>
 
       <footer class="site-footer">
-        Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม
+        Plant Simulation Tutorial
       </footer>
     </div>
   </div>
@@ -158,7 +180,7 @@ def page_html(title, body, expand_section=None, active_top=None, active_chapter=
   <div id="sidebar">
     <div class="inner">
 {sb}
-      <footer id="footer"><p class="copyright">Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม</p></footer>
+      <footer id="footer"><p class="copyright">Plant Simulation Tutorial</p></footer>
     </div>
   </div>
   <div id="sidebar-overlay"></div>

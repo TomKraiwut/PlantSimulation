@@ -6,7 +6,7 @@
 <title>03. Conveyor, Buffer, เครื่องเสีย และ OEE — Plant Simulation Tutorial</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap">
-<link rel="stylesheet" href="../assets/style.css?v=0167a8ff">
+<link rel="stylesheet" href="../assets/style.css?v=b1b0afb0">
 </head>
 <body>
 <div id="wrapper">
@@ -28,6 +28,12 @@
           <li>อ่าน WIP, CT และกราฟ Occupancy / Plotter ของ Buffer ได้</li>
           <li>ตั้งเครื่องเสียด้วย Availability และ MTTR อ่านแท็บ Statistics คำนวณ OEE และรู้ว่าต้องรันนานพอก่อนสรุป</li>
           </ol>
+        </div>
+
+        <div class="download">
+          <a class="download-btn" href="https://github.com/TomKraiwut/PlantSimulation/releases/latest/download/03_Conveyor_Buffer_Failures_OEE.spp">⬇ ดาวน์โหลดไฟล์ของบท</a>
+          <p><code>03_Conveyor_Buffer_Failures_OEE.spp</code> — บันทึกจาก Plant Simulation 2606 (เปิดในเวอร์ชันเก่ากว่าไม่ได้)
+          · เปิดไฟล์แล้วดับเบิลคลิก Frame ใน Class Library › Models</p>
         </div>
 
 <p class="lead" style="max-width:46em;">ต่อจาก<a href="02.html">บท 02</a> — ไลน์เล็ก Station เดียว
@@ -164,7 +170,7 @@
     <li><span class="num">4</span><span class="text"><strong>Capacity -1</strong> — = รับได้เต็มความยาวสายพาน</span></li>
     <li><span class="num">5</span><span class="text"><strong>Buffer Capacity 8</strong> — พักงานได้ 8 ชิ้น</span></li>
   </ol>
-<div class="tip"><strong>ค่าเริ่มต้นของ PtS 2606:</strong> Conveyor กว้าง 1 m ความเร็ว 1 m/s · Buffer ความจุ 8 ชิ้น</div>
+<div class="tip"><strong>ค่าเริ่มต้นของ Plant Simulation 2606:</strong> Conveyor กว้าง 1 m ความเร็ว 1 m/s · Buffer ความจุ 8 ชิ้น</div>
 
 <h2>ขั้นที่ 3: เปลี่ยนรูปสายพานใน 3D เป็นแบบ Roller</h2>
 <p>มุมมอง 3D › คลิกขวาที่ Conveyor › <code>Edit 3D Properties...</code> › แท็บ Appearance</p>
@@ -401,7 +407,7 @@
 </table>
 <div class="note"><strong>บทเรียน:</strong> เครื่องเสียเป็นเรื่องสุ่ม ต้องรันนานพอก่อนสรุป · OEE = FG ต่อชั่วโมง ÷ 360 (เต็มที่ 0:10 ต่อชิ้น)</div>
 
-<h2>สรุป 5 Frame (PtS 2606)</h2>
+<h2>สรุป 5 Frame (Plant Simulation 2606)</h2>
 <table>
 <tr><th>Frame</th><th>สิ่งที่ต่าง</th><th>เวลาที่รัน</th><th>FG</th><th>NG</th><th>ดู</th></tr>
 <tr><td style="white-space:nowrap;">Model</td><td>Source / Station 0:10 · Exit Cyclic</td><td>1 ชม.</td><td>180</td><td>179</td><td>ขั้น 1–3</td></tr>
@@ -421,7 +427,7 @@
 <tr><td>Model5 › Availability 95</td><td>324.5 FG / ชม.</td><td>เครื่องเสีย 5.1%</td></tr>
 <tr><td>Model5 › Availability 80</td><td>273.1 FG / ชม.</td><td>เครื่องเสีย 20.1%</td></tr>
 </table>
-<div class="tip"><strong>วิธีลอง:</strong> วัดจริงใน PtS 2606 แก้ทีละแถวจากค่าเดิมของไฟล์ · กด Reset ก่อน Start ทุกครั้ง</div>
+<div class="tip"><strong>วิธีลอง:</strong> วัดจริงใน Plant Simulation 2606 แก้ทีละแถวจากค่าเดิมของไฟล์ · กด Reset ก่อน Start ทุกครั้ง</div>
 
 <h2>ปัญหาที่พบบ่อย และวิธีแก้</h2>
 <table>
@@ -450,7 +456,7 @@
       </main>
 
       <footer class="site-footer">
-        Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม
+        Plant Simulation Tutorial
       </footer>
     </div>
   </div>
@@ -482,7 +488,7 @@
           <li><a href="09.html">09. Python ใน Plant Simulation</a></li>
         </ul>
       </nav>
-      <footer id="footer"><p class="copyright">Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม</p></footer>
+      <footer id="footer"><p class="copyright">Plant Simulation Tutorial</p></footer>
     </div>
   </div>
   <div id="sidebar-overlay"></div>

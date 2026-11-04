@@ -132,7 +132,7 @@ BODY = f'''
     "<strong>คลิก</strong> = เลือกวัตถุ (ขึ้นสีเหลือง) — ในภาพคือสายพาน <code>Line10</code>",
     "<strong>ดับเบิลคลิก</strong> = เปิดหน้าต่างของวัตถุ (ตั้งค่า เวลา เสีย ฯลฯ)",
     "<strong>คลิกขวา</strong> = Quick tools: แถบปุ่ม Start / Stop / Reset ด้านบน",
-    "เมนูลัด เช่น <code>Open</code> (Enter), <code>Show Statistics Report</code> (F6), <code>Show Attributes</code> (F8)",
+    "เมนูลัด เช่น <code>Open</code> (Enter), <code>Show Statistics Report</code> (F6), <code>Show Attributes and Methods</code> (F8)",
 ])}
 
 <h2>ขั้นที่ 6: เปิด Frame ด้านใน และกลับออกมา</h2>

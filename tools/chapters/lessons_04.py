@@ -361,8 +361,8 @@ Model3 มีแถวเดียว Amount = 1 จึงได้แท่ง 
 {step_list([
     "ปิด popup — วาง Workplace เหนือเครื่องแล้วกด × ไม่เลือกอะไร (Set-up Importer ตั้งในเครื่องแล้ว)",
     "<code>Workplace4–6</code> › Supported Services = <code>SetupTech</code> — ที่ยืนของช่างเท่านั้น",
-    "<code>Workplace1–3</code> › Supported Services = <code>Processing</code> — ที่ยืนของคนคุมเครื่องเท่านั้น (ตั้งแบบเดียวกัน ไม่มีในภาพ)",
 ])}
+<div class="tip"><strong>Workplace1–3:</strong> ตั้ง Supported Services = <code>Processing</code> แบบเดียวกัน — ที่ยืนของคนคุมเครื่องเท่านั้น (ไม่มีในภาพ)</div>
 <div class="note"><strong>ระวัง:</strong> popup เหลือ 2 ตัวเลือกเพราะเครื่องเปิด Processing และ Set-up แล้ว ถ้าเผลอเลือก Transport Importer
 ชิ้นงานต้องรอคนยก ไลน์ค้าง FG = 0 (แก้ที่ Station › Importer › Transport เอาเครื่องหมายถูกที่ Active ออก)
 · ถ้า Workplace1–3 ยังรับทุก Service ช่างจะไปยืนแทนคนคุมเครื่อง คนคุมเครื่องต้องเดินออกไปแล้วกลับมา ได้ 277</div>
@@ -394,8 +394,8 @@ Model3 มีแถวเดียว Amount = 1 จึงได้แท่ง 
 {step_list([
     "<code>Failure Importer</code> — วาง Workplace เหนือเครื่องแล้วเลือก Failure Importer ทำทั้ง 3 เครื่อง",
     "<code>Workplace4–6</code> › Supported Services = <code>Repair</code> — ที่ยืนของช่างซ่อม",
-    "<code>Workplace1–3</code> › Supported Services = <code>Processing</code> — ที่ยืนของคนคุมเครื่อง (ตั้งแบบเดียวกัน ไม่มีในภาพ)",
 ])}
+<div class="tip"><strong>Workplace1–3:</strong> ตั้ง Supported Services = <code>Processing</code> แบบเดียวกัน — ที่ยืนของคนคุมเครื่อง (ไม่มีในภาพ)</div>
 <div class="note"><strong>ต้องมี Workplace ของช่าง:</strong> ทดลองแล้ว: ถ้าไม่มี Workplace ที่รับ Repair ช่างไม่มาซ่อมเลย เครื่องเสียค้าง ได้แค่ 58 ชิ้น</div>
 
 <h2>ขั้นที่ 12: คลาส Repairman และช่างซ่อม 1 คน</h2>
