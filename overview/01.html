@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1. Introduction to Plant Simulation — Plant Simulation Tutorial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/style.css?v=0167a8ff">
+</head>
+<body>
+<div id="wrapper">
+  <div id="main">
+    <div class="inner">
+      <header id="header">
+        <a href="../index.html" class="logo"><span>Plant Simulation Tutorial</span></a>
+        <button class="menu-toggle" aria-label="เปิดเมนู" aria-expanded="false">☰</button>
+      </header>
+
+      <main>
+        <h1>1. Introduction to Plant Simulation</h1>
+
+        <div class="objectives">
+          <p>วัตถุประสงค์การเรียนรู้</p>
+          <ol>
+          <li>เข้าใจว่า Discrete Event Simulation (DES) คืออะไร และต่างจากการคำนวณด้วยมืออย่างไร</li>
+          <li>แยก Simulation กับ Digital Twin ได้</li>
+          <li>รู้ว่า Plant Simulation ใช้แก้ปัญหาแบบไหนได้บ้างในงานจริง</li>
+          </ol>
+        </div>
+
+<h2>Discrete Event Simulation (DES)</h2>
+<p>Plant Simulation จำลองระบบแบบ <strong>Discrete Event Simulation (DES)</strong> — คือการจำลอง
+"เหตุการณ์" ที่เกิดขึ้นเป็นจุดๆ ตามเวลา (เช่น ชิ้นงานมาถึง, เครื่องเริ่มทำงาน, เครื่องทำงานเสร็จ)
+แทนที่จะคำนวณทุกวินาทีต่อเนื่อง ทำให้จำลองกระบวนการผลิตหลายวัน/หลายเดือนได้ในเวลาไม่กี่วินาทีบนคอมพิวเตอร์</p>
+
+<div class="note">
+<strong>นิยาม — Plant Simulation Model คืออะไร:</strong> โมเดลจำลองคือ <em>การเลียนแบบระบบ</em>
+ที่สร้างขึ้นจากความรู้หรือสมมติฐานเกี่ยวกับพฤติกรรมของส่วนต่างๆ ในระบบนั้น โดยมีจุดประสงค์เพื่อให้ได้ข้อมูลเชิงลึกเกี่ยวกับพฤติกรรมของ
+<em>ทั้งระบบ</em> — ไม่ได้จำลองทุกรายละเอียดให้เหมือนจริง 100% แต่เลือกจำลองเฉพาะส่วนที่ส่งผลต่อคำถามที่อยากตอบ
+</div>
+
+<div class="side-by-side">
+  <div><figure class="screenshot">
+  <a href="../assets/images/overview/01-01.png" target="_blank" rel="noopener"><img src="../assets/images/overview/01-01.png" alt="ตัวอย่างโมเดล 3D ของสายการผลิตใน Plant Simulation" loading="lazy"></a>
+</figure></div>
+  <div><ol class="step-list">
+    <li><span class="num">1</span><span class="text">ผังพื้นโรงงาน (เส้นสีเทาจางด้านหลัง) — แบบ Layout จริงที่ใช้เป็นพื้นหลังอ้างอิงตำแหน่งวาง Object</span></li>
+    <li><span class="num">2</span><span class="text">กลุ่มเครื่องจักรสีเขียว-ฟ้า — แต่ละกลุ่มแทนสถานีเครื่องจักร/ประมวลผลในสายการผลิตจริง</span></li>
+    <li><span class="num">3</span><span class="text">เส้นทางสีส้ม — เส้นทางลำเลียงชิ้นงานที่เชื่อมแต่ละสถานีเข้าด้วยกัน</span></li>
+    <li><span class="num">4</span><span class="text">พาเลทสีเขียวด้านล่าง — จุดพักสินค้าสำเร็จรูปก่อนส่งออกจากไลน์</span></li>
+  </ol></div>
+</div>
+
+<h2>Simulation กับ Digital Twin</h2>
+<p><strong>Simulation</strong> คือการสร้างแบบจำลองของระบบหรือกระบวนการในโลกจริงขึ้นมา เพื่อศึกษาพฤติกรรม
+ทดสอบสมมติฐาน หรือคาดการณ์ผลลัพธ์ภายใต้เงื่อนไขต่างๆ โดยไม่ต้องลงมือทำกับสถานการณ์จริง — เน้นทดสอบ
+"สิ่งที่อาจจะเกิดขึ้น" (What-if scenarios)</p>
+<p><strong>Digital Twin</strong> ต่อยอดอีกขั้น: เป็นแบบจำลองที่ <em>เชื่อมโยงกับข้อมูลจริงอย่างต่อเนื่อง</em>
+ทำให้ติดตามสิ่งที่เป็นอยู่แบบเรียลไทม์ (Real-time monitoring) และพยากรณ์เหตุการณ์ล่วงหน้า (Prediction) ได้ —
+โมเดลที่เริ่มสร้างในชุดสอนนี้คือจุดตั้งต้น พอต่อเข้ากับข้อมูลจริงจากหน้างานก็ต่อยอดเป็น Digital Twin ได้</p>
+
+<div class="side-by-side">
+  <div><figure class="screenshot">
+  <a href="../assets/images/overview/01-02.jpg" target="_blank" rel="noopener"><img src="../assets/images/overview/01-02.jpg" alt="การผสาน Digital Twin เข้ากับเครื่องจักรจริงระหว่างขั้นตอนติดตั้ง/ตรวจสอบ" loading="lazy"></a>
+</figure></div>
+  <div><ol class="step-list">
+    <li><span class="num">1</span><span class="text">ลดต้นทุน — ทดสอบและแก้ปัญหาในโลกดิจิทัลก่อนลงทุนจริง</span></li>
+    <li><span class="num">2</span><span class="text">ทำนายล่วงหน้า — รู้ว่าอะไรจะเสียก่อนที่มันจะเสียจริง</span></li>
+    <li><span class="num">3</span><span class="text">ตัดสินใจได้ดีขึ้น — มีข้อมูลเรียลไทม์ประกอบการวิเคราะห์</span></li>
+    <li><span class="num">4</span><span class="text">ออกแบบได้แม่นยำ — จำลองสถานการณ์ได้ไม่จำกัดจำนวนครั้ง</span></li>
+  </ol></div>
+</div>
+
+<figure class="screenshot">
+  <a href="../assets/images/overview/01-03.jpg" target="_blank" rel="noopener"><img src="../assets/images/overview/01-03.jpg" alt="ตัวอย่าง Plant Simulation Model ของคลังสินค้าอัตโนมัติขนาดใหญ่" loading="lazy"></a>
+  <figcaption>โมเดลระดับนี้จำลองทั้งชั้นวางสินค้าอัตโนมัติ (AS/RS), สายพานลำเลียง และเส้นทางขนย้ายในคลังสินค้าจริง — ใช้หลัก DES เดียวกับโมเดลง่ายๆ ที่จะสร้างในชุดสอนนี้ เพียงแค่ขยายสเกลขึ้น</figcaption>
+</figure>
+
+<h2>Plant Simulation ใช้ทำอะไรได้บ้าง</h2>
+<table>
+<tr><th>โจทย์</th><th>Plant Simulation ช่วยอะไร</th></tr>
+<tr><td>ออกแบบสายการผลิตใหม่</td><td>ทดสอบผัง Layout ก่อนลงทุนจริง ลดความเสี่ยงสร้างแล้วใช้ไม่ได้</td></tr>
+<tr><td>หาคอขวด (Bottleneck)</td><td>ดูว่าเครื่องไหนเป็นตัวถ่วง Throughput ของทั้งสาย</td></tr>
+<tr><td>วางแผนกำลังการผลิต</td><td>ทดลองเพิ่ม/ลดจำนวนเครื่องจักรหรือคนงานแบบ what-if</td></tr>
+<tr><td>บริหารสินค้าคงคลัง/โลจิสติกส์</td><td>จำลองคลังสินค้า, AGV, ระบบขนส่งภายในโรงงาน</td></tr>
+</table>
+
+<div class="tip">
+<strong>ทำไมไม่คำนวณมือ:</strong> เมื่อมีความสุ่ม (เช่น เครื่องเสียแบบสุ่ม, เวลาแปรรูปไม่คงที่) และ Object
+หลายสิบ-หลายร้อยตัวโต้ตอบกัน การคำนวณมือแทบเป็นไปไม่ได้ — DES จำลองความซับซ้อนนี้ให้อัตโนมัติ
+</div>
+
+<h2>เริ่มต้นใช้งาน Plant Simulation</h2>
+<p>หน้าถัดไปเปิดโมเดลตัวอย่าง 3 ตัวที่ติดมากับ Plant Simulation 2606 เพื่อฝึกใช้หน้าจอและเห็นภาพว่าเรียนจบแล้วจะทำอะไรได้
+— ยังไม่ต้องสร้างโมเดลเอง:</p>
+<ul>
+<li><a href="02.html">Factory 51</a> — โรงงานตัวอย่าง 3D: หมุน ซูม เปิด Frame ด้านใน และสั่ง Run / Reset</li>
+<li><a href="03.html">Small Parts Production</a> — หาคอขวด เพิ่ม Buffer หาขนาดด้วย Experiment Manager และดูพลังงาน</li>
+<li><a href="04.html">Python GA Demo</a> — หาค่าที่ดีที่สุดด้วย Genetic Algorithm ที่เขียนด้วย Python</li>
+</ul>
+<p>จากนั้นเริ่มสร้างโมเดลเองที่ <a href="../lessons/01.html">บท 01 สร้างโมเดลแรก</a></p>
+
+        <div class="page-nav">
+          <a href="../index.html">← ก่อนหน้า: หน้าแรก</a>
+          <a href="02.html">ถัดไป: 2. โรงงานตัวอย่าง Factory 51 →</a>
+        </div>
+      </main>
+
+      <footer class="site-footer">
+        Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม
+      </footer>
+    </div>
+  </div>
+
+  <div id="sidebar">
+    <div class="inner">
+      <nav id="menu">
+        <header class="major"><button class="sidebar-close" aria-label="ปิดเมนู">✕</button><h2>เมนู</h2></header>
+        <ul>
+          <li><a href="../index.html">หน้าแรก</a></li>
+          <li class="has-children expanded">
+            <a href="index.html">Plant Simulation Overview</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู overview">▾</button>
+            <ul class="submenu">
+              <li class="active"><a href="01.html">1. Introduction to Plant Simulation</a></li>
+              <li><a href="02.html">2. โรงงานตัวอย่าง Factory 51</a></li>
+              <li><a href="03.html">3. Small Parts Production</a></li>
+              <li><a href="04.html">4. Python GA Demo</a></li>
+            </ul>
+          </li>
+          <li><a href="../lessons/01.html">01. สร้างโมเดลแรก</a></li>
+          <li><a href="../lessons/02.html">02. คอขวด และ ParallelStation</a></li>
+          <li><a href="../lessons/03.html">03. Conveyor, Buffer, เครื่องเสีย และ OEE</a></li>
+          <li><a href="../lessons/04.html">04. คน และกะทำงาน</a></li>
+          <li><a href="../lessons/05.html">05. ประกอบ และถอด (Assembly / Dismantle)</a></li>
+          <li><a href="../lessons/06.html">06. Track และ Transporter</a></li>
+          <li><a href="../lessons/07.html">07. SimTalk และ Method</a></li>
+          <li><a href="../lessons/08.html">08. AMR — AGVPool และ GAWizard</a></li>
+          <li><a href="../lessons/09.html">09. Python ใน Plant Simulation</a></li>
+        </ul>
+      </nav>
+      <footer id="footer"><p class="copyright">Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม</p></footer>
+    </div>
+  </div>
+  <div id="sidebar-overlay"></div>
+</div>
+<script src="../assets/main.js?v=e223124b"></script>
+</body>
+</html>

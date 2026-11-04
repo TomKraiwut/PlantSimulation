@@ -4,46 +4,37 @@ Screenshots for a chapter go in a subfolder named after the section, using the
 same chapter numbering as the `.html` files:
 
 ```
-assets/images/<section>/<chapter-number>-<sequence>.png
+assets/images/<section>/<chapter-number>-<sequence>.jpg
 ```
 
-Example: the 3rd screenshot in Basic chapter 4 is
-`assets/images/basic/04-03.png`.
+Example: the 3rd screenshot in lesson 04 is `assets/images/lessons/04-03.jpg`;
+the 2nd in Overview page 2 (Factory 51) is `assets/images/overview/02-02.jpg`.
 
 ## Adding a screenshot to a chapter
 
-In `tools/gen_chapters.py`, use the `screenshot()` helper from `gen_site.py`
-inside the relevant `BODY[(section, idx)]` entry (convert that entry to an
-f-string if it isn't one already):
+In the chapter's file `tools/chapters/<section>_<NN>.py`, use the `screenshot()`
+helper inside `BODY` (an f-string):
 
 ```python
-BODY[("basic", 4)] = f'''
+BODY = f'''
 ...
-{screenshot("assets/images/basic/04-01.png", "หน้าจอสร้างโมเดลใหม่", caption="ลาก Source/Station/Drain มาวางบน Frame")}
+{screenshot("assets/images/lessons/04-01.jpg", "หน้าต่าง WorkerPool", caption="...")}
 ...
 '''
 ```
 
 Author the path as repo-root-relative (`assets/images/...`) always — `write()`
 in `gen_site.py` rewrites it to the correct relative path for whatever folder
-the page actually lands in, so the same string works whether the chapter ends
-up as `basic/04.html` or anywhere else.
+the page lands in.
 
-Keep each exported screenshot compressed (PNG optimized or JPG, ideally under
-~300-500KB) — see the "รูปภาพและวิดีโอ" section in the top-level README.md for
-why.
+Images are cut from the chapter's slide deck (the screenshot area with its red
+number callouts, without the slide title or footer) and saved as JPG at most
+1600 px wide, ideally under ~300 KB each.
 
 ## Adding a YouTube video to a chapter
 
-Same pattern with the `youtube_embed()` helper:
+Same pattern with `youtube_embed()` (import it from `gen_site` in the chapter file):
 
 ```python
-BODY[("basic", 2)] = f'''
-...
 {youtube_embed("l-p1UY2W5CY", "1. Getting Started - Plant Simulation")}
-...
-'''
 ```
-
-`youtube_embed`/`screenshot` are defined in `tools/gen_site.py` and already
-imported into `tools/gen_chapters.py`.

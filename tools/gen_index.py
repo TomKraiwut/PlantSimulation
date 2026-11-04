@@ -1,88 +1,43 @@
 # -*- coding: utf-8 -*-
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from gen_site import page_html, write
+from gen_site import (SECTIONS, page_html, write, chapter_filename, chapter_numbers,
+                      chapter_title, chapter_label, HUB_CARD_DESC)
 
-BODY = '''        <section id="banner">
+
+def cards(section):
+    out = []
+    for n, i in enumerate(chapter_numbers(section)):
+        out.append(f'''          <a href="{chapter_filename(section, i)}" class="card">
+            <div class="icon number">{chapter_label(section, i)}</div>
+            <h3>{chapter_title(section, i)}</h3>
+            <p>{HUB_CARD_DESC[section][n]}</p>
+          </a>''')
+    return "\n".join(out)
+
+
+BODY = f'''        <section id="banner">
           <h1>เรียนรู้ Siemens Tecnomatix Plant Simulation</h1>
-          <p class="tagline">เว็บไซต์สอนการใช้งานโปรแกรมจำลองการผลิตและโลจิสติกส์ (Discrete Event Simulation) ภาษาไทย</p>
+          <p class="tagline">ชุดสอน Step by Step บน Plant Simulation 2606 ภาษาไทย</p>
           <p class="intro">
-            เนื้อหาแบ่งเป็น 3 ระดับ ตั้งแต่ยังไม่เคยเปิดโปรแกรมมาก่อน ไปจนถึงเขียนสคริปต์ SimTalk
-            ควบคุมโมเดลและทำ Optimization อัตโนมัติ พร้อมส่วนอ้างอิง Object, Case Study จากอุตสาหกรรมจริง
-            และ Tips and Tricks — เลือกเริ่มจากระดับที่ตรงกับพื้นฐานของคุณได้เลย
+            เริ่มจากรู้จักโปรแกรมและเปิดโมเดลตัวอย่าง แล้วสร้างโมเดลเองทีละบท ตั้งแต่ Source → Station → Drain
+            ไปจนถึงคนงานและกะทำงาน การขนส่งด้วย Transporter และ AMR การเขียน SimTalk และการควบคุมด้วย Python
+            — ทุกบทมีภาพหน้าจอจริงพร้อมเลขกำกับ และตัวเลขที่วัดจริงใน Plant Simulation 2606
           </p>
         </section>
 
-        <div class="features">
-          <div class="feature">
-            <h3>🎯 เรียงตามลำดับการใช้งานจริง</h3>
-            <p>แต่ละบทต่อยอดจากบทก่อนหน้า ไม่ต้องท่องจำ ทำตามได้ทันที</p>
-          </div>
-          <div class="feature">
-            <h3>🧪 มีตัวอย่างและคำถามฝึกคิด</h3>
-            <p>ทุกบทมีตัวอย่างที่ลองทำตามได้ พร้อมคำถามท้ายบทเพื่อเช็กความเข้าใจ</p>
-          </div>
-          <div class="feature">
-            <h3>✅ Syntax ที่ยืนยันแล้วจริง</h3>
-            <p>โค้ด SimTalk ในระดับ Advanced อ้างอิงจาก syntax ที่ทดสอบรันได้จริง ไม่ใช่ตัวอย่างทั่วไป</p>
-          </div>
-        </div>
-
-        <h2>เลือกระดับที่จะเรียน</h2>
+        <h2>{SECTIONS["overview"]["label"]}</h2>
+        <p>รู้จัก Plant Simulation และเปิดโมเดลตัวอย่างที่ติดมากับโปรแกรม — ยังไม่ต้องสร้างโมเดลเอง</p>
         <div class="card-grid">
-          <a href="basic.html" class="card">
-            <div class="icon">🧩</div>
-            <h3>Basic — พื้นฐาน</h3>
-            <p>ชุดสอน Step by Step บน Plant Simulation 2606: โมเดลตัวอย่าง Factory 51 และ Small Parts, โมเดลแรก แล้วต่อยอดไลน์ 5 สถานีจนถึงหาค่าที่ดีที่สุด (8 บท: 00–07)</p>
-          </a>
-          <a href="intermediate.html" class="card">
-            <div class="icon">🔧</div>
-            <h3>Intermediate — ขั้นกลาง</h3>
-            <p>MU, Distribution แบบสุ่ม, Failure, Bottleneck Analyzer และการจัดกลุ่มโมเดล (6 บท)</p>
-          </a>
-          <a href="advanced.html" class="card">
-            <div class="icon">⚙️</div>
-            <h3>Advanced — ขั้นสูง</h3>
-            <p>เขียนสคริปต์ SimTalk, สร้าง Object ด้วยโค้ด, Experiment Manager, GAWizard และ COM automation (7 บท)</p>
-          </a>
+{cards("overview")}
         </div>
 
-        <h2>เนื้อหาเสริม</h2>
+        <h2>Step by Step 01–09</h2>
+        <p>สร้างโมเดลเองทีละบท แต่ละบทมีไฟล์ <code>.spp</code> ของบทที่มีหลาย Frame เล่าเรื่องเดียวกัน
+        เปิดไฟล์ของบทได้เลย ไม่ต้องทำบทก่อนหน้าให้เสร็จ</p>
         <div class="card-grid">
-          <a href="object-reference.html" class="card">
-            <div class="icon">📖</div>
-            <h3>Object Reference</h3>
-            <p>สาธิตการทำงานของแต่ละ Object เป็นหมวดหมู่ ใช้เปิดอ้างอิงเร็วๆ (3 หมวด)</p>
-          </a>
-          <a href="step-by-step.html" class="card">
-            <div class="icon">🗂️</div>
-            <h3>Step-by-Step File</h3>
-            <p>เดินตามไฟล์สอนต้นฉบับของ Siemens (18 เฟรม) ทีละหัวข้อ จัดกลุ่มใหม่เป็น 8 บท</p>
-          </a>
-          <a href="case-study.html" class="card">
-            <div class="icon">🏭</div>
-            <h3>Case Study</h3>
-            <p>ตัวอย่างการใช้งานจากสถานการณ์จริงใน 4 อุตสาหกรรม</p>
-          </a>
-          <a href="tips-tricks.html" class="card">
-            <div class="icon">💡</div>
-            <h3>Tips and Tricks</h3>
-            <p>เทคนิคเล็กๆ น้อยๆ ที่ช่วยประหยัดเวลาและลดข้อผิดพลาด (4 หมวด)</p>
-          </a>
-        </div>
-
-        <h2>Plant Simulation คืออะไร?</h2>
-        <p class="lead">
-          Plant Simulation (Tecnomatix Plant Simulation) เป็นซอฟต์แวร์จำลองสถานการณ์แบบ Discrete Event Simulation (DES)
-          ของ Siemens ใช้สำหรับจำลองกระบวนการผลิต สายการประกอบ คลังสินค้า และระบบโลจิสติกส์ ก่อนลงทุนจริง
-          ช่วยให้วิศวกรวิเคราะห์คอขวด (Bottleneck), อัตราการใช้งานเครื่องจักร (Utilization), และ Throughput ได้โดยไม่ต้องหยุดสายการผลิตจริง
-        </p>
-
-        <h2>ตัวอย่างไฟล์</h2>
-        <p>
-          มีไฟล์ตัวอย่างจริงประกอบเนื้อหาบางบทที่ <a href="examples.html">หน้า Example File</a>
-          และในโฟลเดอร์ <code>examples/</code> ของ repo นี้
-        </p>'''
+{cards("lessons")}
+        </div>'''
 
 if __name__ == "__main__":
     write("index.html", page_html("หน้าแรก", BODY, active_top="index"))

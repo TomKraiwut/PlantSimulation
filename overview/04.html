@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4. Python GA Demo — Plant Simulation Tutorial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/style.css?v=0167a8ff">
+</head>
+<body>
+<div id="wrapper">
+  <div id="main">
+    <div class="inner">
+      <header id="header">
+        <a href="../index.html" class="logo"><span>Plant Simulation Tutorial</span></a>
+        <button class="menu-toggle" aria-label="เปิดเมนู" aria-expanded="false">☰</button>
+      </header>
+
+      <main>
+        <h1>4. Python GA Demo</h1>
+
+        <div class="objectives">
+          <p>วัตถุประสงค์การเรียนรู้</p>
+          <ol>
+          <li>ติดตั้ง pymoo และเปิดโมเดลตัวอย่าง Python GA Demo ให้รัน Python ได้ (อนุญาตให้โมเดลเข้าถึงคอมพิวเตอร์)</li>
+          <li>อ่านโจทย์ ตั้งค่า GA ใน GAConfigure และรู้ว่า PythonModule แต่ละตัวทำอะไร</li>
+          <li>รัน GA อ่าน Report และ Pareto Front แล้วใส่คำตอบกลับโมเดลด้วย Method ApplySolution ได้</li>
+          </ol>
+        </div>
+
+<p class="lead" style="max-width:46em;">โมเดลตัวอย่างตัวที่สามที่ติดมากับ Plant Simulation 2606 ต่อจาก <a href="02.html">Factory 51</a>
+และ <a href="03.html">Small Parts Production</a> — ยังไม่ต้องสร้างโมเดลเอง แค่เปิดตัวอย่างของ Siemens ที่ใช้ Python
+(ไลบรารี <strong>pymoo</strong>) หา<strong>ลำดับงาน</strong>และ<strong>ขนาด Buffer</strong> ที่ดีที่สุด 2 เป้าหมายพร้อมกัน ทั้งหมด 9 ขั้นตอน
+ให้เห็นว่าโมเดลจำลองต่อกับ Python เพื่อหาคำตอบอัตโนมัติได้แบบไหน (บท 01–09 จะสอนสร้างโมเดลของตัวเอง เริ่มที่
+<a href="../lessons/01.html">บท 01 สร้างโมเดลแรก</a>)</p>
+
+<div class="tip">
+<strong>สิ่งที่ต้องมี:</strong> Plant Simulation 2606 · Python 3.12, 3.13 หรือ 3.14 · ไลบรารี pymoo (pip) · ไฟล์
+<code>Examples\Demo\Python_GA_Demo.spp</code> &nbsp;·&nbsp; ผลที่วัดได้ใน 2606: ผลผลิต <strong>452 → 732 ชิ้น/วัน</strong> หลังใช้คำตอบของ GA
+</div>
+<div class="note"><strong>2 เป้าหมายพร้อมกัน:</strong> ผลผลิตสูงสุด + ต้นทุน Buffer ต่ำสุด → GA ไม่ได้ให้คำตอบเดียว แต่ให้ชุดคำตอบที่ดีคนละด้าน
+(Pareto) ให้คนเลือก</div>
+
+<h2>ภาพรวม 9 ขั้นตอน</h2>
+<table>
+<tr><th>ขั้น</th><th>หัวข้อ</th><th>ทำอะไร</th></tr>
+<tr><td>1</td><td>ติดตั้ง pymoo</td><td><code>python -m pip install pymoo</code></td></tr>
+<tr><td>2</td><td>เปิดตัวอย่าง + Save As</td><td><code>Examples\Demo\Python_GA_Demo.spp</code></td></tr>
+<tr><td>3</td><td>อนุญาต Python</td><td><code>Model Settings › Security</code></td></tr>
+<tr><td>4</td><td>อ่านโจทย์</td><td>ไลน์ 10 ชนิด มี Set-up · 452 ชิ้น/วัน</td></tr>
+<tr><td>5</td><td>ตั้งค่า GA</td><td>GAConfigure: 10 รุ่น × 30 คำตอบ</td></tr>
+<tr><td>6</td><td>ดูโค้ด Python</td><td>9 PythonModule + SimTemplate</td></tr>
+<tr><td>7</td><td>กด Start/Stop</td><td>13–25 วินาทีบนเครื่องที่ทดสอบ</td></tr>
+<tr><td>8</td><td>อ่าน Report</td><td>กราฟ 2 เป้าหมาย + Pareto</td></tr>
+<tr><td>9</td><td>ใส่คำตอบกลับโมเดล</td><td>Method ApplySolution → 732</td></tr>
+</table>
+
+<h2>Workflow: ใครทำอะไร</h2>
+<table>
+<tr><th>ลำดับ</th><th>งาน</th><th>รายละเอียด</th><th>ใครทำ</th></tr>
+<tr><td>1</td><td>เตรียมเครื่อง</td><td>ติดตั้ง pymoo · อนุญาตให้โมเดลเข้าถึงคอมพิวเตอร์ · Save ไฟล์</td><td>ผู้ใช้ (ขั้น 1–3)</td></tr>
+<tr><td>2</td><td>ตั้งโจทย์</td><td>GAConfigure: ตัวแปร ช่วงค่า ต้นทุน จำนวนรุ่น</td><td>ผู้ใช้ (ขั้น 4–5)</td></tr>
+<tr><td>3</td><td>สร้างคำตอบ</td><td>pymoo (NSGA-II) สุ่ม ผสม กลายพันธุ์ คำตอบรุ่นละ 30 ตัว</td><td>Python</td></tr>
+<tr><td>4</td><td>ประเมินคำตอบ</td><td>PlantSimulationConsole รันโมเดล 1 วันต่อคำตอบ อ่านผลที่ Drain</td><td>PtS Console</td></tr>
+<tr><td>5</td><td>เลือกคำตอบ</td><td>อ่าน Report + Pareto · ใส่คำตอบกลับ · รันยืนยัน</td><td>ผู้ใช้ (ขั้น 8–9)</td></tr>
+</table>
+<p>ในตัวเลข (วัดใน PtS 2606): <strong>10</strong> รุ่น (Generations) · <strong>30</strong> คำตอบต่อรุ่น · <strong>2</strong> เป้าหมายพร้อมกัน ·
+ผลผลิตเพิ่ม <strong>62%</strong> (คำตอบที่ 1)</p>
+<div class="tip"><strong>เบื้องหลัง:</strong> Python ไม่ได้รันโมเดลเอง แต่เขียนไฟล์ SimTalk แล้วเรียก <code>PlantSimulationConsole.exe</code>
+ให้เปิดไฟล์ <code>.spp</code> ที่ Save ไว้มารันทีละคำตอบ ผลผลิตที่ได้ส่งกลับให้ pymoo คิดรุ่นถัดไป</div>
+
+<h2>ขั้นที่ 1: ติดตั้ง Python และ pymoo</h2>
+<figure class="screenshot">
+  <a href="../assets/images/overview/04-01.jpg" target="_blank" rel="noopener"><img src="../assets/images/overview/04-01.jpg" alt="Command Prompt: ตรวจรุ่น Python ติดตั้ง และตรวจ pymoo" loading="lazy"></a>
+</figure>
+<ol class="step-list">
+    <li><span class="num">1</span><span class="text"><code>python --version</code> — ต้องเป็น 3.12, 3.13 หรือ 3.14 (Help 2606) · เครื่องที่ทดสอบใช้ 3.14.6</span></li>
+    <li><span class="num">2</span><span class="text"><code>python -m pip install pymoo</code> — ติดตั้ง pymoo พร้อม numpy, scipy, matplotlib</span></li>
+    <li><span class="num">3</span><span class="text"><code>python -m pip show pymoo</code> — ตรวจว่าติดตั้งแล้ว · เครื่องที่ทดสอบได้ Version 0.6.2</span></li>
+  </ol>
+<div class="note"><strong>มี Python หลายตัว:</strong> ใช้ <code>setPythonDLLPath("...\python314.dll")</code> ระบุตัวที่ Plant Simulation ใช้ (Help 2606)
+· ติดตั้งให้เสร็จก่อนเปิด Plant Simulation</div>
+<p>ติดตั้งครั้งเดียวต่อเครื่อง — ภาพนี้ถ่ายหลังติดตั้งแล้วจึงขึ้น <em>Requirement already satisfied</em> ถ้าติดตั้งครั้งแรกจะขึ้น
+<em>Successfully installed ... pymoo-0.6.2</em></p>
+
+<h2>ขั้นที่ 2: เปิดตัวอย่าง Python_GA_Demo แล้ว Save As</h2>
+<div class="side-by-side">
+  <div><figure class="screenshot">
+  <a href="../assets/images/overview/04-02.jpg" target="_blank" rel="noopener"><img src="../assets/images/overview/04-02.jpg" alt="Frame Example มองจากด้านบน: ไลน์ผลิต แผง Python GA, ReadMe และ Current Limitations" loading="lazy"></a>
+</figure></div>
+  <div><ol class="step-list">
+    <li><span class="num">1</span><span class="text"><strong>Example</strong> — ไลน์ผลิตที่ GA จะปรับ (ขั้นที่ 4)</span></li>
+    <li><span class="num">2</span><span class="text"><strong>Python GA</strong> — แผงควบคุม: Start/Stop, Show Report, Drop-down เลือกคำตอบ</span></li>
+    <li><span class="num">3</span><span class="text"><strong>ReadMe</strong> — วิธีใช้ 5 ข้อจาก Siemens</span></li>
+    <li><span class="num">4</span><span class="text"><strong>Current Limitations</strong> — ปรับได้แค่ลำดับ + ขนาด Buffer · เป้าหมายตายตัว · ประเมินคำตอบละ 1 รอบ</span></li>
+  </ol></div>
+</div>
+<div class="note"><strong>เปิดไฟล์:</strong> <code>File › Open</code> → <code>...\Plant Simulation 2606\Examples\Demo\Python_GA_Demo.spp</code>
+แล้ว <code>File › Save As</code> ไปโฟลเดอร์ของตัวเองทันที (GA ใช้ไฟล์ที่ Save ไว้) &nbsp;·&nbsp; Class Library › Models › Example</div>
+<p>Plant Simulation เปิดโมเดลเป็น 3D ภาพนี้เป็นมุมมองจากด้านบน (Planning View) — Frame GA ถูกวางเป็นแผงสีน้ำเงินใน Example</p>
+
+<h2>ขั้นที่ 3: อนุญาตให้โมเดลเรียก Python</h2>
+<div class="side-by-side">
+  <div><figure class="screenshot">
+  <a href="../assets/images/overview/04-03.jpg" target="_blank" rel="noopener"><img src="../assets/images/overview/04-03.jpg" alt="หน้าต่าง Model Settings แท็บ General ส่วน Security" loading="lazy"></a>
+</figure></div>
+  <div><ol class="step-list">
+    <li><span class="num">1</span><span class="text"><code>File › Model Settings</code> แท็บ <code>General</code></span></li>
+    <li><span class="num">2</span><span class="text"><strong>Security</strong> — คลิกช่อง <code>Prohibit Access to the Computer</code> ให้เครื่องหมายถูกหายไป ☐ (ตัวอย่างเปิดไว้ ☑)</span></li>
+    <li><span class="num">3</span><span class="text"><code>OK</code> แล้ว <code>File › Save</code></span></li>
+  </ol></div>
+</div>
+<div class="note"><strong>ทำไม:</strong> ถ้ายังมีเครื่องหมายถูก ☑ PythonModule รันโค้ดไม่ได้ (Help 2606) · กด Start/Stop แล้วขึ้น error
+<em>Access to the computer is prohibited</em> · ปิดเฉพาะโมเดลที่ไว้ใจ</div>
+
+<h2>ขั้นที่ 4: โจทย์ — ไลน์ 10 ชนิด เปลี่ยนชนิดต้อง Set-up</h2>
+<figure class="screenshot">
+  <a href="../assets/images/overview/04-04.jpg" target="_blank" rel="noopener"><img src="../assets/images/overview/04-04.jpg" alt="Frame Example หลังรัน 1 วัน: Source, Station, Buffer, Station2, Drain" loading="lazy"></a>
+</figure>
+<ol class="step-list">
+    <li><span class="num">1</span><span class="text"><strong>Source</strong> — ปล่อยงาน 10 ชนิด T1–T10 วนตามลำดับในตาราง <code>Delivery</code></span></li>
+    <li><span class="num">2</span><span class="text"><strong>Station</strong> — 0:10 ต่อชิ้น + Set-up เมื่อเปลี่ยนชนิด</span></li>
+    <li><span class="num">3</span><span class="text"><strong>Buffer</strong> — ความจุ 15 ชิ้น</span></li>
+    <li><span class="num">4</span><span class="text"><strong>Station2</strong> — Negexp เฉลี่ย 1:00 + เครื่องเสีย (Availability 95%)</span></li>
+    <li><span class="num">5</span><span class="text"><strong>452 ชิ้น</strong> — ผลผลิต 1 วัน (ลำดับเดิม, Buffer 15)</span></li>
+  </ol>
+<div class="note"><strong>โจทย์ของ GA:</strong> หาลำดับ T1–T10 และความจุ Buffer (1–20) ที่ได้ชิ้นงานมากที่สุด และจ่ายค่า Buffer น้อยที่สุด (1 หน่วยต่อ 1 ช่อง)</div>
+
+<h3>Set-up ตามชนิด — ตาราง setupMatrix</h3>
+<p>ดับเบิลคลิก <code>Station</code> › แท็บ <code>Times</code> แล้วดับเบิลคลิก <code>setupMatrix</code></p>
+<figure class="screenshot">
+  <a href="../assets/images/overview/04-05.jpg" target="_blank" rel="noopener"><img src="../assets/images/overview/04-05.jpg" alt="แท็บ Times ของ Station: Set-up Time = Matrix(Type)" loading="lazy"></a>
+</figure>
+<figure class="screenshot">
+  <a href="../assets/images/overview/04-06.jpg" target="_blank" rel="noopener"><img src="../assets/images/overview/04-06.jpg" alt="ตาราง setupMatrix: เวลา Set-up ระหว่างชนิด T1–T10" loading="lazy"></a>
+</figure>
+<ol class="step-list">
+    <li><span class="num">1</span><span class="text"><code>Set-up Time = Matrix(Type)</code> — ดูเวลาในตาราง setupMatrix ตามชนิดชิ้นงาน</span></li>
+    <li><span class="num">2</span><span class="text"><strong>แถว / คอลัมน์ = ชนิดก่อน–หลัง</strong> — ห่างกัน 1 ชนิด = 1:00 · ห่าง 9 ชนิด = 9:00</span></li>
+    <li><span class="num">3</span><span class="text"><strong>ชนิดเดียวกัน = 0</strong> — ไม่ต้อง Set-up</span></li>
+    <li><span class="num">4</span><span class="text"><strong>แถว "-"</strong> — ชิ้นแรก ยังไม่มีชนิดก่อนหน้า</span></li>
+  </ol>
+<div class="note"><strong>ลำดับเดิมเสียเวลา:</strong> T5 T6 T4 T1 T3 T7 T2 T8 T9 T10 → Set-up รวม 30 นาทีต่อ 10 ชิ้น (คิดจากตาราง)
+· ลำดับที่ไล่ชนิดใกล้กัน ต่ำสุด 18 นาที</div>
+<p>ตรวจได้: 10 ชิ้นใช้ 100 วินาที + 30 นาที ≈ 31.7 นาที → 1 วันได้ราว 455 ชิ้น ใกล้กับ 452 ที่วัดได้
+(30 และ 18 นาทีคิดจากตาราง setupMatrix รวมตอนวนกลับจาก T10 ไป T5 ไม่ได้วัดจากโมเดล)</p>
+
+<h2>ขั้นที่ 5: ตั้งค่า GA ใน Method GAConfigure</h2>
+<p>ดับเบิลคลิก <code>GAConfigure</code> (ภาพบน) และตาราง <code>GA.Input</code> (ภาพล่าง)</p>
+<figure class="screenshot">
+  <a href="../assets/images/overview/04-07.jpg" target="_blank" rel="noopener"><img src="../assets/images/overview/04-07.jpg" alt="โค้ดใน Method GAConfigure และตาราง GA.Input" loading="lazy"></a>
+</figure>
+<ol class="step-list">
+    <li><span class="num">1</span><span class="text"><code>Generations 10, Population 30</code> — 10 รุ่น รุ่นละ 30 คำตอบ</span></li>
+    <li><span class="num">2</span><span class="text"><code>Parallel false, Threads 1</code> — รันทีละคำตอบ</span></li>
+    <li><span class="num">3</span><span class="text"><strong>ตัวแปรที่ 1</strong> <code>root.Buffer.Capacity</code> ช่วง 1–20 ต้นทุน 1 ต่อช่อง</span></li>
+    <li><span class="num">4</span><span class="text"><strong>ตัวแปรที่ 2</strong> <code>root.Delivery</code> = ลำดับของ 10 ชนิด</span></li>
+  </ol>
+<div class="tip"><strong>ตาราง GA.Input:</strong> ค่าของตัวอย่างอยู่ในตารางนี้แล้ว คอลัมน์ variable / min / max / cost · บทนี้ใช้ค่าเดิม
+(ยังไม่ได้ทดสอบการแก้โจทย์) — ตัวแปรแบบ Buffer มี min max cost ตัวแปรแบบตารางลำดับใส่แค่ชื่อตาราง</div>
+
+<h2>ขั้นที่ 6: ข้างใน Frame GA — PythonModule ทำอะไรบ้าง</h2>
+<p>ดับเบิลคลิก Frame <code>GA</code></p>
+<figure class="screenshot">
+  <a href="../assets/images/overview/04-08.jpg" target="_blank" rel="noopener"><img src="../assets/images/overview/04-08.jpg" alt="Frame GA: แผง Python GA, GA Logic และ PythonModule ทั้งหมด" loading="lazy"></a>
+</figure>
+<ol class="step-list">
+    <li><span class="num">1</span><span class="text"><strong>Optimizer</strong> — เริ่มที่นี่: ตั้ง NSGA-II ของ pymoo แล้วสั่งค้นหา</span></li>
+    <li><span class="num">2</span><span class="text"><strong>Problem</strong> — อ่าน GA.Input → ตัวแปร 11 ตัว (Buffer 1 + ลำดับ 10)</span></li>
+    <li><span class="num">3</span><span class="text"><strong>FitnessEvaluator</strong> — ให้คะแนน 2 ค่า: ผลผลิต + ต้นทุน Buffer</span></li>
+    <li><span class="num">4</span><span class="text"><strong>SimHandler</strong> — เขียนไฟล์ simtalk แล้วเรียก PlantSimulationConsole.exe</span></li>
+    <li><span class="num">5</span><span class="text"><strong>SimTemplate</strong> — Method ที่ Console รันกับทุกคำตอบ</span></li>
+    <li><span class="num">6</span><span class="text"><strong>HtmlReport</strong> — HTMLHandler วาดกราฟ · SolutionHandler เขียน Solutions + Drop-down</span></li>
+    <li><span class="num">7</span><span class="text"><strong>Custom…</strong> — สุ่ม / ผสม / กลายพันธุ์ แยกยีนลำดับกับยีน Buffer</span></li>
+  </ol>
+<p>จากโค้ดในโมเดล: ยีนลำดับใช้ Edge Recombination + Inversion · ยีน Buffer ใช้ Uniform crossover + PM mutation ·
+ประชากร 30 รุ่นละ 30 ลูก ตัดคำตอบซ้ำ</p>
+
+<h3>โค้ด Python ในโมดูล Optimizer</h3>
+<div class="side-by-side">
+  <div><figure class="screenshot">
+  <a href="../assets/images/overview/04-09.jpg" target="_blank" rel="noopener"><img src="../assets/images/overview/04-09.jpg" alt="หน้าต่าง PythonModule Optimizer" loading="lazy"></a>
+</figure></div>
+  <div><ol class="step-list">
+    <li><span class="num">1</span><span class="text"><code>from pymoo…</code> — ใช้ NSGA-II และตัวดำเนินการของ pymoo (ติดตั้งในขั้นที่ 1)</span></li>
+    <li><span class="num">2</span><span class="text"><code>import PlantSimulation as ps</code> — ตัวเชื่อม Python กับโมเดล</span></li>
+    <li><span class="num">3</span><span class="text"><code>ps.importPythonModule(current.Problem)</code> — เรียกโมดูลอื่นใน Frame เดียวกัน (<code>current</code> = Frame GA)</span></li>
+    <li><span class="num">4</span><span class="text"><code>Import</code> — โหลดโค้ดเข้า Python หลังแก้ (<code>Shift + Import</code> = ล้างค่าเดิม, Help 2606)</span></li>
+  </ol></div>
+</div>
+<div class="tip"><strong>NSGA-II:</strong> GA หลายเป้าหมาย — เก็บทุกคำตอบที่ไม่มีคำตอบอื่นดีกว่าทุกด้าน (Pareto) แทนการรวมเป็นคะแนนเดียว
+· ฟังก์ชัน start ในโมดูลนี้ถูกเรียกเมื่อคลิก Start/Stop และรัน GA ใน thread แยก</div>
+
+<h2>ขั้นที่ 7: คลิก Start/Stop แล้วรอ</h2>
+<figure class="screenshot">
+  <a href="../assets/images/overview/04-10.jpg" target="_blank" rel="noopener"><img src="../assets/images/overview/04-10.jpg" alt="แผง Python GA: ซ้าย = กำลังรัน, ขวา = จบแล้ว" loading="lazy"></a>
+</figure>
+<ol class="step-list">
+    <li><span class="num">1</span><span class="text"><code>Start/Stop</code> — คลิกแล้วไฟเป็นสีเขียว = GA กำลังรัน</span></li>
+    <li><span class="num">2</span><span class="text"><code>OptimizationDone</code> ✗ ระหว่างรัน</span></li>
+    <li><span class="num">3</span><span class="text"><code>OptimizationDone</code> ✓ จบแล้ว 13–25 วินาทีบนเครื่องที่ทดสอบ (5 รอบ)</span></li>
+    <li><span class="num">4</span><span class="text"><strong>Drop-down</strong> — แสดงคำตอบ เช่น <code>Throughput: 732 Cost: 7</code></span></li>
+  </ol>
+<div class="note"><strong>แก้โมเดลแล้วต้อง Save:</strong> GA รันไฟล์ <code>.spp</code> ที่ Save ไว้ผ่าน PlantSimulationConsole ไม่ใช่โมเดลที่เปิดอยู่
+· คลิก Start/Stop อีกครั้ง = หยุดกลางทาง · ถ้าเกิด error ให้ปิด Plant Simulation แล้วเปิดใหม่ตาม ReadMe</div>
+
+<h2>ขั้นที่ 8: Show Report — ผลดีขึ้นทุกรุ่น</h2>
+<p>คลิก <code>Show Report</code> — HtmlReport เปิดเป็นแท็บในหน้าต่างหลัก</p>
+<figure class="screenshot">
+  <a href="../assets/images/overview/04-11.jpg" target="_blank" rel="noopener"><img src="../assets/images/overview/04-11.jpg" alt="HtmlReport: กราฟ Throughput และ Cost ตามรุ่น" loading="lazy"></a>
+</figure>
+<ol class="step-list">
+    <li><span class="num">1</span><span class="text"><strong>Number of Generations 10, Population 30</strong> — ตามที่ตั้งในขั้นที่ 5</span></li>
+    <li><span class="num">2</span><span class="text"><strong>เส้นเขียว = ดีที่สุดในรุ่น</strong> — ผลผลิตขึ้นถึง 732 ราวรุ่นที่ 5–6</span></li>
+    <li><span class="num">3</span><span class="text"><strong>เส้นน้ำเงิน = ค่าเฉลี่ย</strong> — จาก ~370 เป็น ~655 ทั้งรุ่นดีขึ้น</span></li>
+    <li><span class="num">4</span><span class="text"><strong>Cost</strong> — เส้นเขียว = ต่ำสุด 1 ตั้งแต่รุ่นแรก</span></li>
+  </ol>
+<div class="tip"><strong>อ่านกราฟ:</strong> ผลผลิต (Throughput) ยิ่งสูงยิ่งดี · ต้นทุน (Cost) ยิ่งต่ำยิ่งดี · เส้นเขียวคือด้านที่ดีของทั้งสองกราฟ
+(ค่าเฉลี่ยอ่านจากกราฟโดยประมาณ ค่า 732 และ 1 อ่านจากตาราง Solutions)</div>
+
+<h3>Pareto Front — 2 คำตอบ ให้คนเลือก</h3>
+<p>เลื่อนลงใน HtmlReport</p>
+<figure class="screenshot">
+  <a href="../assets/images/overview/04-12.jpg" target="_blank" rel="noopener"><img src="../assets/images/overview/04-12.jpg" alt="Current Pareto Front และ Solution Table" loading="lazy"></a>
+</figure>
+<ol class="step-list">
+    <li><span class="num">1</span><span class="text"><strong>704 ชิ้น ต้นทุน 1</strong> — Buffer 1 ช่อง</span></li>
+    <li><span class="num">2</span><span class="text"><strong>732 ชิ้น ต้นทุน 7</strong> — Buffer 7 ช่อง</span></li>
+    <li><span class="num">3</span><span class="text"><strong>Solution Table</strong> — ค่ายีนของแต่ละคำตอบ: Buffer + ตำแหน่งของ T1–T10</span></li>
+  </ol>
+<div class="note"><strong>Pareto Front:</strong> ไม่มีคำตอบไหนดีกว่าทุกด้าน — ได้เพิ่ม 28 ชิ้น/วัน ต้องเพิ่ม Buffer 6 ช่อง → คนตัดสินใจว่าคุ้มหรือไม่
+· GA รัน 5 รอบบนเครื่องที่ทดสอบ ได้ 2 คำตอบนี้ทุกรอบ เพราะโค้ดตั้ง seed = 3 ไว้คงที่</div>
+
+<h2>ขั้นที่ 9: Drop-down ใน 2606 ใส่คำตอบไม่ครบ</h2>
+<div class="side-by-side">
+  <div><figure class="screenshot">
+  <a href="../assets/images/overview/04-13.jpg" target="_blank" rel="noopener"><img src="../assets/images/overview/04-13.jpg" alt="Drop-down ในแผง Python GA แสดง 2 คำตอบ" loading="lazy"></a>
+</figure></div>
+  <div><ol class="step-list">
+    <li><span class="num">1</span><span class="text"><strong>เลือกคำตอบใน Drop-down</strong> — SolutionHandler เขียนคำตอบลงโมเดล</span></li>
+  </ol></div>
+</div>
+<p><strong>วัดจริง:</strong> Buffer เปลี่ยนเป็น 7 / 1 แต่ลำดับใน Delivery ไม่เปลี่ยน → รันได้แค่ 452 / 450 ชิ้น &nbsp;·&nbsp;
+<strong>ที่เห็นในโค้ด:</strong> ไม่ได้เรียงแถวตาม Orig ก่อนแบบที่ SimTemplate ทำ และเขียนยีนลำดับแค่ 9 จาก 10 ช่อง</p>
+<table>
+<tr><th>วิธีใส่คำตอบ (รัน Example 1 วัน)</th><th>คำตอบ 1 (Buffer 7)</th><th>คำตอบ 2 (Buffer 1)</th></tr>
+<tr><td>GA รายงาน (Solutions)</td><td>732</td><td>704</td></tr>
+<tr><td>Drop-down ของตัวอย่าง</td><td>452</td><td>450</td></tr>
+<tr><td>Method ApplySolution (ด้านล่าง)</td><td>732</td><td>704</td></tr>
+</table>
+<div class="note"><strong>สรุป:</strong> ใช้ Drop-down ดูรายการคำตอบได้ แต่ใส่คำตอบลงโมเดลด้วย Method ApplySolution (ด้านล่าง) แล้วรันยืนยันทุกครั้ง
+(ทดสอบใน PtS 2606 ทั้ง 2 คำตอบหลัง Reset โมเดล)</div>
+
+<h3>ใส่คำตอบด้วย Method ApplySolution</h3>
+<p><strong>สร้าง Method:</strong> <code>Toolbox › Information Flow › Method</code> ลากลง Frame <code>Example</code> ตั้งชื่อ <code>ApplySolution</code> แล้ววางโค้ดนี้:</p>
+<pre><code>var i := 1                                   // row of GA.Solutions (1 = highest throughput)
+// apply Pareto solution i (row i of GA.Solutions) the way GA.SimTemplate does
+EventController.reset
+Delivery.sort(4, "up")                       // column Orig: rows back to T1..T10
+for var p := 1 to Delivery.YDim
+    Delivery[5, p] := GA.Solutions[4 + p, i]   // genes -&gt; column Chrom
+next
+Delivery.sort(5, "up")                       // column Chrom: the new order
+Buffer.Capacity := GA.Solutions[4, i]</code></pre>
+<figure class="screenshot">
+  <a href="../assets/images/overview/04-14.jpg" target="_blank" rel="noopener"><img src="../assets/images/overview/04-14.jpg" alt="โค้ด ApplySolution และ Frame Example หลังรัน 1 วันได้ 732 ชิ้น" loading="lazy"></a>
+</figure>
+<ol class="step-list">
+    <li><span class="num">1</span><span class="text"><code>var i := 1</code> — แถวของ GA.Solutions (1 = 732, 2 = 704)</span></li>
+    <li><span class="num">2</span><span class="text"><code>Reset</code> — ล้างชิ้นงาน ก่อนลดความจุ Buffer</span></li>
+    <li><span class="num">3</span><span class="text"><strong>เรียง Orig → ใส่ Chrom → เรียง Chrom</strong> — ได้ลำดับใหม่ แบบเดียวกับ SimTemplate</span></li>
+    <li><span class="num">4</span><span class="text"><code>Buffer.Capacity</code> ตามคำตอบ แล้วกด <code>F5</code> ในหน้าโค้ด</span></li>
+    <li><span class="num">5</span><span class="text"><code>Start</code> ที่ EventController — รัน 1 วัน ได้ 732 ชิ้น</span></li>
+  </ol>
+<div class="tip"><strong>ทดสอบแล้วใน 2606:</strong> i = 1 ได้ 732, i = 2 ได้ 704</div>
+
+<h2>สรุปผล: ไลน์เดิม เทียบคำตอบของ GA (วัดใน 2606)</h2>
+<table>
+<tr><th>หัวข้อ</th><th>ไลน์เดิม</th><th>คำตอบ 1</th><th>คำตอบ 2</th></tr>
+<tr><td>ลำดับใน Delivery</td><td>T5 T6 T4 T1 T3 T7 T2 T8 T9 T10</td><td>T2 T1 T3 T6 T10 T9 T8 T7 T5 T4</td><td>T9 T10 T8 T4 T3 T1 T2 T5 T6 T7</td></tr>
+<tr><td>Buffer (= ต้นทุน)</td><td>15</td><td>7</td><td>1</td></tr>
+<tr><td>Set-up ต่อรอบ 10 ชิ้น</td><td>30 นาที</td><td>18 นาที</td><td>18 นาที</td></tr>
+<tr><td>ผลผลิต 1 วัน</td><td>452 ชิ้น</td><td>732 ชิ้น (+62%)</td><td>704 ชิ้น (+56%)</td></tr>
+</table>
+<p>ผลผลิตวัดจริง: รัน Example 1 วันหลังใส่คำตอบด้วย ApplySolution · Set-up คิดจาก setupMatrix · GA 5 รอบ ได้ 2 คำตอบเดิมทุกรอบ</p>
+
+<h2>Python GA เทียบ GAWizard ในโปรแกรม</h2>
+<table>
+<tr><th>หัวข้อ</th><th>GAWizard (มีในโปรแกรม)</th><th>Python GA Demo (pymoo)</th></tr>
+<tr><td>ติดตั้งเพิ่ม</td><td>ไม่ต้อง</td><td>Python 3.12–3.14 + pymoo · ปิด Prohibit Access</td></tr>
+<tr><td>เป้าหมาย</td><td>ค่า Fitness เดียว (รวมหลายเรื่องเป็นคะแนนเดียว)</td><td>2 เป้าหมายแยกกัน → ชุดคำตอบ Pareto</td></tr>
+<tr><td>ตั้งโจทย์</td><td>หน้าต่าง GAWizard + ตาราง GA</td><td>Method GAConfigure + ตาราง Input</td></tr>
+<tr><td>ปรับวิธีของ GA</td><td>ตามตัวเลือกในหน้าต่าง</td><td>แก้โค้ด Python ได้ทุกส่วน</td></tr>
+<tr><td>ข้อจำกัดของตัวอย่าง</td><td>—</td><td>ลำดับ + Buffer เท่านั้น · เป้าหมายตายตัว · คำตอบละ 1 รอบ</td></tr>
+</table>
+<div class="tip"><strong>เลือกใช้:</strong> เลือก GAWizard เมื่อโจทย์มีเป้าหมายเดียวและไม่อยากติดตั้งอะไรเพิ่ม · เลือก Python GA เมื่ออยากเห็น trade-off
+หลายเป้าหมาย หรือต้องการปรับวิธีค้นหาเอง (คอลัมน์ Python GA มาจากตัวอย่างนี้และ Current Limitations ของ Siemens)</div>
+
+<h2>ปัญหาที่พบบ่อย และวิธีแก้ (2606)</h2>
+<table>
+<tr><th>อาการ</th><th>วิธีแก้</th></tr>
+<tr><td>กด Start/Stop แล้วขึ้น <em>Access to the computer is prohibited</em></td><td>ขั้นที่ 3: คลิกช่อง <code>Prohibit Access to the Computer</code> ออก แล้ว Save</td></tr>
+<tr><td>Python หา pymoo ไม่เจอ</td><td><code>pip install pymoo</code> ใน Python ตัวที่ Plant Simulation ใช้ (<code>setPythonDLLPath</code> ถ้ามีหลายตัว)</td></tr>
+<tr><td>Python รุ่นเก่ากว่า 3.12</td><td>2606 รองรับ 3.12, 3.13, 3.14 เท่านั้น (Help 2606)</td></tr>
+<tr><td>เลือก Drop-down แล้วผลผลิตยังเท่าเดิม (452)</td><td>ใส่คำตอบด้วย Method ApplySolution (ขั้นที่ 9)</td></tr>
+<tr><td><code>ValueError: Capacity … must not be smaller than the number of MUs</code></td><td>Reset โมเดลก่อนใส่คำตอบ (ApplySolution ทำให้แล้ว)</td></tr>
+<tr><td>แก้โมเดลแล้ว GA ยังให้ผลเดิม</td><td>Save ก่อนกด Start/Stop: GA รันไฟล์ที่ Save ไว้</td></tr>
+<tr><td>Error แล้วกดใหม่ไม่ทำงาน</td><td>ปิด Plant Simulation แล้วเปิดใหม่ (ReadMe) · numpy ไม่รองรับการเริ่ม Python ใหม่ในโปรแกรมเดิม (Help)</td></tr>
+<tr><td>รันหลายรอบได้คำตอบเดิม</td><td>ปกติ: Optimizer ตั้ง seed = 3 · แต่ละคำตอบประเมินแค่ 1 รอบ</td></tr>
+</table>
+
+<div class="note">
+<strong>คำถามฝึกคิด:</strong> คำตอบ 1 และคำตอบ 2 มีเวลา Set-up เท่ากัน (18 นาทีต่อรอบ 10 ชิ้น) แต่ทำไมคำตอบ 1 ได้ผลผลิตมากกว่า 28 ชิ้น/วัน?
+</div>
+<div class="tip"><strong>เฉลย:</strong> ต่างกันที่ขนาด Buffer (7 กับ 1) — Station2 มีเวลาสุ่ม (Negexp เฉลี่ย 1:00) และเครื่องเสีย (Availability 95%)
+จึงต้องมีที่พักงานหน้า Station2 Buffer ที่ใหญ่กว่าช่วยให้ไลน์ไม่สะดุด แต่ต้องจ่ายต้นทุนเพิ่ม 6 ช่อง — คนต้องเลือกจาก Pareto ว่าคุ้มหรือไม่
+· ต่อไปเริ่มสร้างโมเดลของตัวเองที่ <a href="../lessons/01.html">บท 01 สร้างโมเดลแรก</a></div>
+
+        <div class="page-nav">
+          <a href="03.html">← ก่อนหน้า: 3. Small Parts Production</a>
+          <a href="../lessons/01.html">ถัดไป: 01. สร้างโมเดลแรก →</a>
+        </div>
+      </main>
+
+      <footer class="site-footer">
+        Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม
+      </footer>
+    </div>
+  </div>
+
+  <div id="sidebar">
+    <div class="inner">
+      <nav id="menu">
+        <header class="major"><button class="sidebar-close" aria-label="ปิดเมนู">✕</button><h2>เมนู</h2></header>
+        <ul>
+          <li><a href="../index.html">หน้าแรก</a></li>
+          <li class="has-children expanded">
+            <a href="index.html">Plant Simulation Overview</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู overview">▾</button>
+            <ul class="submenu">
+              <li><a href="01.html">1. Introduction to Plant Simulation</a></li>
+              <li><a href="02.html">2. โรงงานตัวอย่าง Factory 51</a></li>
+              <li><a href="03.html">3. Small Parts Production</a></li>
+              <li class="active"><a href="04.html">4. Python GA Demo</a></li>
+            </ul>
+          </li>
+          <li><a href="../lessons/01.html">01. สร้างโมเดลแรก</a></li>
+          <li><a href="../lessons/02.html">02. คอขวด และ ParallelStation</a></li>
+          <li><a href="../lessons/03.html">03. Conveyor, Buffer, เครื่องเสีย และ OEE</a></li>
+          <li><a href="../lessons/04.html">04. คน และกะทำงาน</a></li>
+          <li><a href="../lessons/05.html">05. ประกอบ และถอด (Assembly / Dismantle)</a></li>
+          <li><a href="../lessons/06.html">06. Track และ Transporter</a></li>
+          <li><a href="../lessons/07.html">07. SimTalk และ Method</a></li>
+          <li><a href="../lessons/08.html">08. AMR — AGVPool และ GAWizard</a></li>
+          <li><a href="../lessons/09.html">09. Python ใน Plant Simulation</a></li>
+        </ul>
+      </nav>
+      <footer id="footer"><p class="copyright">Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม</p></footer>
+    </div>
+  </div>
+  <div id="sidebar-overlay"></div>
+</div>
+<script src="../assets/main.js?v=e223124b"></script>
+</body>
+</html>

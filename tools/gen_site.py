@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """Generator for the Plant Simulation Tutorial site's boilerplate-heavy pages.
-All body/nav content is authored using the old flat filenames (e.g. "basic-01.html",
-"object-reference-01.html") as href targets -- write() below relocates every page into
-its section folder (basic/01.html, object-reference/01.html, ...) and rewrites every
-href/src that points at a known old flat filename to the correct relative path for
+All body/nav content is authored using flat filenames (e.g. "overview-02.html",
+"lessons-03.html") as href targets -- write() below relocates every page into
+its section folder (overview/02.html, lessons/03.html, ...) and rewrites every
+href/src that points at a known flat filename to the correct relative path for
 the new location. This means chapter bodies never need to know their own folder depth.
 """
 import hashlib
@@ -27,96 +27,39 @@ JS_SRC = f"assets/main.js?v={_asset_version('assets/main.js')}"
 FONT_LINKS = '''<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap">'''
 
+# Course structure (Plant Simulation 2606 Step by Step). Each chapter's objectives and body
+# live in tools/chapters/<section>_<NN>.py -- see gen_chapters.py.
 SECTIONS = {
-    "basic": {
-        "label": "Basic — พื้นฐาน",
-        "hub": "basic.html",
-        # follows the Plant Simulation 2606 Step-by-Step course plan (chapters 00-07);
-        # chapter 00 (example models) is split into 00A Factory 51 and 00B Small Parts
-        "ids": ["00a", "00b", "01", "02", "03", "04", "05", "06", "07"],
+    "overview": {
+        "label": "Plant Simulation Overview",
+        "hub": "overview.html",
         "chapters": [
+            "Introduction to Plant Simulation",
             "โรงงานตัวอย่าง Factory 51",
-            "โมเดลตัวอย่าง Small Parts Production",
-            "โมเดลแรก: Source → Station → Drain",
+            "Small Parts Production",
+            "Python GA Demo",
+        ],
+    },
+    "lessons": {
+        "label": "Step by Step 01–09",
+        "hub": "lessons.html",
+        # "flat": each chapter is its own top-level menu item instead of a collapsible group
+        "flat": True,
+        "chapters": [
+            "สร้างโมเดลแรก",
             "คอขวด และ ParallelStation",
-            "เวลาสุ่ม + Buffer + เครื่องเสีย + OEE",
-            "คน + กะทำงาน",
-            "หลายรุ่น + งานเสีย + Method แรก",
-            "ผัง 3D + ขนส่งด้วย AGV",
-            "วิเคราะห์ + หาค่าที่ดีที่สุด",
-        ],
-    },
-    "intermediate": {
-        "label": "Intermediate — ขั้นกลาง",
-        "hub": "intermediate.html",
-        "chapters": [
-            "Object ขั้นกลาง",
-            "MU และ MU Class",
-            "ค่าที่ไม่คงที่ (Distribution)",
-            "ความเสียหายของเครื่องจักร",
-            "Chart และ Bottleneck Analyzer",
-            "จัดกลุ่มโมเดลเป็น Sub-frame",
-        ],
-    },
-    "advanced": {
-        "label": "Advanced — ขั้นสูง",
-        "hub": "advanced.html",
-        "chapters": [
-            "SimTalk 2.0 พื้นฐาน",
-            "Method ผูกกับ Event",
-            "DataTable และ Variable",
-            "สร้าง Object ด้วยโค้ด",
-            "Experiment Manager",
-            "Optimization ด้วย GAWizard",
-            "ควบคุมจากภายนอกผ่าน COM/Python",
-        ],
-    },
-    "object-reference": {
-        "label": "Object Reference — สาธิต Object",
-        "hub": "object-reference.html",
-        "chapters": [
-            "Material Flow Objects",
-            "Information Flow Objects",
-            "Resources &amp; Tools",
-        ],
-    },
-    "step-by-step": {
-        "label": "Step-by-Step File — ไฟล์สอนของ Siemens",
-        "hub": "step-by-step.html",
-        "chapters": [
-            "พื้นฐานสายการผลิต",
-            "สถิติและการวิเคราะห์",
-            "การประกอบและการคัดแยก",
-            "แรงงานและทรัพยากรบุคคล",
-            "หุ่นยนต์และการขนย้าย",
-            "SimTalk และภาพเคลื่อนไหว",
-            "โมเดล 3 มิติ",
-            "Optimization ด้วย GAWizard",
-        ],
-    },
-    "case-study": {
-        "label": "Case Study — ตัวอย่างอุตสาหกรรม",
-        "hub": "case-study.html",
-        "chapters": [
-            "อุตสาหกรรมยานยนต์ (Automotive)",
-            "คลังสินค้าและโลจิสติกส์ (Warehouse &amp; Logistics)",
-            "อิเล็กทรอนิกส์ (Electronics / SMT)",
-            "อาหารและเครื่องดื่ม (Food &amp; Beverage)",
-        ],
-    },
-    "tips-tricks": {
-        "label": "Tips and Tricks — เทคนิคการทำงาน",
-        "hub": "tips-tricks.html",
-        "chapters": [
-            "UI และ Workflow",
-            "การสร้างโมเดลและดีบัก",
-            "ประสิทธิภาพการรัน (Performance)",
-            "SimTalk และ Scripting",
+            "Conveyor, Buffer, เครื่องเสีย และ OEE",
+            "คน และกะทำงาน",
+            "ประกอบ และถอด (Assembly / Dismantle)",
+            "Track และ Transporter",
+            "SimTalk และ Method",
+            "AMR — AGVPool และ GAWizard",
+            "Python ใน Plant Simulation",
         ],
     },
 }
 
-SECTION_ORDER = ["basic", "intermediate", "advanced", "object-reference", "step-by-step", "case-study", "tips-tricks"]
+SECTION_ORDER = ["overview", "lessons"]
 
 
 def _chapter_stem(idx):
@@ -138,7 +81,9 @@ def chapter_title(section, idx):
 
 
 def chapter_label(section, idx):
-    """Chapter number as shown to readers, e.g. 3 -> "3", "00a" -> "00A"."""
+    """Chapter number as shown to readers: lessons are "01".."09", other sections "1".."N"."""
+    if SECTIONS[section].get("flat") and isinstance(idx, int):
+        return f"{idx:02d}"
     return str(idx).upper()
 
 
@@ -152,6 +97,12 @@ def sidebar_html(expand_section=None, active_top=None, active_chapter=None):
 
     for sec in SECTION_ORDER:
         info = SECTIONS[sec]
+        if info.get("flat"):
+            for i in chapter_numbers(sec):
+                li_active = ' class="active"' if (active_top == sec and active_chapter == i) else ''
+                parts.append(f'          <li{li_active}><a href="{chapter_filename(sec, i)}">'
+                             f'{chapter_label(sec, i)}. {chapter_title(sec, i)}</a></li>')
+            continue
         li_classes = ["has-children"]
         if expand_section == sec:
             li_classes.append("expanded")
@@ -169,8 +120,6 @@ def sidebar_html(expand_section=None, active_top=None, active_chapter=None):
         parts.append('            </ul>')
         parts.append('          </li>')
 
-    ex_active = ' class="active"' if active_top == "examples" else ''
-    parts.append(f'          <li{ex_active}><a href="examples.html">Example File</a></li>')
     parts.append('        </ul>')
     parts.append('      </nav>')
     return "\n".join(parts)
@@ -233,7 +182,6 @@ def hub_page(section):
           </a>''')
     cards_html = "\n".join(cards)
 
-    prev_section = None
     idx = SECTION_ORDER.index(section)
     prev_html = '<a href="index.html">← กลับหน้าแรก</a>'
     if idx > 0:
@@ -251,76 +199,36 @@ def hub_page(section):
 
         <div class="page-nav">
           {prev_html}
-          <a href="{first_chapter}">เริ่มบทที่ {chapter_label(section, first_no)}: {info["chapters"][0]} →</a>
+          <a href="{first_chapter}">เริ่ม {chapter_label(section, first_no)}. {info["chapters"][0]} →</a>
         </div>'''
-    return page_html(info["label"].split(" — ")[0], body, expand_section=section, active_top=section)
+    return page_html(info["label"], body, expand_section=section, active_top=section)
 
 
 HUB_INTRO = {
-    "basic": "ชุดสอน Step by Step บน Plant Simulation 2606 ทั้งหมด 8 บท (00–07) — บท 00 เปิดดูโมเดลตัวอย่าง 2 ตัว (00A Factory 51 และ 00B Small Parts Production) บท 01 สร้างโมเดลแรกเอง ส่วนบท 02–07 ใช้<strong>ไลน์ผลิต 5 สถานีไลน์เดียวต่อเนื่อง</strong> แต่ละบทเพิ่มปัญหาจริงทีละเรื่อง: คอขวด + เครื่องขนาน → เวลาสุ่ม + Buffer + เครื่องเสีย → คน + กะ → หลายรุ่น + งานเสีย → 3D + AGV → หาค่าที่ดีที่สุด บท 00–04 ไม่ต้องเขียนโค้ด",
-    "intermediate": "สำหรับผู้ที่สร้างโมเดลง่ายๆ ได้แล้ว และต้องการให้โมเดลสมจริงขึ้น — ใช้ Object เพิ่มเติม ค่าที่ไม่คงที่ ความเสียหายของเครื่องจักร และการวิเคราะห์ผลลัพธ์ ทั้งหมด 6 บท",
-    "advanced": "สำหรับผู้ที่ต้องการควบคุมโมเดลด้วยสคริปต์ SimTalk สร้าง Object ด้วยโค้ด และทำ Optimization อัตโนมัติ ไปจนถึงควบคุมโปรแกรมจากภายนอกผ่าน COM ทั้งหมด 7 บท",
-    "object-reference": "รวม Object ที่ใช้บ่อยเป็นหมวดหมู่ พร้อมสาธิตการทำงานสั้นๆ ที่ลองทำตามได้ทันที — ใช้เป็นที่เปิดหาอ้างอิงเร็วๆ เวลาจำไม่ได้ว่า Object ไหนใช้ทำอะไร",
-    "step-by-step": "เดินตามไฟล์สอนต้นฉบับของ Siemens (<code>2404_Plant_Simulation_Step_by_Step.spp</code>) ทีละหัวข้อ — ไฟล์นี้มี 18 เฟรมสาธิตครอบคลุมเกือบทุก Object ในคอร์ส จัดกลุ่มใหม่เป็น 8 บทตามธีมเพื่อให้เห็นภาพว่าความรู้จาก Basic/Intermediate/Advanced ถูกประกอบเป็นไฟล์ตัวอย่างจริงของ Siemens เองอย่างไร",
-    "case-study": "ตัวอย่างการใช้ Plant Simulation แก้โจทย์จริงจาก 4 อุตสาหกรรม เห็นภาพว่าความรู้แต่ละบทที่เรียนมาถูกเอาไปประกอบกันอย่างไรในสถานการณ์จริง",
-    "tips-tricks": "เทคนิคเล็กๆ น้อยๆ ที่ช่วยประหยัดเวลาและลดข้อผิดพลาดในการทำงาน แบ่งเป็นหมวดตามลักษณะงาน",
+    "overview": "เริ่มจากรู้จัก Plant Simulation และแนวคิด Discrete Event Simulation แล้วเปิดโมเดลตัวอย่าง 3 ตัวที่ติดมากับโปรแกรม "
+                "(Factory 51, Small Parts Production, Python GA Demo) เพื่อเห็นภาพว่าเรียนจบแล้วจะทำอะไรได้ ยังไม่ต้องสร้างโมเดลเอง",
+    "lessons": "ชุดสอน Step by Step บน Plant Simulation 2606 ทั้งหมด 9 บท แต่ละบทมีไฟล์ <code>.spp</code> ของบทที่มีหลาย Frame "
+               "เล่าเรื่องเดียวกัน (Model → Model2 → …) เปิดไฟล์ของบทได้เลย ไม่ต้องทำบทก่อนหน้าให้เสร็จ "
+               "ทุกตัวเลขในบทเรียนวัดจริงใน Plant Simulation 2606",
 }
 
 HUB_CARD_DESC = {
-    "basic": [
-        "เปิด Start Page เปิดโมเดลตัวอย่าง หมุน/ซูม 3D เปิด Frame ด้านใน และสั่ง Run / Reset",
-        "เปิดโมเดลตัวอย่างไลน์ประกอบ หาคอขวด เพิ่ม Buffer หาขนาดด้วย Experiment Manager และดูพลังงาน",
-        "Source → Station → Drain, ตั้งเวลา, EventController และ Display",
-        "ไลน์ 5 สถานี, Display / Chart, หาคอขวดจากสี แล้วแก้ด้วยเครื่องขนาน หรือ ParallelStation (กับดัก When Full)",
-        "เวลาแบบ Uniform, Buffer, Failure (Availability, MTTR), แท็บ Statistics, OEE, รันสั้นเทียบรันยาว",
-        "Workplace, WorkerPool, Broker, คนคุมเครื่อง, ShiftCalendar และ Worker chart",
-        "Source ตามตาราง, เวลาต่างกันตามรุ่น, งานดี/งานเสีย, Variable และ Method สั้นๆ",
-        "วางไลน์บนผังโรงงาน, มุมมอง 3D, AGV ขนของจากคลังเข้าไลน์ และ Conveyor",
-        "Bottleneck Analyzer, ExperimentManager, อ่านผลและสรุปเพื่อตัดสินใจลงทุน",
+    "overview": [
+        "Discrete Event Simulation คืออะไร, Simulation กับ Digital Twin และ Plant Simulation ใช้แก้ปัญหาแบบไหน",
+        "เปิดโมเดลตัวอย่างแรก ฝึกซูม เลื่อน หมุน 3D คลิกวัตถุ เปิด Frame และสั่ง Start / Reset ผ่าน EventController",
+        "หาคอขวดของไลน์ประกอบ เพิ่ม Buffer หาขนาดด้วย Experiment Manager และดูพลังงาน",
+        "Python + pymoo หาลำดับงานและขนาด Buffer 2 เป้าหมาย อ่าน Pareto แล้วใส่คำตอบกลับโมเดล (452 → 732 ชิ้น/วัน)",
     ],
-    "intermediate": [
-        "Buffer/Store, AssemblyStation, Track, Transporter — เมื่อไหร่ควรใช้ตัวไหน",
-        "Part/Container/Transporter และการสร้าง MU class ของตัวเอง",
-        "ตั้งค่า Interval/ProcTime แบบสุ่มตามสถิติแทนค่าคงที่",
-        "จำลอง MTTR/MTBF ให้โมเดลสะท้อนความเสียหายของเครื่องจักรจริง",
-        "อ่านผลลัพธ์เชิงลึกและหาคอขวดของสายการผลิต",
-        "ห่อโมเดลย่อยเป็นโมดูลใช้ซ้ำได้หลายจุด",
-    ],
-    "advanced": [
-        "Syntax ที่ยืนยันแล้วจริง — var, for...next, if...end",
-        "ผูก Method เข้ากับ Entrance/Exit ให้ทำงานอัตโนมัติตามเหตุการณ์",
-        "เก็บและอ่านค่าข้อมูลจากโค้ด ด้วย DataTable และ Variable",
-        "createObject และ Connector.connect — สร้างและต่อโมเดลด้วยสคริปต์ล้วนๆ",
-        "รันหลาย Scenario เปรียบเทียบผลลัพธ์อัตโนมัติ",
-        "ค้นหาค่าพารามิเตอร์ที่ดีที่สุดด้วย Genetic Algorithm",
-        "เชื่อมต่อ Plant Simulation จาก Python ผ่าน COM สำหรับงาน automation",
-    ],
-    "object-reference": [
-        "Source, Conveyor, Station, Buffer, Drain, EventController, AssemblyStation, Store, Track, Transporter, Sorter",
-        "Method, Variable, DataTable — Object ที่ขับเคลื่อนด้วยตรรกะและข้อมูล",
-        "Worker/Resource, BottleneckAnalyzer, ExperimentManager, GAWizard",
-    ],
-    "step-by-step": [
-        "Source, Station, Drain, Display, Chart, ParallelStation — สร้างสายการผลิตแรกและสายแบบต่อเนื่องหลายสถานี",
-        "Chart, DataTable (ORDER/CT/ST), OEE, EnergyAnalyzer — อ่านผลลัพธ์และวิเคราะห์ประสิทธิภาพสายการผลิต",
-        "AssemblyStation, DismantleStation, Sorter, Store, Experiment Manager",
-        "WorkerPool, Broker, Workplace — จำลองคนงานที่ใช้ร่วมกันหลายสถานี",
-        "PickAndPlace, Track (AGV), AGVPool + Marker (AMR)",
-        "Method, Button, DropDownList — ผูก UI เข้ากับโค้ด SimTalk และควบคุมภาพเคลื่อนไหว",
-        "Turntable, Turnplate, AngularConverter — Object เฉพาะสำหรับมุมมองโรงงาน 3 มิติ",
-        "GAWizard — ค้นหาลำดับ/พารามิเตอร์ที่ดีที่สุดโดยอัตโนมัติด้วยพันธุกรรมเทียม",
-    ],
-    "case-study": [
-        "จำลองสายการประกอบรถยนต์ วิเคราะห์คอขวดของสถานีติดตั้งชิ้นส่วน",
-        "จำลองคลังสินค้าและระบบ AGV ขนย้ายพาเลท",
-        "จำลองสาย SMT วางชิ้นส่วนอิเล็กทรอนิกส์ที่ต้องการความแม่นยำสูง",
-        "จำลองสายบรรจุภัณฑ์อาหารที่มีข้อจำกัดเรื่องอายุการเก็บรักษา",
-    ],
-    "tips-tricks": [
-        "ทางลัดและนิสัยที่ช่วยให้ทำงานในโปรแกรมเร็วขึ้น",
-        "ข้อผิดพลาดที่เจอบ่อยและวิธีเช็คก่อนสรุปว่าโมเดลพัง",
-        "เทคนิคทำให้รันโมเดลใหญ่เร็วขึ้นโดยไม่เสียความแม่นยำ",
-        "กับดัก syntax และ COM ที่เจอบ่อยเวลาเขียนสคริปต์",
+    "lessons": [
+        "วาง Source → Station → Drain ตั้งค่า ใส่ Display รัน 1 ชั่วโมง ได้ 359 ชิ้น แล้วบันทึก / Pack and Go",
+        "หาคอขวดด้วย Chart แล้วแก้ 2 วิธี: เพิ่มเครื่องขนาน หรือ ParallelStation (177 → 354 ชิ้น/ชม.)",
+        "วาดสายพานตรง/โค้ง แยกงานดี/เสียด้วย Percentage เวลาสุ่ม Uniform กราฟ Buffer และคำนวณ OEE จากเครื่องเสีย",
+        "Workplace / WorkerPool / Broker จำนวนคน ความเร็ว กะทำงาน ผัง I กับ U ช่างตั้งเครื่อง และช่างซ่อม (94 → 356 ชิ้น/ชม.)",
+        "ชิ้นงานขึ้นพาเลทด้วย AssemblyStation ถอดด้วย DismantleStation พาเลทวนกลับ และหาจำนวนพาเลทด้วย ExperimentManager",
+        "วาด Track วงปิดให้ Transporter วิ่ง ใช้ PickAndPlace ขนชิ้นงานโดยไม่เขียน Method และ TwoLaneTrack รถวิ่งสวน 2 เลน",
+        "เขียน SimTalk 2.0 ใน Method ผูก Entrance/Exit control ใช้ @ และ ? แยกทาง ประกอบ/ถอด OrderParts จนถึง Job Shop จากตาราง",
+        "สั่ง AGV ด้วย setRoute / getIdleAGV แล้วให้ GAWizard หาเส้นทางสั้นสุด ลดเวลาวิ่ง 24%",
+        "ติดตั้ง Python + pandas/matplotlib, PythonModule, อ่าน/เขียนค่าโมเดล, เรียก def จาก SimTalk และกราฟผลผลิตต่อชั่วโมง",
     ],
 }
 
@@ -338,7 +246,7 @@ def youtube_embed(video_id, title, caption=None):
 
 def screenshot(img_path, alt, caption=None):
     """img_path is authored as a repo-root-relative path, e.g.
-    'assets/images/basic/04-01.png' -- write() rewrites it for the page's
+    'assets/images/lessons/04-01.jpg' -- write() rewrites it for the page's
     actual folder depth automatically (see _relocate_links)."""
     cap_html = f'\n  <figcaption>{caption}</figcaption>' if caption else ""
     # linked to the full-size file so wide multi-panel screenshots can be opened and zoomed
@@ -348,8 +256,8 @@ def screenshot(img_path, alt, caption=None):
 
 
 def step_list(items):
-    """Numbered circular-badge list (like the reference ZukenE3 style) instead
-    of a plain browser <ol> counter. items is a list of HTML strings."""
+    """Numbered circular-badge list instead of a plain browser <ol> counter.
+    items is a list of HTML strings."""
     lis = "\n".join(
         f'    <li><span class="num">{i}</span><span class="text">{text}</span></li>'
         for i, text in enumerate(items, start=1)
@@ -371,7 +279,6 @@ def side_by_side(left_html, right_html):
 def _build_old_to_new():
     mapping = {
         "index.html": "index.html",
-        "examples.html": "examples.html",
         "assets/style.css": "assets/style.css",
         "assets/main.js": "assets/main.js",
     }
@@ -419,6 +326,4 @@ def write(relpath, content):
 
 if __name__ == "__main__":
     for sec in SECTION_ORDER:
-        if sec == "basic":
-            continue  # regenerated by gen_chapters.py for full consistency
         write(SECTIONS[sec]["hub"], hub_page(sec))

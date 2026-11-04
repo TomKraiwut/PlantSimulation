@@ -1,0 +1,379 @@
+# -*- coding: utf-8 -*-
+"""Lessons 3: Conveyor, Buffer, failures and OEE -- from 03_Conveyor_Buffer_Failures_OEE.pptx"""
+from gen_site import screenshot, step_list, side_by_side
+
+OBJECTIVES = [
+    "วาด Conveyor ทั้งช่วงตรงและโค้ง และแก้รูปทรง / ความยาวด้วย Show Manipulators และ Segments ได้",
+    "แยกงานดี / งานเสียด้วย Exit แบบ Percentage และตั้งเวลาสุ่มแบบ Uniform ได้",
+    "อ่าน WIP, CT และกราฟ Occupancy / Plotter ของ Buffer ได้",
+    "ตั้งเครื่องเสียด้วย Availability และ MTTR อ่านแท็บ Statistics คำนวณ OEE และรู้ว่าต้องรันนานพอก่อนสรุป",
+]
+
+BODY = f'''
+<p class="lead" style="max-width:46em;">ต่อจาก<a href="lessons-02.html">บท 02</a> — ไลน์เล็ก Station เดียว
+มีสายพานและที่พักงาน บทนี้เริ่มจากวาด Conveyor เอง แล้วเพิ่มเรื่อง<strong>งานเสีย</strong>
+<strong>เวลาไม่คงที่</strong> และ<strong>เครื่องเสีย</strong> จนคำนวณ OEE ได้ ทั้งหมด 9 ขั้น ไม่ต้องเขียนโค้ด</p>
+
+<div class="tip">
+<strong>สิ่งที่ต้องมี:</strong> Plant Simulation 2606 และไฟล์ <code>03_Conveyor_Buffer_Failures_OEE.spp</code>
+(Class Library › Models › Model … Model5) &nbsp;·&nbsp; แยกงานดี/เสียด้วย Percentage 95 / 5 ได้ FG
+<strong>180 → 341 ชิ้น/ชม.</strong> (ทุกตัวเลขในบทนี้วัดจริงใน Plant Simulation 2606 ด้วยไฟล์บทเรียนนี้ รันซ้ำได้ผลเท่าเดิม)
+</div>
+
+<h2>ภาพรวม: 9 ขั้น จากวาดสายพาน ถึง OEE</h2>
+<table>
+<tr><th>ขั้น</th><th>หัวข้อ</th><th>ทำอะไร / ผล</th></tr>
+<tr><td>1</td><td>วาด Conveyor</td><td>คลิกทีละจุด Ctrl + คลิก = โค้ง</td></tr>
+<tr><td>2</td><td>วาง Buffer Station FG NG</td><td>แล้วต่อ Connector</td></tr>
+<tr><td>3</td><td>ตั้ง Conveyor + รัน Model</td><td>FG 180 NG 179</td></tr>
+<tr><td>4</td><td>Exit แบบ Percentage</td><td>95 / 5 ได้ FG 341 NG 18</td></tr>
+<tr><td>5</td><td>เวลาสุ่ม Uniform</td><td>Source 0:05–0:10 Station 0:04.6–0:10</td></tr>
+<tr><td>6</td><td>WIP, CT + Chart 2 แบบ</td><td>FG 447 NG 24</td></tr>
+<tr><td>7</td><td>เพิ่มเครื่องเสีย</td><td>Availability 90% MTTR 5:00</td></tr>
+<tr><td>8</td><td>Statistics + OEE</td><td>1 กะ OEE ≈ 81%</td></tr>
+<tr><td>9</td><td>รัน 30 วัน</td><td>เครื่องเสียนิ่งที่ 10%</td></tr>
+</table>
+
+<h2>5 Frame ในไฟล์นี้ — ไลน์เดียวโตขึ้นทีละเรื่อง</h2>
+<table>
+<tr><th>Frame</th><th>เรื่อง</th><th>ขั้น</th></tr>
+<tr><td><code>Model</code></td><td>Source → Conveyor → Buffer → Station → FG / NG ทุกอย่าง 0:10 ได้ FG 180 NG 179</td><td>1–3</td></tr>
+<tr><td><code>Model2</code></td><td>Exit แบบ Percentage 95 / 5 ได้ FG 341 NG 18</td><td>4</td></tr>
+<tr><td><code>Model3</code></td><td>เวลาสุ่ม สายพาน 0.2 m/s Chart ของ Buffer ได้ FG 447 NG 24</td><td>5–6</td></tr>
+<tr><td><code>Model4</code></td><td>กลับเป็น 0:10 เพิ่มเครื่องเสีย 1 กะ ได้ FG 2,330</td><td>7–8</td></tr>
+<tr><td><code>Model5</code></td><td>เหมือน Model4 รัน 30 วัน ได้ 306.5 FG/ชม.</td><td>9</td></tr>
+</table>
+<table>
+<tr><th>บท 03 ในตัวเลข</th><th>ค่า</th></tr>
+<tr><td>สายพาน</td><td>8 เมตร</td></tr>
+<tr><td>งานเสีย (NG)</td><td>5%</td></tr>
+<tr><td>Availability ของ Station</td><td>90%</td></tr>
+<tr><td>OEE 1 กะ</td><td>81%</td></tr>
+</table>
+<div class="note"><strong>ที่มาของ Frame:</strong> Model2–5 ทำจากคลิกขวาที่ Frame เดิมใน Class Library › <code>Duplicate</code>
+แล้วแก้ทีละเรื่อง (วิธีสร้าง Frame อยู่ใน<a href="lessons-02.html">บท 02</a>)</div>
+
+<h2>ขั้นที่ 1: เลือก Conveyor แล้วคลิกจุดเริ่ม</h2>
+<p><code>Toolbox › Material Flow › Conveyor</code></p>
+{screenshot("assets/images/lessons/03-01.jpg", "เลือก Conveyor ใน Toolbox แล้วคลิกจุดเริ่มข้าง Source")}
+{step_list([
+    "<strong>Conveyor</strong> — คลิกไอคอนใน Toolbox แท็บ Material Flow",
+    "<strong>คลิกจุดเริ่ม</strong> — ข้าง Source ตรงที่สายพานจะรับงาน",
+    "<strong>Line/Arc Parameters</strong> — หน้าต่างนี้ขึ้นมาเอง บอกความยาวระหว่างวาด",
+])}
+<div class="tip"><strong>ยกเลิก:</strong> คลิกขวาในพื้นที่ Frame หรือกดปุ่ม <code>Abort</code> ถ้าวาดผิด</div>
+
+<h2>ขั้นที่ 1: คลิกจุดถัดไป ดูความยาวในช่อง Line Length</h2>
+<p>เลื่อนเมาส์ไปทางขวา ดูตัวเลขเมตร แล้วคลิก — ไม่ต้องพิมพ์ตัวเลข</p>
+{screenshot("assets/images/lessons/03-02.jpg", "ช่อง Line Length บอกความยาวระหว่างเลื่อนเมาส์")}
+{step_list([
+    "<strong>Line Length = 4.000 m</strong> — ตัวเลขเปลี่ยนตามเมาส์ทันที",
+    "<strong>คลิกจุดที่จะวาง</strong> — เมื่อตัวเลขได้ความยาวที่ต้องการ",
+])}
+<div class="tip"><strong>ความยาวพอดี:</strong> จุดบนพื้นห่างกันจุดละ 1 m ช่วยให้คลิกได้ค่าลงตัว · สายพานตรงชิ้นแรกในบทนี้ยาว 4 m</div>
+
+<h2>ขั้นที่ 1: กด Ctrl ค้างแล้วคลิก ได้ทางโค้ง แล้วกด Finish</h2>
+<p>Ctrl + คลิก = โค้ง 90° · คลิก = ตรง · Finish = จบ</p>
+{screenshot("assets/images/lessons/03-03.jpg", "วาดทางโค้งด้วย Ctrl + คลิก แล้วต่อช่วงตรงและกด Finish")}
+{step_list([
+    "<strong>กด Ctrl ค้าง แล้วคลิก</strong> — ได้ทางโค้ง 90° รัศมี 2 m",
+    "<strong>Curve Angle 90, Radius 2</strong> — ช่องหน้า fixed มีเครื่องหมายถูก ☑ = ใช้ค่านี้ทุกโค้ง",
+    "<strong>ปล่อย Ctrl แล้วคลิก</strong> — สายพานตรงต่ออีก 1 m",
+    "<strong>Finish</strong> — จบการวาด ได้ Conveyor ยาว 4 + 3.14 + 1 = 8.14 m",
+])}
+<div class="note"><strong>วัดจริง:</strong> ความยาว Conveyor = 8.14159 m (ตรง 4 m + โค้ง 3.142 m + ตรง 1 m)</div>
+
+<h2>ขั้นที่ 1: แก้รูปทรงสายพานหลังวาด</h2>
+<p>คลิกขวาที่ Conveyor › <code>Show Manipulators</code> (M) แล้วลากจุด Anchor</p>
+{screenshot("assets/images/lessons/03-04.jpg", "เมนู Show Manipulators และจุด Anchor Point บนสายพานในมุมมอง 3D")}
+{step_list([
+    "<strong>คลิกขวาที่ Conveyor › Show Manipulators</strong> — หรือคลิกเลือกแล้วกด <code>M</code>",
+    "<strong>Anchor Point</strong> — จุดหักของสายพาน (สีเหลือง) คลิกค้างแล้วลากไปวางที่ใหม่ ช่วงตรงและโค้งยืด / หดตาม",
+])}
+<div class="tip"><strong>ต้องการค่าที่แน่นอน:</strong> การลากเหมาะกับปรับตำแหน่งคร่าว ๆ ถ้าต้องการความยาวเป็นตัวเลข ใช้ Segments › Edit (หัวข้อถัดไป)
+· ลากจุดของช่วงโค้งเพื่อยืดช่วงนั้นได้โดยไม่เพิ่ม Anchor Point ใหม่</div>
+
+<h2>ขั้นที่ 1: เมนู Segments — แก้เป็นตัวเลข ต่อ กลับทิศ แยก</h2>
+{side_by_side(
+    screenshot("assets/images/lessons/03-05.jpg", "คลิกขวาที่ Conveyor › Segments และเมนูย่อย"),
+    step_list([
+        "<strong>Segments</strong> — ชี้ที่เมนูนี้ เมนูย่อยจะเปิดทางขวา",
+        "<strong>Edit... (F7)</strong> — ตาราง Segments ของทุกช่วง แก้ Length (m), มุมโค้ง และรัศมีเป็นตัวเลข แทรกช่วงใหม่ได้ แล้วกด OK",
+        "<strong>Append...</strong> — ต่อสายพานจากปลายเดิม คลิกจุดถัดไปเหมือนตอนวาด",
+        "<strong>Reverse</strong> — กลับทิศทางการไหล จุดสุดท้ายกลายเป็นจุดแรก",
+        "<strong>Split Up</strong> — แยกสายพานเป็นคนละชิ้น ตรงจุดที่คลิกเลือก",
+    ])
+)}
+<div class="tip"><strong>ตัวอย่าง:</strong> ตรงช่วงแรกยาว 4 m อยากได้ 5 m: <code>Edit...</code> › แถวช่วงนั้น › Length = 5 › OK ช่วงที่ตามมาเลื่อนไปเอง</div>
+
+<h2>ขั้นที่ 2: วาง Buffer, Station, Drain 2 ตัว แล้วต่อ Connector</h2>
+<p>Frame <code>Model</code> · ผังของไลน์ — วาง Object และต่อ Connector แบบเดียวกับ<a href="lessons-01.html">บท 01</a>
+ชื่อ Drain เปลี่ยนเป็น FG และ NG (คลิกขวา › Rename หรือ F2)</p>
+{screenshot("assets/images/lessons/03-06.jpg", "ผังไลน์ Source, Conveyor, Buffer, Station, FG และ NG")}
+{step_list([
+    "<strong>Conveyor</strong> — ต่อจาก Source รับงานเข้าสายพาน",
+    "<strong>Buffer</strong> — ที่พักงานก่อนเข้าเครื่อง (ความจุ 8 ชิ้น ค่าเริ่มต้น)",
+    "<strong>Station</strong> — เครื่องเดียว 0:10 ต่อชิ้น",
+    "<strong>FG</strong> — Drain รับงานดี (ต่อเป็นเส้นแรกจาก Station)",
+    "<strong>NG</strong> — Drain รับงานเสีย (เส้นที่ 2)",
+    "<strong>Display FG / NG</strong> — นับจำนวนที่เข้า Drain (วิธีวางอยู่ในบท 02)",
+])}
+<div class="note"><strong>ลำดับเส้นสำคัญ:</strong> Station ส่งงานตามลำดับ Connector: เส้นที่ 1 = FG เส้นที่ 2 = NG ใช้ในขั้นที่ 4</div>
+
+<h2>ขั้นที่ 3: ตั้งค่า Conveyor และ Buffer</h2>
+<p>ดับเบิลคลิก Conveyor (ซ้าย) · ดับเบิลคลิก Buffer (ขวา)</p>
+{screenshot("assets/images/lessons/03-07.jpg", "หน้าต่างตั้งค่า Conveyor และ Buffer")}
+{step_list([
+    "<strong>Length 8.14 m</strong> — มาจากที่วาด แก้ในช่องนี้ไม่ได้",
+    "<strong>Width 1 m</strong> — ความกว้างสายพาน",
+    "<strong>Speed 1 m/s</strong> — ความเร็ว (Model3 ลดเหลือ 0.2)",
+    "<strong>Capacity -1</strong> — = รับได้เต็มความยาวสายพาน",
+    "<strong>Buffer Capacity 8</strong> — พักงานได้ 8 ชิ้น",
+])}
+<div class="tip"><strong>ค่าเริ่มต้นของ PtS 2606:</strong> Conveyor กว้าง 1 m ความเร็ว 1 m/s · Buffer ความจุ 8 ชิ้น</div>
+
+<h2>ขั้นที่ 3: เปลี่ยนรูปสายพานใน 3D เป็นแบบ Roller</h2>
+<p>มุมมอง 3D › คลิกขวาที่ Conveyor › <code>Edit 3D Properties...</code> › แท็บ Appearance</p>
+{screenshot("assets/images/lessons/03-08.jpg", "Edit 3D Properties ของ Conveyor แท็บ Appearance เลือก Roller conveyor")}
+{step_list([
+    "<strong>Edit 3D Properties...</strong> — หรือคลิกเลือกแล้วกด <code>Space</code>",
+    "<strong>แท็บ Appearance</strong>",
+    "<strong>Type = Roller conveyor</strong> — เลือกรูปแบบสายพานจากรายการ",
+    "<strong>Legs</strong> — ขาตั้ง: รูปแบบ สี และขนาด",
+    "<strong>Rollers · Support Frame</strong> — สีและขนาดลูกกลิ้ง และโครงข้าง",
+    "<strong>Apply</strong> แล้ว <strong>OK</strong>",
+])}
+<div class="tip"><strong>มีผลแค่หน้าตา:</strong> เปลี่ยนเฉพาะภาพ 3D ความเร็ว ความยาว และผลการรันเท่าเดิม · Base Height = ความสูงสายพานจากพื้น</div>
+
+<h2>ขั้นที่ 3: Model — งานดีกับงานเสียได้เท่ากัน</h2>
+<p>Frame <code>Model</code> · ผลหลังรัน 1 ชั่วโมง</p>
+{screenshot("assets/images/lessons/03-09.jpg", "Frame Model หลังรัน 1 ชั่วโมง FG 180 NG 179")}
+{step_list([
+    "<strong>Source, Station 0:10</strong> — Exit เป็นค่าเริ่มต้น Cyclic = ส่งสลับเส้น",
+    "<strong>FG = 180</strong>",
+    "<strong>NG = 179</strong> — งานเสียเกือบครึ่งหนึ่ง ไม่ตรงกับโรงงานจริง",
+])}
+<div class="note"><strong>ทำไม:</strong> Cyclic ส่งงานสลับไป FG และ NG ทีละชิ้น ขั้นต่อไปกำหนดสัดส่วนเอง</div>
+
+<h2>ขั้นที่ 4: แยกงานดี / งานเสียด้วย Percentage</h2>
+{side_by_side(
+    screenshot("assets/images/lessons/03-10.jpg", "Frame Model2 › Station แท็บ Exit Strategy = Percentage"),
+    "<p>Frame <code>Model2</code> › ดับเบิลคลิก Station › แท็บ Exit</p>" + step_list([
+        "<strong>แท็บ Exit</strong>",
+        "<strong>Strategy = Percentage</strong> — เลือกจากรายการ",
+        "<strong>Blocking</strong> — ไม่มีเครื่องหมายถูก ☐ = ถ้าปลายทางเต็ม ส่งไปทางอื่นได้",
+        "<strong>Open List</strong> — ใส่ 95 ในแถว 1 (FG) และ 5 ในแถว 2 (NG) แล้วกด Apply / OK",
+    ])
+)}
+<div class="tip"><strong>แถวในรายการ:</strong> แถวเรียงตามลำดับ Connector ที่ต่อออกจาก Station เส้นแรกคือ FG
+· ใน SimTalk เท่ากับ <code>Station.ExitStrategy := "Percentage"</code> และ <code>Station.ExitStrategyPercentageValues := [95, 5]</code></div>
+
+<h2>ขั้นที่ 4: Model2 — งานเสีย 5% ตามที่ตั้ง</h2>
+<p>Frame <code>Model2</code> · ผลหลังรัน 1 ชั่วโมง</p>
+{screenshot("assets/images/lessons/03-11.jpg", "Frame Model2 หลังรัน 1 ชั่วโมง FG 341 NG 18")}
+{step_list([
+    "<strong>FG = 341</strong>",
+    "<strong>NG = 18</strong> — 18 ÷ 359 = 5.0%",
+])}
+<div class="tip"><strong>สุ่มแต่รันซ้ำได้เท่าเดิม:</strong> Percentage สุ่มทีละชิ้น ผลรวมจึงใกล้ 95 / 5 · รวม 359 ชิ้นต่อชั่วโมง เท่ากับ Model</div>
+
+<h2>ขั้นที่ 5: เวลาไม่คงที่ด้วย Uniform</h2>
+<p>Frame <code>Model3</code> · ดับเบิลคลิก Source (ซ้าย) · Station (ขวา) — เลือก Uniform จากรายการแล้วพิมพ์ <code>0:05, 0:10</code> กด Apply</p>
+{screenshot("assets/images/lessons/03-12.jpg", "Source Interval และ Station Processing Time แบบ Uniform")}
+{step_list([
+    "<strong>Source › Interval</strong> — Uniform 0:05, 0:10 = งานเข้าทุก 5–10 วินาที",
+    "<strong>Station › Processing Time</strong> — Uniform 0:04.6, 0:10 = ทำงาน 4.6–10 วินาทีต่อชิ้น",
+])}
+<div class="tip"><strong>ทำไมใช้เวลาสุ่ม:</strong> งานจริงไม่ได้มาและไม่ได้ใช้เวลาเท่ากันทุกชิ้น · Station เฉลี่ย 7.3 วินาที
+เร็วกว่างานที่เข้ามา (7.5) นิดเดียว งานจึงรอใน Buffer เป็นช่วง ๆ ดูได้ใน Chart2 (ขั้นที่ 6)</div>
+
+<h2>ขั้นที่ 5: สายพานช้าลง และ Display WIP / CT</h2>
+<p>Frame <code>Model3</code> · Conveyor (ซ้าย) · DisplayWIP (ขวา) — วาง Display จาก <code>Toolbox › User Interface</code> แล้วกรอก Path และ Comment ในแท็บ Data</p>
+{screenshot("assets/images/lessons/03-13.jpg", "Conveyor Speed 0.2 m/s และ DisplayWIP แท็บ Data")}
+{step_list([
+    "<strong>Conveyor Speed = 0.2 m/s</strong> — ชิ้นงานใช้เวลาบนสายพาน 8.14 ÷ 0.2 ≈ 41 วินาที",
+    "<strong>Path = Buffer.NumMU</strong> — WIP = จำนวนชิ้นที่รออยู่ใน Buffer ตอนนี้",
+    "<strong>Comment = WIP =</strong> — ข้อความหน้าตัวเลข · Display CT ใช้ Path = <code>Station.ProcTime</code> (เวลาทำงานชิ้นล่าสุด)",
+])}
+
+<h2>ขั้นที่ 6: Model3 — อ่าน WIP, CT, FG และ NG</h2>
+<p>Frame <code>Model3</code> · ผลหลังรัน 1 ชั่วโมง</p>
+{screenshot("assets/images/lessons/03-14.jpg", "Frame Model3 หลังรัน 1 ชั่วโมง WIP, CT, FG, NG และ Chart")}
+{step_list([
+    "<strong>WIP = 3</strong> — ชิ้นที่รอใน Buffer ตอนจบ",
+    "<strong>CT = 8.79</strong> — เวลาทำงานของชิ้นล่าสุด (วินาที)",
+    "<strong>FG = 447</strong>",
+    "<strong>NG = 24</strong>",
+    "<strong>Chart</strong> — กราฟสถานะของ Station",
+    "<strong>Chart2</strong> — กราฟจำนวนชิ้นใน Buffer",
+])}
+<div class="note"><strong>ได้มากขึ้น:</strong> งานเข้าเฉลี่ยทุก 7.5 วินาที เร็วกว่า 10 วินาทีของ Model2 ไลน์จึงได้ 471 ชิ้นต่อชั่วโมง (FG + NG) · NG 5.1%</div>
+
+<h2>ขั้นที่ 6: Chart — Station ทำงานเกือบตลอดเวลา</h2>
+{side_by_side(
+    screenshot("assets/images/lessons/03-15.jpg", "Chart ของ Station ใน Model3 หลังรัน"),
+    "<p>Frame <code>Model3</code> › ดับเบิลคลิก Chart (หลังรัน)</p>" + step_list([
+        "<strong>สีเขียว Working 95.7%</strong> — Station ทำงาน",
+        "<strong>สีเทา Waiting 4.3%</strong> — รองาน เมื่อ Source สุ่มได้ช่วงห่าง",
+        "<strong>ไม่มีสีเหลือง</strong> — Station ไม่เคยถูกบล็อก เพราะ FG / NG รับได้ตลอด",
+    ])
+)}
+<div class="tip"><strong>วางเอง:</strong> <code>Toolbox › User Interface › Chart</code> แล้วลาก Station ไปวางบน Chart (เหมือนบท 02)</div>
+
+<h2>ขั้นที่ 6: Chart2 ดู Buffer — ลาก Buffer ไปวาง เลือก Occupancy</h2>
+<p><code>Toolbox › User Interface › Chart</code> แล้วลาก Buffer ไปวางบน Chart2 ที่ยังไม่ได้ตั้งค่า</p>
+{screenshot("assets/images/lessons/03-16.jpg", "ลาก Buffer ไปวางบน Chart2 และหน้าต่าง Statistics Type")}
+{step_list([
+    "<strong>Chart2</strong> — วาง Chart อีกตัวจาก Toolbox › User Interface",
+    "<strong>ลาก Buffer ไปปล่อยบน Chart2</strong> — คลิกค้างที่ Buffer แล้วลากไปวาง",
+    "<strong>Statistics Type = Occupancy</strong> — Buffer ขึ้นค่านี้ให้เอง = นับว่ามีงานอยู่กี่ชิ้น",
+    "<strong>OK</strong>",
+])}
+<div class="tip"><strong>เลือกแบบไหน:</strong> Resource = สถานะเครื่อง ทำงาน / รอ / เสีย (Chart ของ Station) · Occupancy = จำนวนชิ้นที่เก็บอยู่ เหมาะกับ Buffer และสายพาน</div>
+
+<h2>ขั้นที่ 6: อ่านกราฟ Occupancy ของ Buffer</h2>
+{side_by_side(
+    screenshot("assets/images/lessons/03-17.jpg", "กราฟ Occupancy ของ Buffer ใน Chart2"),
+    "<p>Frame <code>Model3</code> › ดับเบิลคลิก Chart2 (หลังรัน 1 ชั่วโมง)</p>" + step_list([
+        "<strong>แกนนอน Number of MUs</strong> — จำนวนชิ้นใน Buffer: 0, 1, 2, …",
+        "<strong>แกนตั้ง Time Portion (%)</strong> — % ของเวลาที่ Buffer มีจำนวนชิ้นเท่านั้น",
+        "<strong>แท่ง 0 ≈ 41%</strong> — Buffer ว่างเกือบครึ่งหนึ่งของเวลา · 1 ชิ้น ≈ 28% · 2 ชิ้น ≈ 18% · 3 ชิ้น ≈ 10%",
+        "<strong>ไม่เกิน 5 ชิ้น</strong> — ทั้งที่ Buffer จุได้ 8 ชิ้น ที่ที่เหลือไม่เคยถูกใช้",
+    ])
+)}
+<div class="tip"><strong>ใช้ทำอะไร:</strong> แท่งที่ความจุเต็มสูง = Buffer เต็มบ่อย เครื่องหน้าต้องรอ ควรเพิ่มที่พัก · แท่ง 0 สูง = เครื่องหลังรองานบ่อย
+(ค่าในกราฟเป็นค่าที่อ่านโดยประมาณ)</div>
+
+<h2>ขั้นที่ 6: Copy Chart2 แล้วตั้งเป็น Plotter</h2>
+<p>คลิก Chart2 › <code>Ctrl+C</code> แล้ว <code>Ctrl+V</code> ได้ Chart22 › ดับเบิลคลิก Chart22</p>
+{screenshot("assets/images/lessons/03-18.jpg", "Chart22 แท็บ Display และแท็บ Labels")}
+{step_list([
+    "<strong>Copy / Paste Chart2</strong> — ได้ Chart22 ที่ยังดู Buffer.numMU เหมือนเดิม",
+    "<strong>แท็บ Display</strong>",
+    "<strong>Category = Plotter</strong> — กราฟเส้นตามเวลา",
+    "<strong>Chart Type = Line</strong>",
+    "<strong>แท็บ Labels</strong>",
+    "<strong>Title = Plotter</strong> — X-Axis = Time · Y-Axis = Mus (ชื่อแกน)",
+])}
+
+<h2>ขั้นที่ 6: อ่านกราฟ Plotter — จำนวนชิ้นใน Buffer ตามเวลา</h2>
+{side_by_side(
+    screenshot("assets/images/lessons/03-19.jpg", "กราฟ Plotter ของ Buffer ตามเวลา 1 ชั่วโมง"),
+    "<p>Frame <code>Model3</code> › ดับเบิลคลิก Chart22 (หลังรัน 1 ชั่วโมง)</p>" + step_list([
+        "<strong>แกนนอน Time</strong> — เวลาจำลอง 0 ถึง 1:00:00",
+        "<strong>แกนตั้ง</strong> — จำนวนชิ้นใน Buffer ณ เวลานั้น",
+        "<strong>นาทีที่ 55–60</strong> — งานสะสมถึง 4–5 ชิ้น = Station สุ่มได้เวลานานหลายชิ้นติดกัน",
+        "<strong>ช่วง 0–1 ชิ้น</strong> — Station ตามทันงานที่เข้ามา",
+    ])
+)}
+<div class="tip"><strong>ต่างจาก Chart2:</strong> Occupancy บอกว่ารวมแล้วกี่ % ของเวลา · Plotter บอกว่างานค้างเกิดตอนไหน ใช้หาช่วงเวลาที่มีปัญหา</div>
+
+<h2>ขั้นที่ 7: เพิ่มเครื่องเสียให้ Station</h2>
+{side_by_side(
+    screenshot("assets/images/lessons/03-20.jpg", "Frame Model4 › Station แท็บ Failures"),
+    "<p>Frame <code>Model4</code> › ดับเบิลคลิก Station › แท็บ Failures</p>" + step_list([
+        "<strong>แท็บ Failures</strong>",
+        "<strong>Active</strong> — ช่องหน้าชื่อมีเครื่องหมายถูก ☑ = เปิดให้เครื่องเสียได้",
+        "<strong>Availability 90%</strong> — เครื่องพร้อมทำงาน 90% ของเวลา",
+        "<strong>MTTR 5:00</strong> — ซ่อมเฉลี่ยครั้งละ 5 นาที",
+    ])
+)}
+<div class="note"><strong>Model4:</strong> Duplicate จาก Model3 แล้วตั้งเวลากลับเป็น 0:10 คงที่ ให้เห็นผลของเครื่องเสียอย่างเดียว · รัน 8 ชม. (1 กะ)
+· ดับเบิลคลิกแถว Failure เพื่อดูรายละเอียด (Interval, Duration) ที่โปรแกรมคำนวณจาก Availability และ MTTR</div>
+
+<h2>ขั้นที่ 7: Model4 — 1 กะ ได้ FG 2,330</h2>
+<p>Frame <code>Model4</code> · ผลหลังรัน 8 ชั่วโมง</p>
+{screenshot("assets/images/lessons/03-21.jpg", "Frame Model4 หลังรัน 8 ชั่วโมง")}
+{step_list([
+    "<strong>Station</strong> — เสีย 14.7% ของเวลา",
+    "<strong>WIP = 8</strong> — Buffer เต็ม งานค้างบนสายพานด้วย",
+    "<strong>FG = 2,330</strong>",
+    "<strong>NG = 123</strong>",
+])}
+<div class="note"><strong>งานค้างไม่หาย:</strong> Station ทำได้เร็วเท่ากับงานที่เข้ามา (0:10) เมื่อเสียแล้วจึงไล่ไม่ทัน Source ถูกบล็อก 97.9% ของเวลา</div>
+
+<h2>ขั้นที่ 8: อ่านตัวเลขในแท็บ Statistics</h2>
+{side_by_side(
+    screenshot("assets/images/lessons/03-22.jpg", "Frame Model4 › Station แท็บ Statistics หลังรัน 8 ชั่วโมง"),
+    "<p>Frame <code>Model4</code> › ดับเบิลคลิก Station › แท็บ Statistics (หลังรัน)</p>" + step_list([
+        "<strong>แท็บ Statistics</strong>",
+        "<strong>Working 85.20%</strong> — เวลาที่เครื่องทำงานจริง",
+        "<strong>Failed 14.65%</strong> — เวลาที่เครื่องเสีย",
+        "<strong>Exits 2,453</strong> — ชิ้นที่ออกจากเครื่อง = FG + NG",
+    ])
+)}
+<div class="note"><strong>Availability ใน 1 กะ:</strong> 100% − 14.65% = 85.35% ต่ำกว่า 90% ที่ตั้ง เพราะ 8 ชั่วโมงสั้นเกินไป (ขั้นที่ 9)</div>
+
+<h2>ขั้นที่ 8: คำนวณ OEE จากสถิติ</h2>
+<p>OEE = A × P × Q · Model4 1 กะ</p>
+<table>
+<tr><th>ตัว</th><th>ความหมาย</th><th>ค่า</th><th>มาจาก</th></tr>
+<tr><td>Availability (A)</td><td>เวลาพร้อมทำงาน ÷ เวลาทั้งหมด</td><td>85.4%</td><td>100% − Failed 14.65%</td></tr>
+<tr><td>Performance (P)</td><td>ชิ้นที่ทำได้ ÷ ชิ้นที่ควรทำได้ในเวลาที่พร้อม</td><td>≈ 100%</td><td>2,453 ÷ (2,880 × 85.4%)</td></tr>
+<tr><td>Quality (Q)</td><td>งานดี ÷ งานทั้งหมด</td><td>95.0%</td><td>FG 2,330 ÷ 2,453</td></tr>
+<tr><td><strong>OEE</strong></td><td>A × P × Q</td><td><strong>≈ 81%</strong></td><td>ตรวจ: FG 2,330 ÷ เต็ม 2,880 = 80.9%</td></tr>
+</table>
+<div class="tip"><strong>เต็ม:</strong> 8 ชม. × 3,600 ÷ 10 วินาที = 2,880 ชิ้น · Plant Simulation ไม่มีปุ่ม OEE ให้ คำนวณจากแท็บ Statistics
+· บทนี้มี NG จริง Quality จึงไม่ใช่ 100%</div>
+
+<h2>ขั้นที่ 9: Model5 — รัน 30 วัน ค่าจึงนิ่ง</h2>
+{side_by_side(
+    screenshot("assets/images/lessons/03-23.jpg", "Frame Model5 › Station แท็บ Statistics หลังรัน 30 วัน"),
+    "<p>Frame <code>Model5</code> › ดับเบิลคลิก Station › แท็บ Statistics</p>" + step_list([
+        "<strong>Working 89.6%</strong>",
+        "<strong>Failed 10.4%</strong> — ใกล้ 10% ที่ตั้ง (Availability 90%)",
+    ])
+)}
+<div class="tip"><strong>ตั้งเวลา:</strong> ดับเบิลคลิก EventController › End = <code>30:00:00:00</code> (30 วัน) รันแบบไม่มีภาพเคลื่อนไหวใช้เวลาไม่กี่วินาที
+· ผล 720 ชั่วโมง: FG 220,650 NG 11,613 = 306.5 FG ต่อชั่วโมง</div>
+
+<h2>ขั้นที่ 9: รันสั้น vs รันยาว (Station Availability 90%)</h2>
+<table>
+<tr><th>Frame</th><th>เวลาที่รัน</th><th>Failed</th><th>FG / ชม.</th><th>OEE</th><th>อ่านว่า</th></tr>
+<tr><td><code>Model4</code></td><td>8 ชม.</td><td>14.7%</td><td>291.2</td><td>≈ 81%</td><td>เครื่องเสียมากกว่าที่ตั้ง เพราะสุ่มได้ไม่กี่ครั้ง</td></tr>
+<tr><td><code>Model5</code></td><td>30 วัน</td><td>10.4%</td><td>306.5</td><td>≈ 85%</td><td>ใกล้ค่าที่ตั้ง ใช้ตัดสินใจได้</td></tr>
+</table>
+<div class="note"><strong>บทเรียน:</strong> เครื่องเสียเป็นเรื่องสุ่ม ต้องรันนานพอก่อนสรุป · OEE = FG ต่อชั่วโมง ÷ 360 (เต็มที่ 0:10 ต่อชิ้น)</div>
+
+<h2>สรุป 5 Frame (PtS 2606)</h2>
+<table>
+<tr><th>Frame</th><th>สิ่งที่ต่าง</th><th>เวลาที่รัน</th><th>FG</th><th>NG</th><th>ดู</th></tr>
+<tr><td style="white-space:nowrap;">Model</td><td>Source / Station 0:10 · Exit Cyclic</td><td>1 ชม.</td><td>180</td><td>179</td><td>ขั้น 1–3</td></tr>
+<tr><td style="white-space:nowrap;">Model2</td><td>Exit Percentage 95 / 5</td><td>1 ชม.</td><td>341</td><td>18</td><td>ขั้น 4</td></tr>
+<tr><td style="white-space:nowrap;">Model3</td><td>Uniform (Source 0:05–0:10, Station 0:04.6–0:10) · 0.2 m/s · Chart, Chart2</td><td>1 ชม.</td><td>447</td><td>24</td><td>ขั้น 5–6</td></tr>
+<tr><td style="white-space:nowrap;">Model4</td><td>0:10 + เครื่องเสีย 90% / 5:00</td><td>8 ชม.</td><td>2,330</td><td>123</td><td>ขั้น 7–8</td></tr>
+<tr><td style="white-space:nowrap;">Model5</td><td>Model4 รันนาน</td><td>30 วัน</td><td>220,650</td><td>11,613</td><td>ขั้น 9</td></tr>
+</table>
+
+<h2>ลองเอง: เปลี่ยนค่าแล้วดูผล</h2>
+<table>
+<tr><th>ลองเปลี่ยน</th><th>ผลหลังรัน</th><th>ทำไม</th></tr>
+<tr><td>Model2 › Percentage 90 / 10</td><td>FG 323 · NG 36</td><td>งานเสียเพิ่มเป็น 10% ตามที่ตั้ง</td></tr>
+<tr><td>Model3 › Buffer Capacity 1 หรือ 20</td><td>FG 447 เท่าเดิม</td><td>สายพาน 8 m ที่วิ่งช้าก็เป็นที่พักงานอยู่แล้ว</td></tr>
+<tr><td>Model3 › Conveyor Speed 1 m/s</td><td>FG 452 · NG 24</td><td>สายพานไม่ใช่คอขวด เร็วขึ้นแทบไม่ช่วย</td></tr>
+<tr><td>Model4 › MTTR 0:30</td><td>FG 2,448 (8 ชม.)</td><td>เสียบ่อยแต่ซ่อมเร็ว เสียรวมเหลือ 10.4%</td></tr>
+<tr><td>Model5 › Availability 95</td><td>324.5 FG / ชม.</td><td>เครื่องเสีย 5.1%</td></tr>
+<tr><td>Model5 › Availability 80</td><td>273.1 FG / ชม.</td><td>เครื่องเสีย 20.1%</td></tr>
+</table>
+<div class="tip"><strong>วิธีลอง:</strong> วัดจริงใน PtS 2606 แก้ทีละแถวจากค่าเดิมของไฟล์ · กด Reset ก่อน Start ทุกครั้ง</div>
+
+<h2>ปัญหาที่พบบ่อย และวิธีแก้</h2>
+<table>
+<tr><th>อาการ</th><th>วิธีแก้</th></tr>
+<tr><td>วาด Conveyor แล้วได้เส้นตรงอย่างเดียว</td><td>กด Ctrl ค้างไว้ระหว่างคลิกจุดที่ต้องการโค้ง</td></tr>
+<tr><td>Conveyor ยาวไม่ตรงที่ต้องการ</td><td>ดูช่อง Line Length ระหว่างเลื่อนเมาส์ก่อนคลิก หรือกด <code>Delete Last Point</code> แล้วคลิกใหม่</td></tr>
+<tr><td>FG / NG ได้ครึ่งต่อครึ่ง</td><td>Station › Exit › Strategy ยังเป็น Cyclic ให้เปลี่ยนเป็น Percentage</td></tr>
+<tr><td>งานดีไปเข้า NG</td><td>ลำดับในรายการตามลำดับ Connector: เส้นแรกต้องต่อไป FG</td></tr>
+<tr><td>Display แสดง 0 ตลอด</td><td>ตรวจ Path ในแท็บ Data เช่น <code>Buffer.NumMU</code> และกด Start แล้ว</td></tr>
+<tr><td>ตั้ง Availability แล้วเครื่องไม่เสีย</td><td>แท็บ Failures › ช่อง Active ต้องมีเครื่องหมายถูก ☑ ทั้งช่องบนและในตาราง</td></tr>
+<tr><td>หาปุ่ม OEE ไม่เจอ</td><td>ไม่มี ให้คำนวณจากแท็บ Statistics: A × P × Q</td></tr>
+</table>
+
+<div class="note">
+<strong>คำถามฝึกคิด:</strong> Model4 และ Model5 ตั้ง Station เหมือนกันทุกอย่าง (Availability 90%, MTTR 5:00) แต่ทำไม Model4
+เครื่องเสีย 14.7% และ OEE ≈ 81% ขณะที่ Model5 เครื่องเสีย 10.4% และ OEE ≈ 85%? ควรใช้ตัวเลขชุดไหนตัดสินใจ?
+</div>
+<div class="tip"><strong>เฉลย:</strong> เครื่องเสียเป็นเรื่องสุ่ม — Model4 รันแค่ 8 ชั่วโมง (1 กะ) เครื่องเสียได้ไม่กี่ครั้ง ผลจึงคลาดจากค่าที่ตั้ง
+ส่วน Model5 รัน 30 วัน Failed เข้าใกล้ 10% ตามที่ตั้ง (306.5 FG/ชม. ÷ 360 ≈ 85%) จึงควรใช้ผลของ Model5 —
+ต้องรันนานพอก่อนสรุปเสมอ</div>
+'''

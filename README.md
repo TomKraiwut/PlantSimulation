@@ -1,85 +1,69 @@
 # PlantSimulation
 
-เว็บไซต์สอนการใช้งาน Siemens Tecnomatix Plant Simulation (ภาษาไทย) — เผยแพร่ผ่าน GitHub Pages
+เว็บไซต์สอนการใช้งาน Siemens Tecnomatix Plant Simulation 2606 แบบ Step by Step (ภาษาไทย) — เผยแพร่ผ่าน GitHub Pages
+ที่ https://tomkraiwut.github.io/PlantSimulation/
 
 ## โครงสร้างเว็บ
 
-แต่ละเมนูมีโฟลเดอร์ของตัวเอง — หน้ารวมบท (hub) อยู่ที่ `<section>/index.html` และบทย่อยอยู่ที่ `<section>/01.html`, `02.html`, ...
-ทำให้เพิ่มบทใหม่ในอนาคตได้โดยแค่เพิ่มไฟล์ในโฟลเดอร์เดิม ไม่ต้องยุ่งกับไฟล์อื่น:
+เมนูมี 2 ส่วน ตามชุดสอน Plant Simulation 2606:
 
-- [index.html](index.html) — หน้าแรก
-- **Basic — พื้นฐาน** ([basic/](basic/index.html)) — บท 00–07 ตามชุดสอน Step by Step ของ Plant Simulation 2606
-  (`basic/00a.html` Factory 51 และ `basic/00b.html` Small Parts Production = โมเดลตัวอย่าง 2 ตัวของบท 00,
-  `01.html` โมเดลแรก, `02.html` คอขวด + ParallelStation และ `03.html` Buffer + เครื่องเสีย + OEE ทำเต็มแล้ว,
-  `04.html` .. `07.html` เป็นโครงหัวข้อรอเติมจาก deck ของแต่ละบท)
-- โทนสีของเว็บ (แดง / เทา / ขาว ตามสไลด์) กำหนดเป็นตัวแปรที่ `:root` ใน [assets/style.css](assets/style.css)
-- **Intermediate — ขั้นกลาง** ([intermediate/](intermediate/index.html)) — 6 บท (`intermediate/01.html` .. `06.html`)
-- **Advanced — ขั้นสูง** ([advanced/](advanced/index.html)) — 7 บท (`advanced/01.html` .. `07.html`)
-- **Object Reference — สาธิต Object** ([object-reference/](object-reference/index.html)) — 3 หมวด (`object-reference/01.html` .. `03.html`)
-- **Step-by-Step File — ไฟล์สอนของ Siemens** ([step-by-step/](step-by-step/index.html)) — 8 บท (`step-by-step/01.html` .. `08.html`) เดินตามไฟล์สอนต้นฉบับของ Siemens `2404_Plant_Simulation_Step_by_Step.spp` (18 เฟรม) ทีละหัวข้อ
-- **Case Study — ตัวอย่างอุตสาหกรรม** ([case-study/](case-study/index.html)) — 4 บท (`case-study/01.html` .. `04.html`)
-- **Tips and Tricks — เทคนิคการทำงาน** ([tips-tricks/](tips-tricks/index.html)) — 4 หมวด (`tips-tricks/01.html` .. `04.html`)
-- [examples.html](examples.html) — ตัวอย่างโมเดลจริงเพิ่มเติม (อยู่ที่ root เหมือนเดิม ไม่ใช่ hub ของหมวดที่มีบทย่อย)
-- [assets/style.css](assets/style.css) / [assets/main.js](assets/main.js) — สไตล์และสคริปต์ sidebar กลางของทุกหน้า (อยู่ที่ root เสมอ)
-- [examples/](examples/) — ไฟล์ตัวอย่าง `.spp` (เพิ่มเองได้)
+- [index.html](index.html) — หน้าแรก (การ์ดของทุกบท)
+- **Plant Simulation Overview** ([overview/](overview/index.html)) — เมนูย่อย 4 หน้า
+  - `overview/01.html` Introduction to Plant Simulation (DES, Simulation และ Digital Twin)
+  - `overview/02.html` Factory 51 — จาก `PtS2606_1_Factory51.pptx`
+  - `overview/03.html` Small Parts Production — จาก `PtS2606_2_SmallPartsProduction.pptx`
+  - `overview/04.html` Python GA Demo — จาก `PtS2606_3_PythonGADemo.pptx`
+- **บท 01–09** ([lessons/](lessons/index.html)) — แต่ละบทเป็นเมนูหลักของตัวเอง `lessons/01.html` .. `09.html`
+  จาก `01_Create_Simple_Model.pptx` .. `09_Python.pptx`
+- [assets/style.css](assets/style.css) / [assets/main.js](assets/main.js) — สไตล์และสคริปต์เมนูกลางของทุกหน้า
+  โทนสี (แดง / เทา / ขาว ตามสไลด์) กำหนดเป็นตัวแปรที่ `:root` ใน `style.css`
 
-Layout เป็นแบบ off-canvas sidebar (เมนูเลื่อนออกจากด้านซ้ายเมื่อกดปุ่ม ☰) ทุกหน้าใช้ header/sidebar/footer ชุดเดียวกัน
+Layout เป็นแบบ off-canvas sidebar (เมนูเลื่อนออกจากด้านขวาเมื่อกดปุ่ม ☰) ใช้งานบนมือถือได้ ทุกหน้าใช้ header/เมนู/footer ชุดเดียวกัน
 
 ## สร้าง/แก้ไขหน้าเว็บด้วยสคริปต์ (ไม่แก้ไฟล์ .html ตรงๆ)
 
-หน้าเว็บทั้งหมด **ถูก generate จากสคริปต์ Python ในโฟลเดอร์ [tools/](tools/)** ไม่ควรแก้ไฟล์ `.html` ในโฟลเดอร์เนื้อหาตรงๆ
-เพราะจะถูกเขียนทับเมื่อรัน generator ใหม่ โครงสร้างเมนู/สารบัญ/เนื้อหาบทเรียนทั้งหมดอยู่ในสคริปต์เหล่านี้:
+หน้าเว็บทั้งหมด **ถูก generate จากสคริปต์ Python ในโฟลเดอร์ [tools/](tools/)** ไฟล์ `.html` จะถูกเขียนทับเมื่อรัน generator ใหม่:
 
-- [tools/gen_site.py](tools/gen_site.py) — โครงสร้างเมนู (`SECTIONS`, `SECTION_ORDER`), เทมเพลต HTML กลาง (header/sidebar/footer),
-  และตัว `write()` ที่ย้ายไฟล์ไปโฟลเดอร์ที่ถูกต้องพร้อมแก้ลิงก์ภายในให้อัตโนมัติ
-- [tools/gen_chapters.py](tools/gen_chapters.py) — เนื้อหาแต่ละบท (`OBJECTIVES`, `BODY` ต่อ `(section, เลขบท)`)
-- [tools/gen_index.py](tools/gen_index.py) — เนื้อหาหน้าแรก
-- [tools/gen_examples.py](tools/gen_examples.py) — เนื้อหาหน้า Example File
+- [tools/gen_site.py](tools/gen_site.py) — โครงสร้างเมนู (`SECTIONS`, `SECTION_ORDER`): ชื่อบท, คำอธิบายบนการ์ด (`HUB_CARD_DESC`),
+  เทมเพลต HTML กลาง และ `write()` ที่ย้ายไฟล์ไปโฟลเดอร์ที่ถูกต้องพร้อมแก้ลิงก์ภายในให้อัตโนมัติ
+- [tools/chapters/](tools/chapters/) — **เนื้อหาบทละ 1 ไฟล์** `<section>_<NN>.py` (เช่น `lessons_04.py`) มี `OBJECTIVES` (วัตถุประสงค์)
+  และ `BODY` (HTML ของบท เป็น f-string ที่เรียก `screenshot()` / `step_list()` / `side_by_side()` ได้)
+- [tools/gen_chapters.py](tools/gen_chapters.py) — อ่านไฟล์ใน `tools/chapters/` แล้วสร้างทุกหน้าบท + หน้ารวมบท
+  บทที่ยังไม่มีไฟล์จะขึ้นหน้า "กำลังจัดทำ"
+- [tools/gen_index.py](tools/gen_index.py) — หน้าแรก (การ์ดสร้างจากรายชื่อบทใน `SECTIONS` อัตโนมัติ)
 
-**เพิ่มบทใหม่ในหมวดที่มีอยู่แล้ว:** เพิ่มชื่อบทใน `SECTIONS[section]["chapters"]` ใน `gen_site.py`, เพิ่ม `OBJECTIVES[(section, เลขบท)]`
-และ `BODY[(section, เลขบท)]` ใน `gen_chapters.py` แล้วรันสคริปต์ทั้ง 4 ตัวใหม่ตามลำดับ — sidebar/page-nav ของทุกหน้าจะอัปเดตอัตโนมัติ
+**แก้เนื้อหาบท:** แก้ไฟล์ใน `tools/chapters/` · **เปลี่ยนชื่อบทหรือคำอธิบายการ์ด:** แก้ `SECTIONS` / `HUB_CARD_DESC` ใน `gen_site.py`
+· **เพิ่มบท:** เพิ่มชื่อใน `SECTIONS[section]["chapters"]` + คำอธิบายใน `HUB_CARD_DESC` แล้วสร้าง `tools/chapters/<section>_<NN>.py`
 
-**รหัสบทกำหนดเอง:** หมวดที่ตั้ง `"ids"` ใน `SECTIONS` (ตอนนี้คือ `basic`: `"00a", "00b", "01", ... "09"`) ใช้รหัสนั้นแทนเลข 1..N —
-key ใน `OBJECTIVES`/`BODY` ใช้รหัสเดียวกัน เช่น `("basic", "00b")` ไฟล์ออกมาเป็น `basic/00b.html` ลิงก์ภายในเขียนเป็น `basic-00b.html`
-และเมนูแสดงเป็น `00B.` — ลำดับใน `"ids"` ต้องตรงกับลำดับใน `"chapters"`
+ลิงก์ภายในในเนื้อหาเขียนแบบชื่อแบน เช่น `href="lessons-03.html"`, `href="overview-02.html"` — `write()` แปลงเป็น path จริงให้
 
-**ภาพจากสไลด์:** ภาพประกอบบท Basic 00A/00B ตัดมาจากสไลด์ PowerPoint (ส่วนภาพหน้าจอพร้อมเลขกำกับสีแดง
-ไม่รวมหัวสไลด์/footer) แล้วบีบอัดเป็น JPG — ลำดับเลขในภาพตรงกับ `step_list()` ใต้ภาพ
-
-**เพิ่มหมวดเมนูใหม่ทั้งหมด:** เพิ่ม entry ใหม่ใน `SECTIONS` และ `SECTION_ORDER` ใน `gen_site.py` (ดูตัวอย่าง `object-reference`/
-`case-study`/`tips-tricks` เป็นแบบอ้างอิง) แล้วเพิ่มเนื้อหาใน `gen_chapters.py` เหมือนขั้นตอนข้างบน
-
-รันตามลำดับนี้เสมอหลังแก้สคริปต์ จากโฟลเดอร์ `tools/` (`gen_chapters.py`/`gen_index.py`/`gen_examples.py` import จาก `gen_site.py`):
+รันตามลำดับนี้หลังแก้ จากโฟลเดอร์ `tools/`:
 
 ```bash
 cd tools
 python gen_site.py
 python gen_chapters.py
 python gen_index.py
-python gen_examples.py
 ```
+
+**ข้อควรระวังใน f-string ของ `BODY`:** ปีกกา `{` `}` ที่เป็นตัวอักษรจริง (เช่นในโค้ด SimTalk/Python) ต้องเขียนเป็น `{{` `}}`
 
 ## รูปภาพและวิดีโอในบทเรียน
 
-- **วิดีโอ (YouTube)**: ฝังด้วย `youtube_embed(video_id, title, caption=None)` จาก `tools/gen_site.py` — responsive 16:9,
-  ไม่กินพื้นที่ repo เลยเพราะวิดีโอยังอยู่บน YouTube ทั้งหมด ใช้ `video_id` (ส่วนหลัง `watch?v=` หรือ `youtu.be/`) ไม่ใช่ URL เต็ม
-  ตัวอย่างการใช้งานจริงอยู่ใน `BODY[("basic", 2)]`
-- **รูปภาพ (screenshot ทีละขั้นตอน)**: ฝังด้วย `screenshot(img_path, alt, caption=None)` — เก็บไฟล์ไว้ที่
-  `assets/images/<section>/<เลขบท>-<ลำดับ>.png` ดูรายละเอียด naming convention เต็มๆ ที่ [assets/images/README.md](assets/images/README.md)
-- ทั้งสอง helper ต้อง `import` เข้า `gen_chapters.py` (มีอยู่แล้ว) และ `BODY[(section, idx)]` ที่จะใช้ต้องเป็น f-string
-  (`f'''...'''`) เพื่อ interpolate `{youtube_embed(...)}` / `{screenshot(...)}` เข้าไปได้
-- **ขนาดไฟล์**: GitHub บล็อกไฟล์เดี่ยวที่เกิน 100MB (เตือนตั้งแต่ 50MB) และแนะนำให้ repo รวมไม่เกิน ~1GB — รูปภาพประกอบ
-  บทเรียน (compress ดีๆ ให้ไม่เกิน ~300-500KB ต่อรูป) ใส่ได้สบายๆ หลายร้อยรูป แต่**ห้าม commit ไฟล์วิดีโอ (.mp4) ขึ้น repo
-  โดยตรงเด็ดขาด** — ต้องอัปโหลดขึ้น YouTube แล้วฝังลิงก์แทนเสมอ
+- **รูปภาพ**: ตัดมาจากสไลด์ PowerPoint ของแต่ละบท (เฉพาะส่วนภาพหน้าจอพร้อมเลขกำกับสีแดง ไม่รวมหัวสไลด์/footer)
+  บีบอัดเป็น JPG กว้างไม่เกิน 1600px เก็บที่ `assets/images/<section>/<NN>-<ลำดับ>.jpg` — ดู [assets/images/README.md](assets/images/README.md)
+  ลำดับเลขในภาพตรงกับ `step_list()` ใต้ภาพ
+- **วิดีโอ (YouTube)**: ฝังด้วย `youtube_embed(video_id, title, caption=None)` จาก `tools/gen_site.py`
+- **ขนาดไฟล์**: GitHub บล็อกไฟล์เดี่ยวที่เกิน 100MB — รูปภาพควรไม่เกิน ~300KB ต่อรูป
+  **ห้าม commit ไฟล์วิดีโอ (.mp4) ขึ้น repo** ให้อัปโหลดขึ้น YouTube แล้วฝังลิงก์แทน
 
 ## วิธีเปิดใช้งานเป็นเว็บไซต์ (GitHub Pages)
 
 1. ไปที่ repo บน GitHub → **Settings → Pages**
 2. หัวข้อ **Build and deployment** เลือก Source เป็น **Deploy from a branch**
 3. เลือก branch `main` และโฟลเดอร์ `/ (root)` แล้วกด **Save**
-4. รอสักครู่ เว็บจะออนไลน์ที่ `https://<username>.github.io/PlantSimulation/`
 
 ## ทดสอบในเครื่องก่อน push
 
-หน้าเว็บเป็น static HTML ธรรมดา ไม่มี build step — ทดสอบด้วย static server เช่น `python -m http.server 8000` จากโฟลเดอร์นี้
-แล้วเปิด `http://localhost:8000/` (ดู [Git.md](Git.md) สำหรับพื้นฐาน Git/GitHub เวลาจะ commit + push)
+หน้าเว็บเป็น static HTML ธรรมดา — ทดสอบด้วย `python -m http.server 8000` จากโฟลเดอร์นี้ แล้วเปิด `http://localhost:8000/`
+(ดู [Git.md](Git.md) สำหรับพื้นฐาน Git/GitHub)

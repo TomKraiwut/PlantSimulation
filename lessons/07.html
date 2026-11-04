@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>07. SimTalk และ Method — Plant Simulation Tutorial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/style.css?v=0167a8ff">
+</head>
+<body>
+<div id="wrapper">
+  <div id="main">
+    <div class="inner">
+      <header id="header">
+        <a href="../index.html" class="logo"><span>Plant Simulation Tutorial</span></a>
+        <button class="menu-toggle" aria-label="เปิดเมนู" aria-expanded="false">☰</button>
+      </header>
+
+      <main>
+        <h1>07. SimTalk และ Method</h1>
+
+        <div class="objectives">
+          <p>วัตถุประสงค์การเรียนรู้</p>
+          <ol>
+          <li>สร้าง Method เขียน SimTalk 2.0 (print · var · if · for) แล้วรันดูผลใน Console ได้</li>
+          <li>ผูก Method กับ Entrance / Exit control ของ object และใช้ @ (ชิ้นงาน) กับ ? (object ที่เรียก) ได้</li>
+          <li>ใช้ Method แยกทางด้วย Sensor ประกอบ / ถอดชิ้นงาน และปล่อยงานด้วย OrderParts ได้</li>
+          <li>ทำ Job Shop ที่อ่านเวลาและเส้นทางจากตาราง ด้วย Method ตัวเดียวใช้กับทุกเครื่องได้</li>
+          </ol>
+        </div>
+
+<p class="lead" style="max-width:46em;">บท 01–06 ตั้งค่าทุกอย่างในหน้าต่างของ object บทนี้เขียนโค้ด
+<strong>SimTalk 2.0</strong> ใน <strong>Method</strong> เมื่อหน้าต่างทำไม่ได้ — 8 ขั้น จาก <code>print "Hello"</code>
+ไปจนถึง Job Shop 3 เครื่องที่อ่านเวลาและเส้นทางจากตาราง คุมด้วย Method 2 ตัว
+ทุกตัวเลขในหน้านี้วัดจาก Plant Simulation 2606 ด้วยไฟล์บทเรียน และโค้ดทุกบรรทัดคือโค้ดจริงในไฟล์</p>
+
+<div class="tip">
+<strong>สิ่งที่ต้องมี:</strong> Plant Simulation 2606 และไฟล์ <code>07_Sim-Talk.spp</code>
+(Class Library › <code>Models</code> · <code>Conveyor</code> · <code>Assembly</code> · <code>Worker</code>) &nbsp;·&nbsp;
+ผลปลายบท: Job Shop 3 เครื่อง ใน 8 ชม. ได้ <strong>117 งาน</strong> คุมด้วย Method 2 ตัว
+</div>
+
+<h2>ภาพรวม: 8 ขั้น จาก print "Hello" ถึง Job Shop จากตาราง</h2>
+<table>
+<tr><th>ขั้น</th><th>เรื่อง</th><th>ทำอะไร</th></tr>
+<tr><td>1</td><td>Method คืออะไร</td><td>ลาก Method จาก Toolbox ลง Frame</td></tr>
+<tr><td>2</td><td>print · var · if · for</td><td>Run แล้วดูผลใน Console</td></tr>
+<tr><td>3</td><td>Entrance / Exit control</td><td><code>@</code> = ชิ้นงาน · <code>?</code> = object ที่เรียก</td></tr>
+<tr><td>4</td><td>DataTable + reset</td><td>บันทึกทุกชิ้น 360 แถว</td></tr>
+<tr><td>5</td><td>Conveyor แยกทาง</td><td>Sensor + Method + Checkbox</td></tr>
+<tr><td>6</td><td>Assembly ด้วยโค้ด</td><td><code>create</code> · <code>cont.move</code> · <code>waituntil</code></td></tr>
+<tr><td>7</td><td>Worker + OrderParts</td><td>1 บรรทัด ปล่อยงานตามคำสั่ง</td></tr>
+<tr><td>8</td><td>Job Shop จากตาราง</td><td>Method เดียว ใช้ 3 เครื่อง</td></tr>
+</table>
+
+<h2>9 Frame ในไฟล์นี้ เรียงตามบทเรียน</h2>
+<table>
+<tr><th>ลำดับ</th><th>Frame</th><th>เนื้อหา</th><th>ขั้นที่</th></tr>
+<tr><td>01</td><td><code>Model_Hello</code></td><td>Method แรก print · var · if · for</td><td>1–2</td></tr>
+<tr><td>02</td><td><code>Model_InOut</code></td><td>Entrance / Exit control + DataTable + reset</td><td>3–4</td></tr>
+<tr><td>03</td><td>Conveyor × 2</td><td>Default เทียบ Method: Sensor แยกชิ้นงาน</td><td>5</td></tr>
+<tr><td>04</td><td>Assembly × 2</td><td>AssemblyStation เทียบ Method ประกอบ / ถอด</td><td>6</td></tr>
+<tr><td>05</td><td>Worker × 2</td><td>Default เทียบ OrderParts</td><td>7</td></tr>
+<tr><td>06</td><td><code>Model_JobShop</code></td><td>ตาราง Job_Time · Job_Queue + Method 2 ตัว</td><td>8</td></tr>
+</table>
+<p>บท 07 ในตัวเลข: <strong>9</strong> Frame ในไฟล์ · <strong>11</strong> Method ในไฟล์ ·
+<strong>3</strong> คู่ Default เทียบ Method · SimTalk รุ่น <strong>2.0</strong></p>
+<div class="tip"><strong>ชื่อ Frame:</strong> คู่ Default / Method มาจากโมเดลเดิมของผู้สอน — ชื่อลงท้าย <code>_Default</code> หรือ
+<code>_Object</code> = ตั้งค่าในหน้าต่าง, ลงท้าย <code>_Method</code> = ใช้โค้ด</div>
+
+<h2>ขั้นที่ 1: Method คือโปรแกรมเล็ก ๆ ที่วางใน Frame</h2>
+<figure class="screenshot">
+  <a href="../assets/images/lessons/07-01.jpg" target="_blank" rel="noopener"><img src="../assets/images/lessons/07-01.jpg" alt="Toolbox แท็บ Information Flow, Class Library › Models และ Method Editor ของ Method_Hello" loading="lazy"></a>
+</figure>
+<ol class="step-list">
+    <li><span class="num">1</span><span class="text"><code>Information Flow</code> แท็บใน Toolbox</span></li>
+    <li><span class="num">2</span><span class="text"><code>Method</code> ลากไปปล่อยใน Frame แล้วตั้งชื่อ (ในไฟล์: <code>Method_Hello</code>)</span></li>
+    <li><span class="num">3</span><span class="text"><code>Models › Model_Hello</code> Frame ของขั้นนี้</span></li>
+    <li><span class="num">4</span><span class="text">ดับเบิลคลิก Method เปิด Editor แล้วพิมพ์โค้ด</span></li>
+    <li><span class="num">5</span><span class="text"><code>Apply Changes</code> บันทึกโค้ดเข้า Method (ทุกครั้งที่แก้)</span></li>
+  </ol>
+<p>โค้ดใน <code>Method_Hello</code>:</p>
+<pre><code>-- My first Method (SimTalk 2.0)
+print "Hello"
+-- Variable
+var A: integer
+-- Assignment
+A := 5
+-- Condition
+if A &gt; 4
+    print "A &gt; 4"
+end
+-- Loop
+for var i := 1 to 10
+    print i
+next</code></pre>
+<div class="note"><strong>Method คืออะไร:</strong> โปรแกรมย่อยที่วางไว้ใน Frame เหมือน object อื่น ทำงานเมื่อถูกเรียก —
+เรากด Run เอง หรือ object เรียกเมื่อมีชิ้นงานเข้า / ออก</div>
+
+<h2>ขั้นที่ 2: print · var · if · for แล้ว Run ดูผลใน Console</h2>
+<figure class="screenshot">
+  <a href="../assets/images/lessons/07-02.jpg" target="_blank" rel="noopener"><img src="../assets/images/lessons/07-02.jpg" alt="แท็บ Tools ของ Method Editor ปุ่ม Run และผลในหน้าต่าง Console" loading="lazy"></a>
+</figure>
+<ol class="step-list">
+    <li><span class="num">1</span><span class="text"><code>Window › Console</code> เปิดหน้าต่าง Console ครั้งแรกครั้งเดียว</span></li>
+    <li><span class="num">2</span><span class="text"><code>Tools</code> แท็บของ Method Editor</span></li>
+    <li><span class="num">3</span><span class="text"><code>Run</code> รัน Method นี้ทันที (ไม่ต้องรันโมเดล)</span></li>
+    <li><span class="num">4</span><span class="text"><code>print "Hello"</code> → Hello</span></li>
+    <li><span class="num">5</span><span class="text"><code>var A: integer</code> · <code>A := 5</code> · <code>if A &gt; 4</code> จริง → พิมพ์ A &gt; 4</span></li>
+    <li><span class="num">6</span><span class="text"><code>for var i := 1 to 10 … next</code> → พิมพ์ 1 ถึง 10</span></li>
+  </ol>
+<div class="tip"><strong>SimTalk 2.0:</strong> <code>var</code> ประกาศตัวแปร, <code>:=</code> กำหนดค่า, <code>if … end</code>,
+<code>for var … next</code> และไม่มี <code>;</code> ท้ายบรรทัด</div>
+
+<h3>สรุป syntax SimTalk 2.0 ที่ใช้ในบทนี้ (อ้างอิง)</h3>
+<table>
+<tr><th>เรื่อง</th><th>SimTalk 2.0</th><th>หมายเหตุ / ตัวอย่างในไฟล์</th></tr>
+<tr><td>Comment</td><td><code>--</code> หรือ <code>//</code> หรือ <code>/* … */</code></td><td><code>-- Customize MU L W H</code></td></tr>
+<tr><td>ประกาศตัวแปร</td><td><code>var A: integer</code> &nbsp; <code>var b: object</code></td><td>integer · real · string · boolean · object · time</td></tr>
+<tr><td>Parameter</td><td><code>param SensorID: integer, Front: boolean</code></td><td>Method ที่ Sensor เรียก (ขั้น 5)</td></tr>
+<tr><td>กำหนดค่า</td><td><code>A := 5</code> &nbsp; <code>x += 1</code></td><td>เปรียบเทียบใช้ <code>=</code> ไม่เท่ากับใช้ <code>/=</code></td></tr>
+<tr><td>เงื่อนไข</td><td><code>if … elseif … else … end</code></td><td><code>then</code> ใส่หรือไม่ใส่ก็ได้</td></tr>
+<tr><td>วนรอบ</td><td><code>for var i := 1 to 10 … next</code></td><td><code>while … end</code> · <code>repeat … until</code></td></tr>
+<tr><td>รอ</td><td><code>wait 1</code> · <code>waituntil Source_Box.Occupied</code></td><td>หยุด Method จนเวลาผ่าน / เงื่อนไขจริง (ขั้น 6)</td></tr>
+<tr><td>หาร</td><td><code>/</code> &nbsp; <code>div</code> (เอาส่วน) &nbsp; <code>mod</code> (เอาเศษ)</td><td><code>//</code> ใน 2.0 คือ comment</td></tr>
+</table>
+
+<h3>เจอโค้ดเก่า (SimTalk 1.0) แปลงเป็น 2.0 อย่างไร</h3>
+<table>
+<tr><th>เรื่อง</th><th>SimTalk 1.0 (ตำรา / ตัวอย่างเก่า)</th><th>SimTalk 2.0 (PtS 2201 ขึ้นไป)</th></tr>
+<tr><td>ส่วนหัว Method</td><td><code>is  x: integer;  do … end;</code></td><td><code>var x: integer</code> ไม่มี is / do</td></tr>
+<tr><td>ท้ายบรรทัด</td><td><code>statement;</code></td><td>ไม่ต้องมี <code>;</code></td></tr>
+<tr><td>หารเอาส่วน / เศษ</td><td><code>//</code> &nbsp; <code>\\</code></td><td><code>div</code> &nbsp; <code>mod</code></td></tr>
+<tr><td>for loop</td><td><code>for i := 1 to 10 loop … next;</code></td><td><code>for var i := 1 to 10 … next</code></td></tr>
+<tr><td>เลือกตามค่า</td><td><code>inspect x when … then … end;</code></td><td><code>switch x case … else … end</code></td></tr>
+<tr><td>Comment</td><td><code>--</code> &nbsp; <code>/* */</code></td><td><code>--</code> &nbsp; <code>//</code> &nbsp; <code>/* */</code></td></tr>
+</table>
+<div class="note"><strong>ข้อควรจำ:</strong> Method ที่เขียนแบบ 1.0 จะขึ้น syntax error ใน 2606 — ปุ่ม <code>2.0</code> (New Syntax)
+ในแท็บ Tools บอกรุ่นของ Editor</div>
+
+<h2>ขั้นที่ 3: Entrance / Exit control — object เรียก Method เอง</h2>
+<figure class="screenshot">
+  <a href="../assets/images/lessons/07-03.jpg" target="_blank" rel="noopener"><img src="../assets/images/lessons/07-03.jpg" alt="Frame Model_InOut และแท็บ Controls ของ Station" loading="lazy"></a>
+</figure>
+<ol class="step-list">
+    <li><span class="num">1</span><span class="text"><code>Station</code> Source → Station → Drain ชิ้นงานทุก 10 วินาที</span></li>
+    <li><span class="num">2</span><span class="text"><code>Method_In</code> ทำงานเมื่อชิ้นงานเข้า Station</span></li>
+    <li><span class="num">3</span><span class="text"><code>Method_Out</code> ทำงานเมื่อชิ้นงานพร้อมออก</span></li>
+    <li><span class="num">4</span><span class="text">แท็บ <code>Controls</code> ของ Station (ดับเบิลคลิก Station)</span></li>
+    <li><span class="num">5</span><span class="text"><code>Entrance</code> = <code>Method_In</code> คลิก <code>…</code> แล้วเลือก Method หรือพิมพ์ชื่อ</span></li>
+    <li><span class="num">6</span><span class="text"><code>Exit</code> = <code>Method_Out</code> <code>Front</code> ☑ มีเครื่องหมายถูก (ทำงานตอนชิ้นงานถึงหัว Station)</span></li>
+  </ol>
+<div class="tip"><strong>ชื่อ Method:</strong> Method ที่อยู่ Frame เดียวกันพิมพ์แค่ชื่อได้ และ object ใดก็ใช้ Method เดียวกันได้ (ดูขั้นที่ 8)</div>
+
+<h2>ขั้นที่ 3 (ต่อ): @ คือชิ้นงาน ? คือ object ที่เรียก Method</h2>
+<figure class="screenshot">
+  <a href="../assets/images/lessons/07-04.jpg" target="_blank" rel="noopener"><img src="../assets/images/lessons/07-04.jpg" alt="โค้ด Method_In" loading="lazy"></a>
+</figure>
+<figure class="screenshot">
+  <a href="../assets/images/lessons/07-05.jpg" target="_blank" rel="noopener"><img src="../assets/images/lessons/07-05.jpg" alt="โค้ด Method_Out" loading="lazy"></a>
+</figure>
+<ol class="step-list">
+    <li><span class="num">1</span><span class="text"><code>?.ProcTime := z_uniform(5, 10)</code> <code>?</code> = Station · สุ่มเวลา 5–10 วินาทีให้ทุกชิ้น</span></li>
+    <li><span class="num">2</span><span class="text"><code>@.MULength := 1</code> <code>@</code> = ชิ้นงานที่เข้ามา · ยาว 1 m</span></li>
+    <li><span class="num">3</span><span class="text"><code>DataTable[1, ?.StatNumIn]</code> คอลัมน์ 1 แถว = ชิ้นที่เท่าไรของ Station</span></li>
+    <li><span class="num">4</span><span class="text"><code>DataTable[2, …] := ?.ProcTime</code> เวลาที่สุ่มได้ของชิ้นนี้</span></li>
+    <li><span class="num">5</span><span class="text"><code>@.move</code> ส่งชิ้นงานต่อ — ถ้าไม่มี ชิ้นงานค้างใน Station</span></li>
+  </ol>
+<p><code>Method_In</code> (Entrance):</p>
+<pre><code>-- Entrance control of Station: runs when a part enters
+-- ? = the Station that calls this Method, @ = the part
+?.ProcTime := z_uniform(5, 10)
+@.MULength := 1</code></pre>
+<p><code>Method_Out</code> (Exit):</p>
+<pre><code>-- Exit control of Station: runs when the part is ready to leave
+-- record the part in DataTable, then move it on
+DataTable[1, ?.StatNumIn] := @.Name
+DataTable[2, ?.StatNumIn] := ?.ProcTime
+@.move</code></pre>
+<div class="tip"><strong>ตัวอ้างอิงพิเศษ:</strong> <code>@</code> = ชิ้นงาน (MU) ที่ทำให้ Method ทำงาน · <code>?</code> = object ที่เรียก Method ·
+<code>self</code> = Method ตัวนี้เอง</div>
+<div class="note"><strong>ข้อควรจำ:</strong> Exit control แบบ Front รับหน้าที่ย้ายชิ้นงานแทน object จึงต้องมี <code>@.move</code> ปิดท้ายเสมอ</div>
+
+<h2>ขั้นที่ 4: ผล — DataTable บันทึกทุกชิ้น และ Method ชื่อ reset</h2>
+<figure class="screenshot">
+  <a href="../assets/images/lessons/07-06.jpg" target="_blank" rel="noopener"><img src="../assets/images/lessons/07-06.jpg" alt="DataTable หลังรัน 1 ชั่วโมง และแท็บ Times ของ Station" loading="lazy"></a>
+</figure>
+<ol class="step-list">
+    <li><span class="num">1</span><span class="text"><code>Part</code> ชื่อชิ้นงาน (คอลัมน์ 1 ชนิด string)</span></li>
+    <li><span class="num">2</span><span class="text"><code>ProcTime</code> เวลาที่สุ่มได้ (คอลัมน์ 2 ชนิด time)</span></li>
+    <li><span class="num">3</span><span class="text">แถว 1–360: 1 ชั่วโมงได้ 360 ชิ้น = 360 แถว</span></li>
+    <li><span class="num">4</span><span class="text"><code>Processing Time</code> 0:07.25 ค่าที่ <code>Method_In</code> ตั้งให้ชิ้นล่าสุด</span></li>
+    <li><span class="num">5</span><span class="text">Method ชื่อ <code>reset</code>: <code>DataTable.delete</code> กด Reset แล้วตารางว่าง (ชื่อ reset ทำงานเอง)</span></li>
+  </ol>
+<div class="note"><strong>ผล 1 ชั่วโมง:</strong> Drain 360 ชิ้น · Station ทำงาน 74.8% (เฉลี่ย 7.5 วินาที ต่อชิ้นงานทุก 10 วินาที)</div>
+<div class="tip"><strong>Method ชื่อพิเศษ:</strong> Method ชื่อ <code>reset</code> / <code>init</code> / <code>endSim</code> ใน Frame ทำงานเองเมื่อกด Reset /
+เริ่มรัน / จบรัน ไม่ต้องผูกกับ object ใด</div>
+
+<h2>ขั้นที่ 5: แยกทางแบบไม่เขียนโค้ด — Exit Strategy</h2>
+<figure class="screenshot">
+  <a href="../assets/images/lessons/07-07.jpg" target="_blank" rel="noopener"><img src="../assets/images/lessons/07-07.jpg" alt="Model_Conveyor_Default หลังรัน 1 ชม. และแท็บ Exit ของ Conveyor" loading="lazy"></a>
+</figure>
+<ol class="step-list">
+    <li><span class="num">1</span><span class="text"><code>Conveyor</code> (Frame <code>Conveyor › Model_Conveyor_Default</code>) Source สุ่มชิ้นงาน 4 แบบ: Part, PartA, PartB, Box</span></li>
+    <li><span class="num">2</span><span class="text">แท็บ <code>Exit</code> ของ Conveyor</span></li>
+    <li><span class="num">3</span><span class="text"><code>MU Attribute</code> เลือกทางออกตามค่าของชิ้นงาน (ชื่อ)</span></li>
+    <li><span class="num">4</span><span class="text"><code>Open List</code> กำหนดว่าชื่อไหนไปทางออกไหน</span></li>
+    <li><span class="num">5</span><span class="text">ผล 1 ชม.: DrainA 258 · DrainB 277 · DrainC 222 · Drain 277</span></li>
+  </ol>
+<div class="note"><strong>ทำอะไรไม่ได้:</strong> เปิด / ปิดทางแยกระหว่างรัน หรือสุ่มขนาดชิ้นงาน → ต้องใช้ Method (ถัดไป)</div>
+
+<h2>ขั้นที่ 5 (ต่อ): แยกทางด้วย Sensor + Method_Control</h2>
+<figure class="screenshot">
+  <a href="../assets/images/lessons/07-08.jpg" target="_blank" rel="noopener"><img src="../assets/images/lessons/07-08.jpg" alt="Sensor List ของ Conveyor และโค้ด Method_Control" loading="lazy"></a>
+</figure>
+<ol class="step-list">
+    <li><span class="num">1</span><span class="text">Sensor 3 ตัว ที่ 5, 9, 13 m: <code>Conveyor › Controls › Sensors</code> (Frame <code>Model_Conveyor_Method</code>)</span></li>
+    <li><span class="num">2</span><span class="text"><code>Path</code> = <code>Method_Control</code> ทุก Sensor เรียก Method เดียวกัน</span></li>
+    <li><span class="num">3</span><span class="text"><code>param SensorID</code> โปรแกรมส่งเลข Sensor ที่ชิ้นงานผ่านมาให้</span></li>
+    <li><span class="num">4</span><span class="text">Sensor 1 + ชื่อ PartA + A ☑ ทั้ง 3 เงื่อนไขจริง</span></li>
+    <li><span class="num">5</span><span class="text"><code>@.move(ConveyorA)</code> เลี้ยวเข้าทาง A · ไม่ตรงเงื่อนไข วิ่งตรงไป Drain</span></li>
+  </ol>
+<p><code>Method_Control</code>:</p>
+<pre><code>param SensorID: integer, Front: boolean, BookPos: boolean
+if SensorID = 1 and @.Name = "PartA" and A.value = true
+    @.move(ConveyorA)
+elseif SensorID = 2 and @.Name = "PartB" and B.value = true
+    @.move(ConveyorB)
+elseif SensorID = 3 and @.Name = "Part" and C.value = true
+    @.move(ConveyorC)
+end</code></pre>
+<div class="tip"><strong>Checkbox A B C:</strong> อยู่เหนือทางแยก — <code>A.value</code> อ่านว่าช่อง A มีเครื่องหมายถูก ☑ หรือไม่
+คลิกช่อง B ให้เครื่องหมายถูกหายไป ☐ ระหว่างรัน = ปิดทาง B ทันที · ผล 1 ชม.: A 321 · B 284 · C 294 · Drain 311</div>
+
+<h2>ขั้นที่ 5 (ต่อ): Method สุ่มขนาดชิ้นงาน (Exit control ของ Source)</h2>
+<figure class="screenshot">
+  <a href="../assets/images/lessons/07-09.jpg" target="_blank" rel="noopener"><img src="../assets/images/lessons/07-09.jpg" alt="โค้ด Method_Custom_MUs และภาพ 3D หลังรัน 2 นาที" loading="lazy"></a>
+</figure>
+<ol class="step-list">
+    <li><span class="num">1</span><span class="text"><code>Source › Controls › Exit</code> = <code>Method_Custom_MUs</code> ทำงานตอนชิ้นงานออกจาก Source</span></li>
+    <li><span class="num">2</span><span class="text"><code>MULength</code> · <code>MUWidth</code> · <code>MUHeight</code> สุ่ม 0.5–0.8 m ทุกชิ้น</span></li>
+    <li><span class="num">3</span><span class="text"><code>@.move</code> ส่งต่อไป Conveyor</span></li>
+    <li><span class="num">4</span><span class="text">ภาพ 3D (หลังรัน 2 นาที): ชิ้นงานแต่ละชิ้นขนาดไม่เท่ากัน</span></li>
+  </ol>
+<p><code>Method_Custom_MUs</code>:</p>
+<pre><code>-- Customize MU L W H
+@.MULength := z_uniform(0.5,0.8)
+@.MUWidth := z_uniform(0.5,0.8)
+@.MUHeight := z_uniform(0.5,0.8)
+@.move</code></pre>
+<div class="note"><strong>ข้อควรจำ:</strong> ชื่อเดิม <code>Method_Costom_MUs</code> แก้ตัวสะกดเป็น <code>Method_Custom_MUs</code> ในไฟล์บทเรียน —
+เปลี่ยนชื่อ Method แล้วต้องใส่ชื่อใหม่ในช่อง Exit ของ Source ด้วย</div>
+
+<h2>ขั้นที่ 6: ประกอบ / ถอดด้วย object (ไม่เขียนโค้ด)</h2>
+<div class="side-by-side">
+  <div><figure class="screenshot">
+  <a href="../assets/images/lessons/07-10.jpg" target="_blank" rel="noopener"><img src="../assets/images/lessons/07-10.jpg" alt="Model_Assembly_Object ที่ 1:40 นาที" loading="lazy"></a>
+</figure></div>
+  <div><ol class="step-list">
+    <li><span class="num">1</span><span class="text"><code>Source</code> · <code>Source2</code> · <code>Source3</code> ปล่อย PartA · PartB · Box</span></li>
+    <li><span class="num">2</span><span class="text"><code>AssemblyStation</code> ใส่ PartA + PartB ลงใน Box</span></li>
+    <li><span class="num">3</span><span class="text"><code>AssemblyStation2</code> ใส่ Box 4 กล่อง ลงใน Container (Source4 ปล่อย 4 ใบ)</span></li>
+    <li><span class="num">4</span><span class="text"><code>DismantleStation</code> เอา Box ออก · Container ไป Buffer2</span></li>
+    <li><span class="num">5</span><span class="text"><code>DismantleStation2</code> เอาชิ้นงานออกจาก Box → Buffer3 · Box → Buffer4</span></li>
+    <li><span class="num">6</span><span class="text">ผล: Container 4 ใบ จบที่ 3:47 · ชิ้นงาน 32 · Box 16</span></li>
+  </ol></div>
+</div>
+<div class="tip"><strong>Frame:</strong> <code>Assembly › Model_Assembly_Object</code> (ภาพที่ 1:40 นาที) — ในไฟล์บทเรียนตั้ง Buffer ให้รับได้ไม่จำกัด
+(เดิม 8 ชิ้น พอเต็มแล้วโมเดลหยุดที่ 170 วินาที)</div>
+
+<h2>ขั้นที่ 6 (ต่อ): ทำแบบเดียวกันด้วย Station ธรรมดา + Method 2 ตัว</h2>
+<div class="side-by-side">
+  <div><figure class="screenshot">
+  <a href="../assets/images/lessons/07-11.jpg" target="_blank" rel="noopener"><img src="../assets/images/lessons/07-11.jpg" alt="Model_Assembly_Method ที่ 45 วินาที" loading="lazy"></a>
+</figure></div>
+  <div><ol class="step-list">
+    <li><span class="num">1</span><span class="text"><code>Source_Box</code> ปล่อย Box ทุก 5 วินาที · ไม่ต่อ Connector</span></li>
+    <li><span class="num">2</span><span class="text"><code>Station</code>: Entrance = <code>Method_Assembly</code> Container เข้ามา → เติม Box 4 กล่อง</span></li>
+    <li><span class="num">3</span><span class="text"><code>Station2</code>: Exit = <code>Method_Dismantle</code> ถอดของออกก่อนปล่อย Container</span></li>
+    <li><span class="num">4</span><span class="text"><code>Buffer3</code> · <code>Buffer2</code> · <code>Buffer</code> รับของที่ Method ย้ายมา (ไม่มี Connector)</span></li>
+    <li><span class="num">5</span><span class="text"><code>Drain</code> รับ Container เปล่า (เพิ่มในไฟล์บทเรียน)</span></li>
+    <li><span class="num">6</span><span class="text">ผล: Container 3 ใบ จบที่ 1:28 · Buffer ละ 12 ชิ้น</span></li>
+  </ol></div>
+</div>
+<div class="note"><strong>ทำไมต้องมี Drain:</strong> เดิม Station2 ไม่มีทางออก Container ใบแรกค้าง โมเดลหยุดที่ 60 วินาที
+ไฟล์บทเรียนจึงเพิ่ม Drain ต่อจาก Station2</div>
+
+<h2>ขั้นที่ 6 (ต่อ): โค้ด — create, cont.move, waituntil</h2>
+<figure class="screenshot">
+  <a href="../assets/images/lessons/07-12.jpg" target="_blank" rel="noopener"><img src="../assets/images/lessons/07-12.jpg" alt="โค้ด Method_Assembly" loading="lazy"></a>
+</figure>
+<figure class="screenshot">
+  <a href="../assets/images/lessons/07-13.jpg" target="_blank" rel="noopener"><img src="../assets/images/lessons/07-13.jpg" alt="โค้ด Method_Dismantle" loading="lazy"></a>
+</figure>
+<ol class="step-list">
+    <li><span class="num">1</span><span class="text"><code>Exitlocked := True</code> ล็อกไม่ให้ Container ออกก่อนเติมเสร็จ (ท้าย Method ปลดล็อก)</span></li>
+    <li><span class="num">2</span><span class="text"><code>waituntil Source_Box.Occupied</code> หยุดรอจนมี Box</span></li>
+    <li><span class="num">3</span><span class="text"><code>PartA.create(Source_Box.cont)</code> สร้างชิ้นงานใน Box (<code>.cont</code> = ของที่อยู่ข้างใน)</span></li>
+    <li><span class="num">4</span><span class="text"><code>Source_Box.cont.move(@)</code> ย้าย Box ลง Container (<code>@</code>) · วน 4 รอบ</span></li>
+    <li><span class="num">5</span><span class="text"><code>@.cont.cont.move(Buffer3)</code> ชิ้นงานใน Box ใน Container · <code>wait 1</code> = ทีละ 1 วินาที</span></li>
+    <li><span class="num">6</span><span class="text"><code>@.move</code> ส่ง Container เปล่าออก</span></li>
+  </ol>
+<p><code>Method_Assembly</code> (Entrance ของ Station):</p>
+<pre><code>Station.Exitlocked := True
+For var i := 1 to 4
+    waituntil Source_Box.Occupied
+    .UserObjects.PartA.create(Source_Box.cont)
+    .UserObjects.PartB.create(Source_Box.cont)
+    Source_Box.cont.move(@)
+next
+Station.Exitlocked := False</code></pre>
+<p><code>Method_Dismantle</code> (Exit ของ Station2):</p>
+<pre><code>For var i := 1 to 4
+    wait 1
+    @.cont.cont.move(Buffer3)
+    wait 1
+    @.cont.cont.move(Buffer2)
+    wait 1
+    @.cont.move(Buffer)
+next
+@.move</code></pre>
+<div class="tip"><strong>.cont:</strong> <code>@.cont</code> = MU ตัวแรกที่อยู่ใน <code>@</code> · <code>@.cont.cont</code> = MU ตัวแรกใน MU นั้น
+ย้ายออกแล้วตัวถัดไปขึ้นมาเป็น cont แทน</div>
+
+<h2>ขั้นที่ 7: OrderParts — ปล่อยงานเมื่อสั่งเท่านั้น</h2>
+<figure class="screenshot">
+  <a href="../assets/images/lessons/07-14.jpg" target="_blank" rel="noopener"><img src="../assets/images/lessons/07-14.jpg" alt="Model_Worker_Method ที่ 25 วินาที และหน้าต่าง Source" loading="lazy"></a>
+</figure>
+<ol class="step-list">
+    <li><span class="num">1</span><span class="text"><code>INIT</code>: <code>Source.OrderParts(.MUs.Part, 1, Station)</code> Method ชื่อ Init ทำงานเองตอนเริ่มรัน</span></li>
+    <li><span class="num">2</span><span class="text">คนงาน 1 คน ถือชิ้นงานเดินครบ 4 สถานี (ตอนนี้อยู่ Station2)</span></li>
+    <li><span class="num">3</span><span class="text"><code>Drain › Controls › Entrance</code> = <code>INIT</code> ชิ้นงานถึง Drain → สั่งชิ้นใหม่ 1 ชิ้น</span></li>
+    <li><span class="num">4</span><span class="text"><code>MU Selection</code> = <code>Order Controlled</code> Source ปล่อยตามคำสั่งเท่านั้น</span></li>
+  </ol>
+<p>Frame <code>Worker › Model_Worker_Method</code> — Method <code>INIT</code> มีบรรทัดเดียว:</p>
+<pre><code>Source.OrderParts(.MUs.Part, 1, Station)</code></pre>
+<div class="note"><strong>ผล 61 ชิ้น / ชม. เท่ากับ Default:</strong> คนงานคนเดียวถือชิ้นงานครบทุกสถานี ไลน์มีชิ้นงานครั้งละ 1 ชิ้นทั้งสองแบบ
+(วัดที่ 10 / 20 / 30 นาที) · OrderParts ใช้เมื่อต้องกำหนดเองว่าจะปล่อยงานเมื่อไร กี่ชิ้น</div>
+<div class="tip"><strong>Method เดียว 2 หน้าที่:</strong> ชื่อ <code>INIT</code> ถูกเรียกตอนเริ่มรัน และ Drain เรียกทุกครั้งที่ชิ้นงานเข้า</div>
+
+<h2>ขั้นที่ 8: Job Shop — เวลาและเส้นทางอยู่ในตาราง</h2>
+<figure class="screenshot">
+  <a href="../assets/images/lessons/07-15.jpg" target="_blank" rel="noopener"><img src="../assets/images/lessons/07-15.jpg" alt="ตาราง Job_Time (บน) และ Job_Queue (ล่าง) ใน Model_JobShop" loading="lazy"></a>
+</figure>
+<ol class="step-list">
+    <li><span class="num">1</span><span class="text">คอลัมน์ M1 M2 M3 ชื่อเครื่อง (<code>List › Column Index</code>)</span></li>
+    <li><span class="num">2</span><span class="text">แถว JobA JobB JobC ชื่องาน (<code>List › Row Index</code>)</span></li>
+    <li><span class="num">3</span><span class="text">ค่า = นาที: JobA บน M1 = 3 นาที</span></li>
+    <li><span class="num">4</span><span class="text"><code>Job_Queue</code>: Step 1–3 ลำดับขั้นของแต่ละงาน</span></li>
+    <li><span class="num">5</span><span class="text">ค่า = เครื่องที่ต้องไป: JobA: M1 → M2 → M3 · JobB: M2 → M3 → M1</span></li>
+  </ol>
+<div class="tip"><strong>Job_Mix:</strong> ตารางของ Source: Sequence Cyclical ปล่อย JobA → JobB → JobC วนไป ทุก 4 นาที
+· JobA–C มี User-defined attribute <code>Step_No</code> (integer)</div>
+
+<h2>ขั้นที่ 8 (ต่อ): Method 2 ตัว ใช้กับทุกเครื่อง</h2>
+<figure class="screenshot">
+  <a href="../assets/images/lessons/07-16.jpg" target="_blank" rel="noopener"><img src="../assets/images/lessons/07-16.jpg" alt="โค้ด Method_In ของ Model_JobShop" loading="lazy"></a>
+</figure>
+<figure class="screenshot">
+  <a href="../assets/images/lessons/07-17.jpg" target="_blank" rel="noopener"><img src="../assets/images/lessons/07-17.jpg" alt="โค้ด Method_Route" loading="lazy"></a>
+</figure>
+<ol class="step-list">
+    <li><span class="num">1</span><span class="text"><code>getColumnNo(?.Name)</code> <code>?</code> = เครื่องที่เรียก (M1) → เลขคอลัมน์</span></li>
+    <li><span class="num">2</span><span class="text"><code>getRowNo(@.Name)</code> <code>@</code> = งาน (JobA) → เลขแถว</span></li>
+    <li><span class="num">3</span><span class="text"><code>?.ProcTime := … * 60</code> นาทีในตาราง → วินาที</span></li>
+    <li><span class="num">4</span><span class="text"><code>@.Step_No + 1</code> นับว่างานนี้ผ่านมากี่เครื่อง</span></li>
+    <li><span class="num">5</span><span class="text">ครบ 3 ขั้น → <code>@.move(FG)</code> FG = Drain งานเสร็จ</span></li>
+    <li><span class="num">6</span><span class="text"><code>str_to_obj("B_" + เครื่องถัดไป)</code> ข้อความ → object แล้วย้ายไป Buffer หน้าเครื่องนั้น</span></li>
+  </ol>
+<p><code>Method_In</code> (Entrance ของ M1, M2, M3):</p>
+<pre><code>-- Entrance control of M1, M2, M3 (one Method for all machines)
+-- read the time of this job (@) on this machine (?) from Job_Time [minutes]
+var col: integer := Job_Time.getColumnNo(?.Name)
+var row: integer := Job_Time.getRowNo(@.Name)
+?.ProcTime := Job_Time[col, row] * 60
+@.Step_No := @.Step_No + 1</code></pre>
+<p><code>Method_Route</code> (Exit ของ Source, M1, M2, M3):</p>
+<pre><code>-- Exit control of Source, M1, M2, M3: send the job to its next machine
+var row: integer := Job_Queue.getRowNo(@.Name)
+var nxt: integer := @.Step_No + 1
+if nxt &gt; Job_Queue.XDim
+    @.move(FG)
+else
+    var b: object := str_to_obj("B_" + Job_Queue[nxt, row])
+    @.move(b)
+end</code></pre>
+<div class="tip"><strong>หมายเหตุ:</strong> สไลด์ชุดเดิมใช้ <code>?.MUTarget</code> ไฟล์บทเรียนใช้ <code>@.move(b)</code> ซึ่งตรงไปกว่า
+· <code>Method_Route</code> ใส่ไว้ที่ Source ด้วย งานแรกจึงไปเครื่องแรกเอง</div>
+
+<h2>ขั้นที่ 8 (ต่อ): ผล 8 ชั่วโมง — ไม่มี Connector ระหว่างเครื่อง</h2>
+<figure class="screenshot">
+  <a href="../assets/images/lessons/07-18.jpg" target="_blank" rel="noopener"><img src="../assets/images/lessons/07-18.jpg" alt="Model_JobShop หลังรัน 8 ชม. และแท็บ Controls ของ M1" loading="lazy"></a>
+</figure>
+<ol class="step-list">
+    <li><span class="num">1</span><span class="text"><code>Source › Exit</code> = <code>Method_Route</code> ส่งงานไปเครื่องแรกของงานนั้น</span></li>
+    <li><span class="num">2</span><span class="text"><code>M1</code> · <code>M2</code> · <code>M3</code> ต่อ Connector แค่ Buffer → เครื่อง</span></li>
+    <li><span class="num">3</span><span class="text"><code>FG</code> 117 งาน ใน 8 ชั่วโมง</span></li>
+    <li><span class="num">4</span><span class="text"><code>Entrance</code> = <code>Method_In</code> เหมือนกันทั้ง 3 เครื่อง</span></li>
+    <li><span class="num">5</span><span class="text"><code>Exit</code> = <code>Method_Route</code> เหมือนกันทั้ง 3 เครื่อง</span></li>
+  </ol>
+<div class="note"><strong>ทำไมใช้ Method เดียวได้:</strong> <code>?</code> คือเครื่องที่เรียก Method จึงอ่านเวลาของเครื่องนั้นเอง ·
+M1 ทำงาน 73.8% · M2 73.8% · M3 74% (Source ปล่อย 120 งาน เสร็จ 117 ยังอยู่ในไลน์ 3)</div>
+
+<h2>สรุป 9 Frame (PtS 2606)</h2>
+<table>
+<tr><th>Frame</th><th>Method / คำสั่งหลัก</th><th>ผลวัดจริง</th></tr>
+<tr><td>Model_Hello</td><td>print · var · if · for</td><td>Console: Hello, A &gt; 4, 1–10</td></tr>
+<tr><td>Model_InOut</td><td>Entrance / Exit control · @ · ? · reset</td><td>360 ชิ้น / ชม. · 360 แถว</td></tr>
+<tr><td>Conveyor_Default</td><td>Exit Strategy = MU Attribute</td><td>A 258 · B 277 · C 222</td></tr>
+<tr><td>Conveyor_Method</td><td>Sensor + param SensorID + Checkbox</td><td>A 321 · B 284 · C 294</td></tr>
+<tr><td>Assembly_Object</td><td>AssemblyStation · DismantleStation</td><td>4 Container จบ 3:47</td></tr>
+<tr><td>Assembly_Method</td><td>create · cont.move · waituntil · Exitlocked</td><td>3 Container จบ 1:28</td></tr>
+<tr><td>Worker × 2</td><td>Source.OrderParts ใน INIT</td><td>61 ชิ้น / ชม. ทั้งสองแบบ</td></tr>
+<tr><td>Model_JobShop</td><td>getColumnNo · getRowNo · str_to_obj</td><td>117 งาน / 8 ชม.</td></tr>
+</table>
+<p>ทุกตัวเลขวัดจริงด้วยไฟล์ <code>07_Sim-Talk.spp</code> ใน PtS 2606 — เรื่องของบทนี้: เมื่อหน้าต่าง object ทำไม่ได้
+ใช้ Method + <code>@</code> / <code>?</code> ผูกกับ Control ของ object</p>
+
+<h2>ลองเอง: แก้ทีละค่าแล้วรัน</h2>
+<table>
+<tr><th>Frame</th><th>ลองเปลี่ยน</th><th>ผล</th><th>ทำไม</th></tr>
+<tr><td>Model_InOut</td><td>Method_In: <code>z_uniform(5, 10)</code> → <code>(8, 12)</code></td><td>358 ชิ้น · 99.2%</td><td>Station เกือบไม่ว่าง</td></tr>
+<tr><td>Conveyor_Method</td><td>ปิด B ☐ (คลิกช่องให้เครื่องหมายถูกหายไป)</td><td>B 0 · Drain 594</td><td>PartB วิ่งตรงไป Drain</td></tr>
+<tr><td>Conveyor_Method</td><td>ปิด A B C ☐ ทั้งหมด</td><td>Drain 1,207</td><td>ไม่แยกเลย</td></tr>
+<tr><td>Model_JobShop</td><td>Source Interval 4:00 → 3:00</td><td>154 งาน · M1 97.9%</td><td>เกือบเต็มกำลัง</td></tr>
+<tr><td>Model_JobShop</td><td>Source Interval 4:00 → 5:00</td><td>94 งาน · M1 58.8%</td><td>เครื่องว่างมากขึ้น</td></tr>
+<tr><td>Model_JobShop</td><td>Job_Time JobA บน M1: 3 → 6 นาที</td><td>116 งาน · M1 97.9%</td><td>M1 เป็นคอขวด</td></tr>
+</table>
+<div class="tip"><strong>วิธีลอง:</strong> เดาผลก่อนแล้วรันดู แก้ทีละแถวจากไฟล์ที่ save · InOut / Conveyor รัน 1 ชม. · JobShop รัน 8 ชม.
+แถวสุดท้ายแก้แค่ตัวเลขในตาราง ไม่ต้องแก้โค้ด (วัดจริงใน PtS 2606)</div>
+
+<h2>ปัญหาที่พบบ่อย และวิธีแก้</h2>
+<table>
+<tr><th>อาการ</th><th>วิธีแก้</th></tr>
+<tr><td>ชิ้นงานค้างใน Station ไม่ไปต่อ</td><td>Exit control ต้องจบด้วย <code>@.move</code> หรือ <code>@.move(ปลายทาง)</code></td></tr>
+<tr><td>Method ไม่ทำงานเลย</td><td>ยังไม่ได้กด <code>Apply Changes</code> หรือยังไม่ได้ใส่ชื่อ Method ในแท็บ Controls</td></tr>
+<tr><td>Unknown identifier ตอนรัน</td><td>ชื่อ object สะกดไม่ตรง หรืออยู่คนละ Frame กับ Method</td></tr>
+<tr><td>เปลี่ยนชื่อ Method แล้ว Control ไม่ทำงาน</td><td>Control จำชื่อเดิมไว้ ใส่ชื่อใหม่ในแท็บ Controls อีกครั้ง</td></tr>
+<tr><td>โค้ดจากตำราเก่าขึ้น syntax error</td><td>เป็น SimTalk 1.0 (is / do, <code>;</code>) แปลงตามตาราง 1.0 → 2.0 ในขั้นที่ 2</td></tr>
+<tr><td>โมเดลหยุดก่อนถึงเวลา End</td><td>ไม่มี Event เหลือ: ชิ้นงานไม่มีทางออก หรือ Buffer เต็ม (เกิดจริงกับโมเดล Assembly เดิม: หยุดที่ 60 และ 170 วินาที
+จนเพิ่ม Drain และเปิด Buffer ไม่จำกัด)</td></tr>
+</table>
+
+<h2>ภาคผนวก: SimTalk Programming Blueprint — 14 หัวข้อ</h2>
+<p>ภาพรวมภาษา SimTalk 2.0 แบบแผนภาพ ใช้ทบทวนหลังทำครบ 8 ขั้น หรือเปิดดูระหว่างเรียน (โค้ดแก้เป็น SimTalk 2.0 แล้ว)</p>
+<table>
+<tr><th>หัวข้อ</th><th>หัวข้อ</th></tr>
+<tr><td>1. สถาปัตยกรรมของ Method Object</td><td>8. กลไกการวนซ้ำ (Looping Mechanisms)</td></tr>
+<tr><td>2. โครงสร้างหลักของ Method (Syntax Anatomy)</td><td>9. จุดกระตุ้นการทำงาน (Entrance &amp; Exit Controls)</td></tr>
+<tr><td>3. ตารางสรุปตัวดำเนินการ (Operators Matrix)</td><td>10. การระงับการทำงานชั่วคราว (Suspending Methods)</td></tr>
+<tr><td>4. การอ้างอิงตำแหน่ง (Paths &amp; Namespaces)</td><td>11. วงจรชีวิตของการจำลอง (Initialization &amp; Reset Lifecycle)</td></tr>
+<tr><td>5. ตัวแปรอ้างอิงไม่ระบุชื่อ (Anonymous Identifiers)</td><td>12. ระบบเฝ้าระวังด้วย Trigger (The Trigger Object)</td></tr>
+<tr><td>6. ตรรกะการตัดสินใจ (Branching Logic: If-Elseif)</td><td>13. การควบคุมแกนกลางระบบ (Controlling the EventController)</td></tr>
+<tr><td>7. สถาปัตยกรรมทางเลือก (The Switch Statement)</td><td>14. สถาปัตยกรรมบูรณาการ (System Synthesis)</td></tr>
+</table>
+
+<h3>1. สถาปัตยกรรมของ Method Object</h3>
+<figure class="screenshot">
+  <a href="../assets/images/lessons/07-19.jpg" target="_blank" rel="noopener"><img src="../assets/images/lessons/07-19.jpg" alt="Events / Triggers กระตุ้น Method Object ให้ปรับ Attributes และสั่งการ" loading="lazy"></a>
+</figure>
+<ul>
+<li><strong>Method คืออะไร:</strong> โปรแกรมขนาดเล็กที่ฝังตัวในระบบ (เทียบเท่า Procedure/Function ใน C++ หรือ Pascal) พัฒนาบนฐานของภาษา Eiffel</li>
+<li><strong>บทบาทหน้าที่:</strong> ตอบสนองต่อเหตุการณ์ (Events) ระหว่างการจำลอง · อ่านและปรับเปลี่ยนคุณสมบัติ (Attributes) ของออบเจกต์ ·
+ขยายขีดความสามารถและสร้างความยืดหยุ่นให้โมเดล</li>
+</ul>
+
+<h3>2. โครงสร้างหลักของ Method (Syntax Anatomy)</h3>
+<pre><code>param x: integer
+-&gt; real
+var total: real
+total := x * 1.5
+print total
+return total</code></pre>
+<ul>
+<li><code>param</code> : รับข้อมูลจากผู้เรียก (Caller) พร้อมชนิดข้อมูล ไม่มีก็ไม่ต้องเขียน</li>
+<li><code>-&gt;</code> : ชนิดของค่าที่ส่งกลับ ไม่ส่งค่ากลับก็ไม่ต้องเขียน</li>
+<li><code>var</code> : ประกาศตัวแปรภายใน ประกาศตรงไหนก็ได้ (เช่น integer, real, boolean)</li>
+<li><strong>statements</strong> : เขียนคำสั่งต่อได้เลย ไม่มี is / do / end</li>
+<li><strong>บรรทัดละ 1 คำสั่ง</strong> : ไม่ต้องปิดด้วย <code>;</code> (ใช้ <code>;</code> เมื่อเขียนหลายคำสั่งในบรรทัดเดียว)</li>
+<li><code>return</code> : จบ Method และส่งค่ากลับ</li>
+</ul>
+
+<h3>3. ตารางสรุปตัวดำเนินการ (Operators Matrix)</h3>
+<table>
+<tr><th>กลุ่ม</th><th>ตัวดำเนินการ</th></tr>
+<tr><td>Assignment (การกำหนดค่า)</td><td><code>:=</code> เช่น <code>Buffer.Capacity := 8</code></td></tr>
+<tr><td>Arithmetic (คณิตศาสตร์)</td><td><code>+</code> <code>-</code> <code>*</code> <code>/</code> · <code>div</code> (หารเอาส่วน) · <code>mod</code> (หารเอาเศษ/Modulo)</td></tr>
+<tr><td>Relational (เปรียบเทียบ)</td><td><code>=</code> (เท่ากับ) · <code>/=</code> (ไม่เท่ากับ) · <code>&gt;</code> <code>&lt;</code> <code>&gt;=</code> <code>&lt;=</code> ·
+<code>~=</code> (ประมาณเท่ากับ) — Return value: Boolean</td></tr>
+<tr><td>Logical (ตรรกศาสตร์)</td><td><code>and</code> (จริงเมื่อทั้งคู่จริง) · <code>or</code> (จริงเมื่ออย่างน้อยหนึ่งจริง) · <code>not</code> (กลับค่าความจริง)</td></tr>
+</table>
+
+<h3>4. การอ้างอิงตำแหน่ง (Paths &amp; Namespaces)</h3>
+<figure class="screenshot">
+  <a href="../assets/images/lessons/07-20.jpg" target="_blank" rel="noopener"><img src="../assets/images/lessons/07-20.jpg" alt="Absolute Path เทียบ Relative Path" loading="lazy"></a>
+</figure>
+<ul>
+<li><strong>Absolute Path:</strong> เริ่มจากราก (Class Library) โดยมีจุดนำหน้า เช่น <code>.Models.Frame.Station</code> — ระบุเส้นทางเต็มจากราก ใช้อ้างอิงได้จากทุกที่ในโมเดล</li>
+<li><strong>Relative Path:</strong> เริ่มค้นหาจาก Frame ปัจจุบันที่ Method อยู่ เช่น <code>Frame1.Station1</code> — ย้ายหรือคัดลอก Frame ได้โดยไม่ต้องแก้โค้ด</li>
+</ul>
+
+<h3>5. ตัวแปรอ้างอิงไม่ระบุชื่อ (Anonymous Identifiers)</h3>
+<table>
+<tr><th>ตัว</th><th>ชื่อ</th><th>อ้างอิงถึง</th></tr>
+<tr><td><code>@</code></td><td>The Trigger</td><td>ชิ้นงาน (MU) ที่เป็นตัวกระตุ้นให้ Method ทำงาน (เช่น <code>@.move</code>)</td></tr>
+<tr><td><code>?</code></td><td>The Caller</td><td>ออบเจกต์ที่เป็นเจ้าของ/เรียกใช้งาน Method นั้น</td></tr>
+<tr><td><code>self</code></td><td>The Method</td><td>ตัว Method ที่กำลังทำงานอยู่ (<code>self.name</code> คืนค่าเฉพาะชื่อ)</td></tr>
+<tr><td><code>current</code></td><td>The Location</td><td>Frame ปัจจุบันที่ Method นั้นตั้งอยู่</td></tr>
+</table>
+
+<h3>6. ตรรกะการตัดสินใจ (Branching Logic: If-Elseif)</h3>
+<p>ใช้สำหรับสร้างเงื่อนไขแยกสายการทำงานตามสถานะของออบเจกต์:</p>
+<pre><code>if @.quality = "good" then
+    @.move(station)
+elseif @.quality = "minor-defects" then
+    @.move(rework)
+else
+    @.move(scrap)
+end</code></pre>
+
+<h3>7. สถาปัตยกรรมทางเลือก (The Switch Statement)</h3>
+<p>ลดความซับซ้อนของ If-Elseif ที่ซ้อนทับกันยาวเกินไป ทำให้โค้ดอ่านง่าย โครงสร้างสะอาด และง่ายต่อการปรับปรุง
+ระบบจะประเมินค่าเพียงครั้งเดียวแล้ววิ่งไปยัง case ที่ตรงกันทันที:</p>
+<pre><code>switch @.quality
+case "good"
+    @.move(station)
+case "minor-defects"
+    @.move(rework)
+else
+    @.move(scrap)
+end</code></pre>
+
+<h3>8. กลไกการวนซ้ำ (Looping Mechanisms)</h3>
+<table>
+<tr><th>Loop</th><th>ทำงานอย่างไร</th></tr>
+<tr><td>For Loop</td><td>วนซ้ำตามจำนวนรอบที่แน่นอน (ตัวนับ <code>for var i</code> วิ่ง <code>to</code> หรือ <code>downto</code> ปิดด้วย <code>next</code>)</td></tr>
+<tr><td>While Loop</td><td>ตรวจสอบเงื่อนไข <em>ก่อน</em>ทำงาน (อาจไม่ถูกรันเลยหากเงื่อนไขเป็นเท็จตั้งแต่ต้น)</td></tr>
+<tr><td>Repeat-Until Loop</td><td>ทำงานก่อน 1 ครั้งเสมอ แล้วจึงตรวจสอบเงื่อนไขที่ท้ายลูป</td></tr>
+</table>
+<pre><code>for var i := 1 to 10
+...
+next</code></pre>
+
+<h3>9. จุดกระตุ้นการทำงาน (Entrance &amp; Exit Controls)</h3>
+<figure class="screenshot">
+  <a href="../assets/images/lessons/07-21.jpg" target="_blank" rel="noopener"><img src="../assets/images/lessons/07-21.jpg" alt="Entrance Control และ Exit Control บน SingleProc/Conveyor" loading="lazy"></a>
+</figure>
+<ul>
+<li><strong>Entrance Control</strong> ทำงานทันทีที่ชิ้นงาน (MU) พยายามเข้าสู่ออบเจกต์</li>
+<li><strong>Exit Control</strong> ทำงานเมื่อชิ้นงานพร้อมจะออกจากออบเจกต์</li>
+<li>คำสั่งเคลื่อนย้ายหลัก: <code>@.move</code> (เคลื่อนที่ตามสปีด) และ <code>@.insert</code> (ย้ายชิ้นงานทันที)</li>
+</ul>
+
+<h3>10. การระงับการทำงานชั่วคราว (Suspending Methods)</h3>
+<p>ใช้สำหรับหยุดโค้ดจนกว่าเงื่อนไขที่กำหนดจะเป็นจริง (พร้อมกำหนดค่า Priority):</p>
+<pre><code>waituntil Buffer.Empty prio 1</code></pre>
+<table>
+<tr><th>คำสั่ง</th><th>ลำดับ</th><th>หมายเหตุ</th></tr>
+<tr><td><code>waituntil</code> (ปลอดภัยกว่า)</td><td>Method pauses → Condition met → Re-evaluates condition → Continues execution</td><td>ระบบจะประเมินเงื่อนไขซ้ำอีกครั้งก่อนกลับมาทำงาน (ใช้ในกรณีมีหลาย Method แย่งทรัพยากร)</td></tr>
+<tr><td><code>stopuntil</code></td><td>Method pauses → Condition met → Continues execution immediately (Bypasses re-evaluation)</td><td>ระบบจะไม่ประเมินเงื่อนไขซ้ำ ปลุก Method ให้ทำงานทันทีเมื่อเงื่อนไขเคยเป็นจริง</td></tr>
+</table>
+
+<h3>11. วงจรชีวิตของการจำลอง (Initialization &amp; Reset Lifecycle)</h3>
+<figure class="screenshot">
+  <a href="../assets/images/lessons/07-22.jpg" target="_blank" rel="noopener"><img src="../assets/images/lessons/07-22.jpg" alt="EventController กับ Reset, Init และ EndSim Method" loading="lazy"></a>
+</figure>
+<table>
+<tr><th>Method</th><th>ทำงานเมื่อ</th></tr>
+<tr><td>Reset Method</td><td>กดปุ่ม Reset ลบชิ้นงาน (MUs) ทิ้ง, รีเซ็ตเวลาเป็น 0, และเคลียร์สถิติ</td></tr>
+<tr><td>Init Method</td><td>1 ครั้งก่อนเริ่มจำลองจริง ใช้สำหรับตั้งค่าเริ่มต้น วางชิ้นงาน หรือกำหนดค่าตัวแปร</td></tr>
+<tr><td>EndSim Method</td><td>อัตโนมัติเมื่อสิ้นสุดเวลาจำลอง (End Time) หรือเมื่อไม่มี Event เหลือในระบบ</td></tr>
+</table>
+<pre><code>-- Method: reset
+DeleteMovables</code></pre>
+<pre><code>-- Method: init
+counter := 0</code></pre>
+
+<h3>12. ระบบเฝ้าระวังด้วย Trigger (The Trigger Object)</h3>
+<div class="side-by-side">
+  <div><figure class="screenshot">
+  <a href="../assets/images/lessons/07-23.jpg" target="_blank" rel="noopener"><img src="../assets/images/lessons/07-23.jpg" alt="Trigger เฝ้าค่า Attribute แล้วเรียก Method" loading="lazy"></a>
+</figure></div>
+  <div><p>ทำหน้าที่เสมือน PLC ขนาดจิ๋ว (Mini PLC) ในแบบจำลอง</p>
+<ul>
+<li>ไม่จำเป็นต้องรอให้มีชิ้นงานวิ่งผ่าน</li>
+<li>เฝ้าระวัง (Watch) การเปลี่ยนแปลงของคุณสมบัติ (Attributes) ใดๆ ตามคาบเวลาที่กำหนด (แท็บ Period: Active, Time reference, Repeat periodically, Period length)</li>
+<li>เมื่อค่าของ Attribute ตรงตามเงื่อนไข จะสั่งการให้ Method ทำงานโดยอัตโนมัติ (แท็บ Values: Trigger type)</li>
+</ul></div>
+</div>
+
+<h3>13. การควบคุมแกนกลางระบบ (Controlling the EventController)</h3>
+<p>Method สามารถสั่งการ EventController เสมือนผู้ใช้งานกดปุ่มบนหน้าจอ: <code>EventController.start</code> ·
+<code>EventController.reset</code> · <code>EventController.init</code></p>
+<ul>
+<li><code>SimTime</code> : เวลาจำลองสัมพัทธ์</li>
+<li><code>absSimTime</code> : วันและเวลาสัมบูรณ์ (Absolute Date/Time)</li>
+</ul>
+
+<h3>14. สถาปัตยกรรมบูรณาการ (System Synthesis)</h3>
+<div class="side-by-side">
+  <div><figure class="screenshot">
+  <a href="../assets/images/lessons/07-24.jpg" target="_blank" rel="noopener"><img src="../assets/images/lessons/07-24.jpg" alt="The Master Blueprint for Plant Simulation Control: Material Flow และ Information Flow" loading="lazy"></a>
+</figure></div>
+  <div><ul>
+<li>Method คือหัวใจของตรรกะการควบคุมทั้งระบบ</li>
+<li>Material Flow: ชิ้นงาน (MU) ไหลจาก Source ผ่าน Buffer, Conveyor และเครื่องจักร</li>
+<li>Information Flow: Method, Trigger และ EventController สั่งการทางตรรกะ</li>
+<li>Entrance/Exit Controls สั่ง <code>@.move</code> / <code>@.insert</code></li>
+<li>Trigger เฝ้าระวังคุณสมบัติตามคาบเวลา</li>
+<li>Reset / Init / EndSim จัดการวงจรชีวิตการจำลอง</li>
+</ul></div>
+</div>
+
+<div class="note">
+<strong>คำถามฝึกคิด:</strong> ใน Model_JobShop เครื่อง M1, M2, M3 ใช้ <code>Method_In</code> ตัวเดียวกัน แต่เวลาของแต่ละงานบนแต่ละเครื่องไม่เท่ากัน
+Method รู้ได้อย่างไรว่าต้องใช้เวลาเท่าไร และถ้าอยากให้ JobA บน M1 ใช้ 6 นาทีแทน 3 นาที ต้องแก้โค้ดหรือไม่?
+</div>
+<div class="tip"><strong>เฉลย:</strong> <code>?</code> คือเครื่องที่เรียก Method — <code>Job_Time.getColumnNo(?.Name)</code> ได้คอลัมน์ของเครื่องนั้น
+และ <code>@</code> คืองาน — <code>getRowNo(@.Name)</code> ได้แถวของงานนั้น จึงอ่านเวลาในตารางได้ถูกช่อง (คูณ 60 เป็นวินาที)
+ไม่ต้องแก้โค้ด แค่แก้ตัวเลขในตาราง Job_Time — ผลวัดจริง: 116 งาน และ M1 ทำงาน 97.9% กลายเป็นคอขวด
+(ดูหลักการหาคอขวดใน<a href="02.html">บท 02</a>)</div>
+
+        <div class="page-nav">
+          <a href="06.html">← ก่อนหน้า: 06. Track และ Transporter</a>
+          <a href="08.html">ถัดไป: 08. AMR — AGVPool และ GAWizard →</a>
+        </div>
+      </main>
+
+      <footer class="site-footer">
+        Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม
+      </footer>
+    </div>
+  </div>
+
+  <div id="sidebar">
+    <div class="inner">
+      <nav id="menu">
+        <header class="major"><button class="sidebar-close" aria-label="ปิดเมนู">✕</button><h2>เมนู</h2></header>
+        <ul>
+          <li><a href="../index.html">หน้าแรก</a></li>
+          <li class="has-children">
+            <a href="../overview/index.html">Plant Simulation Overview</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู overview">▾</button>
+            <ul class="submenu">
+              <li><a href="../overview/01.html">1. Introduction to Plant Simulation</a></li>
+              <li><a href="../overview/02.html">2. โรงงานตัวอย่าง Factory 51</a></li>
+              <li><a href="../overview/03.html">3. Small Parts Production</a></li>
+              <li><a href="../overview/04.html">4. Python GA Demo</a></li>
+            </ul>
+          </li>
+          <li><a href="01.html">01. สร้างโมเดลแรก</a></li>
+          <li><a href="02.html">02. คอขวด และ ParallelStation</a></li>
+          <li><a href="03.html">03. Conveyor, Buffer, เครื่องเสีย และ OEE</a></li>
+          <li><a href="04.html">04. คน และกะทำงาน</a></li>
+          <li><a href="05.html">05. ประกอบ และถอด (Assembly / Dismantle)</a></li>
+          <li><a href="06.html">06. Track และ Transporter</a></li>
+          <li class="active"><a href="07.html">07. SimTalk และ Method</a></li>
+          <li><a href="08.html">08. AMR — AGVPool และ GAWizard</a></li>
+          <li><a href="09.html">09. Python ใน Plant Simulation</a></li>
+        </ul>
+      </nav>
+      <footer id="footer"><p class="copyright">Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม</p></footer>
+    </div>
+  </div>
+  <div id="sidebar-overlay"></div>
+</div>
+<script src="../assets/main.js?v=e223124b"></script>
+</body>
+</html>

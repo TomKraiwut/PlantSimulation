@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Step by Step 01–09 — Plant Simulation Tutorial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/style.css?v=0167a8ff">
+</head>
+<body>
+<div id="wrapper">
+  <div id="main">
+    <div class="inner">
+      <header id="header">
+        <a href="../index.html" class="logo"><span>Plant Simulation Tutorial</span></a>
+        <button class="menu-toggle" aria-label="เปิดเมนู" aria-expanded="false">☰</button>
+      </header>
+
+      <main>
+        <h1>Step by Step 01–09</h1>
+        <p class="lead" style="max-width:46em;">ชุดสอน Step by Step บน Plant Simulation 2606 ทั้งหมด 9 บท แต่ละบทมีไฟล์ <code>.spp</code> ของบทที่มีหลาย Frame เล่าเรื่องเดียวกัน (Model → Model2 → …) เปิดไฟล์ของบทได้เลย ไม่ต้องทำบทก่อนหน้าให้เสร็จ ทุกตัวเลขในบทเรียนวัดจริงใน Plant Simulation 2606</p>
+
+        <div class="card-grid">
+          <a href="01.html" class="card">
+            <div class="icon number">01</div>
+            <h3>สร้างโมเดลแรก</h3>
+            <p>วาง Source → Station → Drain ตั้งค่า ใส่ Display รัน 1 ชั่วโมง ได้ 359 ชิ้น แล้วบันทึก / Pack and Go</p>
+          </a>
+          <a href="02.html" class="card">
+            <div class="icon number">02</div>
+            <h3>คอขวด และ ParallelStation</h3>
+            <p>หาคอขวดด้วย Chart แล้วแก้ 2 วิธี: เพิ่มเครื่องขนาน หรือ ParallelStation (177 → 354 ชิ้น/ชม.)</p>
+          </a>
+          <a href="03.html" class="card">
+            <div class="icon number">03</div>
+            <h3>Conveyor, Buffer, เครื่องเสีย และ OEE</h3>
+            <p>วาดสายพานตรง/โค้ง แยกงานดี/เสียด้วย Percentage เวลาสุ่ม Uniform กราฟ Buffer และคำนวณ OEE จากเครื่องเสีย</p>
+          </a>
+          <a href="04.html" class="card">
+            <div class="icon number">04</div>
+            <h3>คน และกะทำงาน</h3>
+            <p>Workplace / WorkerPool / Broker จำนวนคน ความเร็ว กะทำงาน ผัง I กับ U ช่างตั้งเครื่อง และช่างซ่อม (94 → 356 ชิ้น/ชม.)</p>
+          </a>
+          <a href="05.html" class="card">
+            <div class="icon number">05</div>
+            <h3>ประกอบ และถอด (Assembly / Dismantle)</h3>
+            <p>ชิ้นงานขึ้นพาเลทด้วย AssemblyStation ถอดด้วย DismantleStation พาเลทวนกลับ และหาจำนวนพาเลทด้วย ExperimentManager</p>
+          </a>
+          <a href="06.html" class="card">
+            <div class="icon number">06</div>
+            <h3>Track และ Transporter</h3>
+            <p>วาด Track วงปิดให้ Transporter วิ่ง ใช้ PickAndPlace ขนชิ้นงานโดยไม่เขียน Method และ TwoLaneTrack รถวิ่งสวน 2 เลน</p>
+          </a>
+          <a href="07.html" class="card">
+            <div class="icon number">07</div>
+            <h3>SimTalk และ Method</h3>
+            <p>เขียน SimTalk 2.0 ใน Method ผูก Entrance/Exit control ใช้ @ และ ? แยกทาง ประกอบ/ถอด OrderParts จนถึง Job Shop จากตาราง</p>
+          </a>
+          <a href="08.html" class="card">
+            <div class="icon number">08</div>
+            <h3>AMR — AGVPool และ GAWizard</h3>
+            <p>สั่ง AGV ด้วย setRoute / getIdleAGV แล้วให้ GAWizard หาเส้นทางสั้นสุด ลดเวลาวิ่ง 24%</p>
+          </a>
+          <a href="09.html" class="card">
+            <div class="icon number">09</div>
+            <h3>Python ใน Plant Simulation</h3>
+            <p>ติดตั้ง Python + pandas/matplotlib, PythonModule, อ่าน/เขียนค่าโมเดล, เรียก def จาก SimTalk และกราฟผลผลิตต่อชั่วโมง</p>
+          </a>
+        </div>
+
+        <div class="page-nav">
+          <a href="../overview/index.html">← ก่อนหน้า: Plant Simulation Overview</a>
+          <a href="01.html">เริ่ม 01. สร้างโมเดลแรก →</a>
+        </div>
+      </main>
+
+      <footer class="site-footer">
+        Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม
+      </footer>
+    </div>
+  </div>
+
+  <div id="sidebar">
+    <div class="inner">
+      <nav id="menu">
+        <header class="major"><button class="sidebar-close" aria-label="ปิดเมนู">✕</button><h2>เมนู</h2></header>
+        <ul>
+          <li><a href="../index.html">หน้าแรก</a></li>
+          <li class="has-children">
+            <a href="../overview/index.html">Plant Simulation Overview</a>
+            <button class="submenu-toggle" aria-label="แสดง/ซ่อนเมนู overview">▾</button>
+            <ul class="submenu">
+              <li><a href="../overview/01.html">1. Introduction to Plant Simulation</a></li>
+              <li><a href="../overview/02.html">2. โรงงานตัวอย่าง Factory 51</a></li>
+              <li><a href="../overview/03.html">3. Small Parts Production</a></li>
+              <li><a href="../overview/04.html">4. Python GA Demo</a></li>
+            </ul>
+          </li>
+          <li><a href="01.html">01. สร้างโมเดลแรก</a></li>
+          <li><a href="02.html">02. คอขวด และ ParallelStation</a></li>
+          <li><a href="03.html">03. Conveyor, Buffer, เครื่องเสีย และ OEE</a></li>
+          <li><a href="04.html">04. คน และกะทำงาน</a></li>
+          <li><a href="05.html">05. ประกอบ และถอด (Assembly / Dismantle)</a></li>
+          <li><a href="06.html">06. Track และ Transporter</a></li>
+          <li><a href="07.html">07. SimTalk และ Method</a></li>
+          <li><a href="08.html">08. AMR — AGVPool และ GAWizard</a></li>
+          <li><a href="09.html">09. Python ใน Plant Simulation</a></li>
+        </ul>
+      </nav>
+      <footer id="footer"><p class="copyright">Plant Simulation Tutorial — เอกสารประกอบการเรียนรู้ภายในทีม</p></footer>
+    </div>
+  </div>
+  <div id="sidebar-overlay"></div>
+</div>
+<script src="../assets/main.js?v=e223124b"></script>
+</body>
+</html>
